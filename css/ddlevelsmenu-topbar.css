@@ -1,0 +1,11 @@
+.glowingtabs{font: bold 11px Tahoma, Verdana, Arial, Helvetica, sans-serif; width:986px;float:left;height:28px;background:url(../images/top_menu_bg.gif) repeat-x;display:block;}
+.glowingtabs ul{list-style-type: none;margin:0;padding:0;padding-left:5px;}
+.glowingtabs li{display:inline;margin:0;padding:0;height:28px;float:left;}
+.glowingtabs a{float:left;margin:0;padding:0 0 0 10px;text-decoration:none;}
+.glowingtabs a span{float:left;display:inline-block;padding-left:10px;padding-right:20px;padding-top:7px;height:21px;color:#fff;}
+.glowingtabs a span {float:none;}
+.glowingtabs a:hover span {color:#de0000; text-decoration:none;}
+.glowingtabs a.current{background:url(../images/top_menu_bg_over_left.gif) left no-repeat;}
+.glowingtabs a.current span{background:url(../images/top_menu_bg_over_right.gif) right no-repeat; color:#014c90;}
+.glowingtabs a:hover{background:url(../images/top_menu_bg_over_left.gif) left no-repeat; text-decoration:none;}
+.glowingtabs a:hover span{background:url(../images/top_menu_bg_over_right.gif) right no-repeat; text-decoration:none;}

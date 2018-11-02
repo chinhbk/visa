@@ -1,0 +1,46 @@
+
+.place-item{
+	width: 561px;
+	float: left;
+	border-bottom: 1px dotted #BBB;
+}
+
+.p-title{
+	width: 561px;
+	line-height: 13px;
+	margin: 10px 0px 10px 0px;
+}
+
+.p-title p{
+	font-size: 13px;
+	text-transform: uppercase;
+	color: #F59201;
+	font-weight: bold;
+}
+
+.place-list {
+	-- width: 550px;
+	margin-left: 15px;
+}
+
+.region{
+	float: left;
+	width: 180px;
+	line-height: 18px;
+	background: url("/img/region-bul.png") no-repeat left;
+	margin-bottom: 6px;
+}
+
+.region a{
+	margin-left: 14px;
+	font-size: 12px;
+}
+
+.region a:hover{
+	font-weight: bold;
+}
+
+.p-title-last{
+	border: none;
+	margin-bottom: 50px;
+}

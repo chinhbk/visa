@@ -1,0 +1,133 @@
+
+			
+			
+<?php 
+  if($this->errorMessage != null && $this->errorMessage != ''){
+	echo "<h4 class='alert_error'>".$this->errorMessage."</h4>";
+  }
+?>
+
+<article class="module width_full">
+			<header><h3>Thêm sản phẩm</h3></header>
+				<div class="module_content">
+						<fieldset>
+							<label>Upload ảnh chính(*)</label>
+							  <form action="/admin/product/upload" method="POST" id="uploadform">
+							   <input type="file" name="file"/>
+							   <input type="submit" name="btnUpload" value="Upload"/><br/><br/>
+							   
+							   <div id="onsuccessmsg" style="padding:15px;"></div>
+							  </form>
+						</fieldset>
+						<fieldset>
+							<label>Upload ảnh thứ 2</label>
+							  <form action="/admin/product/upload2" method="POST" id="uploadform2">
+							   <input type="file" name="file"/>
+							   <input type="submit" name="btnUpload" value="Upload"/><br/><br/>
+							   
+							   <div id="onsuccessmsg2" style="padding:15px;"></div>
+							  </form>
+						</fieldset>
+						<fieldset>
+							<label>Upload ảnh thứ 3</label>
+							  <form action="/admin/product/upload3" method="POST" id="uploadform3">
+							   <input type="file" name="file"/>
+							   <input type="submit" name="btnUpload" value="Upload3"/><br/><br/>
+							   
+							   <div id="onsuccessmsg3" style="padding:15px;"></div>
+							  </form>
+						</fieldset>
+						<form name="form_add" method="POST" action="/admin/product/add" onSubmit="document.form_add.editor_contents.value  = $('#editor #edit .froala-element').html()">
+							<input  type="hidden" name="img_uploaded" id="img_uploaded" value="" />
+							<input  type="hidden" name="img_uploaded2" id="img_uploaded2" value="" />
+							<input  type="hidden" name="img_uploaded3" id="img_uploaded3" value="" />													
+							<fieldset>
+								<label>Tên sản phẩm(*)</label>
+								<input type="text" name="name">
+							</fieldset>
+							<fieldset>
+								<label>Loại sản phẩm(*)</label>
+								<select name="product_type_id" id="product_type_id" style="width: 200px;">
+									<option value="0">--------------------------------------</option>
+									<?php foreach ($this->product_type as $pt){
+										echo '<option value="'.$pt->id.'">'.$pt->name.'</option>';											
+									}?>
+								</select>
+								<?php //Zend_Debug::dump( $this->product_type);die()?>
+							</fieldset>
+							<fieldset>
+								<label>Loại con sản phẩm</label>
+								<select name="sub_product_type_id" id="sub_product_type_id" style="width: 200px;"></select>
+							</fieldset>
+							<fieldset>
+								<label>Mã sản phẩm</label>
+								<input type="text" name="code">
+							</fieldset>
+							<fieldset>
+								<label>Giá gốc(*)</label>
+								<input type="text" name="price">
+							</fieldset>
+							<fieldset>
+								<label>Giá sau khuyến mại(nếu có)</label>
+								<input type="text" name="discount_price">
+							</fieldset>
+							<fieldset>
+								<label>Thông tin khuyến mại(nếu có)</label>
+								<textarea name="short_desc" id="promotion" rows="4" cols="10"></textarea>
+							</fieldset>
+							<fieldset>
+								<p>
+									<label>Sản phẩm Hot</label>
+									<input type="hidden" name="is_hot" value="0" />
+									<input type="checkbox" name="is_hot" value="1">
+								</p>
+								<p>
+									<label>Sản phẩm ưu tiên cấp 1</label>
+									<input type="hidden" name="is_type_priority" value="0" />
+									<input type="checkbox" name="is_type_priority" value="1">
+								</p>
+								<p>
+									<label>Sản phẩm ưu tiên cấp 2</label>
+									<input type="hidden" name="is_subtype_priority" value="0" />
+									<input type="checkbox" name="is_subtype_priority" value="1">
+								</p>
+							</fieldset>
+							<fieldset>
+								<label>Màu</label>
+								<input type="text" name="color">
+							</fieldset>
+							<fieldset>
+								<label>Chất liệu</label>
+								<input type="text" name="material">
+							</fieldset>
+							<fieldset>
+								<label>Nguồn gốc</label>
+								<input type="text" name="origin">
+							</fieldset>
+							<fieldset>
+								<label>Mô tả sản phẩm</label>
+								<textarea name="short_desc" id="short_desc" rows="4" cols="10"></textarea>
+							</fieldset>
+							<fieldset>
+								<label>Thông tin chi tiết</label>
+								<textarea id="editor_contents" name="editor_contents" style="display:none;"></textarea>
+								<!-- -->
+								<section id="editor">
+								  <div id='edit' style="margin-top: 30px;">
+									 
+								  </div>
+							    </section>
+
+								<!-- -->
+							</fieldset>
+							<div class="clear"></div>
+							<footer>
+								<div class="submit_link">
+									<input type="submit" name="btnSubmit" class="alt_btn" value="Lưu">
+								</div>
+							</footer>
+						</form>
+						
+				</div>
+		
+		</article>

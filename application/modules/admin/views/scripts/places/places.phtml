@@ -1,0 +1,41 @@
+<article class="module width_full">
+		<header><h3 class="tabs_involved">Quản lý điểm bán ở <?php echo $this->parent->name?></h3>
+		<ul class="tabs">
+   			<li class="active"><a href="/admin/places/add/parent_id/<?php echo $this->parent->id?>">Thêm mới điểm bán</a></li>
+		</ul>
+		</header>
+
+		<div class="tab_container">
+			<div class="tab_content" id="tab1" style="display: block;">
+			<table cellspacing="0" class="tablesorter"> 
+			<thead> 
+				<tr> 
+   					<th class="header">STT</th> 
+    				<th class="header">Điểm bán</th> 
+    				<th class="header"></th> 
+				</tr> 
+			</thead> 
+			<tbody> 
+			   <?php $i=0; foreach ($this->places as $place) {
+				       // Zend_Debug::dump($product);die;
+									
+				?>
+				<tr> 
+   					<td><?php echo ++$i;?></td> 
+    				<td><?php echo $place['NAME'];?></td> 
+    				<td>
+						<a href="/admin/places/delete/place_id/<?php echo $place['ID'];?>"  onclick="return confirm('Bạn chắc chắn muốn xóa?')"><image src="/images/icn_trash.png" alt="Xóa" /></a>
+					</td> 
+				</tr> 
+				
+				<?php }	?>
+				  
+			</tbody> 
+			</table>
+			</div><!-- end of #tab1 -->
+			
+		
+			
+		</div><!-- end of .tab_container -->
+		
+		</article>

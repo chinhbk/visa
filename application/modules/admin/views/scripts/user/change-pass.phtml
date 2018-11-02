@@ -1,0 +1,38 @@
+
+			
+			
+<?php 
+  if($this->errorMessage != null && $this->errorMessage != ''){
+	echo "<h4 class='alert_error'>".$this->errorMessage."</h4>";
+  }
+?>
+
+<article class="module width_full">
+			<header><h3>Thay đổi mật khẩu</h3></header>
+				<div class="module_content">
+						<form name="form_edit" method="POST" action="/admin/user/change-pass">
+							<fieldset>
+								<label>Mật khẩu cũ(*)</label>
+								<input type="text" name="old_pass">
+							</fieldset>
+							<fieldset>
+								<label>Mật khẩu mới(*)</label>
+								<input type="text" name="new_pass">
+							</fieldset>
+							
+							<fieldset>
+								<label>Xác nhận mật khẩu mới(*)</label>
+								<input type="text" name="confirm_new_pass">
+							</fieldset>
+							
+							<div class="clear"></div>
+							<footer style="background: none;">
+								<div class="submit_link">
+									<input type="submit" name="btnSubmit" class="alt_btn" value="Lưu">
+								</div>
+							</footer>
+						</form>
+						
+				</div>
+		
+		</article>

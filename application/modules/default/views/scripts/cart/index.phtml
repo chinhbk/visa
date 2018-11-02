@@ -1,0 +1,250 @@
+<?php if(isset($_SESSION['userCartSession']) && sizeof($_SESSION['userCartSession']) > 0){ ?>
+<div id="mainbody-wr">
+		<div class="orderForm">
+			<form name="FormCartUpdate" method="post">
+			  <table class="order_table" border="0" cellpadding="0" cellspacing="1" bgcolor="#E8E8E8" width="100%">
+				<tr>
+				  <td width="20px" align="center" bgcolor="#F1F1F1">
+					<div style="padding-right:5px;" class="table_title">
+					  STT
+					</div>
+				  </td>
+				  <td align="center" bgcolor="#F1F1F1">
+					<div class="table_title" style="text-align: left">
+					  Sản phẩm
+					</div>
+				  </td>
+				  <td width="100px" align="center" bgcolor="#F1F1F1">
+					<div class="table_title">
+					  Số lượng
+					</div>
+				  </td>
+				  <td width="100px" align="center" bgcolor="#F1F1F1">
+					<div class="table_title">
+					  Giá gốc
+					</div>
+				  </td>
+				  <td width="100px" align="center" bgcolor="#F1F1F1">
+					<div class="table_title" style="text-align:right">
+					  Giá sau khuyến mại
+					</div>
+				  </td>
+				  <td width="100px" align="center" bgcolor="#F1F1F1">
+					<div class="table_title" style="text-align:right">
+					  Tổng (VND)
+					</div>
+				  </td>
+			  </tr>
+			  <?php
+			  	$i=0 ; $totalprice= 0;
+			  	foreach($_SESSION['userCartSession'] as $product_id => $value) { 
+			  ?> 
+                <tr bgcolor="#FFFFFF">
+				<td align="center">
+				  <?php echo ++$i;?>
+				</td>
+				<td align="left">
+				  <div class="cart_table_brief">
+					<a href="/product/detail/id/<?php echo $product_id;?>" title="G034A (4 phụ kiện)">
+					  <?php echo $_SESSION['userCartSession'][$product_id]['name']?>
+					</a>
+				  </div>
+				</td>
+				<td align="center">
+				  <input name="quantity[<?php echo $product_id; ?>]"  value="<?php echo $_SESSION['userCartSession'][$product_id]['quantity'];?>" type="number" min = "0" style="width:50px; height:16px;" />
+				</td>
+				<td align="right">
+				  <span style="padding-right:5px;" class="cart_price">
+					 <?php echo $_SESSION['userCartSession'][$product_id]['price']?>
+				  </span>
+				</td>
+				<td align="right">
+				  <span style="padding-right:5px;" class="cart_price">
+					 <?php echo $_SESSION['userCartSession'][$product_id]['discount_price']?>
+				  </span>
+				</td>
+				<td align="right">
+				  <span style="padding-right:5px;" class="cart_price">
+					<?php
+						$cal_price = ($_SESSION['userCartSession'][$product_id]['discount_price'] > 0) ? $_SESSION['userCartSession'][$product_id]['discount_price'] : $_SESSION['userCartSession'][$product_id]['price'];
+						$subtotal = $_SESSION['userCartSession'][$product_id]['quantity']*$cal_price;					
+						$totalprice+=$subtotal;
+						echo  $subtotal;
+					?> 
+				  </span>
+				</td>			
+			  </tr> 	        
+               <?php  }?>
+			     
+			 
+			  
+			  <tr bgcolor="#FFFFFF">
+				<td colspan="5" align="right">
+				  <div class="cart_table_brief">
+					Tổng giá
+				  </div>
+				</td>
+				<td align="right">
+				  <span style="padding-right:5px;" class="cart_price">
+				  	  <?php echo  $totalprice; ?>
+				  </span>
+				</td>
+			  </tr>
+			  <tr align="left" bgcolor="#FFFFFF">
+				<td colspan="6" valign="middle" align="right">
+				  <div style="padding:8px;">		
+				  <font color="#FF0000">
+					  Nhập số lượng 
+					  <strong>
+						=0
+					  </strong>
+					  nếu bạn muốn xóa sản phẩm khỏi giỏ hàng
+					</font>			
+					&nbsp;
+					<a href="/" class="cartbutton">
+					  Tiếp tục mua hàng
+					</a>
+					<a style="margin-left:10px;" href="javascript:void(0)" onclick="FormCartUpdate.submit()" class="cartbutton">
+					  Cập nhật giỏ hàng
+					</a>
+				  </div>
+				</td>
+			  </tr>
+			  </table>
+			  <input type="hidden" name="action" value="update_cart" />
+			</form>
+		</div>
+		<div style="height: 10px; clear: both;"></div>
+		
+		<div class="orderForm">
+			<form name="FormOrderProduct" method="post">
+			  <table border="0" cellpadding="0" cellspacing="1" bgcolor="#F1F1F1" width="100%" class="customer_table">
+				<tr bgcolor="#E8E8E8">
+				  <td align="left" colspan="2">
+					<div style="padding:3px; color:#FF0000; font-weight:bold;">
+					  Hãy nhập chính xác thông tin để chúng tôi có thể liên hệ sớm với bạn!
+					</div>
+				  </td>
+				</tr>
+				<tr bgcolor="#FFFFFF">
+				  <td colspan="2">
+					<div style="color:#FF0000; font-weight:bold;">
+					  Thông tin người mua hàng
+					</div>
+				  </td>
+				</tr>
+				<tr bgcolor="#FFFFFF">
+				  <td width="20%" align="left" valign="top">
+					Họ và tên 
+					<font color="#FF0000">
+					  (*)
+					</font>
+					:
+				  </td>
+				  <td align="left" valign="top">
+					<input name="name" value="" type="text" size="50" class="input_box" />
+					&nbsp;			
+				  </td>
+				</tr>
+				<tr bgcolor="#FFFFFF">
+				  <td align="left" valign="top">
+					Tỉnh
+					<font color="#FF0000">
+					  (*)
+					</font>
+					:
+				  </td>
+				  <td align="left" valign="top">
+					<select style="margin-bottom: 5px;" name="province">
+						<option value="">-Chọn tỉnh thành-</option>
+						<option value="Hà Nội">Hà Nội</option>
+						<option value="TP Hồ Chí Minh">TP Hồ Chí Minh</option>
+						<option value="An Giang">An Giang</option>
+						<option value="audi">Bắc Ninh</option>
+					</select>							
+				  </td>
+				</tr>
+				<tr bgcolor="#FFFFFF">
+				  <td align="left" valign="middle">
+					Địa chỉ<font color="#FF0000">
+					  (*)
+					</font>
+					:
+				  </td>
+				  <td align="left" valign="top">
+					<textarea name="address" style="width:316px; height:100px;">
+					</textarea>
+				  </td>
+				</tr>
+				<tr bgcolor="#FFFFFF">
+				  <td align="left" valign="top">
+					Hòm thư:
+				  </td>
+				  <td align="left" valign="top">
+					<input name="email" value="" type="text" size="50" class="input_box"  />
+					&nbsp;			
+				  </td>
+				</tr>
+				<tr bgcolor="#FFFFFF">
+				  <td align="left" valign="top">
+					Điện thoại 
+					<font color="#FF0000">
+					  (*)
+					</font>
+					:
+				  </td>
+				  <td align="left" valign="top">
+					<input name="phone" value="" type="text" size="50" class="input_box" />
+					&nbsp;
+				  </td>
+				</tr>
+				<tr bgcolor="#FFFFFF">
+				  <td align="left" valign="top">
+					Chuyển hàng đến tận nơi:
+				  </td>
+				  <td align="left" valign="top">
+					<input name="is_ship" value="1" type="radio" class="input_box"  />Có&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+					<input name="is_ship" value="0" type="radio" class="input_box" checked="checked" />Không
+					&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; (Phí chuyển hàng 30.000 VND) 			
+				  </td>
+				</tr>
+
+				<tr bgcolor="#FFFFFF">
+				  <td colspan="2">
+					&nbsp;
+				  </td>
+				</tr>
+				<tr bgcolor="#FFFFFF">
+				  <td align="left" valign="middle">
+					Ghi chú:
+				  </td>
+				  <td align="left" valign="top">
+					<textarea name="note" style="width:316px; height:100px;">
+					</textarea>
+				  </td>
+				</tr>
+				<tr bgcolor="#FFFFFF">
+				  <td align="left" valign="top">
+					&nbsp;
+				  </td>
+				  <td align="left" valign="top">
+					<div style="padding-top:5px; padding-bottom:5px;">
+					  <a href="javascript:void(0)" onclick="FormOrderProduct.submit()" class="cartbutton">
+						Gửi đơn hàng
+					  </a>
+					</div>
+				  </td>
+				</tr>
+			  </table>
+			  <input type="hidden" name="form_product_order" value="product_order" />
+			  <?php 
+				  if($this->errorMessage != null && $this->errorMessage != ''){
+					echo "<h4 class='alert_error' style='color:red'>".$this->errorMessage."</h4>";
+				  }
+			  ?>
+			</form>
+		</div>
+	</div>
+<?php }else{           
+        	echo "<p style='text-align:center; color:red;font-size:16px;'>Giỏ hàng rỗng. Bạn hãy thêm sản phẩm vào.</p>";           
+} ?>

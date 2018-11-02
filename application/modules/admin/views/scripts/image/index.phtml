@@ -1,0 +1,42 @@
+<script>
+			$(document).ready(function(){
+				$(".statusImage").change(function() {
+		            $id_checkedvalue = $(this).attr('id').split('-'); //pair id- selection value
+		            $id = $id_checkedvalue[0];
+		            $val = $id_checkedvalue[1];
+
+		            $("#status" + $id).val($val);
+		        });
+			});
+	</script>
+
+<header><h3>Sửa ảnh</h3></header>
+<div class="module_content">
+	<?php $i=0; foreach ($this->images as $image){?>
+		<fieldset>
+			<label>Upload ảnh <?php echo ++$i;?></label>
+			  <form action="/admin/image/upload<?php echo $i;?>" method="POST" id="uploadform<?php echo $i;?>">
+			   <input type="file" name="file"/>
+			   <input type="submit" name="btnUpload" value="Upload"/><br/><br/>
+			   
+			   <div id="onsuccessmsg<?php echo $i;?>" style="padding:15px;">
+			   		<image src="<?php echo $image['IMAGE']?>" />			   		
+			   </div>
+			   <div style="margin-left: 15px;">
+			   		<input class= "statusImage" id="<?php echo $i.'-1';?>" type="radio" name="statusImage<?php echo $i;?>" value="1" <?php if($image['STATUS'] == 1){ echo 'checked';};?> />Hiện 
+			   		<input class= "statusImage" id="<?php echo $i.'-0';?>" type="radio" name="statusImage<?php echo $i;?>" value="0" <?php if($image['STATUS'] == 0){ echo 'checked';};?>/>Ẩn
+			   </div>
+			  </form>
+		</fieldset>
+	<?php }?>
+	<div class="clear"></div>
+	<form name="form_change_images" method="POST" action="/admin/image/index">
+		<?php $i=0; foreach ($this->images as $image){?>
+			<input  type="hidden" name="img_uploaded<?php echo ++$i;?>" id="img_uploaded<?php echo $i;?>" value="<?php echo $image['IMAGE'];?>" />
+			<input  type="hidden" name="status<?php echo $i;?>" id="status<?php echo $i;?>" value="<?php echo $image['STATUS'];?>" />				
+		<?php }?>
+		<div class="submit_link">
+					<input type="submit" name="btnSubmit" class="alt_btn" value="Thay đổi">
+		</div>
+	</form>
+</div>

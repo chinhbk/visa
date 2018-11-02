@@ -1,0 +1,82 @@
+
+<article class="module width_full">
+
+		<form name="form_add" method="GET" action="/admin/order/index">						
+			<table style="margin:10px 5px 20px 10px">
+				<tr>
+					<td><label>Trạng thái</label></td>
+					<td>
+						<select name="status" id="status" style="width: 200px;">
+							<option value="-1"  <?php if($this->status == "-1") echo "selected='selected'";?>>-----------</option>
+							<option value="0" <?php if($this->status == 0) echo "selected='selected'";?>>Đang chờ xử lý</option>
+							<option value="1" <?php if($this->status == 1) echo "selected='selected'";?>>Xác nhận</option>
+							<option value="2" <?php if($this->status == 2) echo "selected='selected'";?>>Hủy</option>
+							<option value="3" <?php if($this->status == 3) echo "selected='selected'";?>>Đơn hàng đang giao</option>
+							<option value="4" <?php if($this->status == 4) echo "selected='selected'";?>>Đơn hàng bị trả lại</option>
+							<option value="5" <?php if($this->status == 5) echo "selected='selected'";?>>Đơn hàng thất lạc</option>
+							<option value="6" <?php if($this->status == 6) echo "selected='selected'";?>>Thành công</option>
+					</select>	
+					</td>
+					<td>Tên khách hàng</td>
+					<td>
+						<input type="text" name="name" value="<?php echo $this->name;?>"/>
+					</td>
+					<td>Ngày cập nhật</td>
+					<td>
+						<input type="radio" name="sort_update_date" value="ASC" <?php if($this->sort_update_date == 'ASC'){ echo 'checked';};?>/>Tăng dần
+						<input type="radio" name="sort_update_date" value="DESC" <?php if($this->sort_update_date == 'DESC'){ echo 'checked';};?>/>Giảm dần
+					</td>
+					<td><input type="submit" class="alt_btn" value="Tìm" style="float:left;"></td>
+					
+				</tr>
+			</table>	
+													
+		</form>
+		<header><h3 class="tabs_involved">Danh sách đơn hang</h3></header>
+		<div class="tab_container">
+			<div class="tab_content" id="tab1" style="display: block;">
+			<table cellspacing="0" class="tablesorter"> 
+			<thead> 
+				<tr> 
+   					<th class="header">STT</th> 
+    				<th class="header">Tên KH</th> 
+    				<th class="header">Điện thoại</th> 
+    				<th class="header">Trạng thái</th>
+    				<th class="header">Ngày cập nhật</th> 
+    				<th class="header">Sửa đổi</th> 
+				</tr> 
+			</thead> 
+			<tbody> 
+			   <?php $i=0; foreach ($this->orders as $order) {
+				       // Zend_Debug::dump($product);die;
+									
+				?>
+				<tr> 
+   					<td><?php echo ++$i;?></td> 
+    				<td><?php echo $order['NAME'];?></td> 
+    				<td><?php echo $order['PHONE'];?></td>
+    				<td><?php
+	    				switch ($order['STATUS']) {
+	    					case 0: echo 'Đang chờ xử lý' ; break;	    				
+	    					case 1: echo 'Xác nhận' ; break;
+	    					case 2: echo 'Hủy' ; break;
+	    					case 3: echo 'Đơn hàng đang giao' ; break;
+	    					case 4: echo 'Đơn hàng bị trả lại' ; break;
+	    					case 5: echo 'Đơn hàng thất lạc' ; break;
+	    					case 6: echo 'Thành công' ; break;
+	    				}    				
+    				?>
+    				</td>
+    				<td><?php echo date_format(date_create($order['UPDATE_DATE']),"d/m/Y H:i:s");?></td>  
+    				<td><a href="/admin/order/edit/id/<?php echo $order['ID'];?>"><img src="/images/edit.png"/></a></td>  
+				</tr> 
+				
+				<?php }	?>
+				  
+			</tbody> 
+			</table>
+			</div><!-- end of #tab1 -->
+			
+			
+		
+		</article>

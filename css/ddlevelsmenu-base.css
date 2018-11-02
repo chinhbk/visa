@@ -1,0 +1,8 @@
+.ddsubmenustyle, .ddsubmenustyle ul{font: normal 12px Arial, Helvetica, sans-serif;text-align:left;margin: 0;padding:2px;position: absolute;left: 0;top: 0;list-style-type: none;border:1px solid #ccc;background:#fff;visibility: hidden;z-index: 100;}
+.ddsubmenustyle li {text-decoration: none; border-top:1px solid #ccc;width:200px;color:#666;}
+.ddsubmenustyle li a{text-decoration: none;padding-left:10px;padding-right:10px;padding-top:5px;padding-bottom:5px;display:block;color:#666;font: normal 13px Arial, Helvetica, sans-serif;}
+* html .ddsubmenustyle li{display: inline-block;width: 210px;}
+.ddsubmenustyle li a:hover{color:#B58F15;text-decoration:none;background-color:#FFFFFF;font: normal 13px Arial, Helvetica, sans-serif; font-weight: bold;}
+.downarrowpointer{ padding-left:0px;border: 0;}
+.rightarrowpointer{ position: absolute;padding-top: 3px;left: 100px;border: 0;}
+.ddiframeshim{position: absolute;z-index: 500;background: transparent;border-width: 0;width: 0;height: 0;display: block;}

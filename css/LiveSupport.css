@@ -1,0 +1,15 @@
+﻿.support-block { margin-bottom:20px;float:left ; background: url('img/bg_support.jpg') no-repeat #fafafa;}
+    .support-block .box-nick {float:left; margin-top:10px; padding-top:5px;background: url('img/bg_boxnick.png') no-repeat 10px top;min-height:80px; padding-left:75px;}
+    .support-block .support {float:left; margin-bottom:5px;}
+    .support-block .col1 a img {margin-right:3px;}
+    .support-block .col2 a img {}
+    .support-block .hotline {color:#f59201; font-weight:bold; text-transform:uppercase;margin-bottom:8px;}
+    .support-block .col1 { float:left;width:130px}
+    .support-block .col2 { float:left;width:130px; }
+        .support-block .support:hover { text-decoration: none; }
+        .support-block .support img { vertical-align: top; }
+        .support-block .support span {color:#6d6d6d;font-weight:bold }
+        #pr_footer .support-block { position: absolute;top: 25px;right: 245px;background: none;margin-bottom: 0px; }
+         #pr_footer  .support-block .box-nick {margin-top:0px; padding-top:0px;background: none; padding-left:0px;}
+           #pr_footer  .col1 { float:none;width:auto}
+    #pr_footer  .col2 { float:none;width:auto; }

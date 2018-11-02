@@ -1,0 +1,24 @@
+
+<div class="acticle_index">
+	<div class="b_head"><a target="_self"><?php echo $this->category->name; ?></a></div>
+	<div class="late_n_im">
+		<img src="<?php echo $this->lastestNews['SMALL_IMAGE']; ?>" />
+	</div>
+		
+	<div class="late_n_con">
+		<div><a href="/index/news-details/news_id/<?php echo  $this->lastestNews['ID'];?>" ><?php echo $this->lastestNews['TITLE']; ?></a></div>
+		<div><p><?php echo $this->lastestNews['CONTENT'] ; ?></p></div>
+	</div>
+	
+	<!-- other news -->
+	<div class="l_item_n_cont other_news" style="font-style: italic; color: #666; float: left;"><p>Bài viết khác:</p></div>
+	
+	
+			   <?php $i=0; foreach ($this->allNews as $news) { if( $news['ID'] != $this->lastestNews['ID']){?>		
+					<div class="l_item_n_cont listed other_news">
+						<div class="l_advise_link"><a href="/index/news-details/news_id/<?php echo  $news['ID'];?>" ><?php echo $news['TITLE'];?></a></div>
+					</div>
+				<?php } }	?>
+		
+	
+</div>

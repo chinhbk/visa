@@ -1,0 +1,195 @@
+
+
+<link rel="stylesheet" href="/css/style.css" type="text/css" />
+			
+<script type="text/javascript">
+	$(document).ready(function(){
+		  $('#status').change(function () {
+		       //console.log( $(this).val());
+			  $status =  $(this).val();
+			  ($status == 6) ? $('#box_ship_code').show() : $('#box_ship_code').hide(); 
+			  
+			  						    
+		   });    
+	});
+</script>
+
+<?php 
+  if($this->errorMessage != null && $this->errorMessage != ''){
+	echo "<h4 class='alert_error'>".$this->errorMessage."</h4>";
+  }
+?>
+
+<article class="module width_full">
+			<header><h3>Sửa thông tin đơn hàng</h3></header>
+				<div class="module_content">						
+						<form name="form_edit" method="POST" action="/admin/order/edit">
+							<input  type="hidden" name="id" id="id" value="<?php echo $this->order->id;?>" /> 
+							<input  type="hidden" name="is_ship" id="is_ship" value="<?php echo $this->order->is_ship;?>" />
+							   <div style="font-size: 14px;">
+									<label>Tên khách hàng : <?php echo $this->order->name;?></label>			
+									<p><label>Điện thoại : <?php echo $this->order->phone;?></label>
+									<p><label>Tỉnh : <?php echo $this->order->province;?></label>				
+									<p><label>Địa chỉ : <?php echo $this->order->address;?></label>							
+									<p><label>Email :<?php echo $this->order->email;?></label>
+									<p><label>Ghi chú :<?php echo $this->order->note;?></label>									
+									<p><label>Thời gian khách hàng gửi đơn hàng : <?php echo $this->order->create_date;?></label>
+								   	<p><label>Thời gian cập nhật lần cuối : <?php echo $this->order->update_date;?></label>
+								   	<?php echo "<p style='color:red'><label>*" . (($this->order->is_ship == 1) ? "Khách hàng lựa chọn chuyển hàng" : "Khách hàng không lựa chọn chuyển hàng")."</label>"; ?>									
+								</div>
+								<fieldset>
+									<label>Trạng thái</label>								
+									<select name="status" id="status" style="width: 200px;">
+										<option value="0" <?php if($this->order->status == 0) echo "selected='selected'";?>>Đang chờ xử lý</option>
+										<option value="1" <?php if($this->order->status == 1) echo "selected='selected'";?>>Xác nhận</option>
+										<option value="2" <?php if($this->order->status == 2) echo "selected='selected'";?>>Hủy</option>
+										<option value="3" <?php if($this->order->status == 3) echo "selected='selected'";?>>Đơn hàng đang giao</option>
+										<option value="4" <?php if($this->order->status == 4) echo "selected='selected'";?>>Đơn hàng bị trả lại</option>
+										<option value="5" <?php if($this->order->status == 5) echo "selected='selected'";?>>Đơn hàng thất lạc</option>
+										<option value="6" <?php if($this->order->status == 6) echo "selected='selected'";?>>Thành công</option>
+									</select>
+								</fieldset>							
+								<?php if($this->order->is_ship == 1){ ?>
+									<fieldset id="box_ship_code" style="display: <?php echo ($this->order->status == 6) ? 'block' : 'none';?>;">
+										<label>Mã chuyển hàng</label>								
+										<input type="text" name="ship_code" value="<?php echo $this->order->ship_code;?>"/>
+									</fieldset>	
+								<?php };?>																												
+								<!-- -->
+							</fieldset>
+							<div class="clear"></div>
+								<div class="submit_link">
+									<input type="submit" name="btnSubmit" class="alt_btn" value="Lưu">
+								</div>
+							
+						
+						
+						<div style="height: 20px; clear: both;"></div>
+						
+						
+
+			  <table class="order_table" border="0" cellpadding="0" cellspacing="1" bgcolor="#E8E8E8" width="100%">
+				<tr>
+				  <td width="20px" align="center" bgcolor="#F1F1F1">
+					<div style="padding-right:5px;" class="table_title">
+					  STT
+					</div>
+				  </td>
+				  <td align="center" bgcolor="#F1F1F1">
+					<div class="table_title" style="text-align: left">
+					  Sản phẩm
+					</div>
+				  </td>
+				  <td width="100px" align="center" bgcolor="#F1F1F1">
+					<div class="table_title">
+					  Số lượng
+					</div>
+				  </td>
+				  <td width="100px" align="center" bgcolor="#F1F1F1">
+					<div class="table_title">
+					  Giá gốc
+					</div>
+				  </td>
+				  <td width="100px" align="center" bgcolor="#F1F1F1">
+					<div class="table_title" style="text-align:right">
+					  Giá sau khuyến mại
+					</div>
+				  </td>
+				  <td width="100px" align="center" bgcolor="#F1F1F1">
+					<div class="table_title" style="text-align:right">
+					  Tổng (VND)
+					</div>
+				  </td>
+			  </tr>
+			  <?php
+			  	$i=0 ; $totalprice= 0; $shipping_cost = 0;
+			  	$product_mapper = new Application_Model_ProductMapper();
+			  	foreach($this->order_detail_list as $order_detail) {
+			  	//	Zend_Debug::dump( $order_detail['QUANTITY']);die();
+			  ?> 
+                <tr bgcolor="#FFFFFF">
+				<td align="center">
+				  <?php echo ++$i;?>
+				</td>
+				<td align="left">
+				  <div class="cart_table_brief">
+					  <?php 		
+							$product = $product_mapper->getProductById($order_detail['PRODUCT_ID']);
+							echo $product->name;
+					  ?>
+				  </div>
+				</td>
+				<td align="center"><?php echo $order_detail['QUANTITY'];?></td>
+				<td align="center">
+				  <span style="padding-right:5px;" class="cart_price">
+					 <?php echo $order_detail['PRICE'];?>
+				  </span>
+				</td>
+				<td align="right">
+				  <span style="padding-right:5px;" class="cart_price">
+					 <?php echo $order_detail['DISCOUNT_PRICE'];?>
+				  </span>
+				</td>
+				<td align="right">
+				  <span style="padding-right:5px;" class="cart_price">
+					<?php
+						$cal_price = ($order_detail['DISCOUNT_PRICE'] > 0) ? $order_detail['DISCOUNT_PRICE'] : $order_detail['PRICE'];
+						$subtotal = $order_detail['QUANTITY']*$cal_price;
+						$totalprice+=$subtotal;
+						echo  $subtotal;
+					?> 
+				  </span>
+				</td>			
+			  </tr> 	        
+               <?php  }?>
+			     
+			 
+			  
+			  <tr bgcolor="#FFFFFF">
+				<td colspan="5" align="right">
+				  <div class="cart_table_brief">
+					Tổng giá
+				  </div>
+				</td>
+				<td align="right">
+				  <span style="padding-right:5px;" class="cart_price">
+				  	  <?php echo  $totalprice; ?>
+				  </span>
+				</td>
+			  </tr>
+			  
+			  <?php if($this->order->is_ship == 1){ ?>
+				  <tr bgcolor="#FFFFFF">
+					<td colspan="5" align="right">
+					  <div class="cart_table_brief">
+						Giá chuyển hàng
+					  </div>
+					</td>
+					<td align="right">
+					  <span style="padding-right:5px;" class="cart_price">
+					  	  <?php echo Zend_Registry::getInstance()->constants->shipping_cost?>
+					  </span>
+					</td>
+				  </tr>
+				  <tr bgcolor="#FFFFFF">
+					<td colspan="5" align="right">
+					  <div class="cart_table_brief">
+						Tổng tất cả
+					  </div>
+					</td>
+					<td align="right">
+					  <span style="padding-right:5px;" class="cart_price">
+					  	  <?php echo $totalprice + Zend_Registry::getInstance()->constants->shipping_cost;?>
+					  </span>
+					</td>
+				  </tr>
+			  <?php }?>
+			  </table>
+			  <input type="hidden" name="action" value="update_cart" />
+			</form>
+		</div>
+	
+						
+	
+		
+		</article>

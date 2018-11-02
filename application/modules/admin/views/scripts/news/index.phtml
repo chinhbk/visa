@@ -1,0 +1,56 @@
+<article class="module width_full">
+		<header><h3 class="tabs_involved">Quản lý tin tức</h3>
+		<ul class="tabs">
+   			<li class="active"><a href="/admin/news/add">Thêm mới</a></li>
+		</ul>
+		</header>
+		<form name="form_add" method="GET" action="/admin/news/index">
+			<fieldset style="width:30%;"> <!-- to make two field float next to one another, adjust values accordingly -->
+				<label>Loại tin</label>
+				<?php //die($this->category_id); ?>
+				<select style="width:75%;float:left" name="news_type_id">
+				<?php $i=0; foreach ($this->newstypes as $newstype) { 
+				  // die($category['ID']);
+					 if($newstype['ID'] == $this->news_type_id ){
+						echo "<option selected='selected' value = '".$newstype['ID']."'>".$newstype['NAME']."</option>";
+					}else {
+						echo "<option value = '".$newstype['ID']."'>".$newstype['NAME']."</option>";
+					}
+				} ?>
+				</select>
+				<input type="submit" class="alt_btn" value="Tìm" style="float:left;">
+			</fieldset>
+		</form>
+		<div class="tab_container">
+			<div class="tab_content" id="tab1" style="display: block;">
+			<table cellspacing="0" class="tablesorter"> 
+			<thead> 
+				<tr> 
+   					<th class="header">STT</th> 
+    				<th class="header">Tiêu đề</th> 
+    				<th class="header">Ảnh nhỏ</th> 
+    				<th class="header"></th> 
+				</tr> 
+			</thead> 
+			<tbody> 
+			   <?php $i=0; foreach ($this->allNews as $news) { ?>
+				<tr> 
+   					<td><?php echo ++$i;?></td> 
+    				<td><?php echo $news['TITLE'];?></td> 
+    				<td><image src="<?php echo $news['SMALL_IMAGE'];?>" style="width:30%;"/></td> 
+    				<td>
+						<a href="/admin/news/edit/news_id/<?php echo $news['ID'];?>"><image src="/images/edit.png" alt="Sửa" style="padding-right:30px;"/></a>
+						<a href="/admin/news/delete/news_id/<?php echo $news['ID'];?>"  onclick="return confirm('Bạn chắc chắn muốn xóa?')"><image src="/images/delete.png" alt="Xóa" /></a>
+					</td> 
+				</tr> 
+				
+				<?php }	?>
+				  
+			</tbody> 
+			</table>
+			</div><!-- end of #tab1 -->
+			
+						
+		</div><!-- end of .tab_container -->
+		
+		</article>

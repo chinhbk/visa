@@ -1,0 +1,76 @@
+﻿#menutop {float:left ; }
+.RadMenu_Top { }
+    /* MENU-TOP */
+
+.RadMenu_Top ul.rmRootGroup { }
+
+.RadMenu_Top .rmRootGroup .rmItem {
+    float: left;
+    
+}
+
+.RadMenu_Top .rmRootGroup .rmItem .rmLink {
+    color: #414141;
+    padding: 0px !important;
+}
+
+.RadMenu_Top .rmRootGroup .rmItem .rmLink:hover { text-decoration: none !important; }
+
+.RadMenu_Top .rmRootGroup .rmItem .rmLink .rmText {
+    color: #FFFFFF;
+    cursor: pointer;
+    font-family: Arial;
+    font-size: 14px;
+    font-weight: bold;
+    min-width: 20px !important;
+    text-transform: uppercase;
+    line-height:35px;
+    padding:0 21px 0px 20px;
+    background: url("http://richerpharm.com/img/bg_menu_right.png") no-repeat right center;
+}
+
+.RadMenu_Top .rmRootGroup .rmItem .rmLink .rmText:hover, .RadMenu_Top .rmRootGroup .rmItem .rmLink.expanded .rmText {color:#6f450f}
+.RadMenu_Top .rmRootGroup .rmItem.rmFirst .rmLink .rmText {padding-left:45px;position:relative}
+
+.RadMenu_Top .rmRootGroup .rmItem.rmFirst .rmLink .rmText .fix_left {position:absolute;width:17px; height:16px;top:8px; left:20px;    background: url("img/icon-home.png") no-repeat;}
+.RadMenu_Top .rmRootGroup .rmItem.rmLast .rmText {background:none}
+
+/*Submenu*/
+
+.RadMenu_Top .rmSlide { }
+
+.RadMenu_Top .rmSlide a { text-decoration: none !important; }
+
+.RadMenu_Top .rmSlide .rmVertical.rmLevel1 {
+    background: url("img/arr-up.png") no-repeat 20px top transparent;
+    padding-top: 5px;
+}
+
+.RadMenu_Top .rmSlide .rmVertical.rmLevel2 {
+    display: none !important;
+    margin-top: 4px;
+}
+
+.RadMenu_Top .rmSlide .rmItem { text-align: left !important; }
+
+.RadMenu_Top .rmSlide .rmItem .rmLink { padding: 0 !important; }
+
+.RadMenu_Top .rmSlide .rmItem .rmLink .rmText {
+    background: url("img/arrow-sub-menu.png") no-repeat 10px center #f7a42b;
+    border-top: 1px solid #f9bc63 !important;
+    color: #fff !important;
+    height: 25px;
+    line-height: 25px !important;
+    margin: 0 !important;
+    padding: 0px 10px 0px 25px !important;
+    text-align: left !important;
+}
+.RadMenu_Top .rmSlide .rmItem .rmLink .rmText:hover {
+	background: url("img/arrow-sub-menu.png") no-repeat 10px center #f59201;
+	display: block;
+}
+
+/* top menu separator */
+
+
+/*-------*/

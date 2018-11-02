@@ -1,0 +1,61 @@
+
+<?php 
+  if($this->errorMessage != null && $this->errorMessage != ''){
+	echo "<h4 class='alert_error'>".$this->errorMessage."</h4>";
+  }
+?>
+
+<article class="module width_full">
+			<header><h3>Thêm tin tức</h3></header>
+				<div class="module_content">
+						<fieldset>
+							<label>Upload image</label>
+							  <form action="/admin/news/upload" method="POST" id="uploadform">
+							   <input type="file" name="file"/>
+							   <input type="submit" name="btnUpload" value="Upload"/><br/><br/>
+
+							   <div id="onsuccessmsg" style="padding:15px;"></div>
+							  </form>
+						</fieldset>
+						<form name="form_add" method="POST" action="/admin/news/add" onSubmit="document.form_add.editor_contents.value  = $('#editor #edit .froala-element').html()">
+							<input  type="hidden" name="img_uploaded" id="img_uploaded" value="" />
+							<fieldset style="width:30%;"> <!-- to make two field float next to one another, adjust values accordingly -->
+								<label>Loại tin</label>
+								<select style="width:92%;" name="news_type_id">
+								<?php $i=0; foreach ($this->newstypes as $newstype) {  ?>
+									<option value="<?php echo $newstype['ID'];?>"><?php echo $newstype['NAME'];?></option>
+								<?php }	?>
+								</select>
+							</fieldset>
+							<p/>
+							<fieldset>
+								<label>Tiêu đề</label>
+								<input type="text" name="news_title">
+							</fieldset>
+							<fieldset>
+								<label>Tóm tắt ngắn gọn</label>
+								<textarea rows="7" name="news_summary"></textarea>
+							</fieldset>
+ 							<fieldset>
+								<label>Nội dung</label>
+								<textarea id="editor_contents" name="editor_contents" style="display:none;"></textarea>
+								<!-- -->
+								<section id="editor">
+								  <div id='edit' style="margin-top: 30px;">
+									 
+								  </div>
+							    </section>
+
+							<div class="clear"></div>
+							</fieldset>
+							<div class="clear"></div>
+							<footer>
+								<div class="submit_link">
+									<input type="submit" name="btnSubmit" class="alt_btn" value="Lưu">
+								</div>
+							</footer>
+						</form>
+						
+				</div>
+		
+		</article>

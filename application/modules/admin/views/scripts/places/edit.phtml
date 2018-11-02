@@ -1,0 +1,59 @@
+
+<?php 
+  if($this->errorMessage != null && $this->errorMessage != ''){
+	echo "<h4 class='alert_error'>".$this->errorMessage."</h4>";
+  }
+?>
+
+<article class="module width_full">
+			<header><h3>Sửa sản phẩm</h3></header>
+				<div class="module_content">
+						<fieldset>
+							<label>Upload image</label>
+							  <form action="/admin/product/upload" method="POST" id="uploadform">
+							   <input type="file" name="file"/>
+							   <input type="submit" name="btnUpload" value="Upload"/><br/><br/>
+							   Result :
+							   <div id="onsuccessmsg" style="border:5px solid #CCC;padding:15px;">
+									<image src="<?php echo $this->product->image;?>" />
+							   </div>
+							  </form>
+						</fieldset>
+						<form name="form_add" method="POST" action="/admin/product/edit" onSubmit="document.form_add.editor_contents.value  = $('#editor #edit .froala-element').html()">
+							<input  type="hidden" name="product_id" id="product_id" value="<?php echo $this->product->id;?>" />
+							<input  type="hidden" name="img_uploaded" id="img_uploaded" value="<?php echo $this->product->image;?>" />
+							<fieldset>
+								<label>Tên sản phẩm</label>
+								<input type="text" name="product_name" value="<?php echo $this->product->title;?>">
+							</fieldset>
+							<fieldset>
+								<label>Nội dung</label>
+								<textarea id="editor_contents" name="editor_contents" style="display:none;"></textarea>
+								<!-- -->
+								
+								
+
+										<!-- -->
+										<section id="editor">
+										  <div id='edit' style="margin-top: 30px;">
+											 <?php echo $this->product->content; ?>
+										  </div>
+										</section>
+									  </div>
+
+
+							
+								
+								<!-- -->
+							</fieldset>
+							</fieldset><div class="clear"></div>
+							<footer>
+								<div class="submit_link">
+									<input type="submit" name="btnSubmit" class="alt_btn" value="Lưu">
+								</div>
+							</footer>
+						</form>
+						
+				</div>
+		
+		</article>

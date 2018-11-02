@@ -1,0 +1,51 @@
+<html lang="en-US">
+<head>
+
+	<meta charset="utf-8">
+
+	<title>Login</title>
+
+	<link rel="stylesheet" href="http://fonts.googleapis.com/css?family=Varela+Round">
+
+	<link type="text/css" rel="stylesheet" href="<?php echo $this->baseUrl('css/login.css') ?>">
+	<!--[if lt IE 9]>
+		<script src="http://html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+	<![endif]-->
+
+
+</head>
+
+<body>
+
+	<div id="login">
+
+		<h2><span class="fontawesome-lock"></span>Sign In</h2>
+
+		<form action="/admin/auth" method="POST">
+
+			<fieldset>
+
+				<p><label for="user_name">User Name</label></p>
+				<p>
+					<input name="user_name" type="user_name" id="user_name"  value="user name" onBlur="if(this.value=='')this.value='user name'" onFocus="if(this.value=='user name')this.value=''">
+				</p> <!-- JS because of IE support; better: placeholder="mail@address.com" -->
+
+				<p><label for="password">Password</label></p>
+				<p>
+					<input name="password" type="password" id="password" value="password" onBlur="if(this.value=='')this.value='password'" onFocus="if(this.value=='password')this.value=''">
+				</p> <!-- JS because of IE support; better: placeholder="password" -->
+
+				<p><input type="submit" value="Sign In"></p>
+				<p style="font-size:12px;">
+					<?php if(isset($this->errorMessage)): ?>
+					    <?php echo $this->errorMessage; ?>
+					<?php endif; ?>
+				</p>
+			</fieldset>
+
+		</form>
+
+	</div> <!-- end login -->
+
+</body>	
+</html>
