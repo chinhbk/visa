@@ -1,138 +1,128 @@
+<<style>
+.ts-content-top {
+    padding: 10px;
+    color: inherit;
+    background-color: #FCF6EA !important;
+}
+.t3-module{
+    background: transparent;
+    color: inherit;
+}
+.t3-module .module-inner {
+    padding: 0;
+}
+.home h2 {
+    font-size: 17px !important;
+}
+.module-title {
+    background: transparent;
+    color: inherit;
+    font-size: 18px;
+    margin: 10px 0 10px 0;
+    padding: 0;
+    padding-bottom: 9px;
+    border-bottom: 1px solid #F58634;
+    text-transform: uppercase;
+}
+</style>
 <div id="mainbody-wr">
-	<div id="mainbody">
-		<div id="left-cell">
-			<div id="fb-box">
-			<!--
-				<iframe src="http://www.facebook.com/plugins/likebox.php?href=https%3A%2F%2Fwww.facebook.com%2Fhanaku.vn&amp;width=190&amp;height=290&amp;colorscheme=light&amp;show_faces=true&amp;header=true&amp;stream=false&amp;show_border=true" scrolling="no" frameborder="0" style="border:none; overflow:hidden; width:190px; height:290px;" allowTransparency="true"></iframe>
-			-->
-			</div>
-			<div style="clear: both; height: 8px"></div>
-			<div class="left_tab">
-				<div class="left_tab_text">Travel types</div>
-			</div>
-			<div class="leftmenu_box">
-			<?php foreach ($this->types as $type) {?>
-				<div class="leftmenu-item">
-					<a href="/index/filter?type=<?php echo $type->id?>"><?php echo $type->name?></a>
-				</div>
-			<?php }?>
-			</div>
-			<div style="clear: both; height: 8px"></div>
-			<div class="left_tab">
-				<div class="left_tab_text">Khoảng giá</div>
-			</div>
-			<div class="leftmenu_box">
-				<div class="leftmenu-item">
-					<a href="/index/filter?min=200000">Dưới 200.000</a>
-				</div>
-				<div class="leftmenu-item">
-					<a href="/index/filter?min=200000&max=500000">200.000 - 500.000</a>
-				</div>
-				<div class="leftmenu-item">
-					<a href="/index/filter?min=500000&max=1000000">500.000 - 1.000.000</a>
-				</div>
-				<div class="leftmenu-item">
-					<a href="/index/filter?min=1000000&max=1500000">1.000.000 - 1.500.000</a>
-				</div>
-				<div class="leftmenu-item">
-					<a href="/index/filter?max=1500000">Trên 1.500.000</a>
-				</div>
-			</div>
-		</div>
+	<div id="mainbody" class="home">
 
-		<div id="right-cell">
-			<div id="top-slider">
+			<div id="">
 				<div class="box_skitter box_skitter_large">
 					<ul>
 						<li>
-							<a href="#cut"><img src="images/slider/001.jpg" class="cut" /></a>
-							<div class="label_text"><p>cut</p></div>
+							<a href="#a"><img src="images/slider/S1.jpg" class="cut" /></a>
 						</li>
 						<li>
-							<a href="#swapBlocks"><img src="images/slider/002.jpg" class="swapBlocks" /></a>
-							<div class="label_text"><p>swapBlocks</p></div>
+							<a href="#swapBlocks"><img src="images/slider/S2.jpg" class="swapBlocks" /></a>
 						</li>
 						<li>
-							<a href="#swapBarsBack"><img src="images/slider/003.jpg" class="swapBarsBack" /></a>
-							<div class="label_text"><p>swapBarsBack</p></div>
+							<a href="#swapBarsBack"><img src="images/slider/S3.jpg" class="swapBarsBack" /></a>
 						</li>
 						<li>
-							<a href="#swapBars"><img src="images/slider/004.jpg" class="swapBars" /></a>
-							<div class="label_text"><p>swapBars</p></div>
+							<a href="#swapBars"><img src="images/slider/S4.jpg" class="swapBars" /></a>
 						</li>
 					</ul>
 				</div>
 			</div>
-			
-			<!-- loop -->
-			<div style="clear:both; height: 10px"> &nbsp; </div>
-			<div class="center_tab">
-				<div class="center_tab_text" style="white-space: nowrap;">Sản phẩm hot</div>
-			</div>
-			<div style="clear:both; height: 10px"> &nbsp; </div>
-			<div class="product_content_home">
-				<div style="clear:both; height:15px;">&nbsp;</div>
-				<div id="product_line">
-				<?php foreach ($this->hots as $hot){?>
-					<div class="box01">
-						<div class="product_img">
-							<a href="/product/detail/id/<?php echo $hot["ID"]?>" title=""><img title="" alt="" src="<?php echo $hot['IMAGE_MAIN']?>" width="180px" /></a>
-							<!-- hien thi khi co giam gia-->
-							<?php if(!is_null($hot['DISCOUNT_PRICE'])){?>
-							<div class="product-discount">-<?php echo floor((1 - $hot['DISCOUNT_PRICE']/$hot['PRICE'])*100)?>%</div>
-							<?php }?>
-						</div>
-						<div class="product_factory"><?php echo $hot['CODE']?></div>
-						<div class="product_title"><a href="/product/detail/id/<?php echo $hot["ID"]?>" title="<?php echo $hot['NAME']?>"><?php echo $hot['NAME']?></a></div>
-						<?php if(is_null($hot['DISCOUNT_PRICE'])) {?>
-						<div class="product_home_price" align="center"><?php echo number_format($hot['PRICE'], $decimals = 0 , $dec_point = "," , $thousands_sep = ".")?></div>
-						<?php } else {?>
-						<div class="product_home_price" align="center">Giá: <span style="font-size: 12px; color: #888; text-decoration: line-through;"><?php echo number_format($hot['PRICE'],$decimals = 0 , $dec_point = "," , $thousands_sep = ".")?></span></div>
-						<div class="product_home_price" align="center"><?php echo number_format($hot['DISCOUNT_PRICE'], $decimals = 0 , $dec_point = "," , $thousands_sep = ".")?></div>
-						<?php }?>
-						<?php if(!is_null($hot['PROMOTION'])) {?><div class="product_home_promotional" align="center"><span style="font-weight: bold; color: #CC0000;">Khuyến mại:</span> <?php echo $hot['PROMOTION']?></div><?php } ?>
+		
+			<div style="clear: both; height: 8px"></div>
+			<div class="col-xs-12 col-sm-12 col-md-8">
+				<div class="ts-content-top ">
+						<div class="t3-module module " id="Mod113"><div class="module-inner"><h2 class="module-title  h3chunho customhome"><span>PLAN YOUR VIETNAM TOUR</span></h2><div class="module-ct">﻿﻿﻿ 
+<div id="customcustomized_tour">
+<div class="form-area">  
+<form action="/customized-tour.html" method="post" role="form" data-toggle="validator">
+<div class="form-group">
+If you would rather create your own itinerary, we would be happy to assist you in putting together one that best suits your schedule and interest. Then send us your requests, we will respond to you within 12 hours.</div>
+						 <div class="form-group col-md-3 col-sm-6 khongcachtrai">
+                    <select name="paticipant" class="form-control batbuoc" required="">
+							<option value="" selected="">Number of travelers?</option>
+							<option value="1">1 Person</option>
+							<option value="2">2 Persons</option>
+							<option value="3">3 Persons</option>
+							<option value="4">4 Persons</option>
+							<option value="5">5 Persons</option>
+							<option value="6">6 Persons</option>
+							<option value="7">7 Persons</option>
+							<option value="8">8 Persons</option>
+							<option value="9">9 Persons</option>
+							<option value="10">10 Persons</option>
+							<option value="999">&gt; 10 Persons</option>
+							</select></div> 
+<div class="form-group col-md-3 col-sm-6 khongcachtrai">
+						<select name="lengthoftrip" class="form-control batbuoc" style="width:auto;" required="">
+									<option value="">How many days?</option>
+									<option value="1">1 days</option>
+									<option value="2">2 days</option>
+									<option value="3">3 days</option>
+									<option value="4">4 days</option>
+									<option value="5">5 days</option>
+									<option value="6">6 days</option>
+									<option value="7">7 days</option>
+									<option value="8">8 days</option>
+									<option value="9">9 days</option>
+									<option value="10">10 days</option>
+									<option value="11">11 days</option>
+									<option value="12">12 days</option>
+									<option value="13">13 days</option>
+									<option value="14">14 days</option>
+									<option value="15">15 days</option>
+									<option value="16">16 days</option>
+									<option value="17">17 days</option>
+									<option value="18">18 days</option>
+									<option value="19">19 days</option>
+									<option value="20">20  days</option>
+					</select>
 					</div>
-				<?php }?>
-				</div>
-			</div>
-			<div style="clear:both;">&nbsp;</div><div style="clear:both; height: 10px"> &nbsp; </div>
-			<!-- end loop product-line -->
-			
-		<?php foreach ($this->products as $product){?>
-			<div class="center_tab">
-				<div class="center_tab_text" style="white-space: nowrap;"><?php echo $product->typeName?></div>
-				<div class="center_tab_text_right"><a  href="/index/type?typeId=<?php echo ''?>" title="Xem tất cả ">Xem tất cả <?php echo $product->typeName?></a> &raquo;</div>
-			</div>
-			<div style="clear:both; height: 10px"> &nbsp; </div>
-			<div class="product_content_home">
-				<div style="clear:both; height:15px;">&nbsp;</div>
-				<div id="product_line">
-				<?php foreach ($product->priorities as $priority){ ?>
-					<div class="box01">
-						<div class="product_img">
-							<a href="/product/detail/id/<?php echo $hot["ID"];?>" title=""><img title="" alt="" src="<?php echo $priority['IMAGE_MAIN']?>" width="180px" /></a>
-							<!-- hien thi khi co giam gia-->
-							<?php if(!is_null($priority['DISCOUNT_PRICE'])){?>
-							<div class="product-discount">-<?php echo floor((1 - $priority['DISCOUNT_PRICE']/$priority['PRICE'])*100)?>%</div>
-							<?php }?>
-						</div>
-						<div class="product_factory"><?php echo $priority['CODE']?></div>
-						<div class="product_title"><a href="" title="<?php echo $priority['NAME']?>"><?php echo $priority['NAME']?></a></div>
-						<?php if(is_null($priority['DISCOUNT_PRICE'])) {?>
-						<div class="product_home_price" align="center"><?php echo number_format($priority['PRICE'], $decimals = 0 , $dec_point = "," , $thousands_sep = ".")?></div>
-						<?php } else {?>
-						<div class="product_home_price" align="center">Giá: <span style="font-size: 12px; color: #888; text-decoration: line-through;"><?php echo number_format($priority['PRICE'],$decimals = 0 , $dec_point = "," , $thousands_sep = ".")?></span></div>
-						<div class="product_home_price" align="center"><?php echo number_format($priority['DISCOUNT_PRICE'], $decimals = 0 , $dec_point = "," , $thousands_sep = ".")?></div>
-						<?php }?>
-						<?php if(!is_null($priority['PROMOTION'])) {?><div class="product_home_promotional" align="center"><span style="font-weight: bold; color: #CC0000;">Khuyến mại:</span> <?php echo $priority['PROMOTION']?></div><?php } ?>
+					<div class="form-group col-md-2 col-sm-6 khongcachtrai cachphai5">
+					<select name="hotelcategory" class="form-control batbuoc" style="width:auto;" required="">
+										<option value="">Hotel category</option>
+										<option value="3">3 Stars</option>
+										<option value="4">4 Stars</option>
+										<option value="5">5 Stars</option>
+										<option value="6">Top Luxury</option>
+					</select>
 					</div>
-				<?php }?>
-				</div>
-			</div>
-			<div style="clear:both;">&nbsp;</div>
-			<?php }?>
+					<div class="form-group col-md-2 col-sm-6">
+					<input type="text" class="form-control formdatehome hasDatepicker" id="datepickerhomehh" name="date" placeholder="Travel Date" required="">
+					</div>
+                   
+<div class="form-group col-md-1 col-sm-6 khongcachtrai">           
+		<input type="hidden" name="task" value="">
+		<input type="hidden" name="option" value="com_customizedtour">
+        <button aria-label="Submit" type="submit" id="submit" name="submit" class="btn btn-primary khongcachtren fa fa-sign-in vongtron"></button>
 
-			<div style="clear:both;">&nbsp;</div>	
+</div>
+</form>
+</div>
+</div>
+</div></div></div>
+					</div>
+			</div>
+			
 		</div>
 	</div>
+	
 </div>
