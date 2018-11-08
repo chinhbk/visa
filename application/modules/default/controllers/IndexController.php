@@ -44,6 +44,14 @@ class IndexController extends Zend_Controller_Action
 		$this->view->products = $allProductPriorityType;
 		$this->view->hots = $hotProduct;
     }
+    
+    
+    public function applyOnlineAction()
+    {
+
+        
+        
+    }
 	
 	public function typeAction()
 	{
