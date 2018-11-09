@@ -36,6 +36,29 @@
 		        Zend_Debug::dump( $e);die();
 		    }
 		}
+		
+		public function getById($id)
+		{
+		    //use the Table Gateway to find the row that
+		    //the id represents
+		    try {
+		        $result = $this->_db_table->find($id);
+		        
+		        //if not found, throw an exception
+		        if( count($result) == 0 ) {
+		            throw new Exception('tour type not found');
+		        }
+		        
+		        //if found, get the result, and map it to the
+		        //corresponding Data Object
+		        $row = $result->current();
+		        $obj = new Application_Model_TourType($row);
+		    } catch (Exception $e) {
+		        Zend_Debug::dump( $e);die();
+		    }
+		    //return the user object
+		    return $obj;
+		}
 		 
 		
 		public function getAllTourType($tour_type_id = null){

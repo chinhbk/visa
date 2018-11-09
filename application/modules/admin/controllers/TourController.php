@@ -108,55 +108,57 @@ class Admin_TourController extends Zend_Controller_Action
 		//Zend_Debug::dump( $request);die();
 		$id = $request->getParam('id');
 		//die($id);
-		$product_mapper = new Application_Model_ProductMapper();
-		$product = $product_mapper->getProductById($id);
-		//Zend_Debug::dump( $product);die();
-		//$product->content = htmlspecialchars_decode($product->content);
-		//Zend_Debug::dump( $product);die();
-		$this->view->product = $product ;
+		$tour_mapper = new Application_Model_TourMapper();
+		$tour = $tour_mapper->getById($id);
+		//Zend_Debug::dump( $tour);die();
+		//$tour->content = htmlspecialchars_decode($tour->content);
+		//Zend_Debug::dump( $tour);die();
+		$this->view->tour = $tour;
 		
-		$productType_mapper = new Application_Model_ProductTypeMapper();
-		$product_type = $productType_mapper->getAllProductType(null);
-		$this->view->product_type= $product_type;
+		$tourType_mapper = new Application_Model_TourTypeMapper();
+		$sub_tour_type = $tourType_mapper->getById($id);
+		$this->view->sub_tour_type= $sub_tour_type;
+		//Zend_Debug::dump( $sub_tour_type);die();
 		
-		$sub_product_type = $productType_mapper->getAllProductType($product->product_type_id);
-		$this->view->sub_product_type= $sub_product_type;		
 		
 		if ($request->isPost()) {
 			//Zend_Debug::dump(  $request->getPost());die();
-			$product = new Application_Model_Product();
-			$product->id =  $request->getParam('id');
-			$product->name =  $request->getParam('name');
-			$product->code =  $request->getParam('code');
-			$product->image_main =  $request->getParam('img_uploaded');
-			$product->image_second = (strlen($request->getParam('img_uploaded2')) == 0 ? null : $request->getParam('img_uploaded2')) ;
-			$product->image_third =  (strlen($request->getParam('img_uploaded3')) == 0 ? null : $request->getParam('img_uploaded3')) ;;
-			$product->price = $request->getParam('price');
-			$product->discount_price = (strlen($request->getParam('discount_price')) == 0 ? null : strlen($request->getParam('discount_price')) );
-			$product->promotion = $request->getParam('promotion');
-			$product->product_type_id = $request->getParam('product_type_id');
-			$product->sub_product_type_id = $request->getParam('sub_product_type_id');
-			$product->editor_contents =  $request->getParam('editor_contents');
-			$product->is_hot = $request->getParam('is_hot');
-			$product->is_type_priority = $request->getParam('is_type_priority');
-			$product->is_subtype_priority = $request->getParam('is_subtype_priority');
-			$product->color = $request->getParam('color');
-			$product->material = $request->getParam('material');
-			$product->origin = $request->getParam('origin');
-			$product->short_desc = $request->getParam('short_desc');
-			$product->details = $request->getParam('editor_contents');
-			if(strlen($product->name) == 0 || strlen($product->image_main) == 0 || strlen($product->price) == 0 || $product->product_type_id == 0){
-				$this->view->errorMessage = 'Lỗi nhập thiếu dữ liệu';
-				return;
+			$tour = new Application_Model_Tour();
+			$tour->tour_type_id =  $request->getParam('id');
+		    if(strlen($request->getParam('name')) == 0 || strlen($request->getParam('short_desc')) == 0){
+			    $this->view->errorMessage = 'Please fill data into (*) fields';
+			    return;
 			}
-				
-			//using htmlspecialchars() on the string to put into the DB, and then, when pulling it back out, use htmlspecialchars_decode().
-			//$product->content = htmlspecialchars_decode($editor_contents);
+			$tour_type = new Application_Model_TourType();
+			$tour_type->id = $request->getParam('id');
+			$tour_type->name = $request->getParam('name');
+			$tour_type->parent_id = $request->getParam('tour_type_parent_id');
+			$tour_type_mapper = new Application_Model_TourTypeMapper();
+			$tour_type_mapper->save($tour_type);
 			
-			//Zend_Debug::dump($product);die();
-			$product_mapper = new Application_Model_ProductMapper();
-			$product_mapper->save($product);
-			$this->redirect('admin/product/index');
+			$tour = new Application_Model_Tour();
+			$tour->tour_type_id = $id;
+			$tour->short_desc = $request->getParam('short_desc');
+			$tour->code =  $request->getParam('code');
+			$tour->duration =  $request->getParam('duration');
+			$tour->image_small =  $request->getParam('img_uploaded');
+			$tour->image = (strlen($request->getParam('img_uploaded2')) == 0 ? null : $request->getParam('img_uploaded2')) ;
+			$tour->price = $request->getParam('price');
+			$tour->is_hot = $request->getParam('is_hot');
+			$tour->color = $request->getParam('color');
+			$tour->details = $request->getParam('editor_contents');
+			$tour->create_date = $this->_helper->CommonUtils->getVnDateTime();;
+			$tour->update_date = $this->_helper->CommonUtils->getVnDateTime();;
+			
+			
+			//using htmlspecialchars() on the string to put into the DB, and then, when pulling it back out, use htmlspecialchars_decode().
+			//$tour->content = htmlspecialchars_decode($editor_contents);
+			
+			//Zend_Debug::dump($tour);die();
+			
+			$tour_mapper = new Application_Model_TourMapper();
+			$tour_mapper->save($tour);
+			$this->redirect('admin/tour/index');
 		
 		}
 	}

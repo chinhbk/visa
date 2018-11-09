@@ -27,22 +27,23 @@
 			);
 
 			try {
-			    if( is_null($obj->id) ) {
+			    if( is_null($obj->tour_type_id) ) {
 			        //Zend_Debug::dump( $data);		die;
 			        $data['CREATE_DATE'] = $obj->create_date;
 			        return $this->_db_table->insert($data);
 			    } else {
-			        $this->_db_table->update($data, array('ID = ?' => $order_object->id));
+			        $this->_db_table->update($data, array('TOUR_TYPE_ID = ?' => $obj->tour_type_id));
 			    }
 			} catch (Exception $e) {
 			    Zend_Debug::dump( $e);die();
 			}
 		}
 		 
-		public function getTourById($id)
+		public function getById($id)
 		{
 			//use the Table Gateway to find the row that
 			//the id represents
+			//echo $id; die;
 			try {
 				$result = $this->_db_table->find($id);
 				 
