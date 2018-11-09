@@ -1,0 +1,97 @@
+
+			
+			
+<?php 
+  if($this->errorMessage != null && $this->errorMessage != ''){
+	echo "<h4 class='alert_error'>".$this->errorMessage."</h4>";
+  }
+?>
+
+<article class="module width_full">
+			<header><h3>Add a new tour</h3></header>
+				<div class="module_content">
+						<fieldset>
+							<label>Upload small image</label>
+							  <form action="/admin/tour/upload" method="POST" id="uploadform">
+							   <input type="file" name="file"/>
+							   <input type="submit" name="btnUpload" value="Upload"/><br/><br/>
+							   
+							   <div id="onsuccessmsg" style="padding:15px;"></div>
+							  </form>
+						</fieldset>
+						<fieldset>
+							<label>Upload main image</label>
+							  <form action="/admin/tour/upload2" method="POST" id="uploadform2">
+							   <input type="file" name="file"/>
+							   <input type="submit" name="btnUpload" value="Upload"/><br/><br/>
+							   
+							   <div id="onsuccessmsg2" style="padding:15px;"></div>
+							  </form>
+						</fieldset>
+						<form name="form_add" method="POST" action="/admin/tour/add" onSubmit="document.form_add.editor_contents.value  = $('#editor #edit .froala-element').html()">
+							<input  type="hidden" name="img_uploaded" id="img_uploaded" value="" />
+							<input  type="hidden" name="img_uploaded2" id="img_uploaded2" value="" />
+							<fieldset>
+								<label>Tour type(*)</label>
+								<select name="tour_type_id" id="tour_type_id" style="width: 200px;">
+									<option value="0" selected disabled>Please select</option>
+									<?php foreach ($this->tour_type as $pt){
+										echo '<option value="'.$pt->id.'">'.$pt->name.'</option>';											
+									}?>
+								</select>
+								<?php //Zend_Debug::dump( $this->product_type);die()?>
+							</fieldset>
+							<fieldset>
+								<label>Sub tour type(*)</label>
+								<select name="sub_tour_type_id" id="sub_tour_type_id" style="width: 200px;"></select>
+							</fieldset>	
+							<fieldset>
+								<label>Name(*)</label>
+								<input type="text" name="name">
+							</fieldset>
+							<fieldset>
+								<label>Short description(*)</label>
+								<textarea name="short_desc" id="short_desc" rows="4" cols="10"></textarea>
+							</fieldset>											
+							<fieldset>
+								<label>Tour Code</label>
+								<input type="text" name="code">
+							</fieldset>
+							<fieldset>
+								<label>Duration</label>
+								<input type="text" name="duration">
+							</fieldset>
+							<fieldset>
+								<label>Price</label>
+								<input type="text" name="price">
+							</fieldset>
+							<fieldset>
+								<p>
+									<label>Hot Tour</label>
+									<input type="hidden" name="is_hot" value="0" />
+									<input type="checkbox" name="is_hot" value="1">
+								</p>
+							</fieldset>
+							<fieldset>
+								<label>Details</label>
+								<textarea id="editor_contents" name="editor_contents" style="display:none;"></textarea>
+								<!-- -->
+								<section id="editor">
+								  <div id='edit' style="margin-top: 30px;">
+									 
+								  </div>
+							    </section>
+
+								<!-- -->
+							</fieldset>
+							<div class="clear"></div>
+							<footer>
+								<div class="submit_link">
+									<input type="submit" name="btnSubmit" class="alt_btn" value="Save">
+								</div>
+							</footer>
+						</form>
+						
+				</div>
+		
+		</article>

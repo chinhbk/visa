@@ -4,7 +4,7 @@
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <meta charset="utf-8">
-        <title>Haruka Administrator Site</title>
+        <title>Vietnam Visa Tour Administration</title>
 		<script src="//code.jquery.com/jquery-latest.min.js"></script>
 		<script src="http://malsup.github.io/jquery.form.js"></script>
         <link rel="stylesheet" href="/css/admin_layout.css" type="text/css" media="screen">
@@ -73,7 +73,30 @@
 							  $("#sub_product_type_id").html($html);
 						  }
 						});							    
-				   });    
+				   });
+				  $('#tour_type_id').change(function () {
+				       //console.log( $(this).val());
+					  $parent_id =  $(this).val();
+		
+		
+					  $.ajax({
+						  type: "POST",
+						  url: "/admin/tour/get-sub-tour-type",
+						  data: { parent_id: $parent_id },
+						  success: function(response,status)
+						  {   
+							 // console.log(response);    
+							  $html = "<option value='0' selected disabled>Please select</option>";
+		
+							  $.each(JSON.parse(response), function(idx, obj) {
+									//console.log(obj.name);
+									 $html+="<option value='"+obj.id+"'>"+obj.name+"</option>"
+								});
+							  // console.log($html);    
+							  $("#sub_tour_type_id").html($html);
+						  }
+						});							    
+				   });  
 			});
 		</script>
 		<!-- end -->
@@ -205,6 +228,13 @@
             </div>
         </section>
         <aside id="sidebar" class="column" style="height: 1710px;">
+        	<?php if($identity->ROLE == 0 || $identity->ROLE == 1){?>
+	            <h3 class="toggleLink">Tour</h3>
+	            <ul class="toggle">
+	            	<li class="icn_edit_article"><a href="/admin/tour/index">Manage</a></li>
+	                <li class="icn_new_article"><a href="/admin/tour/add">Add</a></li>
+	            </ul>
+            <?php } ?>
             <?php if($identity->ROLE == 0 || $identity->ROLE == 2){?>
 	            <h3>Đơn hàng <a href="javascript:void(0);" class="toggleLink">Hide</a></h3>
 	            <ul class="toggle">
