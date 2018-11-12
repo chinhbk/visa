@@ -88,6 +88,33 @@
 			return $tour_type_arr;							
 		}
 		
+		public function searchByName($keyword = null){
+		    try{
+		        $select = $this->_db_table->select()
+		        ->from(self::TABLE, array('ID', 'NAME', 'PARENT_ID'));
+		        
+		        if(!is_null($keyword) && strlen($keyword) > 0){
+		            $keyword = strtolower($keyword);
+		            $select = $select->where('LOWER(NAME) LIKE ?', "%{$keyword}%");
+		        }
+		        
+		        $result = $this->_db_table->getAdapter()->fetchAll($select);
+		        $tour_type_arr = array();
+		        
+		        foreach ($result as $row){
+		            //Zend_Debug::dump( $row['ID']);die();
+		            $tour_object = new Application_Model_TourType($row);
+		            //Zend_Debug::dump( $tour_object);die();
+		            array_push($tour_type_arr, $tour_object);
+		        }
+		        //Zend_Debug::dump( $tour_type_arr);die();
+		        
+		    } catch (Exception $e) {
+		        Zend_Debug::dump( $e);die();
+		    }
+		    return $tour_type_arr;
+		}
+		
 		public function delete($id){
 			$where = $this->_db_table->getAdapter()->quoteInto("ID = ?", $id);
 			$this->_db_table->delete($where);
@@ -109,6 +136,7 @@
 		}
 			return $result;
 		}
+		
 		
 		public function getAllProductType2() {
 		try {

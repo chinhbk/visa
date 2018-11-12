@@ -3,6 +3,7 @@
 	class Application_Model_TourMapper{
 		protected $_db_table;
 		protected $_recordPerPage = 10;
+		const TABLE = 'TOUR';
 		public function __construct()
 		{
 			//Instantiate the Table Data Gateway for the tour table
@@ -61,6 +62,33 @@
 			}
 			//return the user object
 			return $obj;
+		}
+		
+		public function getByIds($ids=null)
+		{
+		    try{
+		        $select = $this->_db_table->select()
+		        ->from(self::TABLE, array('TOUR_TYPE_ID', 'SHORT_DESC', 'CODE'));
+		        
+		        if(!empty($ids) && sizeof($ids) > 0){
+		            $select = $select->where('TOUR_TYPE_ID IN (?)', $ids);
+		        }
+		        
+		        $result = $this->_db_table->getAdapter()->fetchAll($select);
+		        $tour_arr = array();
+		        //Zend_Debug::dump( $result);die();
+		        foreach ($result as $row){
+		            //Zend_Debug::dump( $row);die();
+		            $tour_object = new Application_Model_Tour($row);
+		            //Zend_Debug::dump( $tour_object);die();
+		            array_push($tour_arr, $tour_object);
+		        }
+		        //Zend_Debug::dump( $tour_arr);die();
+		        
+		    } catch (Exception $e) {
+		        Zend_Debug::dump( $e);die();
+		    }
+		    return $tour_arr;
 		}
 		
 		public function getAlltourType(){

@@ -30,10 +30,10 @@ class Admin_UserController extends Zend_Controller_Action
     		$identity = $auth->getIdentity();
     		
     		if($identity->PASSWORD != $input_old_pass){
-    			$this->view->errorMessage = 'Nhập sai mật khẩu cũ';
+    			$this->view->errorMessage = 'Wrong current password';
     			return;
     		}elseif(strlen($new_pass) == 0 || $new_pass != $confirm_new_pass){
-    			$this->view->errorMessage = 'Mật khẩu mới và xác nhận mật khẩu mới không giống nhau';
+    			$this->view->errorMessage = 'New password and confirm new password must be identical';
     			return;
     		}
     		

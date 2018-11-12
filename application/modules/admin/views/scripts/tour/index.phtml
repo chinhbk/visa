@@ -1,43 +1,22 @@
+<style>
+.search {
+    margin: 15px;
+}
+input {
+    border-radius: 5px;
+    border: 1px solid #BBBBBB;
+    height: 20px;
+    color: #666666;
+}
+.btn-primary {
+
+}
+</style>
 <article class="module width_full">
 
-		<form name="form_add" method="GET" action="/admin/product/index">						
-			<table style="margin:10px 5px 20px 10px">
-				<tr>
-					<td><label>Loại sản phẩm(*)</label></td>
-					<td>
-						<select name="product_type_id" id="product_type_id" style="width: 200px;">
-						<option value="0">--------------------------------------</option>
-						<?php foreach ($this->product_type as $pt){
-							if($pt->id == $this->product_type_id ){
-								echo "<option selected='selected' value = '".$pt->id."'>".$pt->name."</option>";
-							}else {
-								echo '<option value="'.$pt->id.'">'.$pt->name.'</option>';			
-							}
-						}?>
-					</select>	
-					</td>
-					<td>Loại con sản phẩm</td>
-					<td>
-						<select name="sub_product_type_id" id="sub_product_type_id" style="width: 200px;">
-					    <?php 
-					     if($this->product_type_id > 0){
-					     	foreach ($this->sub_product_type as $spt){
-				     			if($spt->id == $this->sub_product_type_id ){
-				     				echo "<option selected='selected' value = '".$spt->id."'>".$spt->name."</option>";
-				     			}else {
-				     				echo '<option value="'.$spt->id.'">'.$spt->name.'</option>';
-				     			}	
-					     	}					     						     							    
-					     }
-					    ?>
-					
-						</select>
-					</td>
-					<td><input type="submit" class="alt_btn" value="Tìm" style="float:left;"></td>
-					
-				</tr>
-			</table>	
-													
+		<form name="form_add" method="GET" action="/admin/tour/index" class="search">						
+			<input type="text" name="keyword" id="keyword" value="<?php echo $this->keyword;?>"/>
+			<input type="submit" value="Search" class="btn-primary"/>									
 		</form>
 		<header><h3 class="tabs_involved">List tours</h3>
 		<ul class="tabs">
@@ -49,24 +28,26 @@
 			<table cellspacing="0" class="tablesorter"> 
 			<thead> 
 				<tr> 
-   					<th class="header">STT</th> 
-    				<th class="header">Ảnh</th> 
-    				<th class="header">Tên</th> 
+   					<th class="header">No</th> 
+    				<th class="header">Name</th> 
+    				<th class="header">Code</th>
+    				<th class="header">Short Description</th> 
     				<th class="header"></th> 
 				</tr> 
 			</thead> 
 			<tbody> 
-			   <?php $i=0; foreach ($this->products as $product) {
+			   <?php $i=0; foreach ($this->tour as $tour) {
 				       // Zend_Debug::dump($product);die;
 									
 				?>
 				<tr> 
    					<td><?php echo ++$i;?></td> 
-    				<td><image src="<?php echo $product['IMAGE_MAIN'];?>" style="width:30%;"/></td> 
-    				<td><?php echo $product['NAME'];?></td> 
+    				<td><?php echo $tour->name;?></td> 
+    				<td><?php echo $tour->code;?></td>
+    				<td><?php echo $tour->short_desc;?></td>  
     				<td>
-						<a href="/admin/product/edit/id/<?php echo $product['ID'];?>"><image src="/images/edit.png" alt="Sửa" style="padding-right:30px;"/></a>
-						<a href="/admin/product/delete/id/<?php echo $product['ID'];?>"  onclick="return confirm('Bạn có chắc chắn muốn xóa?')"><image src="/images/delete.png" alt="Xóa" /></a>
+						<a href="/admin/tour/edit/id/<?php echo $tour->tour_type_id;?>"><image src="/images/edit.png" alt="Sửa" style="padding-right:30px;"/></a>
+						<a href="/admin/tour/delete/id/<?php echo $tour->tour_type_id;?>"  onclick="return confirm('Are you sure you delete this tour?')"><image src="/images/delete.png" alt="Xóa" /></a>
 					</td> 
 				</tr> 
 				

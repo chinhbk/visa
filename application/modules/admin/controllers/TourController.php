@@ -25,25 +25,38 @@ class Admin_TourController extends Zend_Controller_Action
     public function indexAction()
     {
     	$request = $this->getRequest();
-    	$product_type_id = $request->getParam('product_type_id');
-    	$sub_product_type_id = $request->getParam('sub_product_type_id');
-    	//die($category_id == null);    
     	
-    	$this->view->product_type_id = $product_type_id;
-    	$this->view->sub_product_type_id = $sub_product_type_id;    	
+    	$keyword = $request->getParam('keyword');
+    	$tourType_mapper = new Application_Model_TourTypeMapper();
+    	$tour_type = $tourType_mapper->searchByName($keyword);
+    	$this->view->keyword = $keyword;
+    	//Zend_Debug::dump( $tour_type);die();
     	
-		$product_mapper = new Application_Model_ProductMapper();
-		$products = $product_mapper->getAllNameAndImageMainProducts($product_type_id, $sub_product_type_id, 50);
-		//Zend_Debug::dump( $products);die();
-		$this->view->products = $products;
-		
-		$productType_mapper = new Application_Model_ProductTypeMapper();
-		$product_type = $productType_mapper->getAllProductType(null);
-		//Zend_Debug::dump( $product_type);die();
-		$this->view->product_type= $product_type;
-		
-		$sub_product_type = $productType_mapper->getAllProductType($product_type_id);
-		$this->view->sub_product_type= $sub_product_type;
+    	
+    	$tour_type_ids = array();
+    	$tour = array();
+    	if(sizeof($tour_type) != 0){
+    	    foreach ($tour_type as $row){
+    	        //Zend_Debug::dump( $tour_object);die();
+    	        array_push($tour_type_ids, $row->id);
+    	    }
+    	    
+    	    $tour_mapper = new Application_Model_TourMapper();
+    	    $tour = $tour_mapper->getByIds($tour_type_ids);
+    	    //echo 'aaaaaaaaaaaaaaaaaaaaaaa';die;
+    	    //Zend_Debug::dump( $tour);die();
+    	    foreach ($tour as $row){
+    	        // $row->name = 'aaaaa';
+    	        foreach($tour_type as $type){
+    	            if($row->tour_type_id == $type->id){
+    	                $row->name = $type->name;
+    	            }
+    	        }
+    	    }
+    	}
+    	
+    	$this->view->tour = $tour;
+    	//Zend_Debug::dump( $tour);die();
     }
 	
 	public function addAction(){
