@@ -101,7 +101,7 @@ class Admin_TourController extends Zend_Controller_Action
 			//Zend_Debug::dump($tour);die();
 			
 			$tour_mapper = new Application_Model_TourMapper();
-			$tour_mapper->save($tour);
+			$tour_mapper->save($tour, false);
 			$this->redirect('admin/tour/index');
 		}
 	}
@@ -170,7 +170,7 @@ class Admin_TourController extends Zend_Controller_Action
 			//Zend_Debug::dump($tour);die();
 			
 			$tour_mapper = new Application_Model_TourMapper();
-			$tour_mapper->save($tour);
+			$tour_mapper->save($tour , true);
 			$this->redirect('admin/tour/index');
 		
 		}

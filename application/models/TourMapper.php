@@ -10,7 +10,7 @@
 			$this->_db_table = new Application_Model_DbTable_tour();
 		}
 		 
-		public function save(Application_Model_tour $obj)
+		public function save(Application_Model_tour $obj, $is_update = false)
 		{  
 			//Create an associative array
 			//of the data you want to update
@@ -28,7 +28,7 @@
 			);
 
 			try {
-			    if( is_null($obj->tour_type_id) ) {
+			    if($is_update == false) {
 			        //Zend_Debug::dump( $data);		die;
 			        $data['CREATE_DATE'] = $obj->create_date;
 			        return $this->_db_table->insert($data);
@@ -68,7 +68,7 @@
 		{
 		    try{
 		        $select = $this->_db_table->select()
-		        ->from(self::TABLE, array('TOUR_TYPE_ID', 'SHORT_DESC', 'CODE'))->order('UPDATE_DATE DESC');
+		        ->from(self::TABLE, array('TOUR_TYPE_ID', 'SHORT_DESC', 'CODE', 'IMAGE_SMALL'))->order('UPDATE_DATE DESC');
 		        
 		        if(!empty($ids) && sizeof($ids) > 0){
 		            $select = $select->where('TOUR_TYPE_ID IN (?)', $ids);

@@ -15,7 +15,6 @@
 		    //Create an associative array
 		    //of the data you want to update
 		    $data = array(
-		        'ID' => $obj->id,
 		        'NAME' => $obj->name,
 		        'PARENT_ID' =>	$obj->parent_id,
 		    );
