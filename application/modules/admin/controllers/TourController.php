@@ -248,7 +248,7 @@ class Admin_TourController extends Zend_Controller_Action
 				
 				//die( is_uploaded_file($tmp));
 				if(in_array($ext,$formats)){
-					if($size<(1024*1024)){
+					if($size<(1024*1024*5)){
 						$imgn = time().".".$ext;
 						if(is_uploaded_file($tmp)){
 							if(move_uploaded_file($tmp, "uploads/".$imgn)){
@@ -267,7 +267,7 @@ class Admin_TourController extends Zend_Controller_Action
 						}
 						
 				   } else{
-					echo "Image File Size Max 1 MB";
+					echo "Image File Size Max 5 MB";
 				   }
 				} else {
 						echo "Invalid Image file format.";
@@ -297,7 +297,7 @@ class Admin_TourController extends Zend_Controller_Action
 	
 				//die( is_uploaded_file($tmp));
 				if(in_array($ext,$formats)){
-					if($size<(1024*1024)){
+					if($size<(1024*1024*5)){
 						$imgn = time().".".$ext;
 						if(is_uploaded_file($tmp)){
 							if(move_uploaded_file($tmp, "uploads/".$imgn)){
@@ -316,7 +316,7 @@ class Admin_TourController extends Zend_Controller_Action
 						}
 	
 					} else{
-						echo "Image File Size Max 1 MB";
+						echo "Image File Size Max 5 MB";
 					}
 				} else {
 					echo "Invalid Image file format.";
@@ -345,7 +345,7 @@ class Admin_TourController extends Zend_Controller_Action
 	
 				//die( is_uploaded_file($tmp));
 				if(in_array($ext,$formats)){
-					if($size<(1024*1024)){
+					if($size<(1024*1024*5)){
 						$imgn = time().".".$ext;
 						if(is_uploaded_file($tmp)){
 							if(move_uploaded_file($tmp, "uploads/".$imgn)){
@@ -364,7 +364,7 @@ class Admin_TourController extends Zend_Controller_Action
 						}
 	
 					} else{
-						echo "Image File Size Max 1 MB";
+						echo "Image File Size Max 5 MB";
 					}
 				} else {
 					echo "Invalid Image file format.";

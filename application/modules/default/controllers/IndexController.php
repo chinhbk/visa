@@ -14,6 +14,13 @@ class IndexController extends Zend_Controller_Action
     public function indexAction()
     {
 		$request = $this->getRequest();
+		
+		
+		$tour_mapper = new Application_Model_TourMapper();
+		$hot_tour = $tour_mapper->getAllHotTour();
+		$tour = $tour_mapper->getByIds();
+		//Zend_Debug::dump($hot_tour);die();
+		
 		$product_mapper = new Application_Model_ProductMapper();
 		$product_type_mapper = new Application_Model_ProductTypeMapper();
 		

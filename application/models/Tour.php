@@ -37,6 +37,7 @@ class Application_Model_Tour
             $this->tour_type_id = $obj['TOUR_TYPE_ID'];
             $this->short_desc = $obj['SHORT_DESC'];
             $this->code = $obj['CODE'];
+            $this->image_small = $obj['IMAGE_SMALL'];
         }
     }
      
