@@ -235,6 +235,7 @@
 	                <li class="icn_new_article"><a href="/admin/tour/add">Add</a></li>
 	            </ul>
             <?php } ?>
+            <div style="display: none">
             <?php if($identity->ROLE == 0 || $identity->ROLE == 2){?>
 	            <h3>Đơn hàng <a href="javascript:void(0);" class="toggleLink">Hide</a></h3>
 	            <ul class="toggle">
@@ -256,10 +257,11 @@
 	                <li class="icn_edit_article"><a href="/admin/news/index">Quản lý</a></li>
 	            </ul>
             <?php }?>
+            </div>
              <?php if($identity->ROLE == 0){?>
-	            <h3>Ảnh <a href="javascript:void(0);" class="toggleLink">Hide</a></h3>
+	            <h3>Slide images <a href="javascript:void(0);" class="toggleLink">Hide</a></h3>
 	            <ul class="toggle">
-	                <li class="icn_edit_article"><a href="/admin/image/index">Quản lý</a></li>
+	                <li class="icn_edit_article"><a href="/admin/image/index">Config</a></li>
 	            </ul>
             <?php }?>
             <footer>
