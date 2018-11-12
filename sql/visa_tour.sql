@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Nov 12, 2018 at 11:47 AM
+-- Generation Time: Nov 12, 2018 at 12:11 PM
 -- Server version: 10.1.36-MariaDB
 -- PHP Version: 7.0.32
 
@@ -239,7 +239,7 @@ CREATE TABLE `session` (
 INSERT INTO `session` (`ID`, `NAME`, `MODIFIED`, `LIFETIME`, `DATA`) VALUES
 ('sas1h128ue1m6uv6rngtvbd1e2', NULL, 1541763304, 300, 'Zend_Auth|a:1:{s:7:\"storage\";O:8:\"stdClass\":5:{s:2:\"ID\";s:1:\"1\";s:4:\"NAME\";N;s:9:\"USER_NAME\";s:5:\"admin\";s:8:\"PASSWORD\";s:5:\"admin\";s:4:\"ROLE\";s:1:\"0\";}}'),
 ('4ar0gdl3fkuakot440oillocp2', NULL, 1542008051, 300, ''),
-('kouug5ohktj85ascam6j8a4gp5', NULL, 1542019454, 300, 'Zend_Auth|a:1:{s:7:\"storage\";O:8:\"stdClass\":5:{s:2:\"ID\";s:1:\"1\";s:4:\"NAME\";N;s:9:\"USER_NAME\";s:5:\"admin\";s:8:\"PASSWORD\";s:5:\"admin\";s:4:\"ROLE\";s:1:\"0\";}}'),
+('kouug5ohktj85ascam6j8a4gp5', NULL, 1542021052, 300, 'Zend_Auth|a:1:{s:7:\"storage\";O:8:\"stdClass\":5:{s:2:\"ID\";s:1:\"1\";s:4:\"NAME\";N;s:9:\"USER_NAME\";s:5:\"admin\";s:8:\"PASSWORD\";s:5:\"admin\";s:4:\"ROLE\";s:1:\"0\";}}'),
 ('q9rk1duiml67b4ib333rd6v373', NULL, 1542018627, 300, ''),
 ('psq82bm0eu88rmsli8o685ip45', NULL, 1542018827, 300, '');
 
@@ -268,7 +268,8 @@ CREATE TABLE `tour` (
 --
 
 INSERT INTO `tour` (`TOUR_TYPE_ID`, `SHORT_DESC`, `IMAGE_SMALL`, `IMAGE`, `CODE`, `DURATION`, `PRICE`, `DETAILS`, `IS_HOT`, `CREATE_DATE`, `UPDATE_DATE`) VALUES
-(23, 'we offer Daily group tour to visit Ninh Binh - Hoa Lu- Tam coc price: $ 65 group tour max 9', '/uploads/1541763302.jpg', '/uploads/1541753489.jpg', 'S01', '1 day', 55, '<p><br></p><p><span><strong>Tour Price : 55&nbsp;</strong>usd / person</span></p><p><strong>t</strong><span><span><strong>ype of tour : group tour max 9 people on a mini Van&nbsp;</strong></span></span></p><p><span>&nbsp;</span><span><span><strong>Why our tour :&nbsp;</strong></span></span>we do hight quality of group tour max 9 people on mini Van of 16 seat, we start the tour abit early but on the tour very relax and visit more place in Ninh, as you know Ninh binh have a lot of place must see and visit, mostly group tour only make for you option visit Hoa lu -Tam Coc or Bai Dinh trang An, just visit 2 places only you will be miss some importain place to visit in Ninh binh, our Minh binh daily group tour we will take you by small group and take you to see more places, on our tour will take you go to visit - Hoa Lu, trang an cruise by bamboo boat, and visit the biggest pagoda in south east asia call Bai Binh pagoda</p><p><br></p><p><span>&nbsp;</span><br></p><p><br></p><p>&nbsp;<br></p><p>&nbsp;<br></p><p>&nbsp;<br></p><div><span><span><strong>07:00 – 7:40&nbsp;</strong>&nbsp;Get picked up by our tour guide and car then depart for&nbsp;<strong>Ninh Binh province</strong>&nbsp;(90 km south of Hanoi). Have a break 20 minutes half way to relax and experience Vietnamese handicraft products such as lacquer wares, paintings, embroideries…</span></span></div><div><span><span><strong>10:00</strong>&nbsp;Arrive to Ninh Binh our fisrt stop to visit Hoa Lu ancient capital of vietnam from 968 you will visit Dinh And Le temple after visit Dinh and le temple our tour continue to visit&nbsp;<b>Mua Cave,</b>&nbsp;from Mua cave you will have chance to climb up to the top of the mountain of the looftop to see over view of Ninh binh it also one of the most beautiful place to see the view in Ninh Binh, where can see the city far from the standing in front of Tam Coc in back and the limestone mountain along to the south of Vietnam.after visit all then we continue to Tam coc, you will take by bamboo boat explore 3 cave we call them the name tam coc, after cruise by bamboo boat for over 1 hours, after finish boat trip in tam coc will have lunch at local restaurant then we will have some time for you cycling&nbsp;</span></span></div><div><span><span><strong>CYCLING RIDE (optional)</strong>: Those who love to explore real countryside images of Vietnam can proceed a&nbsp;<strong>40 minute cycling ride</strong>&nbsp;along country lane (from Tam Coc to&nbsp;<strong>Bich Dong Pagoda</strong>, estimated time 40 minutes for 5km cycling 2 ways), experiencing the beautiful scenery of lush paddy fields. Finish the cycling&nbsp; then our van will take you back to hanoi&nbsp;</span></span></div><div><span><span><strong>18:00</strong>&nbsp;Arrive in&nbsp;<strong>Hanoi</strong>. Tour ends.</span></span></div><p>---------</p>', 1, '2018-09-11 15:52:29', '2018-09-11 18:35:03');
+(23, 'we offer Daily group tour to visit Ninh Binh - Hoa Lu- Tam coc price: $ 65 group tour max 9', '/uploads/1541763302.jpg', '/uploads/1541753489.jpg', 'S01', '1 day', 55, '<p><br></p><p><span><strong>Tour Price : 55&nbsp;</strong>usd / person</span></p><p><strong>t</strong><span><span><strong>ype of tour : group tour max 9 people on a mini Van&nbsp;</strong></span></span></p><p><span>&nbsp;</span><span><span><strong>Why our tour :&nbsp;</strong></span></span>we do hight quality of group tour max 9 people on mini Van of 16 seat, we start the tour abit early but on the tour very relax and visit more place in Ninh, as you know Ninh binh have a lot of place must see and visit, mostly group tour only make for you option visit Hoa lu -Tam Coc or Bai Dinh trang An, just visit 2 places only you will be miss some importain place to visit in Ninh binh, our Minh binh daily group tour we will take you by small group and take you to see more places, on our tour will take you go to visit - Hoa Lu, trang an cruise by bamboo boat, and visit the biggest pagoda in south east asia call Bai Binh pagoda</p><p><br></p><p><span>&nbsp;</span><br></p><p><br></p><p>&nbsp;<br></p><p>&nbsp;<br></p><p>&nbsp;<br></p><div><span><span><strong>07:00 – 7:40&nbsp;</strong>&nbsp;Get picked up by our tour guide and car then depart for&nbsp;<strong>Ninh Binh province</strong>&nbsp;(90 km south of Hanoi). Have a break 20 minutes half way to relax and experience Vietnamese handicraft products such as lacquer wares, paintings, embroideries…</span></span></div><div><span><span><strong>10:00</strong>&nbsp;Arrive to Ninh Binh our fisrt stop to visit Hoa Lu ancient capital of vietnam from 968 you will visit Dinh And Le temple after visit Dinh and le temple our tour continue to visit&nbsp;<b>Mua Cave,</b>&nbsp;from Mua cave you will have chance to climb up to the top of the mountain of the looftop to see over view of Ninh binh it also one of the most beautiful place to see the view in Ninh Binh, where can see the city far from the standing in front of Tam Coc in back and the limestone mountain along to the south of Vietnam.after visit all then we continue to Tam coc, you will take by bamboo boat explore 3 cave we call them the name tam coc, after cruise by bamboo boat for over 1 hours, after finish boat trip in tam coc will have lunch at local restaurant then we will have some time for you cycling&nbsp;</span></span></div><div><span><span><strong>CYCLING RIDE (optional)</strong>: Those who love to explore real countryside images of Vietnam can proceed a&nbsp;<strong>40 minute cycling ride</strong>&nbsp;along country lane (from Tam Coc to&nbsp;<strong>Bich Dong Pagoda</strong>, estimated time 40 minutes for 5km cycling 2 ways), experiencing the beautiful scenery of lush paddy fields. Finish the cycling&nbsp; then our van will take you back to hanoi&nbsp;</span></span></div><div><span><span><strong>18:00</strong>&nbsp;Arrive in&nbsp;<strong>Hanoi</strong>. Tour ends.</span></span></div><p>---------</p>', 1, '2018-09-11 15:52:29', '2018-09-11 18:35:03'),
+(26, 'Trang An located in the East of Ninh Binh, with area of 2000 ha,one of the most beautifull lanscape in inh binh where have amzing of the grottoes', '/uploads/1542020941.JPG', '/uploads/1542020946.JPG', 'S02', '1 day', 57, '<p><br></p><p><span>&nbsp;<b>8.00AM</b>: Authentic vietnamt tours tour expert pick you up at your hotel by private car , travel to Ninh binh&nbsp;</span><strong><span><a href=\"http://www.indochinaclassictravel.com/vietnam-tours-detail/10/78/Bai-Dinh-Trang-An.html\" class=\"f-link\">visit trang an and Bai dinh&nbsp;</a></span></strong><span><br type=\"_moz\"></span><span>around 9 to 9:30 am &nbsp;Arrive &nbsp;to Bai dinh where you will amzing to see so huge of pagoda ,on the stop when you arrive you can see over view of the pagoda ,now you are start for trip to visit all pagoda ,before go inside pagoda we need to transport by electrict car ,and you start for walk inside pagoda to visit&nbsp;</span><span>500 La Han statues, biggest bronze Buddha statue in Vietnam 10 metre in height, 100 tons in weight.on the tour can lean some story from our tour guide about this pagoda&nbsp;</span></p><div><span>after visit pagoda around 12 :00 pm &nbsp; Have lunch at the local restaurant with an authentic local food ,after lunch we start to make our trip to discover Trang and with 8 grottoes by bamboo boat for you see the most amazing of the yen river where water flowing pass all of the grottoes &nbsp;about 3:30 pm we end our visit and back to hanoi about 5:30 pm&nbsp;</span></div><div>&nbsp;<br></div><div><div><span><strong>private tour Rate: This rate is quoted in usd &nbsp;per person,&nbsp;</strong>&nbsp;</span></div><div><span>&nbsp;</span></div><div><div><div><div><table><tbody><tr><td><span><strong>Group size</strong></span></td><td><span><strong>2 persons</strong></span></td><td><span><strong>4 persons</strong></span></td><td><span><strong>6 persons</strong></span></td><td><span><strong>8 persons</strong></span></td><td><span><strong>Single Supp</strong></span></td></tr><tr><td><span><strong>Land Tour/pp</strong></span></td><td><span><b>109</b></span></td><td><span><b>85</b></span></td><td><span><b>78</b></span></td><td><span><b>58</b></span></td><td><span><strong>-<br><br></strong></span></td></tr></tbody></table><span><strong>Tour cost included:</strong></span></div><div><span>• Full transportation by private car and private boat&nbsp;<br>• Full meals as indicated in the itinerary.&nbsp;<br>• English speaking guide.&nbsp;<br>• Entrance fees.</span></div><div><span>&nbsp; &nbsp;electrict car to pagoda&nbsp;<br>&nbsp;<br><strong>Tour cost excluded:</strong></span></div><div><span>&nbsp;• Personal insurance&nbsp;<br>&nbsp;• Expenditure of a personal nature and tips (such as drinks, souvenirs, laundry, emergency&nbsp;&nbsp;transfers &amp; etc)</span></div></div></div></div></div><p><br></p>', 0, '2018-12-11 18:09:27', '2018-12-11 18:10:47');
 
 -- --------------------------------------------------------
 
@@ -295,7 +296,10 @@ INSERT INTO `tour_type` (`ID`, `NAME`, `PARENT_ID`) VALUES
 (6, 'Tour To Sapa', 1),
 (7, 'Hoa Lu - Tam Coc  Daily Group', 2),
 (8, 'Bai Dinh Trang An 1 day tour', 2),
-(23, 'HOA LU - TAM COC DAILY TOUR', 2);
+(23, 'HOA LU - TAM COC DAILY TOUR', 2),
+(24, 'BAI DINH TRANG AN 1 DAY TOUR', 2),
+(25, 'BAI DINH TRANG AN 1 DAY TOUR', 2),
+(26, 'BAI DINH TRANG AN 1 DAY TOUR', 2);
 
 -- --------------------------------------------------------
 
@@ -377,7 +381,7 @@ ALTER TABLE `tour`
 -- Indexes for table `tour_type`
 --
 ALTER TABLE `tour_type`
-  ADD PRIMARY KEY (`ID`);
+  ADD PRIMARY KEY (`ID`) USING BTREE;
 
 --
 -- Indexes for table `user`
@@ -429,7 +433,7 @@ ALTER TABLE `product_type`
 -- AUTO_INCREMENT for table `tour_type`
 --
 ALTER TABLE `tour_type`
-  MODIFY `ID` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `ID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=27;
 
 --
 -- AUTO_INCREMENT for table `user`
