@@ -58,6 +58,33 @@
 		    //return the user object
 		    return $obj;
 		}
+		
+		public function getByIds($ids=null)
+		{
+		    try{
+		        $select = $this->_db_table->select()
+		        ->from(self::TABLE, array('ID', 'NAME', 'PARENT_ID'));
+		        
+		        if(!empty($ids) && sizeof($ids) > 0){
+		            $select = $select->where('ID IN (?)', $ids);
+		        }
+		        
+		        $result = $this->_db_table->getAdapter()->fetchAll($select);
+		        $arr = array();
+		        //Zend_Debug::dump( $result);die();
+		        foreach ($result as $row){
+		            //Zend_Debug::dump( $row);die();
+		            $obj = new Application_Model_TourType($row);
+		            //Zend_Debug::dump( $tour_object);die();
+		            array_push($arr, $obj);
+		        }
+		        //Zend_Debug::dump( $tour_arr);die();
+		        
+		    } catch (Exception $e) {
+		        Zend_Debug::dump( $e);die();
+		    }
+		    return $arr;
+		}
 		 
 		
 		public function getAllTourType($tour_type_id = null){

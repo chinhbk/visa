@@ -14,6 +14,8 @@ class Application_Model_Tour
     private $is_hot;
     private $create_date;
     private $update_date;
+    private $name; //DTO
+    private $parent_id; //DTO
     //upon construction, map the values
     //from the $obj if available
     public function __construct($obj = null)
@@ -39,6 +41,8 @@ class Application_Model_Tour
             $this->code = $obj['CODE'];
             $this->image_small = $obj['IMAGE_SMALL'];
             $this->is_hot = $obj['IS_HOT'];
+            $this->name = $obj['NAME'];
+            $this->parent_id = $obj['PARENT_ID'];
         }
     }
      

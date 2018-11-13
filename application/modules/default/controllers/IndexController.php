@@ -17,9 +17,23 @@ class IndexController extends Zend_Controller_Action
 		
 		
 		$tour_mapper = new Application_Model_TourMapper();
-		$hot_tour = $tour_mapper->getAllHotTour();
+		$tour_type_mapper = new Application_Model_TourTypeMapper();
+		$hot_tour = $tour_mapper->getByIds(null, 1);		
 		$tour = $tour_mapper->getByIds();
 		//Zend_Debug::dump($hot_tour);die();
+		
+		//get names of all root 
+		$arr_ids = array();
+		foreach($hot_tour as $row){
+		    array_push($arr_ids, $row->parent_id);
+		}
+		
+		
+		$tour_level_1 = $tour_type_mapper->getByIds($arr_ids);
+		$this->view->hot_tour = $hot_tour;
+		$this->view->tour = $tour;
+		$this->view->tour_level_1 = $tour_level_1;
+		//Zend_Debug::dump($tour_level_1);die();
 		
 		$product_mapper = new Application_Model_ProductMapper();
 		$product_type_mapper = new Application_Model_ProductTypeMapper();
@@ -52,6 +66,21 @@ class IndexController extends Zend_Controller_Action
 		$this->view->hots = $hotProduct;
     }
     
+    public function tourDetailAction()
+    {
+        $request = $this->getRequest();
+        $id = $request->getParam('id');
+        $tour_mapper = new Application_Model_TourMapper();
+        $tour = $tour_mapper->getById($id);
+        
+        //get name of tour
+        $tourType_mapper = new Application_Model_TourTypeMapper();
+        $sub_tour_type = $tourType_mapper->getById($id);        
+        $tour->name = $sub_tour_type->name;
+        $this->view->tour = $tour;
+        //Zend_Debug::dump($tour);die();
+        
+    }
     
     public function applyOnlineAction()
     {

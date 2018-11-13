@@ -64,14 +64,21 @@
 			return $obj;
 		}
 		
-		public function getByIds($ids=null)
+		public function getByIds($ids=null, $is_hot = null, $numberRecords = null)
 		{
 		    try{
 		        $select = $this->_db_table->select()
-		        ->from(self::TABLE, array('TOUR_TYPE_ID', 'SHORT_DESC', 'CODE', 'IMAGE_SMALL', 'IS_HOT'))->order('UPDATE_DATE DESC');
+		        ->from(array('t' => self::TABLE), array('TOUR_TYPE_ID','SHORT_DESC', 'CODE','IMAGE_SMALL', 'IS_HOT'))
+		        ->join(array('tt' => 'TOUR_TYPE'),'tt.ID = t.TOUR_TYPE_ID', array('NAME', 'PARENT_ID'))
+		        ->setIntegrityCheck(false) // ADD This Line
+		        ->order('UPDATE_DATE DESC');
 		        
 		        if(!empty($ids) && sizeof($ids) > 0){
 		            $select = $select->where('TOUR_TYPE_ID IN (?)', $ids);
+		        }
+		        
+		        if($is_hot){
+		            $select = $select->where('IS_HOT = 1');
 		        }
 		        
 		        $result = $this->_db_table->getAdapter()->fetchAll($select);
@@ -92,14 +99,20 @@
 		}
 		
 		public function getAllHotTour($numberRecords = null){
+		   // echo getcwd().'\library'; die;
+		    //$select11 = new Select;
+		    //$select11->from(self::TABLE)->join('TOUR_TYPE', 'TOUR_TYPE.ID = TOUR.TOUR_TYPE_ID', array('TOUR_TYPE_ID', 'NAME', 'SHORT_DESC', 'CODE','IMAGE_SMALL', 'IS_HOT'));
+		   // $a = $this->_db_table->getAdapter()->fetchAll($select11);
+		//    Zend_Debug::dump( $a);die();
 		    if($numberRecords == null){
 		        $numberRecords = $this->_recordPerPage;
 		    }
 		    try{
 		        $select = $this->_db_table->select()
 		        ->from(array('t' => self::TABLE), array('TOUR_TYPE_ID','SHORT_DESC', 'CODE','IMAGE_SMALL', 'IS_HOT'))
-		        ->join(array('tt' => 'TOUR_TYPE'),'tt.ID = t.TOUR_TYPE_ID', array())
+		        ->join(array('tt' => 'TOUR_TYPE'),'tt.ID = t.TOUR_TYPE_ID', array('NAME', 'PARENT_ID'))
 		        ->where('IS_HOT = 1')
+		        ->setIntegrityCheck(false) // ADD This Line
 		        ->limit($numberRecords, 0);
 		        
 		        $result = $this->_db_table->getAdapter()->fetchAll($select);
