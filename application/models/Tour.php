@@ -38,6 +38,7 @@ class Application_Model_Tour
             $this->short_desc = $obj['SHORT_DESC'];
             $this->code = $obj['CODE'];
             $this->image_small = $obj['IMAGE_SMALL'];
+            $this->is_hot = $obj['IS_HOT'];
         }
     }
      

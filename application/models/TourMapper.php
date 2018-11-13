@@ -7,7 +7,7 @@
 		public function __construct()
 		{
 			//Instantiate the Table Data Gateway for the tour table
-			$this->_db_table = new Application_Model_DbTable_tour();
+			$this->_db_table = new Application_Model_DbTable_Tour();
 		}
 		 
 		public function save(Application_Model_tour $obj, $is_update = false)
@@ -68,7 +68,7 @@
 		{
 		    try{
 		        $select = $this->_db_table->select()
-		        ->from(self::TABLE, array('TOUR_TYPE_ID', 'SHORT_DESC', 'CODE', 'IMAGE_SMALL'))->order('UPDATE_DATE DESC');
+		        ->from(self::TABLE, array('TOUR_TYPE_ID', 'SHORT_DESC', 'CODE', 'IMAGE_SMALL', 'IS_HOT'))->order('UPDATE_DATE DESC');
 		        
 		        if(!empty($ids) && sizeof($ids) > 0){
 		            $select = $select->where('TOUR_TYPE_ID IN (?)', $ids);
@@ -97,7 +97,8 @@
 		    }
 		    try{
 		        $select = $this->_db_table->select()
-		        ->from(self::TABLE, array('TOUR_TYPE_ID','SHORT_DESC', 'CODE','IMAGE_SMALL'))
+		        ->from(array('t' => self::TABLE), array('TOUR_TYPE_ID','SHORT_DESC', 'CODE','IMAGE_SMALL', 'IS_HOT'))
+		        ->join(array('tt' => 'TOUR_TYPE'),'tt.ID = t.TOUR_TYPE_ID', array())
 		        ->where('IS_HOT = 1')
 		        ->limit($numberRecords, 0);
 		        
