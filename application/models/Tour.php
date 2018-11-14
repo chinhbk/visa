@@ -16,6 +16,7 @@ class Application_Model_Tour
     private $update_date;
     private $name; //DTO
     private $parent_id; //DTO
+    private $parent_name; //DTO
     //upon construction, map the values
     //from the $obj if available
     public function __construct($obj = null)

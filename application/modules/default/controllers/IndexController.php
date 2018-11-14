@@ -33,7 +33,22 @@ class IndexController extends Zend_Controller_Action
 		$this->view->hot_tour = $hot_tour;
 		$this->view->tour = $tour;
 		$this->view->tour_level_1 = $tour_level_1;
-		//Zend_Debug::dump($tour_level_1);die();
+		//Zend_Debug::dump($tour);die();
+	
+		//menu
+		$tour_type_mapper = new Application_Model_TourTypeMapper();
+		$menu_level_0 = $tour_type_mapper->getAllTourType(null);
+		$this->view->menu_level_0 = $menu_level_0;
+		
+		$data_menu = $menu_level_0;
+		foreach($data_menu as $menu){
+		    $menu->menu1 = $tour_type_mapper->getAllTourType($menu->id);
+		    foreach($menu->menu1 as $menu1){
+		        $menu1->menu2 =  $tour_type_mapper->getAllTourType($menu1->id);
+		    }
+		}
+		//Zend_Debug::dump($data_menu);die();
+		$this->view->data_menu = $data_menu;
 		
 		$product_mapper = new Application_Model_ProductMapper();
 		$product_type_mapper = new Application_Model_ProductTypeMapper();
@@ -78,14 +93,41 @@ class IndexController extends Zend_Controller_Action
         $sub_tour_type = $tourType_mapper->getById($id);        
         $tour->name = $sub_tour_type->name;
         $this->view->tour = $tour;
+        
+        //menu
+        $tour_type_mapper = new Application_Model_TourTypeMapper();
+        $menu_level_0 = $tour_type_mapper->getAllTourType(null);
+        $this->view->menu_level_0 = $menu_level_0;
+        
+        $data_menu = $menu_level_0;
+        foreach($data_menu as $menu){
+            $menu->menu1 = $tour_type_mapper->getAllTourType($menu->id);
+            foreach($menu->menu1 as $menu1){
+                $menu1->menu2 =  $tour_type_mapper->getAllTourType($menu1->id);
+            }
+        }
+        //Zend_Debug::dump($data_menu);die();
+        $this->view->data_menu = $data_menu;
         //Zend_Debug::dump($tour);die();
         
     }
     
     public function applyOnlineAction()
     {
-
+        //menu
+        $tour_type_mapper = new Application_Model_TourTypeMapper();
+        $menu_level_0 = $tour_type_mapper->getAllTourType(null);
+        $this->view->menu_level_0 = $menu_level_0;
         
+        $data_menu = $menu_level_0;
+        foreach($data_menu as $menu){
+            $menu->menu1 = $tour_type_mapper->getAllTourType($menu->id);
+            foreach($menu->menu1 as $menu1){
+                $menu1->menu2 =  $tour_type_mapper->getAllTourType($menu1->id);
+            }
+        }
+        //Zend_Debug::dump($data_menu);die();
+        $this->view->data_menu = $data_menu;
         
     }
 	

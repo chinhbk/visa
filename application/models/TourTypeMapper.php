@@ -15,9 +15,11 @@
 		    //Create an associative array
 		    //of the data you want to update
 		    $data = array(
-		        'NAME' => $obj->name,
-		        'PARENT_ID' =>	$obj->parent_id,
+		        'NAME' => $obj->name
 		    );
+		    if(isset($obj->parent_id) && !empty($obj->parent_id)){
+		        $data['PARENT_ID'] = $obj->parent_id;
+		    }
 		    
 		    //Check if the product object has an ID
 		    //if no, it means the product is a new product
@@ -99,7 +101,7 @@
 				
 				$result = $this->_db_table->getAdapter()->fetchAll($select);
 				$tour_type_arr = array();
-						
+				//Zend_Debug::dump($result);die();		
 				foreach ($result as $row){
 					//Zend_Debug::dump( $row['ID']);die();								
 					$tour_object = new Application_Model_TourType($row);
@@ -117,7 +119,7 @@
 		public function searchByName($keyword = null){
 		    try{
 		        $select = $this->_db_table->select()
-		        ->from(self::TABLE, array('ID', 'NAME', 'PARENT_ID'));
+		        ->from(self::TABLE, array('ID', 'NAME', 'PARENT_ID'))->order('PARENT_ID ASC');
 		        
 		        if(!is_null($keyword) && strlen($keyword) > 0){
 		            $keyword = strtolower($keyword);

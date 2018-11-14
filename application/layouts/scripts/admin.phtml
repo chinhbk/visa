@@ -198,10 +198,175 @@
 				 return false;
 				 }); 
 			});
-	</script>
-			
+	</script>			
 	<script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0];if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src="http://platform.twitter.com/widgets.js";fjs.parentNode.insertBefore(js,fjs);}}(document,"script","twitter-wjs");</script>
 
+<link rel="stylesheet" href="https://code.jquery.com/ui/1.11.1/themes/smoothness/jquery-ui.css" />
+	<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+	<script>
+	$(document).ready(function(){
+		
+		});
+  $( function() {
+    var dialog, form,
+      
+      name = $( "#name" ),
+      allFields = $( [] ).add( name ),
+      tips = $( ".validateTips" );
+ 
+    function updateTips( t ) {
+      tips
+        .text( t )
+        .addClass( "ui-state-highlight" );
+      setTimeout(function() {
+        tips.removeClass( "ui-state-highlight", 1500 );
+      }, 500 );
+    }
+ 
+    function checkLength( o, n, min, max ) {
+      if ( o.val().length > max || o.val().length < min ) {
+        o.addClass( "ui-state-error" );
+        updateTips( "Length of " + n + " must be between " +
+          min + " and " + max + "." );
+        return false;
+      } else {
+        return true;
+      }
+    }
+ 
+    function checkRegexp( o, regexp, n ) {
+      if ( !( regexp.test( o.val() ) ) ) {
+        o.addClass( "ui-state-error" );
+        updateTips( n );
+        return false;
+      } else {
+        return true;
+      }
+    }
+ 
+    function addTourType() {
+      var valid = true;
+      allFields.removeClass( "ui-state-error" );
+ 
+      valid = valid && checkLength( name, "name", 3, 50 );
+ 
+      if ( valid ) {
+		  $parent_id =  $("#tour_type_id").val();						
+		  $.ajax({
+			  type: "POST",
+			  url: "/admin/tour/save-sub-tour-type",
+			  data: { parent_id: $parent_id, name: name.val() },
+			  success: function(response,status)
+			  { 
+				 location.reload();
+			  }
+			});
+	      dialog.dialog( "close" );
+      }
+      return valid;
+    }
+
+    function editTourType() {
+        var valid = true;
+        allFields.removeClass( "ui-state-error" );
+     	name = $( "#edit-dialog-form" ).find("#name");
+     	//alert(name);
+        valid = valid && checkLength( name, "name", 3, 50 );
+   
+        if ( valid ) {
+  		  $id =  $( "#edit-dialog-form" ).find("#id").val();
+  		  //alert($id+"--"+name.val());  		  		
+  		  $.ajax({
+  			  type: "POST",
+  			  url: "/admin/tour/save-sub-tour-type",
+  			  data: { id: $id, name: name.val() },
+  			  success: function(response,status)
+  			  { 
+  				 location.reload();
+  			  }
+  			});
+  	      dialog.dialog( "close" );
+        }
+        return valid;
+      }
+ 
+    dialog = $( "#dialog-form" ).dialog({
+      autoOpen: false,
+      height: 250,
+      width: 350,
+      modal: true,
+      buttons: {
+        "Create": addTourType,
+        Cancel: function() {
+          dialog.dialog( "close" );
+        }
+      },
+      close: function() {
+        form[ 0 ].reset();
+        allFields.removeClass( "ui-state-error" );
+      }
+    });
+
+    editDialog = $( "#edit-dialog-form" ).dialog({
+        autoOpen: false,
+        height: 250,
+        width: 350,
+        modal: true,
+        buttons: {
+          "Create": editTourType,
+          Cancel: function() {
+        	  editDialog.dialog( "close" );
+          }
+        },
+        close: function() {
+          form[ 0 ].reset();
+          allFields.removeClass( "ui-state-error" );
+        }
+      });
+ 
+    form = dialog.find( "form" ).on( "submit", function( event ) {
+      event.preventDefault();
+      addTourType();
+    });
+ 
+    $( "#add-tour-type" ).button().on( "click", function() {
+   	  event.preventDefault();
+      dialog.dialog( "open" );
+    });
+    $( ".edit_tour_type_name" ).button().on( "click", function() {
+     	event.preventDefault();
+     	var id = $(this).data("tour-type-id");
+     	var name = $(this).data("tour-type-name");
+     	//alert(name);
+     	$( "#edit-dialog-form" ).find("#id").val(id);
+     	$( "#edit-dialog-form" ).find("#name").val(name);
+     	editDialog.dialog( "open" );
+      });
+
+    $( ".detete_tour_type_name" ).button().on( "click", function() {
+     	event.preventDefault();
+     	var id = $(this).data("tour-type-id");
+     	var con = confirm('Are you sure you delete this tour?')
+     	if(con == true){
+  		  $.ajax({
+			  type: "POST",
+			  url: "/admin/tour/delete-sub-tour-type",
+			  data: { id: id },
+			  success: function(response,status)
+			  { 
+				 if(response.length > 0){
+					 alert('Cannot delete this tour type because there are some tours linked to it');
+			     } else {
+			    	 location.reload();
+				 }
+				 //location.reload();
+			  }
+			});
+        }
+      });
+    
+  } );
+  </script>
 
     </head>
     <body>
@@ -232,7 +397,8 @@
 	            <h3 class="toggleLink">Tour</h3>
 	            <ul class="toggle">
 	            	<li class="icn_edit_article"><a href="/admin/tour/index">Manage</a></li>
-	                <li class="icn_new_article"><a href="/admin/tour/add">Add</a></li>
+	                <li class="icn_new_article"><a href="/admin/tour/add">Add Tour</a></li>
+	                <li class="icn_edit_article"><a href="/admin/tour/menu">Tour Menu</a></li>
 	            </ul>
             <?php } ?>
             <div style="display: none">

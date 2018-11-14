@@ -1,0 +1,92 @@
+<style>
+.search {
+    margin: 15px;
+}
+input {
+    border-radius: 5px;
+    border: 1px solid #BBBBBB;
+    height: 20px;
+    color: #666666;
+}
+.btn-primary {
+
+}
+</style>
+<article class="module width_full">
+<div id="dialog-form" title="Add a new sub tour">
+  <p class="validateTips">All form fields are required.</p>
+ 
+  <form>
+    <fieldset>
+      <label for="name">Name</label>
+      <input type="text" name="name" id="name" class="text ui-widget-content ui-corner-all" style="max-width: 290px;">
+ 
+      <!-- Allow form submission with keyboard without duplicating the dialog button -->
+      <input type="submit" tabindex="-1" style="position:absolute; top:-1000px">
+    </fieldset>
+  </form>
+</div>
+<div id="edit-dialog-form" title="Edit sub tour">
+  <p class="validateTips">All form fields are required.</p>
+ 
+  <form>
+    <fieldset>
+      <input  type="hidden" name="id" id="id" />
+      <label for="name">Name</label>
+      <input type="text" name="name" id="name" class="text ui-widget-content ui-corner-all" style="max-width: 290px;">
+ 
+      <!-- Allow form submission with keyboard without duplicating the dialog button -->
+      <input type="submit" tabindex="-1" style="position:absolute; top:-1000px">
+    </fieldset>
+  </form>
+</div>
+ 
+
+
+		<form name="form_add" method="GET" action="/admin/tour/index" class="search">						
+			<select name="tour_type_id" id="tour_type_id" style="width: 200px;">
+						<?php foreach ($this->tour_type as $pt){
+						    if($pt->id == $this->tour_type_id ){
+								echo "<option selected='selected' value = '".$pt->id."'>".$pt->name."</option>";
+							}else {
+								echo '<option value="'.$pt->id.'">'.$pt->name.'</option>';			
+							}
+						}?>
+					</select>
+			<button class="btn-primary" id="add-tour-type">Add Sub Tour</button>		
+		</form>				
+		<header><h3 class="tabs_involved">Tour Menu</h3>
+		</header>
+		<div class="tab_container">
+			<div class="tab_content" id="tab1" style="display: block;">
+			<table cellspacing="0" class="tablesorter"> 
+			<thead> 
+				<tr> 
+   					<th class="header">No</th> 
+    				<th class="header">Name</th>
+    				<th class="header"></th> 
+				</tr> 
+			</thead> 
+			<tbody> 
+			   <?php $i=0; foreach ($this->sub_tour_type as $tour) {
+				       // Zend_Debug::dump($product);die;
+									
+				?>
+				<tr> 
+   					<td><?php echo ++$i;?></td> 
+    				<td><?php echo $tour->name;?></td>
+    				<td>
+						<a class="edit_tour_type_name" data-tour-type-id = "<?php echo $tour->id;?>" data-tour-type-name="<?php echo $tour->name;?>"><image src="/images/edit.png" alt="Edit" style="padding-right:30px;"/></a>
+						<a class="detete_tour_type_name" data-tour-type-id = "<?php echo $tour->id;?>" ><image src="/images/delete.png" alt="Delete" /></a>						
+					</td> 
+				</tr> 
+				
+				<?php }	?>
+				  
+			</tbody> 
+			</table>
+			</div><!-- end of #tab1 -->
+			
+			
+		
+		</article>

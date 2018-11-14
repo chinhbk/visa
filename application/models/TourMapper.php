@@ -71,7 +71,7 @@
 		        ->from(array('t' => self::TABLE), array('TOUR_TYPE_ID','SHORT_DESC', 'CODE','IMAGE_SMALL', 'IS_HOT'))
 		        ->join(array('tt' => 'TOUR_TYPE'),'tt.ID = t.TOUR_TYPE_ID', array('NAME', 'PARENT_ID'))
 		        ->setIntegrityCheck(false) // ADD This Line
-		        ->order('UPDATE_DATE DESC');
+		        ->order('PARENT_ID ASC');
 		        
 		        if(!empty($ids) && sizeof($ids) > 0){
 		            $select = $select->where('TOUR_TYPE_ID IN (?)', $ids);
@@ -131,6 +131,20 @@
 		    return $tour_arr;
 		}
 		
+		public function changeHot($id, $is_hot=null){
+		    
+		    $data = array(
+		        'IS_HOT' => $is_hot
+		    );
+		    
+		    try{
+		        //Zend_Debug::dump( $data);die();
+		        $this->_db_table->update($data, array('TOUR_TYPE_ID = ?' => $id));
+		    } catch (Exception $e) {
+		        Zend_Debug::dump( $e);die();
+		    }
+		}
+		
 		public function getAlltourType(){
 			
 			try{
@@ -165,7 +179,7 @@
 	*/	
 		
 		public function delete($id){			
-			$where = $this->_db_table->getAdapter()->quoteInto("ID = ?", $id);
+			$where = $this->_db_table->getAdapter()->quoteInto("TOUR_TYPE_ID = ?", $id);
 			$this->_db_table->delete($where);
 		}
 		
