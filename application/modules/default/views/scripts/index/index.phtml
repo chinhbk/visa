@@ -12,38 +12,15 @@
 			<!-- debut Slideshow CK -->
 			<div class="slideshowck camera_wrap camera_amber_skin"
 				id="camera_wrap_90">
-				<div data-src="/images/slides/bridge.jpg">
-					<div class="camera_caption fadeFromBottom">
-						Vietnam Tour. <em>DaLat</em>
-					</div>
-				</div>
-				<div data-src="/images/slides/leaf.jpg">
-					<div class="camera_caption fadeFromBottom">
-						Vietnam Tour, <em>Sapa</em>
-					</div>
-				</div>
-				<div data-src="/images/slides/road.jpg">
-					<div class="camera_caption fadeFromBottom">
-						VietNam Tour <em>DaNang </em>
-					</div>
-				</div>
-				<div data-src="/images/slides/sea.jpg">
-					<div class="camera_caption fadeFromBottom">
-						VietNam Tour <em> Nha Trang</em>
-					</div>
-				</div>
-				<div data-src="/images/slides/shelter.jpg">
-					<div class="camera_caption fadeFromBottom">
-						VietNam Tour <em>Ha Noi</em> ( <a style="color: white;"
-							href="http://validator.w3.org/check?uri=http%3A%2F%2Fwww.pixedelic.com%2Fplugins%2Fcamera%2F&amp;charset=%28detect+automatically%29&amp;doctype=Inline&amp;group=0&amp;user-agent=W3C_Validator%2F1.2"
-							target="_blank">have a look</a>)
-					</div>
-				</div>
-				<div data-src="/images/slides/tree.jpg">
-					<div class="camera_caption fadeFromBottom">
-						VietNam Tour <em>ready to go</em>
-					</div>
-				</div>
+				<?php foreach ($this->images as $img){?>
+					<?php if($img['STATUS'] == 1){?>
+        				<div data-src="<?php echo $img['IMAGE']?>">
+        					<div class="camera_caption fadeFromBottom">
+        						Vietnam Visa Tour. <em></em>
+        					</div>
+        				</div>
+    				<?php }?>
+				<?php }?>				
 			</div>
 			<div style="clear: both;"></div>
 		</div>

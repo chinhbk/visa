@@ -50,35 +50,11 @@ class IndexController extends Zend_Controller_Action
 		//Zend_Debug::dump($data_menu);die();
 		$this->view->data_menu = $data_menu;
 		
-		$product_mapper = new Application_Model_ProductMapper();
-		$product_type_mapper = new Application_Model_ProductTypeMapper();
 		
-		$types = $product_type_mapper->getTypes();
-		//Zend_Debug::dump( $types);die();
-		$allProductPriorityType = array();
-		for($i = 1; $i < 7; $i++){
-			$productPriType_obj = $product_mapper->getAllProductTypePriorityByType(4,$i);
-			$productPriority = new Application_Model_PriorityProduct();
-			$type_name = '';
-			foreach ($types as $type){
-				if($type['ID'] == $i){
-					$type_name = $type['NAME'];
-				}
-			}
-			
-			$productPriority->typeName = $type_name;
-			$productPriority->priorities = $productPriType_obj;
-			
-			array_push($allProductPriorityType, $productPriority);
-		}
-		
-		$hotProduct = $product_mapper->getAllHotProduct(4);
-		
-		$allType = $product_type_mapper->getAllProductType();
-		
-		$this->view->types = $allType;
-		$this->view->products = $allProductPriorityType;
-		$this->view->hots = $hotProduct;
+		$image_mapper = new Application_Model_ImageMapper();
+		$images = $image_mapper->getAll();
+		//Zend_Debug::dump( $images);die();
+		$this->view->images = $images;		
     }
     
     public function tourDetailAction()

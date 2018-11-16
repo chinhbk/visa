@@ -10,11 +10,11 @@
 			});
 	</script>
 
-<header><h3>Sửa ảnh</h3></header>
+<header><h3>Slide images configuration</h3><h4 style="color:red;    margin: 8px 20px;">(Images must have similar height/width)</h4></header>
 <div class="module_content">
 	<?php $i=0; foreach ($this->images as $image){?>
 		<fieldset>
-			<label>Upload ảnh <?php echo ++$i;?></label>
+			<label>Slide image <?php echo ++$i;?></label>
 			  <form action="/admin/image/upload<?php echo $i;?>" method="POST" id="uploadform<?php echo $i;?>">
 			   <input type="file" name="file"/>
 			   <input type="submit" name="btnUpload" value="Upload"/><br/><br/>
@@ -23,8 +23,8 @@
 			   		<image src="<?php echo $image['IMAGE']?>" />			   		
 			   </div>
 			   <div style="margin-left: 15px;">
-			   		<input class= "statusImage" id="<?php echo $i.'-1';?>" type="radio" name="statusImage<?php echo $i;?>" value="1" <?php if($image['STATUS'] == 1){ echo 'checked';};?> />Hiện 
-			   		<input class= "statusImage" id="<?php echo $i.'-0';?>" type="radio" name="statusImage<?php echo $i;?>" value="0" <?php if($image['STATUS'] == 0){ echo 'checked';};?>/>Ẩn
+			   		<input class= "statusImage" id="<?php echo $i.'-1';?>" type="radio" name="statusImage<?php echo $i;?>" value="1" <?php if($image['STATUS'] == 1){ echo 'checked';};?> />Show
+			   		<input class= "statusImage" id="<?php echo $i.'-0';?>" type="radio" name="statusImage<?php echo $i;?>" value="0" <?php if($image['STATUS'] == 0){ echo 'checked';};?>/>Hide
 			   </div>
 			  </form>
 		</fieldset>
@@ -36,7 +36,7 @@
 			<input  type="hidden" name="status<?php echo $i;?>" id="status<?php echo $i;?>" value="<?php echo $image['STATUS'];?>" />				
 		<?php }?>
 		<div class="submit_link">
-					<input type="submit" name="btnSubmit" class="alt_btn" value="Thay đổi">
+					<input type="submit" name="btnSubmit" class="alt_btn" value="Update">
 		</div>
 	</form>
 </div>
