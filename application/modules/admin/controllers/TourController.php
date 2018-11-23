@@ -280,6 +280,10 @@ class Admin_TourController extends Zend_Controller_Action
 		//die($id);
 		$tour_mapper = new Application_Model_TourMapper();
 		$tour_mapper->delete($id);
+		
+		$tour_type_mapper = new Application_Model_TourTypeMapper();
+		$tour_type_mapper->delete($id);
+		
 		$this->redirect('admin/tour/index');
 	
 	}
