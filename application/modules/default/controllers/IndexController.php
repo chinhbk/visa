@@ -10,6 +10,33 @@ class IndexController extends Zend_Controller_Action
 		//Zend_Debug::dump( $types);die();
 		$this->view->menuTypes = $menu_types;
     }
+    
+    public function sendMailAction(){
+        try{
+            //Prepare email
+            $config = array(
+                'ssl' => 'tls',
+                'port'     => 587,
+                'auth'     => 'login',
+                'username' => 'vietnamvisatours@gmail.com',
+                'password' => 'vietnamvisatours2018@'
+            );
+            
+            $transport = new Zend_Mail_Transport_Smtp('smtp.gmail.com', $config);
+            $mail = new Zend_Mail();
+            
+            $mail
+            ->setFrom('vietnamvisatours@gmail', 'From')
+            ->setSubject('Subject')
+            ->setBodyText('This is the text of the mail.')
+            ->addTo('chinhbk88@gmail.com')
+            ->send($transport);
+            
+        } catch (Zend_Exception $e){
+            die($e);
+            //Do something with exception
+        }
+    }
 
     public function indexAction()
     {
