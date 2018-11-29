@@ -41,20 +41,7 @@
 							<h2 class="module-title  h3chunho customhome">
 								<span>PLAN YOUR VIETNAM TOUR</span>
 							</h2>
-							<div class="module-ct">
-								<link rel="stylesheet"
-									href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.min.css">
-								<script src="https://code.jquery.com/jquery-1.12.4.min.js"></script>
-								<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.min.js"></script>
-								<script>
-  $( function() {
-    $( "#datepickerhomehh" ).datepicker({ minDate:+3,
-			maxDate:"+2Y +1M +10D",
-			numberOfMonths:3,
-			changeMonth:false,
-			changeYear:false });
-  } );
-  </script>
+							<div class="module-ct">							
 								<div id="customcustomized_tour">
 									<div class="form-area">
 										<form action="/customized-tour.html" method="post" role="form"
@@ -142,8 +129,9 @@
 				<!-- Content mid -->
 				<div class="ts-content-mid">
 					<!-- SPOTLIGHT -->
+					<?php foreach($this->hot_tour as $arr){?>
 					<div class="t3-spotlight t3-contentmid  row">
-										<?php foreach($this->hot_tour as $hot){?>
+										<?php foreach($arr as $hot){?>
 										<div class=" col-md-4">
 							<div class="t3-module module " id="Mod129">
 								<div class="module-inner">
@@ -210,10 +198,12 @@
 								</div>
 							</div>
 						</div>																				
-											<?php }?>
-												</div>
+						<?php }?>
+												
+					
 					<!-- SPOTLIGHT -->
 				</div>
+				<?php }?>
 				<!-- Content mid end -->
 				<!-- Content mid -->
 				<!-- Content mid end -->

@@ -44,6 +44,8 @@ class Application_Model_Tour
             $this->is_hot = $obj['IS_HOT'];
             $this->name = $obj['NAME'];
             $this->parent_id = $obj['PARENT_ID'];
+            if(isset($obj['PRICE'])) $this->price = $obj['PRICE'];
+            if(isset($obj['DURATION'])) $this->duration = $obj['DURATION'];
         }
     }
      

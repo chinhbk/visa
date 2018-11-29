@@ -1,0 +1,77 @@
+<div class="home">
+		<div id="bienthuy-mainbody" class="container bienthuy-mainbody one-sidebar-right">
+	<div class="row">
+		<!-- MAIN CONTENT -->
+		<div id="bienthuy-content" class="bienthuy-content col-xs-12 col-sm-12 col-md-8">
+					<!-- Content Top-->
+			<div class="blog" itemscope="" itemtype="http://schema.org/Blog">
+			<div class="page-header">
+			<h1 class="page-title"><span itemprop="name headline"><?php echo $this->parent_name;?></span></h1>
+		</div>
+	
+	
+	
+	
+	
+				
+									</div><!-- end items-leading -->
+	
+	<?php foreach($this->tour as $tour){?>
+																	<div class="items-row cols-1 row-0 row-fluid clearfix">
+						<div class="span12">
+				<div class="item column-1" itemprop="blogPost" itemscope="" itemtype="http://schema.org/BlogPosting">
+						<!-- Article -->
+	<article class="row">
+			
+		<div class="item-intro col-md-12 col-xs-12">
+		<meta itemscope="" itemprop="mainEntityOfPage" itemtype="https://schema.org/WebPage" itemid="/vietnam-tours/culinary-tours/saigon-cooking-class.html">
+		<section class="article-intro clearfix" itemprop="articleBody">	  
+	    							<header class="article-header clearfix">
+				<div class="row">
+				<div class="col-xs-12 col-md-12">
+				<h3 class="article-title" itemprop="name headline">
+				<a href="/index/tour-detail/id/<?php echo $tour->tour_type_id?>" itemprop="url" title="Saigon Cooking Class"><?php echo $tour->name;?></a>
+				</h3> 
+				</div>
+				<div class="col-xs-12 col-md-3 hidden-xs hidden-sm"></div>
+				<div class="col-xs-12 col-md-12 giasanpham">
+				<i class="fa fa-pricehh"></i>&nbsp;only from <span class="val">US$<?php echo $tour->price?></span> per traveller&nbsp;				</div>
+				</div>
+			</header>
+    	
+	    <!-- Aside -->
+	    <!-- //Aside -->
+<div itemprop="image" itemscope="" itemtype="https://schema.org/ImageObject">
+<div class="anhbentrai item-image "> <a href="/index/tour-detail/id/<?php echo $tour->tour_type_id?>"><img src="<?php echo $tour->image_small?>" alt="<?php $tour->name?>" itemprop="thumbnailUrl"></a>
+</div>
+<meta itemprop="url" content="https://vietnamtour.com/images/VNTours_Photos/Intro-Saigon-Food_b4f6e.jpg">
+<meta itemprop="width" content="315">
+<meta itemprop="height" content="186">
+</div>
+<?php echo $tour->short_desc?>
+<div class="" style="display: none"> <i class="fa fa-map-marker"></i>&nbsp;Start city: <a class="startcity"></a> <br><i class="fa fa-map-marker"></i>&nbsp;Finish city: <a class="startcity"></a> <br><i class="fa fa-calendar"></i>&nbsp;Duration: <a class="startcity"><?php echo $tour->duration?></a> </div>
+<div><i class="fa fa-calendar"></i>&nbsp;Duration: <a class="startcity"><?php echo $tour->duration?></a></div>
+<div itemtype="https://schema.org/Organization" itemscope="itemscope" itemprop="publisher"><meta itemprop="name" content="Vietnam Tour"> <span itemprop="logo" itemscope="" itemtype="https://schema.org/ImageObject"><meta itemprop="url" content="<?php echo $tour->image_small?>"><meta itemprop="width" content="320"><meta itemprop="height" content="93"> </span><meta itemprop="url" content="https://vietnamtour.com/"></div>
+<meta itemprop="datePublished" content="November 27, 2018">
+<meta itemprop="dateModified" content="November 27, 2018">
+<span class="reviewer" itemprop="author" style="display:none;"><a href="https://vietnamtour.com/" title="Posts by Vietnam Tour" rel="author">Vietnam Tour</a></span>
+</section>
+<!-- footer -->
+        <!-- //footer -->
+				</div>
+	</article>
+	<!-- //Article -->
+ 				</div>
+				<!-- end item -->
+							</div><!-- end span -->
+							</div><!-- end row -->
+							<div><hr/></div>
+							<?php }?>
+																			
+																			
+																			
+							
+		</div>					 
+</div>
+</div>
+</div>

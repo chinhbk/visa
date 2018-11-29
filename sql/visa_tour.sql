@@ -491,3 +491,40 @@ COMMIT;
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
+
+CREATE TABLE `book_tour` (
+  `ID` int(11) NOT NULL,
+  `TOUR_ID` int(11) NOT NULL,
+  `ARRIVAL_DATE` varchar(20) NOT NULL,
+  `CODE` varchar(15) DEFAULT NULL,
+  `NAME` varchar(100) NOT NULL,
+  `EMAIL` varchar(100) NOT NULL,
+  `PHONE` varchar(20) DEFAULT NULL,
+  `COUNTRY` varchar(20) DEFAULT NULL,
+  `COMMENT` text,
+  `NO` int(11) DEFAULT NULL,
+  `CREATE_DATE` date DEFAULT NULL,
+  `UPDATE_DATE` date DEFAULT NULL,
+  `STATUS` varchar(10) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+--
+-- Indexes for dumped tables
+--
+
+--
+-- Indexes for table `book_tour`
+--
+ALTER TABLE `book_tour`
+  ADD PRIMARY KEY (`ID`);
+
+--
+-- AUTO_INCREMENT for dumped tables
+--
+
+--
+-- AUTO_INCREMENT for table `book_tour`
+--
+ALTER TABLE `book_tour`
+  MODIFY `ID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+COMMIT;

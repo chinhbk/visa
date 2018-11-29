@@ -9,6 +9,22 @@ class IndexController extends Zend_Controller_Action
 		$menu_types = $product_type_mapper->getAllProductType2();
 		//Zend_Debug::dump( $types);die();
 		$this->view->menuTypes = $menu_types;
+    }    
+    
+    protected function _menu(){
+        $tour_type_mapper = new Application_Model_TourTypeMapper();
+        $menu_level_0 = $tour_type_mapper->getAllTourType(null);
+        $this->view->menu_level_0 = $menu_level_0;
+        
+        $data_menu = $menu_level_0;
+        foreach($data_menu as $menu){
+            $menu->menu1 = $tour_type_mapper->getAllTourType($menu->id);
+            foreach($menu->menu1 as $menu1){
+                $menu1->menu2 =  $tour_type_mapper->getAllTourType($menu1->id);
+            }
+        }
+        //Zend_Debug::dump($data_menu);die();
+        $this->view->data_menu = $data_menu;
     }
     
     public function sendMailAction(){
@@ -37,6 +53,43 @@ class IndexController extends Zend_Controller_Action
             //Do something with exception
         }
     }
+    
+    protected function _sendMail($subject, $bodyHtml, $to){
+        try{
+            //Prepare email
+            $config = array(
+                'ssl' => 'tls',
+                'port'     => 587,
+                'auth'     => 'login',
+                'username' => 'vietnamvisatours@gmail.com',
+                'password' => 'vietnamvisatours2018@'
+            );
+            
+            $transport = new Zend_Mail_Transport_Smtp('smtp.gmail.com', $config);
+            $mail = new Zend_Mail();
+            
+            $mail
+            ->setFrom('vietnamvisatours@gmail', 'From')
+            ->setSubject($subject)
+            ->setBodyHtml($bodyHtml)
+            ->addTo($to)
+            ->send($transport);
+            
+        } catch (Zend_Exception $e){
+            die($e);
+            //Do something with exception
+        }
+    }
+    
+    protected function _generateRandomString($length = 10) {
+        $characters = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
+        $charactersLength = strlen($characters);
+        $randomString = '';
+        for ($i = 0; $i < $length; $i++) {
+            $randomString .= $characters[rand(0, $charactersLength - 1)];
+        }
+        return $randomString;
+    }
 
     public function indexAction()
     {
@@ -47,7 +100,10 @@ class IndexController extends Zend_Controller_Action
 		$tour_type_mapper = new Application_Model_TourTypeMapper();
 		$hot_tour = $tour_mapper->getByIds(null, 1);		
 		$tour = $tour_mapper->getByIds();
-		//Zend_Debug::dump($hot_tour);die();
+		//Zend_Debug::dump(array_chunk($hot_tour, 3));
+		//Zend_Debug::dump(array_slice($hot_tour, 3, 3));
+		//$arr_hot_tour = array();
+		//die();
 		
 		//get names of all root 
 		$arr_ids = array();
@@ -57,31 +113,32 @@ class IndexController extends Zend_Controller_Action
 		
 		
 		$tour_level_1 = $tour_type_mapper->getByIds($arr_ids);
-		$this->view->hot_tour = $hot_tour;
+		$this->view->hot_tour = array_chunk($hot_tour, 3);
 		$this->view->tour = $tour;
 		$this->view->tour_level_1 = $tour_level_1;
 		//Zend_Debug::dump($tour);die();
-	
-		//menu
-		$tour_type_mapper = new Application_Model_TourTypeMapper();
-		$menu_level_0 = $tour_type_mapper->getAllTourType(null);
-		$this->view->menu_level_0 = $menu_level_0;
-		
-		$data_menu = $menu_level_0;
-		foreach($data_menu as $menu){
-		    $menu->menu1 = $tour_type_mapper->getAllTourType($menu->id);
-		    foreach($menu->menu1 as $menu1){
-		        $menu1->menu2 =  $tour_type_mapper->getAllTourType($menu1->id);
-		    }
-		}
-		//Zend_Debug::dump($data_menu);die();
-		$this->view->data_menu = $data_menu;
-		
-		
+				
 		$image_mapper = new Application_Model_ImageMapper();
 		$images = $image_mapper->getAll();
 		//Zend_Debug::dump( $images);die();
-		$this->view->images = $images;		
+		$this->view->images = $images;
+				
+		$this->_menu();
+    }
+    
+    public function tourMenuAction(){
+        $request = $this->getRequest();
+        $id = $request->getParam('id');
+        $tour_mapper = new Application_Model_TourMapper();
+        $tour = $tour_mapper->getByParentId($id);
+        //Zend_Debug::dump($tour);die();
+        
+        $tour_type_mapper = new Application_Model_TourTypeMapper();
+        $tour_type = $tour_type_mapper->getById($id);
+        //Zend_Debug::dump($name);die();
+        $this->view->tour = $tour;
+        $this->view->parent_name = $tour_type->name;
+        $this->_menu();
     }
     
     public function tourDetailAction()
@@ -97,22 +154,7 @@ class IndexController extends Zend_Controller_Action
         $tour->name = $sub_tour_type->name;
         $this->view->tour = $tour;
         
-        //menu
-        $tour_type_mapper = new Application_Model_TourTypeMapper();
-        $menu_level_0 = $tour_type_mapper->getAllTourType(null);
-        $this->view->menu_level_0 = $menu_level_0;
-        
-        $data_menu = $menu_level_0;
-        foreach($data_menu as $menu){
-            $menu->menu1 = $tour_type_mapper->getAllTourType($menu->id);
-            foreach($menu->menu1 as $menu1){
-                $menu1->menu2 =  $tour_type_mapper->getAllTourType($menu1->id);
-            }
-        }
-        //Zend_Debug::dump($data_menu);die();
-        $this->view->data_menu = $data_menu;
-        //Zend_Debug::dump($tour);die();
-        
+        $this->_menu();
     }
     
     public function tourBookAction() {
@@ -128,56 +170,96 @@ class IndexController extends Zend_Controller_Action
         $this->view->tour = $tour;
         
         //menu
-        $tour_type_mapper = new Application_Model_TourTypeMapper();
-        $menu_level_0 = $tour_type_mapper->getAllTourType(null);
-        $this->view->menu_level_0 = $menu_level_0;
+        $this->_menu();
+    }
+    
+    
+    public function tourBookPostAction() {
+        $request = $this->getRequest();
+        $id = $request->getParam('id');
+        $tour_mapper = new Application_Model_TourMapper();
+        $tour = $tour_mapper->getById($id);
         
-        $data_menu = $menu_level_0;
-        foreach($data_menu as $menu){
-            $menu->menu1 = $tour_type_mapper->getAllTourType($menu->id);
-            foreach($menu->menu1 as $menu1){
-                $menu1->menu2 =  $tour_type_mapper->getAllTourType($menu1->id);
-            }
+        //get name of tour
+        $tourType_mapper = new Application_Model_TourTypeMapper();
+        $sub_tour_type = $tourType_mapper->getById($id);
+        $tour->name = $sub_tour_type->name;
+        $this->view->tour = $tour;
+        
+        //menu
+        $this->_menu();
+        
+        if ($request->isPost()) {
+            $name = $request->getParam('name');
+            $arivaldate = $request->getParam('arivaldate');
+            $total_price = $request->getParam('total_price');
+            $email = $request->getParam('email');
+            $no_traveller = $request->getParam('no_traveller');
+            $phone = $request->getParam('phone');
+            $nationality = $request->getParam('nationality');
+            //die($phone);
+            $book_time = $request->getParam('book_time');
+            $comment = $request->getParam('comment');
+            //die($comment);
+            $request_code = $this->_generateRandomString();
+            
+            //send mail
+            $html = new Zend_View();
+            $html->setScriptPath(APPLICATION_PATH . '/modules/default/views/scripts/index/');
+            // die(APPLICATION_PATH . '/modules/default/views/scripts/index/');
+            // assign valeues
+            $html->assign('tour_id', $id);
+            $html->assign('tour_name', $tour->name);
+            $html->assign('request_code', $request_code);
+            $html->assign('book_time', $book_time);
+            $html->assign('name', $name);
+            $html->assign('arivaldate', $arivaldate);
+            $html->assign('total_price', $total_price);
+            $html->assign('email', $email);
+            $html->assign('no_traveller', $no_traveller);
+            $html->assign('phone', $phone);
+            $html->assign('nationality', $nationality);
+            $html->assign('email', $email);
+            $html->assign('comment', $comment);
+            //die('a');
+            // render view
+            
+            $bodyHtml = $html->render('tour-book-email.phtml');
+            //die($bodyHtml);
+            $subject = 'Your Travel request to vietnamvisatours.com at '.$book_time;
+            //$this->_sendMail($subject, $bodyHtml, $email);
+            
+            
+            //save data
+            $book_tour = new Application_Model_BookTour();
+            $book_tour->tour_id = $id;
+            $book_tour->arivaldate = $arivaldate;
+            $book_tour->code = $request_code;
+            $book_tour->name = $name;
+            $book_tour->email = $email;
+            $book_tour->no = $no_traveller;
+            $book_tour->phone = $phone;
+            $book_tour->country = $nationality;
+            $book_tour->comment = $comment;
+            $book_tour->status = 'NEW';
+            $book_tour->arrival_date = $arivaldate;
+            $book_tour->create_date = $this->_helper->CommonUtils->getVnDateTime();;
+            $book_tour->update_date = $this->_helper->CommonUtils->getVnDateTime();;
+            
+            $booktour_mapper = new Application_Model_BookTourMapper();
+            $booktour_mapper->save($book_tour);
+            
+            $this->view->request_code = $request_code;
         }
-        //Zend_Debug::dump($data_menu);die();
-        $this->view->data_menu = $data_menu;
-        //Zend_Debug::dump($tour);die();
     }
     
     public function tourBookSuccessAction() {
-        //menu
-        $tour_type_mapper = new Application_Model_TourTypeMapper();
-        $menu_level_0 = $tour_type_mapper->getAllTourType(null);
-        $this->view->menu_level_0 = $menu_level_0;
-        
-        $data_menu = $menu_level_0;
-        foreach($data_menu as $menu){
-            $menu->menu1 = $tour_type_mapper->getAllTourType($menu->id);
-            foreach($menu->menu1 as $menu1){
-                $menu1->menu2 =  $tour_type_mapper->getAllTourType($menu1->id);
-            }
-        }
-        //Zend_Debug::dump($data_menu);die();
-        $this->view->data_menu = $data_menu;
+        $this->_menu();
     }
     
     public function applyOnlineAction()
     {
-        //menu
-        $tour_type_mapper = new Application_Model_TourTypeMapper();
-        $menu_level_0 = $tour_type_mapper->getAllTourType(null);
-        $this->view->menu_level_0 = $menu_level_0;
-        
-        $data_menu = $menu_level_0;
-        foreach($data_menu as $menu){
-            $menu->menu1 = $tour_type_mapper->getAllTourType($menu->id);
-            foreach($menu->menu1 as $menu1){
-                $menu1->menu2 =  $tour_type_mapper->getAllTourType($menu1->id);
-            }
-        }
-        //Zend_Debug::dump($data_menu);die();
-        $this->view->data_menu = $data_menu;
-        
+        $this->_menu();        
     }
 	
 	public function typeAction()

@@ -98,6 +98,36 @@
 		    return $tour_arr;
 		}
 		
+		public function getByParentId($parent_id = null)
+		{
+		    try{
+		        $select = $this->_db_table->select()
+		        ->from(array('t' => self::TABLE), array('TOUR_TYPE_ID','SHORT_DESC', 'CODE','IMAGE_SMALL', 'IS_HOT', 'PRICE', 'DURATION'))
+		        ->join(array('tt' => 'TOUR_TYPE'),'tt.ID = t.TOUR_TYPE_ID', array('NAME', 'PARENT_ID'))
+		        ->setIntegrityCheck(false) // ADD This Line
+		        ->order('PARENT_ID ASC');		      
+		        
+		        if($parent_id){
+		            $select = $select->where('PARENT_ID = ?', $parent_id);
+		        }
+		        
+		        $result = $this->_db_table->getAdapter()->fetchAll($select);
+		        $tour_arr = array();
+		        //Zend_Debug::dump( $result);die();
+		        foreach ($result as $row){
+		            //Zend_Debug::dump( $row);die();
+		            $tour_object = new Application_Model_Tour($row);
+		            //Zend_Debug::dump( $tour_object);die();
+		            array_push($tour_arr, $tour_object);
+		        }
+		        //Zend_Debug::dump( $tour_arr);die();
+		        
+		    } catch (Exception $e) {
+		        Zend_Debug::dump( $e);die();
+		    }
+		    return $tour_arr;
+		}
+		
 		public function getAllHotTour($numberRecords = null){
 		   // echo getcwd().'\library'; die;
 		    //$select11 = new Select;
