@@ -46,6 +46,37 @@
         margin-left: -20px;
     }
 </style>
+
+<!-- APPLY VISA -->
+<style type="text/css">
+    .bs-callout {
+        padding-left: 20px;
+        padding-right: 20px;
+        padding-bottom: 20px;
+        margin: 10px 0;
+        border: 1px solid #eee;
+        border-left-width: 5px;
+        border-radius: 3px;
+    }
+    
+    .form-control {
+        display: block !important;
+        width: 100% !important;
+        height: 34px !important;
+        padding: 6px 12px !important;
+        font-size: 14px !important;
+        line-height: 1.42857143 !important;
+        color: #555 !important;
+        background-color: #fff !important;
+        background-image: none !important;
+        border: 1px solid #ccc !important;
+        border-radius: 4px !important;
+   }
+   
+   select, select.form-control, select.inputbox, select.input, input#thunho, input[type="text"] {
+    color: #444 !important;
+   }
+</style>
 	
 	<script src="/css/js/js-cf70e-35222.js" type="text/javascript"></script>
 	<script type="text/javascript">
@@ -240,7 +271,12 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
         	function showErr(msg) {
         	  document.getElementById("error_msg").innerHTML = msg;  	
        		  document.getElementById("system-message-container").style.display = 'block';
+       		  document.getElementById("system-message-container").scrollIntoView();
         	}
+
+        	function hideErr() {
+         	  document.getElementById("system-message-container").style.display = 'none';
+          	}
         	
             $("#no_traveller").on('change', function() {
             	  var no = this.value*1;
@@ -262,7 +298,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
             	  var no_traveller = no.options[no.selectedIndex].text;
 //             	  /validateEmail(email)
             	  if(!arivaldate  || !name || !ccemail || !email || !no_traveller) {
-            		  showErr('Please input the mandatory fields.');  	
+            		  showErr('Please input the mandatory fields.');
                   } else if(!validateEmail(email) || !validateEmail(ccemail)) {
                 	  showErr('Email or confirm email is incorrect.');
             	  } else if(email != ccemail) {
@@ -272,17 +308,99 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
                 	  document.getElementById("booktour").submit();
                   }
             }); 
+
+            var handleSubmitMyForm1 = function(event){
+                event.preventDefault();
+                var email = document.getElementById("email").value;
+                var ccemail = document.getElementById("cc_email").value;
+                if(email != ccemail){
+                	showErr('The email and confirm email you entered does not match each other.');
+                } else {
+                	hideErr();
+                	switchToTab('idStep2');
+                	//var dropNumberApp = document.getElementById("dropNumberApp");
+               	  	//var no = dropNumberApp.options[dropNumberApp.selectedIndex].value;
+               	  	var no = document.getElementById("dropNumberApp").value;
+                	showApplication(no);
+                }
+            }
+
+            var handleSubmitMyForm2 = function(event){
+                event.preventDefault();
+                switchToTab('idStep3');
+            }
             
             KhoiTao();
             $('#ApplicationForm').find('#btnNext1').click(function () {
                 KhoiTao();
-                $("#myForm1").submit(function (e) {
-                    e.preventDefault(); // <-- prevents the form from submitting
-                    // do stuff
-
-                    //$(this).submit() // <-- send it through
-                });
+                document.getElementById("myForm1").addEventListener("submit", handleSubmitMyForm1  , false);
             });
+            
+            $('#ApplicationForm').find('#btnNext2').click(function () {
+                document.getElementById("myForm2").addEventListener("submit", handleSubmitMyForm2  , false);
+            });
+
+            function showApplication(no){
+                //show application 1-> no
+				for(var i = 1; i <= no; i++) {
+                    var app = document.getElementById("application"+i);
+                    app.style.display = 'block';
+                    var inputs = app.getElementsByTagName('input');
+                    //set validation for input
+                    for(var k = 0; k < inputs.length; k++){
+    					inputs[k].setAttribute("required", "");				
+                    }                                      
+				}
+				 //hide app no+1 -> app6 and remove validation             	       
+            	for(var i = 6; i >  no ; i--){
+        			//console.log("zzxzzzz"+i);               		
+        			var app = document.getElementById("application"+i);
+        			app.style.display = 'none';
+        			var inputs = app.getElementsByTagName('input');
+        			for(var k = 0; k< inputs.length; k++) {
+        				inputs[k].removeAttribute("required");
+                	}
+                }
+                
+            }
+
+            $('#ApplicationForm').find('#btnPrevious2').click(function () {
+            	switchToTab('idStep1');
+            });
+
+            $('#ApplicationForm').find('#btnPrevious3').click(function () {
+            	switchToTab('idStep2');
+            });
+
+            function switchToTab(idTab){
+            	switch (idTab) {
+                    case 'idStep1':
+                    	showTab('idStep1');
+                    	hideTab('idStep2');
+                    	hideTab('idStep3');
+                        break;
+                    case 'idStep2':
+                    	showTab('idStep2');
+                    	hideTab('idStep1');
+                    	hideTab('idStep3');
+                        break;
+                    case 'idStep3':
+                    	showTab('idStep3');
+                    	hideTab('idStep1');
+                    	hideTab('idStep2');
+                        break;
+            	}
+            }
+
+            function showTab(idTab){
+				document.getElementById(idTab).className = 'active';
+            	document.getElementById(idTab+"_div").style.display = 'block';
+            }
+
+            function hideTab(idTab){
+            	document.getElementById(idTab).className = 'noactive';
+            	document.getElementById(idTab+"_div").style.display = 'none';    
+            }
            
             function KhoiTao() {
                 var dateToday = new Date();
