@@ -227,7 +227,7 @@ class IndexController extends Zend_Controller_Action
             $bodyHtml = $html->render('tour-book-email.phtml');
             //die($bodyHtml);
             $subject = 'Your Travel request to vietnamvisatours.com at '.$book_time;
-            //$this->_sendMail($subject, $bodyHtml, $email);
+            $this->_sendMail($subject, $bodyHtml, $email);
             
             
             //save data
