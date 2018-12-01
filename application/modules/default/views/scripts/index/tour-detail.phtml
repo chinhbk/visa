@@ -21,7 +21,8 @@
 
 
 	
-	<a class="label label-info" href="/private-tours.html">Private Tours</a><a class="label label-info" href="/vietnam-travel-deals/vietnam-orientation.html">Vietnam Orientation</a><meta itemprop="author" content="Bien Thuy" id="author">
+	<a class="label label-info" href="/index/tour-menu/id/<?php echo $this->parent->id?>"><?php echo $this->parent->name?></a>
+	<a class="label label-info" href="javascript:void(0)">Vietnam Tours</a><meta itemprop="author" content="Bien Thuy" id="author">
 <meta itemprop="datePublished" content="" id="date">
 <meta itemprop="dateModified" content="" id="datemodified">
 <div itemtype="https://schema.org/Organization" itemscope="itemscope" itemprop="publisher">
@@ -81,7 +82,7 @@ $(document).ready(function($) {
 							<div class="col-xs-8 col-md-8">							
     							  <p class="thongtintour"><strong>Duration:</strong><?php echo $this->tour->duration?></p>
     							  <p class="thongtintour"><strong>Codes:</strong><?php echo $this->tour->code?></p>
-    							  <p class="thongtintour"><strong>Price:</strong> <?php echo $this->tour->price?></p>
+    							  <p class="thongtintour"><strong>Price:</strong>$<?php echo $this->tour->price?></p>
     							  <p class="thongtintour"><strong>Departure:</strong> Daily, upon your request.</p>    							 
 							  </div>
 							<div class="col-xs-4 col-md-4">							  
