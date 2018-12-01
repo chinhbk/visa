@@ -42,7 +42,7 @@ class IndexController extends Zend_Controller_Action
             $mail = new Zend_Mail();
             
             $mail
-            ->setFrom('vietnamvisatours@gmail', 'From')
+            ->setFrom('vietnamvisatours@gmail.com', 'VietnamVisaTours.Com')
             ->setSubject('Subject')
             ->setBodyText('This is the text of the mail.')
             ->addTo('chinhbk88@gmail.com')
@@ -69,7 +69,7 @@ class IndexController extends Zend_Controller_Action
             $mail = new Zend_Mail();
             
             $mail
-            ->setFrom('vietnamvisatours@gmail', 'From')
+            ->setFrom('vietnamvisatours@gmail.com', 'VietnamVisaTours.Com')
             ->setSubject($subject)
             ->setBodyHtml($bodyHtml)
             ->addTo($to)
