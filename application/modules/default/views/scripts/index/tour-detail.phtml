@@ -130,7 +130,18 @@ $(document).ready(function($) {
 <!-- CLOSE ITINERARY DIV -->
 <!-- CLOSE TRAVEL MAPS DIV -->
 <!-- CLOSE FAQS DIV -->
-<div class="extranews_separator"></div><div class="extranews_box"><h3><strong>Other Culture &amp; History Tours</strong></h3><div class="extranews_huyhoa"><ul class="huyhoa"><li><a href="/vietnam-tours/culture-history-tours/highlights-of-south-north-vietnam-10-days.html" title="Highlights Of South &amp; North Vietnam - 10 Days">Highlights Of South &amp; North Vietnam - 10 Days </a></li><li><a href="/vietnam-tours/culture-history-tours/vietnam-holidays-11-days.html" title="Vietnam Holidays - 11 Days">Vietnam Holidays - 11 Days </a></li><li><a href="/vietnam-tours/culture-history-tours/hoian-hue-tour-5-days.html" title="Hoian &amp; Hue Tour - 6 Days">Hoian &amp; Hue Tour - 6 Days </a></li><li><a href="/vietnam-tours/culture-history-tours/vietnam-insider-12-days.html" title="Vietnam Insider - 12 Days">Vietnam Insider - 12 Days </a></li><li><a href="/vietnam-tours/culture-history-tours/vietnam-vacation-13-days.html" title="Vietnam Vacation - 13 Days">Vietnam Vacation - 13 Days </a></li></ul></div></div>	</section>
+<div class="extranews_separator"></div>
+<?php if(sizeof($this->tours) > 1) {?>
+<div class="extranews_box"><h3><strong>Other <?php echo $this->parent->name?></strong></h3><div class="extranews_huyhoa">
+	<ul class="huyhoa">
+	<?php foreach($this->tours as $tour) {?>
+		<?php if($tour->tour_type_id != $this->tour->tour_type_id){?>
+		<li><a href="/index/tour-detail/id/<?php echo $tour->tour_type_id?>" title="<?php echo $tour->name?>"><?php echo $tour->name?></a></li>
+	<?php }};?>
+	</ul></div>
+</div>
+<?php }?>
+	</section>
 	
 	
 	</article>

@@ -37,6 +37,14 @@
 }
 </style>
 <style type="text/css">
+
+    .nspLinks ul li h4::before {
+        margin: -1px 3px 0 0 !important;
+    }
+    .fa-phone, .fa-envelope {
+        margin-top: 10px ;
+    }
+    
     #total_price {
         font-weight: 600;
         color: red !important;
@@ -311,8 +319,8 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
 
             var handleSubmitMyForm1 = function(event){
                 event.preventDefault();
-                var email = document.getElementById("email").value;
-                var ccemail = document.getElementById("cc_email").value;
+                var email = g("#contact_email").value;
+                var ccemail = g("#contact_cc_email").value;
                 if(email != ccemail){
                 	showErr('The email and confirm email you entered does not match each other.');
                 } else {
@@ -320,7 +328,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
                 	switchToTab('idStep2');
                 	//var dropNumberApp = document.getElementById("dropNumberApp");
                	  	//var no = dropNumberApp.options[dropNumberApp.selectedIndex].value;
-               	  	var no = document.getElementById("dropNumberApp").value;
+               	  	var no = g("#dropNumberApp").value;
                 	showApplication(no);
                 }
             }
@@ -328,38 +336,81 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
             var handleSubmitMyForm2 = function(event){
                 event.preventDefault();
                 switchToTab('idStep3');
+
+                //set data for label
+                g("#dropPurposeOfVisit_text").innerHTML = g("#dropPurposeOfVisit").value + ", " + g("#type_of_visa").value ;
+                g("#arrival_date_text").innerHTML = g("#arrival_date").value;
+                g("#radioPrivate_text").innerHTML =g("#radioPrivate1").checked ? g("#radioPrivate1").value : g("#radioPrivate2").value ;
+                g("#processing_time_text").innerHTML = g("#processing_time").value;
+                g("#contact_text").innerHTML = g("#contact_name").value + ", " + g("#contact_email").value + ", " + g("#contact_phone").value;
+                g("#radioPay_text").innerHTML = g("#radioPay1").checked ? g("#radioPay1").value : g("#radioPay2").value;
+
+                //fill data application for final page
+                var no = g("#dropNumberApp").value;
+                for(var i = 1; i <= no; i++) {
+                    var app_text = g("#application"+i+"_text");
+                    app_text.style.display = 'block';
+
+                    app_text.getElementById("fullname"+i+"_text").innerHTML = g('#fullname'+i).value;
+                    app_text.getElementById("nationality"+i+"_text").innerHTML = g('#nationality'+i).value;
+                    app_text.getElementById("dateOfBirth"+i+"_text").innerHTML = g('#dateOfBirth'+i).value;
+                    app_text.getElementById("passport_number"+i+"_text").innerHTML = g('#passport_number'+i).value;
+                    app_text.getElementById("passportExpiryDate"+i+"_text").innerHTML = g('#passportExpiryDate'+i).value;
+                    app_text.getElementById("gender"+i+"_text").innerHTML = g('#gender'+i).value;
+                }
+            }
+
+            function g(str){
+                if(str.indexOf("#") == 0)
+            		return document.getElementById(str.substr(1));
+                else if(str.indexOf(".") == 0)
+                	return document.getElementsByClassName(str.substr(1));
+                else 
+                    return document.getElementsByTagName(str);
             }
             
             KhoiTao();
             $('#ApplicationForm').find('#btnNext1').click(function () {
                 KhoiTao();
-                document.getElementById("myForm1").addEventListener("submit", handleSubmitMyForm1  , false);
+                g("#myForm1").addEventListener("submit", handleSubmitMyForm1  , false);
             });
             
             $('#ApplicationForm').find('#btnNext2').click(function () {
-                document.getElementById("myForm2").addEventListener("submit", handleSubmitMyForm2  , false);
+                g("#myForm2").addEventListener("submit", handleSubmitMyForm2  , false);
             });
 
             function showApplication(no){
                 //show application 1-> no
 				for(var i = 1; i <= no; i++) {
-                    var app = document.getElementById("application"+i);
+                    var app = g("#application"+i);
                     app.style.display = 'block';
                     var inputs = app.getElementsByTagName('input');
+                    var selects = g('select');
                     //set validation for input
                     for(var k = 0; k < inputs.length; k++){
     					inputs[k].setAttribute("required", "");				
-                    }                                      
+                    }
+                    for(var k = 0; k < selects.length; k++){
+                    	selects[k].setAttribute("required", "");				
+                    }
+                                                   
 				}
 				 //hide app no+1 -> app6 and remove validation             	       
             	for(var i = 6; i >  no ; i--){
         			//console.log("zzxzzzz"+i);               		
-        			var app = document.getElementById("application"+i);
+        			var app = g("#application"+i);
         			app.style.display = 'none';
         			var inputs = app.getElementsByTagName('input');
+        			var selects = app.getElementsByTagName('select');;
         			for(var k = 0; k< inputs.length; k++) {
         				inputs[k].removeAttribute("required");
                 	}
+        			for(var k = 0; k< selects.length; k++) {
+        				selects[k].removeAttribute("required");
+                	}
+        			//hide for final page
+        			var app_text = g("#application"+i+"_text");
+        			app_text.style.display = 'none';
                 }
                 
             }
@@ -393,13 +444,13 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
             }
 
             function showTab(idTab){
-				document.getElementById(idTab).className = 'active';
-            	document.getElementById(idTab+"_div").style.display = 'block';
+				g("#"+idTab).className = 'active';
+            	g("#"+idTab+"_div").style.display = 'block';
             }
 
             function hideTab(idTab){
-            	document.getElementById(idTab).className = 'noactive';
-            	document.getElementById(idTab+"_div").style.display = 'none';    
+            	g("#"+idTab).className = 'noactive';
+            	g("#"+idTab+"_div").style.display = 'none';    
             }
            
             function KhoiTao() {
@@ -2043,7 +2094,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 <!-- Showcase -->
 
 	<!-- SPOTLIGHT 1 -->
-	<div class="ts-main-bottom">
+	<div class="ts-main-bottom" style="display: none">
 		<div class="container">
 				<!-- SPOTLIGHT -->
 	<div class="t3-spotlight t3-main-bottom  row">
@@ -2251,7 +2302,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 			</div>
 
 <!-- Footer Top end -->
-		<section class="bienthuy-copyright">
+		<section class="bienthuy-copyright" style="display: none">
 				<div class="col-sm-4 copyright ">
 					
 				</div>

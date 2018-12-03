@@ -159,6 +159,11 @@ class IndexController extends Zend_Controller_Action
 		$parent = $tourType_mapper->getById($tour->parent_id);
         $this->view->parent = $parent;
 		//Zend_Debug::dump($parent);die();
+		        
+        $tour_mapper = new Application_Model_TourMapper();
+        $tours = $tour_mapper->getByParentId($tour->parent_id);
+        $this->view->tours = $tours;
+        //Zend_Debug::dump($tours);die();
         $this->_menu();
     }
     
