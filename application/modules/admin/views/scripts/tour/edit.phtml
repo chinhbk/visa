@@ -35,8 +35,35 @@
 						<form name="form_add" method="POST" action="/admin/tour/edit" onSubmit="document.form_add.editor_contents.value  = $('#editor #edit .froala-element').html()">
 							<input  type="hidden" name="id" id="id" value="<?php echo $this->tour->tour_type_id;?>" />
 							<input  type="hidden" name="img_uploaded" id="img_uploaded" value="<?php echo $this->tour->image_small;?>" />
-							<input  type="hidden" name="img_uploaded2" id="img_uploaded2" value="<?php echo $this->tour->image;?>" />	
-							<input  type="hidden" name="tour_type_parent_id" id="tour_type_parent_id" value="<?php echo $this->sub_tour_type->parent_id;?>" />
+							<input  type="hidden" name="img_uploaded2" id="img_uploaded2" value="<?php echo $this->tour->image;?>" />								
+							<fieldset>
+								<label>Tour type(*)</label>
+								<select name="tour_type_id" id="tour_type_id" style="width: 200px;">
+									<option value="0" selected disabled>Please select</option>
+									<?php foreach ($this->tour_types as $pt){
+									    if($pt->id == $this->selected_tour_type->id ){
+									        echo "<option selected='selected' value = '".$pt->id."'>".$pt->name."</option>";
+									    }else {
+									        echo '<option value="'.$pt->id.'">'.$pt->name.'</option>';
+									    }																				
+									}?>
+								</select>
+								<?php //Zend_Debug::dump( $this->product_type);die()?>
+							</fieldset>
+							<fieldset>
+								<label>Sub tour type(*)</label>
+								<select name="sub_tour_type_id" id="sub_tour_type_id" style="width: 200px;">
+									<?php 
+									      foreach ($this->sub_tour_types as $spt){
+									          if($spt->id == $this->sub_tour_type->parent_id){
+								     				echo "<option selected='selected' value = '".$spt->id."'>".$spt->name."</option>";
+								     			}else {
+								     				echo '<option value="'.$spt->id.'">'.$spt->name.'</option>';
+								     			}	
+									        }									 
+								    ?>
+								</select>
+							</fieldset>
 							<fieldset>
 								<label>Name(*)</label>
 								<input type="text" name="name" value="<?php echo $this->sub_tour_type->name;?>">

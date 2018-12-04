@@ -43,7 +43,7 @@ input {
  
 
 
-		<form name="form_add" method="GET" action="/admin/tour/index" class="search">						
+		<form name="form_search" id="form_search" method="GET" action="/admin/tour/menu" class="search">						
 			<select name="tour_type_id" id="tour_type_id" style="width: 200px;">
 						<?php foreach ($this->tour_type as $pt){
 						    if($pt->id == $this->tour_type_id ){

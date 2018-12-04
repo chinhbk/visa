@@ -72,12 +72,15 @@ class Admin_TourController extends Zend_Controller_Action
     public function menuAction()
     {
         $request = $this->getRequest();
-        $tour_type_id = $request->getParam('tour_type_id');        
+        $tour_type_id = $request->getParam('tour_type_id');
         $tour_type_mapper = new Application_Model_TourTypeMapper();
         $tour_type = $tour_type_mapper->getAllTourType(null);
-        //Zend_Debug::dump( $product_type);die();
-        $sub_tour_type = $tour_type_mapper->getAllTourType($tour_type[0]->id);
         //Zend_Debug::dump( $tour_type_id);die();
+        if(!isset($tour_type_id)){
+            $tour_type_id = $tour_type[0]->id;
+        }
+        $sub_tour_type = $tour_type_mapper->getAllTourType($tour_type_id);
+        //Zend_Debug::dump( $sub_tour_type);die();
         if(is_null($tour_type_id)){
             $tour_type_id = $tour_type[0]->id;
             //$request->setParam('tour_type_id', $tour_type_id);    
@@ -215,12 +218,25 @@ class Admin_TourController extends Zend_Controller_Action
 		$this->view->sub_tour_type= $sub_tour_type;
 		//Zend_Debug::dump( $sub_tour_type);die();
 		
+		//$this->view->sub_tour_types = $tourType_mapper->getAllTourType($sub_tour_type->parent_id);
+		$tour_type = $tourType_mapper->getAllTourType(null);
+		$this->view->tour_type= $tour_type;
+		
+		
+		//$selected_tour_type = $tourType_mapper->getById($sub_tour_type->parent_id);
+		$selected_sub_tour_type =  $tourType_mapper->getById($sub_tour_type->parent_id);
+		$this->view->sub_tour_types = $tourType_mapper->getAllTourType($selected_sub_tour_type->parent_id);
+		
+		$selected_tour_type =  $tourType_mapper->getById($selected_sub_tour_type->parent_id);
+		$this->view->tour_types = $tourType_mapper->getAllTourType($selected_tour_type->parent_id);
+		$this->view->selected_tour_type = $selected_tour_type;
+		//Zend_Debug::dump(  $tourType_mapper->getAllTourType($selected_tour_type->parent_id));die();
 		
 		if ($request->isPost()) {
 			//Zend_Debug::dump(  $request->getPost());die();
 			$tour = new Application_Model_Tour();
 			$tour->tour_type_id =  $request->getParam('id');
-		    if(strlen($request->getParam('name')) == 0 || strlen($request->getParam('short_desc')) == 0){
+			if(strlen($request->getParam('name')) == 0 || strlen($request->getParam('short_desc')) == 0 || $request->getParam('sub_tour_type_id')  == 0){
 			    $this->view->errorMessage = 'Please fill data into (*) fields';
 			    return;
 			}
@@ -231,7 +247,7 @@ class Admin_TourController extends Zend_Controller_Action
 			$tour_type = new Application_Model_TourType();
 			$tour_type->id = $request->getParam('id');
 			$tour_type->name = $request->getParam('name');
-			$tour_type->parent_id = $request->getParam('tour_type_parent_id');
+			$tour_type->parent_id = $request->getParam('sub_tour_type_id');
 			$tour_type_mapper = new Application_Model_TourTypeMapper();
 			$tour_type_mapper->save($tour_type);
 			

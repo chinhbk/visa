@@ -70,7 +70,22 @@ class Admin_AuthController extends Zend_Controller_Action
 
         $result = $auth->authenticate($adapter);
 
-        if ($result->isValid()) {
+        if ($auth->hasIdentity()) { // user is logged in
+            // server should keep session data for AT LEAST 1 hour
+            ini_set('session.gc_maxlifetime', 3600);
+            
+            // each client should remember their session id for EXACTLY 1 hour
+            session_set_cookie_params(3600);
+            
+            session_start(); // ready to go!
+            // get an instance of Zend_Session_Namespace used by Zend_Auth
+            $authns = new Zend_Session_Namespace($auth->getStorage()->getNamespace());
+            
+            // set an expiration on the Zend_Auth namespace where identity is held
+            $authns->setExpirationSeconds(60 * 30);  // expire auth storage after 30 min
+        }
+        
+        if ($result->isValid()) {                     
             $user = $adapter->getResultRowObject();
             $auth->getStorage()->write($user);
             return true;

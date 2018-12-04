@@ -76,6 +76,12 @@
 				   });
 				  $('#tour_type_id').change(function () {
 				       //console.log( $(this).val());
+				       // admin/tour/menu
+				      $form = $(this).parent();
+				      if($form.attr('id') == 'form_search'){
+						$form.submit();
+						return;
+					  }
 					  $parent_id =  $(this).val();
 		
 		

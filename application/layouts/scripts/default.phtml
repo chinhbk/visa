@@ -255,6 +255,14 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
         
     })
 </script>
+<script lang="javascript">
+/* $(document).ready(function () {
+$.get("https://min-api.cryptocompare.com/data/price?fsym=ETH&tsyms=BTC,USD,EUR,GBP", function(data) {
+  alert(JSON.stringify(data))
+
+})
+}) */
+</script>
 <script type="text/javascript">
         $(document).ready(function () {
         	function validateEmail(email) {
@@ -421,6 +429,13 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
 
             $('#ApplicationForm').find('#btnPrevious3').click(function () {
             	switchToTab('idStep2');
+            });
+
+            $('#ApplicationForm').find('#btnSubmit').click(function () {
+            	g("#book_time").value = dateTimeNow();
+            	g("#myForm1").submit(); //remove later
+            	g("#myForm2").submit(); //remove later
+				//TODO call ajax to save data and then redirect to payment gateway        
             });
 
             function switchToTab(idTab){

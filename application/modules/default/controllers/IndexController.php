@@ -269,7 +269,83 @@ class IndexController extends Zend_Controller_Action
     
     public function applyOnlineAction()
     {
-        $this->_menu();        
+        $this->_menu();
+        
+        $request = $this->getRequest();  
+        if ($request->isPost()) {
+            $purposeOfVisit = $request->getParam('dropPurposeOfVisit');
+            $numberApp = $request->getParam('dropNumberApp');
+            $type_of_visa = $request->getParam('type_of_visa');
+            $arrival_date = $request->getParam('arrival_date');
+            $processing_time = $request->getParam("processing_time");
+            $pay = $request->getParam("radioPay");
+            $Arrival_Airport =  $request->getParam("Arrival_Airport");
+            $contact_name = $request->getParam("contact_name");
+            $contact_email = $request->getParam("contact_email");
+            $contact_cc_email = $request->getParam("contact_cc_email");
+            $contact_phone = $request->getParam("contact_phone");
+            $private = $request->getParam("radioPrivate"); //Private/Shared visa
+            $booking_code = "V".$this->_generateRandomString();
+            $book_time = $request->getParam('book_time');
+            //echo $purposeOfVisit; die;
+            
+            // Application 1
+            $nationality1 = $request->getParam("nationality1");
+            $fullname1 = $request->getParam("fullname1");
+            $gender1 = $request->getParam("gender1");
+            $dateOfBirth1 = $request->getParam("dateOfBirth1");
+            $passport_number1 = $request->getParam("passport_number1");
+            $passportExpiryDate1 = $request->getParam("passportExpiryDate1");
+            
+            // Application 2
+            $nationality2 = $request->getParam("nationality2");
+            $fullname2 = $request->getParam("fullname2");
+            $gender2 = $request->getParam("gender2");
+            $dateOfBirth2 = $request->getParam("dateOfBirth2");
+            $passport_number2 = $request->getParam("passport_number2");
+            $passportExpiryDate2 = $request->getParam("passportExpiryDate2");
+            
+            
+            //echo $gender1; die;
+            //send mail
+            $html = new Zend_View();
+            $html->setScriptPath(APPLICATION_PATH . '/modules/default/views/scripts/index/');
+            // die(APPLICATION_PATH . '/modules/default/views/scripts/index/');
+            // assign valeues
+            $html->assign('contact_name', $contact_name);
+            $html->assign('booking_code', $booking_code);
+            $html->assign('purposeOfVisit', $purposeOfVisit);
+            $html->assign('type_of_visa', $type_of_visa);
+            $html->assign('arrival_date', $arrival_date);
+            $html->assign('processing_time', $processing_time);
+            $html->assign('private', $private);
+            $html->assign('numberApp', $numberApp);
+            //detail
+            $html->assign('nationality1', $nationality1);
+            $html->assign('fullname1', $fullname1);
+            $html->assign('gender1', $gender1);
+            $html->assign('dateOfBirth1', $dateOfBirth1);
+            $html->assign('passport_number1', $passport_number1);
+            $html->assign('passportExpiryDate1', $passportExpiryDate1);
+            
+            
+            $html->assign('nationality2', $nationality2);
+            $html->assign('fullname2', $fullname2);
+            $html->assign('gender2', $gender2);
+            $html->assign('dateOfBirth2', $dateOfBirth2);
+            $html->assign('passport_number2', $passport_number2);
+            $html->assign('passportExpiryDate2', $passportExpiryDate2);
+            
+            //die($nationality1);
+            // render view
+            
+            $bodyHtml = $html->render('visa-book-email.phtml');
+            //die($bodyHtml);
+            $subject = 'Visa request from '.$contact_name .' at '.$book_time;
+            $this->_sendMail($subject, $bodyHtml, $contact_email);
+            
+            //save to DB
+        }
     }
 	
 	public function typeAction()
