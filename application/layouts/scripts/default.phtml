@@ -2009,9 +2009,66 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 
 		
 		</div>
-
-					
+		<!-- display on mobile, tablet -->
+		<div class="t3-navbar-collapse navbar-collapse collapse" aria-expanded="true" style="">
+			<ul itemscope="" itemtype="http://www.schema.org/SiteNavigationElement" class="nav navbar-nav level0">
+				<li itemprop="name" class="current active">
+                	<a itemprop="url" href="/">Home </a>
+                </li>
+                <li itemprop="name" class="dropdown">
+    				<a itemprop="url" href="javascript:void(0)" data-toggle="dropdown" data-target="#">Visa to VietNam <em class="caret"></em></a>
+    
+                    <ul class="level1 dropdown-menu">
+                    	<li itemprop="name" class="">
+                        	<a itemprop="url" rel="nofollow" href="javascript:void(0)"  data-target="#">Steps to Apply Visa</a>                        
+                        </li>
+                        <li itemprop="name" class="">
+                        	<a itemprop="url" rel="nofollow" href="/index/apply-online"  data-target="#">Apply Online</a>                        
+                        </li>
+                        <li itemprop="name" class="">
+                        	<a itemprop="url" rel="nofollow" href="javascript:void(0)"  data-target="#">FAQ</a>                        
+                        </li>
+                        <li itemprop="name" class="">
+                        	<a itemprop="url" rel="nofollow" href="javascript:void(0)"  data-target="#">Extra Services</a>                        
+                        </li>
+                    </ul>
+				</li>
+                <?php foreach ($this->menu_level_0 as $menu0){?>
+                <li itemprop="name" class="dropdown">
+					<a itemprop="url" href="javascript:void(0)" data-toggle="dropdown" data-target="#"><?php echo $menu0->name?><em class="caret"></em></a>
+					<ul class="level1 dropdown-menu">
+						<?php foreach ($menu0->menu1 as $menu1){?>
+							<?php if(sizeof($menu1->menu2) == 0){ ?>
+								<li itemprop="name" class="">
+                            		<a itemprop="url" rel="nofollow" href="/index/tour-menu/id/<?php echo $menu1->id?>" data-target="#"><?php echo $menu1->name?></a>                            
+								</li>
+							<?php } else {?>
+								<li itemprop="name" class="dropdown-submenu">
+									<a itemprop="url" href="/index/tour-menu/id/<?php echo $menu1->id?>"><?php echo $menu1->name?></a>
+									<ul class="level2 dropdown-menu">
+										<?php foreach ($menu1->menu2 as $menu2){?>
+										<li itemprop="name" class="">
+											<a itemprop="url" href="/index/tour-detail/id/<?php echo $menu2->id?>" data-target="#"><?php echo $menu2->name?></a>
+										</li>
+										<?php }?>
+									</ul>
+								</li>
+							<?php }?>
+						<?php }?>
+					</ul>
+				</li>
+                <?php }?>
+                <li itemprop="name">
+                	<a itemprop="url" href="javascript:void(0)">Why us</a>                
+                </li>
+                <li itemprop="name">
+                	<a itemprop="url" href="javascript:void(0)">Contact us</a>                
+                </li>
+		</ul>
+	   </div>
 		
+					
+		<!-- display on PC -->
 		<div class=" hidden-sm hidden-xs">
 			<div class="t3-navbar navbar-collapse collapse">
 				<div class="t3-megamenu" data-responsive="true">
@@ -2028,11 +2085,17 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 <div class="col-xs-12 mega-col-nav" data-width="12"><div class="mega-inner">
 <ul itemscope="" itemtype="http://www.schema.org/SiteNavigationElement" class="mega-nav level1">
 <li itemprop="name" data-id="219" data-level="2" class="">
+<a itemprop="url" class="" rel="nofollow" href="javascript:void(0)" data-target="#">Steps to Apply Visa</a>
+</li>
+<li>
 <a itemprop="url" class="" rel="nofollow" href="/index/apply-online" data-target="#">Apply Online</a>
 
-</li><li itemprop="name" data-id="229" data-level="2" class="">
+</li>
+<li itemprop="name" data-id="230" data-level="2" class="">
 <a itemprop="url" class="" rel="nofollow" href="javascript:void(0)" data-target="#">FAQ</a>
-
+</li>
+<li itemprop="name" data-id="231" data-level="2" class="">
+<a itemprop="url" class="" rel="nofollow" href="javascript:void(0)" data-target="#">Extra Services</a>
 </li>
 
 </ul>
