@@ -365,6 +365,22 @@ $.get("https://min-api.cryptocompare.com/data/price?fsym=ETH&tsyms=BTC,USD,EUR,G
                     app_text.getElementById("passport_number"+i+"_text").innerHTML = g('#passport_number'+i).value;
                     app_text.getElementById("passportExpiryDate"+i+"_text").innerHTML = g('#passportExpiryDate'+i).value;
                     app_text.getElementById("gender"+i+"_text").innerHTML = g('#gender'+i).value;
+					
+					var age = getAge(g('#dateOfBirth'+i).value);
+					var gender = g('#gender'+i).value;
+					var img  = app_text.getElementById("img"+i).src;
+					console.log(img+": img");
+					console.log(age+": age");
+					app_text.getElementById("img"+i).src = '/img/female.png';
+					if(age <= 2){
+						app_text.getElementById("img"+i).src = gender == 'Male' ? '/img/maleU1y.png' : '/img/femaleU1y.png';
+					} else if(age > 2 && age <= 6){
+						app_text.getElementById("img"+i).src = gender == 'Male' ? '/img/maleU3y.png' : '/img/femaleU3y.png';
+					} else if(age > 6 && age < 18){
+						app_text.getElementById("img"+i).src = gender == 'Male' ? '/img/maleU12y.png' : '/img/femaleU12y.png';
+					} else {
+						app_text.getElementById("img"+i).src = gender == 'Male' ? '/img/male.png' : '/img/female.png';
+					}
                 }
             }
 
@@ -376,6 +392,16 @@ $.get("https://min-api.cryptocompare.com/data/price?fsym=ETH&tsyms=BTC,USD,EUR,G
                 else 
                     return document.getElementsByTagName(str);
             }
+			function getAge(dateString) {
+				var today = new Date();
+				var birthDate = new Date(dateString);
+				var age = today.getFullYear() - birthDate.getFullYear();
+				var m = today.getMonth() - birthDate.getMonth();
+				if (m < 0 || (m === 0 && today.getDate() < birthDate.getDate())) {
+					age--;
+				}
+				return parseInt(age);
+			}
             
             KhoiTao();
             $('#ApplicationForm').find('#btnNext1').click(function () {
