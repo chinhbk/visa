@@ -365,6 +365,22 @@ $.get("https://min-api.cryptocompare.com/data/price?fsym=ETH&tsyms=BTC,USD,EUR,G
                     app_text.getElementById("passport_number"+i+"_text").innerHTML = g('#passport_number'+i).value;
                     app_text.getElementById("passportExpiryDate"+i+"_text").innerHTML = g('#passportExpiryDate'+i).value;
                     app_text.getElementById("gender"+i+"_text").innerHTML = g('#gender'+i).value;
+					
+					var age = getAge(g('#dateOfBirth'+i).value);
+					var gender = g('#gender'+i).value;
+					var img  = app_text.getElementById("img"+i).src;
+					console.log(img+": img");
+					console.log(age+": age");
+					app_text.getElementById("img"+i).src = '/img/female.png';
+					if(age <= 2){
+						app_text.getElementById("img"+i).src = gender == 'Male' ? '/img/maleU1y.png' : '/img/femaleU1y.png';
+					} else if(age > 2 && age <= 6){
+						app_text.getElementById("img"+i).src = gender == 'Male' ? '/img/maleU3y.png' : '/img/femaleU3y.png';
+					} else if(age > 6 && age < 18){
+						app_text.getElementById("img"+i).src = gender == 'Male' ? '/img/maleU12y.png' : '/img/femaleU12y.png';
+					} else {
+						app_text.getElementById("img"+i).src = gender == 'Male' ? '/img/male.png' : '/img/female.png';
+					}
                 }
             }
 
@@ -376,6 +392,16 @@ $.get("https://min-api.cryptocompare.com/data/price?fsym=ETH&tsyms=BTC,USD,EUR,G
                 else 
                     return document.getElementsByTagName(str);
             }
+			function getAge(dateString) {
+				var today = new Date();
+				var birthDate = new Date(dateString);
+				var age = today.getFullYear() - birthDate.getFullYear();
+				var m = today.getMonth() - birthDate.getMonth();
+				if (m < 0 || (m === 0 && today.getDate() < birthDate.getDate())) {
+					age--;
+				}
+				return parseInt(age);
+			}
             
             KhoiTao();
             $('#ApplicationForm').find('#btnNext1').click(function () {
@@ -1949,7 +1975,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 															<div class="feature-box-info">
 																<h4 class="mb-none">
 																	<span style="font-size: 11pt;">
-																		<a href="tel:0084982661133">0084 999 999 999</a>
+																		<a href="tel:0084916128611">0084 916 128 611</a>
 																	</span>
 																</h4>
 																<p>
@@ -1966,7 +1992,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 															<div class="feature-box-info">
 																<h4 class="mb-none">
 																	<span style="font-size: 11pt;">
-																		<a href="mailto:sales@travelvietnam.com">sales@travelvietnam.com</a>
+																		<a href="mailto:vietnamvisatours@gmail.com">vietnamvisatours@gmail.com</a>
 																	</span>
 																</h4>
 																<p>
@@ -2419,12 +2445,12 @@ function showaddmobile() {
 			
 
 <div class="custom">
-	<span class="diachicuoitrang">HANOI - VIETNAM</span><br>No 106, Dinh Cong St,<br>Thanh Xuan Dist., Hanoi<br>T: +8424 9999 99999 - F: +8424 9999 9999</div>
+	<span class="diachicuoitrang">HANOI - VIETNAM</span><br>No 106, Dinh Cong St,<br>Thanh Xuan Dist., Hanoi<br>T: +84 916 128 611</div>
 
 			</div>
 		</div>
 		<div class="t3-spotlight t3-spotlight-2 row">
-				<div class="col-xs-12 col-md-6">© 2018 <img src="/templates/bienthuy/images/vietnam-flag.png" alt="Vietnam Tour" border="0" width="16"> <b>Vietnam Tour</b>. International Tour Operator <a href="/company-profile.html" target="_blank" title="Vietnam Tour">licence No: 0919/TCDL</a>. All rights Reserved. <a href="https://www.dmca.com/Protection/Status.aspx?ID=c2cb4482-165e-4571-9060-1164fc0b823a&amp;refurl=https://vietnamtour.com/" title="DMCA.com Protection Status" class="dmca-badge" target="_blank" rel="noopenner nofollow"> <img src="//images.dmca.com/Badges/dmca_protected_sml_120n.png?ID=c2cb4482-165e-4571-9060-1164fc0b823a" alt="DMCA.com Protection Status"></a> <script src="//images.dmca.com/Badges/DMCABadgeHelper.min.js"> </script><br>A division of <img src="/templates/bienthuy//images/ATLsmallicon.jpg" border="0"> <a title="Asia Travel &amp; Leisure" href="http://asiatravelandleisure.com" target="_blank" rel="noopenner nofollow"><b>Asia Travel &amp; Leisure</b></a>. 
+				<div class="col-xs-12 col-md-6">© 2018 <img src="/templates/bienthuy/images/vietnam-flag.png" alt="Vietnam Tour" border="0" width="16"> <b>Vietnam Visa Tour</b>. International Tour Operator <a href="/company-profile.html" target="_blank" title="Vietnam Tour">licence No: </a>. All rights Reserved. <a style="display:none" href="https://www.dmca.com/Protection/Status.aspx?ID=c2cb4482-165e-4571-9060-1164fc0b823a&amp;refurl=https://vietnamtour.com/" title="DMCA.com Protection Status" class="dmca-badge" target="_blank" rel="noopenner nofollow"> <img src="//images.dmca.com/Badges/dmca_protected_sml_120n.png?ID=c2cb4482-165e-4571-9060-1164fc0b823a" alt="DMCA.com Protection Status"></a> <script src="//images.dmca.com/Badges/DMCABadgeHelper.min.js"> </script>			
 				<ul class="social-icons icon-circle icon-rotate list-unstyled list-inline"> 
 						  <li> <a title="Find Vietnam Tour on Facebook" href="javascript:void(0)" target="_blank" rel="noopenner nofollow"><i class="fa fa-facebook"></i></a></li>  
 						  <li> <a title="Find Vietnam Tour on Google Plus" href="javascript:void(0)" target="_blank" rel="noopenner nofollow"><i class="fa fa-google-plus"></i></a></li> 
