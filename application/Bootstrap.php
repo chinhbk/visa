@@ -49,5 +49,79 @@ class Bootstrap extends Zend_Application_Bootstrap_Bootstrap
 		$registry->constants = new Zend_Config( $this->getApplication()->getOption('constants') );
 	}
 	
+	public function _initRoute()
+
+    {
+
+        // get instance of front controller
+        $frontController = Zend_Controller_Front::getInstance();
+
+        // to retrive it $this->getRequest->getParam(‘id)
+
+        // in the index action of product controller
+        // tour/10-hanoi.html
+        $route = new Zend_Controller_Router_Route_Regex(
+            // The pattern this route matches
+            'tour/([\d]+)-([a-z0-9-*()]+)', 
+            // Configure controller/action
+            array(
+                'action' => 'tour-detail',
+                'controller' => 'index'
+            ), 
+            // Map the subpatterns to params
+            array(
+
+                1 => 'id',
+
+                2 => 'name'
+            ), 
+
+            // Reverse map used when assembling the route
+            'tour/%d-%s');
+
+        $frontController->getRouter()->addRoute('tour-detail', $route);
+
+        // tour-menu
+        $route_tour_menu = new Zend_Controller_Router_Route_Regex(
+            // The pattern this route matches
+            'tours/([\d]+)-([a-z0-9-*()]+)', 
+            // Configure controller/action
+            array(
+                'action' => 'tour-menu',
+                'controller' => 'index'
+            ), 
+            // Map the subpatterns to params
+            array(
+
+                1 => 'id',
+
+                2 => 'name'
+            ), 
+
+            // Reverse map used when assembling the route
+            'tours/%d-%s');
+        $frontController->getRouter()->addRoute('tour-menu', $route_tour_menu);
+        
+        
+        $route_tour_book = new Zend_Controller_Router_Route_Regex(
+            // The pattern this route matches
+            'tour-book/([\d]+)-([a-z0-9-*()]+)',
+            // Configure controller/action
+            array(
+                'action' => 'tour-book',
+                'controller' => 'index'
+            ),
+            // Map the subpatterns to params
+            array(
+                
+                1 => 'id',
+                
+                2 => 'name'
+            ),
+            
+            // Reverse map used when assembling the route
+            'tour-book/%d-%s');
+            $frontController->getRouter()->addRoute('tour-book', $route_tour_book);
+    }
 	
 } 

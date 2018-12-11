@@ -139,7 +139,11 @@ class Admin_TourController extends Zend_Controller_Action
 		$request = $this->getRequest();
 		//Zend_Debug::dump( $request->getParam('is_hot'));die();
         if ($request->isPost()) {
-		//Zend_Debug::dump(  $request->getPost());die();
+            //Zend_Debug::dump($request->getParam('img_uploaded_images'));die();
+/*             foreach($request->getParam('img_uploaded_images') as $val){
+                echo $val;
+            }
+            die; */
 		    if(strlen($request->getParam('name')) == 0 || strlen($request->getParam('short_desc')) == 0 || $request->getParam('sub_tour_type_id')  == 0){
     		    $this->view->errorMessage = 'Please fill data into (*) fields';
     		    return;
@@ -160,7 +164,7 @@ class Admin_TourController extends Zend_Controller_Action
 			$tour->code =  $request->getParam('code');
 			$tour->duration =  $request->getParam('duration');
 			$tour->image_small =  $request->getParam('img_uploaded');
-			$tour->image = (strlen($request->getParam('img_uploaded2')) == 0 ? null : $request->getParam('img_uploaded2')) ;
+			$tour->image = (strlen($request->getParam('img_uploaded_images')) == 0 ? null : $request->getParam('img_uploaded_images')) ;
 			$tour->price = $request->getParam('price');
 			$tour->is_hot = $request->getParam('is_hot');					
 			$tour->color = $request->getParam('color');
@@ -211,6 +215,13 @@ class Admin_TourController extends Zend_Controller_Action
 		//Zend_Debug::dump( $tour);die();
 		//$tour->content = htmlspecialchars_decode($tour->content);
 		//Zend_Debug::dump( $tour);die();
+		$str =  str_replace('[', '', $tour->image);
+		$str =  str_replace(']', '', $str);
+		$str =  str_replace('"', '', $str);
+		//$str =  str_replace(',', '', $str);
+		//Zend_Debug::dump(explode(',', $str));die();
+		$tour->image = explode(',', $str);
+		
 		$this->view->tour = $tour;
 		
 		$tourType_mapper = new Application_Model_TourTypeMapper();
@@ -396,13 +407,83 @@ class Admin_TourController extends Zend_Controller_Action
 		}
 	}
 	
+	public function uploadImagesAction(){
+	    $this->_helper->layout()->disableLayout(); //  shuts off of the layout
+	    $this->_helper->viewRenderer->setNoRender();// stop automatic rendering
+	    
+	    $files=array();
+	    $errors=array();
+	    $formats = array("jpg", "png", "gif", "bmp", "jpeg", "PNG", "JPG", "JPEG", "GIF", "BMP");
+	    //Zend_Debug::dump( $request);die();
+	    if(isset($_POST) and $_SERVER['REQUEST_METHOD'] == "POST"){
+	        // Count # of uploaded files in array
+	        $total = count($_FILES['file']['name']);
+	        // Loop through each file
+	        for( $i=0 ; $i < $total ; $i++ ) {
+	            $name = $_FILES['file']['name'][$i];
+	            $size = $_FILES['file']['size'][$i];
+	            $tmp  = $_FILES['file']['tmp_name'][$i];
+    	        //echo $name .'--'. $size. '--'.$tmp;
+    	        //die();
+    	        if(strlen($name)){
+    	            $ext = $this->_getExtension($name);
+    	            
+    	            //die( is_uploaded_file($tmp));
+    	            if(in_array($ext,$formats)){
+    	                if($size<(1024*1024*5)){
+    	                    $imgn = time().$i.".".$ext;
+    	                    if(is_uploaded_file($tmp)){
+    	                        if(move_uploaded_file($tmp, "uploads/".$imgn)){
+    	                            //echo "File Name: ".$_FILES['file']['name'];
+    	                            //echo "<br/>File Temporary Location : ".$_FILES['file']['tmp_name'];
+    	                            //echo "<br/>File Location : ". "/uploads/". $imgn."'" ;
+    	                            //echo "<br/>File Size : ".$_FILES['file']['size'];
+    	                            //echo "<br/>File Type : ".$_FILES['file']['type'];
+    	                            array_push($files,'/uploads/' . $imgn);
+    	                            //echo "<br/><input name='img_uploaded' type='hidden' value='/uploads/".$imgn."'/>";    	                            
+    	                        }else{
+    	                            array_push($errors, $name);
+    	                        }
+    	                        
+    	                    }
+    	                    
+    	                } else{
+    	                    echo "Image File Size Max 5 MB";
+    	                }
+    	            } else {
+    	                echo "Invalid Image file format.";
+    	            }
+    	        }else{
+    	            echo "Please select an image.";
+    	            exit;
+    	        }
+	        }
+	        $result = array('files' => $files, 'errors' => $errors);
+	        echo json_encode($result);
+	    }
+	}
+	
+	public function deleteFileAction(){	    
+	    $this->_helper->layout()->disableLayout(); //  shuts off of the layout
+	    $this->_helper->viewRenderer->setNoRender();// stop automatic rendering
+	    if (array_key_exists('delete_file', $_POST)) {
+	        $filename = APPLICATION_PATH.'/..'.$_POST['delete_file'];
+	        //echo $filename; die;
+	        if (file_exists($filename)) {
+	            unlink($filename);
+	            echo 'File '.$filename.' has been deleted';
+	        } else {
+	            echo 'Could not delete '.$filename.', file does not exist';
+	        }
+	    }
+	}
 	
 	public function upload2Action(){
 		$this->_helper->layout()->disableLayout(); //  shuts off of the layout
 		$this->_helper->viewRenderer->setNoRender();// stop automatic rendering
 			
 		$formats = array("jpg", "png", "gif", "bmp", "jpeg", "PNG", "JPG", "JPEG", "GIF", "BMP");
-		 
+		//Zend_Debug::dump( $request);die();
 		if(isset($_POST) and $_SERVER['REQUEST_METHOD'] == "POST"){
 			$name = $_FILES['file']['name'];
 			$size = $_FILES['file']['size'];

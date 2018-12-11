@@ -153,8 +153,14 @@ class IndexController extends Zend_Controller_Action
         $sub_tour_type = $tourType_mapper->getById($id);        
         $tour->name = $sub_tour_type->name;
 		$tour->parent_id = $sub_tour_type->parent_id;
+		//parse images
+		$str =  str_replace('[', '', $tour->image);
+		$str =  str_replace(']', '', $str);
+		$str =  str_replace('"', '', $str);
+		//$str =  str_replace(',', '', $str);
+		//Zend_Debug::dump(explode(',', $str));die();
+		$tour->image = explode(',', $str);
         $this->view->tour = $tour;
-		//Zend_Debug::dump($tour);die();
 		//get parent
 		$parent = $tourType_mapper->getById($tour->parent_id);
         $this->view->parent = $parent;

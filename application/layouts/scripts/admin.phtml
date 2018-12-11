@@ -179,6 +179,62 @@
 				  $(this).ajaxSubmit(options);
 				 return false;
 				 });
+
+				 $("#uploadImages").on('submit',function(){
+					  var options={
+					   url     : $(this).attr("action"),
+					   success : onsuccessImages
+					  };
+					  $(this).ajaxSubmit(options);
+					 return false;
+				});
+				 function onsuccessImages(response,status){		   
+
+				        response = JSON.parse(response);
+				        console.log(response.files);
+				        if(response.errors.length > 0){
+				        	$("#onerrorimgs").html('<div id="msg" style="border:5px solid #CCC;padding:15px;">Error file:'+response.errors+'</div>');				        	
+						} else {
+							var html =$("#onsuccessmsgimgs").html();
+							//console.log($("#img_uploaded_images").val());
+							var iniVal = $("#img_uploaded_images").val();
+							var val = [];
+							if(iniVal.trim().length > 0){
+								val = JSON.parse($("#img_uploaded_images").val());
+							}
+							for($i = 0; $i < response.files.length; $i++){
+								html += '<div id="msg" style="border:5px solid #CCC;padding:15px;"><img style="margin-left:10px;" src="'+response.files[$i]+'"><button style="margin-left:10px;" class="delete_img" data-src="'+response.files[$i]+'">Delete</button></div>'								
+								val.push(response.files[$i]);
+							}
+							//console.log(html);
+							$("#onsuccessmsgimgs").html(html);
+							
+							$("#img_uploaded_images").val(JSON.stringify(val));
+						}
+					   }
+				 $(document).on("click", ".delete_img", function(e) { //user click on delete image button
+				        e.preventDefault();
+				        $file = $(this).attr('data-src');
+				        $(this).parent().remove();
+				        //update data in hidden field
+				        var iniVal = $("#img_uploaded_images").val();
+				        if(iniVal.trim().length > 0){
+				        	iniVal = JSON.parse($("#img_uploaded_images").val());
+				        	iniVal.splice($.inArray($file, iniVal),1);
+				        	$("#img_uploaded_images").val(JSON.stringify(iniVal));				        	
+					    }
+				        //delete image on server
+						$.ajax({
+    					  type: "POST",
+    					  url: "/admin/tour/delete-file",
+    					  data: { delete_file: $file },
+    					  success: function(response,status)
+    					  {   
+    						 console.log(response);
+    					  }
+						});	
+				    })
+				   
 			 function onsuccess3(response,status){
 				    $("#onsuccessmsg3").html('<div id="msg" style="border:5px solid #CCC;padding:15px;">'+response+'</div>');
 			        //console.log(response);

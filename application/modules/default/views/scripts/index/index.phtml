@@ -158,11 +158,11 @@
 																style="padding: 0 20px 20px 0;">
 																<h4 class="nspHeader tleft fnone has-image">
 																	<a
-																		href="/index/tour-detail/id/<?php echo $hot->tour_type_id;?>"
+																		href="/tour/<?php echo $hot->tour_type_id?>-<?php echo str_replace(' ', '-', $hot->name)?>"																		
 																		title="<?php echo $hot->name; ?>" target="_self"><?php echo $hot->name; ?></a>
 																</h4>
 																<a
-																	href="/index/tour-detail/id/<?php echo $hot->tour_type_id;?>"
+																	href="/tour/<?php echo $hot->tour_type_id?>-<?php echo str_replace(' ', '-', $hot->name)?>"
 																	class="nspImageWrapper tleft fleft gkResponsive"
 																	style="margin: 6px 14px 0 0;" target="_self"> <img
 																	class="nspImage" src="<?php echo $hot->image_small; ?>"
@@ -183,7 +183,7 @@
 																					<li class="even">
 																	<h4>
 																		<a
-																			href="/index/tour-detail/id/<?php echo $another->tour_type_id;?>"
+																			href="/tour/<?php echo $another->tour_type_id?>-<?php echo str_replace(' ', '-', $another->name)?>"
 																			title="<?php echo $another->name;?>" target="_self"><?php echo $another->name;?></a>
 																	</h4>
 																</li>

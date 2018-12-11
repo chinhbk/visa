@@ -6,7 +6,7 @@
 	<title>Vietnam Tour 2019 - Best Vietnam Vacation Packages for your Holiday</title>
 	<link href="/?format=feed&amp;type=rss" rel="alternate" type="application/rss+xml" title="RSS 2.0">
 	<link href="/?format=feed&amp;type=atom" rel="alternate" type="application/atom+xml" title="Atom 1.0">
-	<link href="/templates/bienthuy/favicon.ico" rel="shortcut icon" type="image/vnd.microsoft.icon">
+	<link href="/images/favicon.png" rel="shortcut icon" type="image/vnd.microsoft.icon">
 	<link href="/css/css-016db-79490.css" rel="stylesheet" type="text/css" media="all" attribs="[]">
 	<link href="/css/css-6659c-35222.css" rel="stylesheet" type="text/css" media="all" attribs="[]">
 	<link href="https://fonts.googleapis.com/css?family=Roboto:400,300,500,700" rel="stylesheet" type="text/css">
@@ -1924,9 +1924,9 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 					<div class="row">
 						<!-- Logo -->
 						<div class="col-xs-12 col-sm-5 col-md-4 logo">
-							<div class="logo-image">
+							<div class="logo-image" style="margin-left: -10px;">
 								<a href="/" title="Vietnam Travel">
-									<img class="logo-img img-responsive" src="/images/logo2.png" alt="Vietnam Travel">
+									<img class="logo-img img-responsive" src="/images/logo.png" alt="Vietnam Travel">
 										<span>Vietnam Travel</span>
 									</a>
 									<small class="site-slogan"></small>
@@ -2040,15 +2040,15 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 						<?php foreach ($menu0->menu1 as $menu1){?>
 							<?php if(sizeof($menu1->menu2) == 0){ ?>
 								<li itemprop="name" class="">
-                            		<a itemprop="url" rel="nofollow" href="/index/tour-menu/id/<?php echo $menu1->id?>" data-target="#"><?php echo $menu1->name?></a>                            
+                            		<a itemprop="url" rel="nofollow" href="/tours/<?php echo $menu1->id?>-<?php echo str_replace(' ', '-', $menu1->name)?>" data-target="#"><?php echo $menu1->name?></a>                            
 								</li>
 							<?php } else {?>
 								<li itemprop="name" class="dropdown-submenu">
-									<a itemprop="url" href="/index/tour-menu/id/<?php echo $menu1->id?>"><?php echo $menu1->name?></a>
+									<a itemprop="url" href="/tours/<?php echo $menu1->id?>-<?php echo str_replace(' ', '-', $menu1->name)?>"></a>
 									<ul class="level2 dropdown-menu">
 										<?php foreach ($menu1->menu2 as $menu2){?>
 										<li itemprop="name" class="">
-											<a itemprop="url" href="/index/tour-detail/id/<?php echo $menu2->id?>" data-target="#"><?php echo $menu2->name?></a>
+											<a itemprop="url" href="/tour/<?php echo $menu2->id?>-<?php echo str_replace(' ', '-', $menu2->name)?>" data-target="#"><?php echo $menu2->name?></a>
 										</li>
 										<?php }?>
 									</ul>
@@ -2114,11 +2114,11 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 <?php foreach ($menu0->menu1 as $menu1){?>
 <?php if(sizeof($menu1->menu2) == 0){ ?>
 <li itemprop="name" data-id="<?php echo $menu1->id?>" data-level="2" class="open">
-<a itemprop="url" class="" href="/index/tour-menu/id/<?php echo $menu1->id?>" data-target="#"><?php echo $menu1->name?> </a>
+<a itemprop="url" class="" href="/tours/<?php echo $menu1->id?>-<?php echo str_replace(' ', '-', $menu1->name)?>" data-target="#"><?php echo $menu1->name?> </a>
 </li>
 <?php } else {?> 
 <li itemprop="name" class="dropdown-submenu mega" data-id=<?php echo $menu1->id?> data-level="2">
-<a itemprop="url" class="" href="/index/tour-menu/id/<?php echo $menu1->id?>" data-target="#"><?php echo $menu1->name?></a>
+<a itemprop="url" class="" href="/tours/<?php echo $menu1->id?>-<?php echo str_replace(' ', '-', $menu1->name)?>" data-target="#"><?php echo $menu1->name?></a>
 
 <div class="nav-child dropdown-menu mega-dropdown-menu" style="width: 300px;" data-width="300">
 <div class="mega-dropdown-inner">
@@ -2128,7 +2128,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 <ul itemscope="" itemtype="http://www.schema.org/SiteNavigationElement" class="mega-nav level2">
 <?php foreach ($menu1->menu2 as $menu2){?>
 <li itemprop="name" data-id="<?php echo $menu2->id?>" data-level="3">
-<a itemprop="url" class="" href="/index/tour-detail/id/<?php echo $menu2->id?>" data-target="#"><?php echo $menu2->name?></a>
+<a itemprop="url" class="" href="/tour/<?php echo $menu2->id?>-<?php echo str_replace(' ', '-', $menu2->name)?>" data-target="#"><?php echo $menu2->name?></a>
 </li>
 <?php }?>
 </ul>
@@ -2419,7 +2419,7 @@ function showaddmobile() {
 			
 
 <div class="custom">
-	<span class="diachicuoitrang">HANOI - VIETNAM</span><br>Unit 999, TPBank Centre,<br>99 To Hieu St., Hoan Kiem Dist., Hanoi<br>T: +8424 9999 99999 - F: +8424 9999 9999</div>
+	<span class="diachicuoitrang">HANOI - VIETNAM</span><br>No 106, Dinh Cong St,<br>Thanh Xuan Dist., Hanoi<br>T: +8424 9999 99999 - F: +8424 9999 9999</div>
 
 			</div>
 		</div>

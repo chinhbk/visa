@@ -21,16 +21,17 @@
 						</fieldset>
 						<fieldset>
 							<label>Upload main image</label>
-							  <form action="/admin/tour/upload2" method="POST" id="uploadform2">
-							   <input type="file" name="file"/>
+							  <form action="/admin/tour/upload-images" method="POST" id="uploadImages">
+							   <input type="file" name="file[]" multiple/>
 							   <input type="submit" name="btnUpload" value="Upload"/><br/><br/>
 							   
-							   <div id="onsuccessmsg2" style="padding:15px;"></div>
+							   <div id="onsuccessmsgimgs" style="padding:15px;"></div>
+							   <div id="onerrorimgs" style="padding:15px;"></div>
 							  </form>
 						</fieldset>
 						<form name="form_add" method="POST" action="/admin/tour/add" onSubmit="document.form_add.editor_contents.value  = $('#editor #edit .froala-element').html()">
 							<input  type="hidden" name="img_uploaded" id="img_uploaded" value="" />
-							<input  type="hidden" name="img_uploaded2" id="img_uploaded2" value="" />
+							<input  type="hidden" name="img_uploaded_images" id="img_uploaded_images" value="" />
 							<fieldset>
 								<label>Tour type(*)</label>
 								<select name="tour_type_id" id="tour_type_id" style="width: 200px;">
