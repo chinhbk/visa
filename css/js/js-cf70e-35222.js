@@ -982,7 +982,7 @@ Joomla=window.Joomla||{},Joomla.editors=Joomla.editors||{},Joomla.editors.instan
 
 
 /*===============================
-https://vietnamtour.com/modules/mod_bt_contentslider/tmpl/js/slides.js
+http://vietnamvisatours.com/modules/mod_bt_contentslider/tmpl/js/slides.js
 ================================================================================*/;
 (function($){$.fn.slides=function(option){option=$.extend({},$.fn.slides.option,option);return this.each(function(){$('.'+option.container,$(this)).children().wrapAll('<div class="slides_control"/>');var elem=$(this),control=$('.slides_control',elem),total=control.children().size(),width=getWidth(),height=getHeight(),start=option.start-1,effect=option.effect.indexOf(',')<0?option.effect:option.effect.replace(' ','').split(',')[0],paginationEffect=option.effect.indexOf(',')<0?effect:option.effect.replace(' ','').split(',')[1],next=0,prev=0,number=0,current=0,loaded,active,clicked,position,direction,imageParent,pauseTimeout,playInterval;equalHeight();if(option.width=="auto"){$(window).resize(function(){var width=getWidth();elem.find('.slide').css({left:width,width:width});equalHeight();control.css({left:-width,width:(width*3),height:getHeight()});});}
 if(total<2){$('.'+option.container,$(this)).fadeIn(option.fadeSpeed,option.fadeEasing,function(){loaded=true;option.slidesLoaded();});$('.'+option.next+', .'+option.prev,elem).fadeOut(0);return false;}
@@ -1026,7 +1026,7 @@ $child.remove();});}}));};})(jQuery);
 
 
 /*===============================
-https://vietnamtour.com/modules/mod_bt_contentslider/tmpl/js/default.js
+http://vietnamvisatours.com/modules/mod_bt_contentslider/tmpl/js/default.js
 ================================================================================*/;
 BTCJ=jQuery.noConflict();jQuery(document).ready(function(){if(typeof(btcModuleIds)!='undefined'){for(var i=0;i<btcModuleIds.length;i++){jQuery('#btcontentslider'+btcModuleIds[i]).css("direction","ltr");jQuery('#btcontentslider'+btcModuleIds[i]).fadeIn("fast");if(btcModuleOpts[i].width=='auto'){jQuery('#btcontentslider'+btcModuleIds[i]+' .slide').width(jQuery('#btcontentslider'+btcModuleIds[i]+' .slide').width());}
 BTCJ('#btcontentslider'+btcModuleIds[i]).slides(btcModuleOpts[i]);if(jQuery("html").css("direction")=="rtl"){jQuery('#btcontentslider'+btcModuleIds[i]+' .slides_control').css("direction","rtl");}}}
@@ -1034,7 +1034,7 @@ jQuery('img.hovereffect').hover(function(){jQuery(this).stop(true).animate({opac
 
 
 /*===============================
-https://vietnamtour.com/modules/mod_bt_contentslider/tmpl/js/jquery.easing.1.3.js
+http://vietnamvisatours.com/modules/mod_bt_contentslider/tmpl/js/jquery.easing.1.3.js
 ================================================================================*/;
 BTCJ.easing['jswing']=BTCJ.easing['swing'];BTCJ.extend(BTCJ.easing,{def:'easeOutQuad',swing:function(x,t,b,c,d){return BTCJ.easing[BTCJ.easing.def](x,t,b,c,d);},easeInQuad:function(x,t,b,c,d){return c*(t/=d)*t+b;},easeOutQuad:function(x,t,b,c,d){return-c*(t/=d)*(t-2)+b;},easeInOutQuad:function(x,t,b,c,d){if((t/=d/2)<1)return c/2*t*t+b;return-c/2*((--t)*(t-2)-1)+b;},easeInCubic:function(x,t,b,c,d){return c*(t/=d)*t*t+b;},easeOutCubic:function(x,t,b,c,d){return c*((t=t/d-1)*t*t+1)+b;},easeInOutCubic:function(x,t,b,c,d){if((t/=d/2)<1)return c/2*t*t*t+b;return c/2*((t-=2)*t*t+2)+b;},easeInQuart:function(x,t,b,c,d){return c*(t/=d)*t*t*t+b;},easeOutQuart:function(x,t,b,c,d){return-c*((t=t/d-1)*t*t*t-1)+b;},easeInOutQuart:function(x,t,b,c,d){if((t/=d/2)<1)return c/2*t*t*t*t+b;return-c/2*((t-=2)*t*t*t-2)+b;},easeInQuint:function(x,t,b,c,d){return c*(t/=d)*t*t*t*t+b;},easeOutQuint:function(x,t,b,c,d){return c*((t=t/d-1)*t*t*t*t+1)+b;},easeInOutQuint:function(x,t,b,c,d){if((t/=d/2)<1)return c/2*t*t*t*t*t+b;return c/2*((t-=2)*t*t*t*t+2)+b;},easeInSine:function(x,t,b,c,d){return-c*Math.cos(t/d*(Math.PI/2))+c+b;},easeOutSine:function(x,t,b,c,d){return c*Math.sin(t/d*(Math.PI/2))+b;},easeInOutSine:function(x,t,b,c,d){return-c/2*(Math.cos(Math.PI*t/d)-1)+b;},easeInExpo:function(x,t,b,c,d){return(t==0)?b:c*Math.pow(2,10*(t/d-1))+b;},easeOutExpo:function(x,t,b,c,d){return(t==d)?b+c:c*(-Math.pow(2,-10*t/d)+1)+b;},easeInOutExpo:function(x,t,b,c,d){if(t==0)return b;if(t==d)return b+c;if((t/=d/2)<1)return c/2*Math.pow(2,10*(t-1))+b;return c/2*(-Math.pow(2,-10*--t)+2)+b;},easeInCirc:function(x,t,b,c,d){return-c*(Math.sqrt(1-(t/=d)*t)-1)+b;},easeOutCirc:function(x,t,b,c,d){return c*Math.sqrt(1-(t=t/d-1)*t)+b;},easeInOutCirc:function(x,t,b,c,d){if((t/=d/2)<1)return-c/2*(Math.sqrt(1-t*t)-1)+b;return c/2*(Math.sqrt(1-(t-=2)*t)+1)+b;},easeInElastic:function(x,t,b,c,d){var s=1.70158;var p=0;var a=c;if(t==0)return b;if((t/=d)==1)return b+c;if(!p)p=d*.3;if(a<Math.abs(c)){a=c;var s=p/4;}
 else var s=p/(2*Math.PI)*Math.asin(c/a);return-(a*Math.pow(2,10*(t-=1))*Math.sin((t*d-s)*(2*Math.PI)/p))+b;},easeOutElastic:function(x,t,b,c,d){var s=1.70158;var p=0;var a=c;if(t==0)return b;if((t/=d)==1)return b+c;if(!p)p=d*.3;if(a<Math.abs(c)){a=c;var s=p/4;}
@@ -1043,7 +1043,7 @@ else var s=p/(2*Math.PI)*Math.asin(c/a);if(t<1)return-.5*(a*Math.pow(2,10*(t-=1)
 
 
 /*===============================
-https://vietnamtour.com/modules/mod_news_pro_gk5/interface/scripts/engine.jquery.js
+http://vietnamvisatours.com/modules/mod_news_pro_gk5/interface/scripts/engine.jquery.js
 ================================================================================*/;
 jQuery.noConflict();jQuery(window).load(function(){jQuery(document).find('.nspMain').each(function(i,module){if(!jQuery(module).hasClass('activated')){new NSP5(module);}});});var NSP5=function(module){this.init_fields(module);this.init_interface();};NSP5.prototype={animation:true,anim_arts:false,anim_lists:false,arts:null,arts_block_width:0,arts_current:0,arts_pages:null,arts_per_page:null,config:null,hover_anim:null,links:null,links_block_width:0,links_pages:null,links_pages_amount:null,links_current:0,modInterface:null,module:null,swipe_max_time:500,swipe_min_move:30,init_fields:function(module){this.module=jQuery(module);this.module.addClass('activated');this.config=jQuery.parseJSON(this.module.attr('data-config').replace(/'/g,"\""));this.arts=this.module.find('.nspArt');this.arts_pages=this.module.find('.nspArtPage');this.arts_per_page=this.config['news_column']*this.config['news_rows'];this.hover_anim=this.module.hasClass('hover');this.links=(this.module.find('.nspLinkScroll1'))?this.module.find('.nspLinkScroll1 li'):[];this.links_pages=this.module.find('.nspList');this.links_pages_amount=Math.ceil(Math.ceil(this.links.length/this.config['links_amount'])/this.config['links_columns_amount']);this.modInterface={top:this.module.find('.nspTopInterface'),bottom:this.module.find('.nspBotInterface')};this.pages_amount=Math.ceil(this.arts.length/this.arts_per_page);},init_interface:function(){var $this=this;if(this.arts.length>0){this.arts_block_width=100;}
 this.module.mouseenter(function(){if(!$this.module.hasClass('onhover')){$this.module.addClass('onhover');}});this.module.mouseleave(function(){if($this.module.hasClass('onhover')){$this.module.removeClass('onhover');}});if(this.links.length>0){this.links_block_width=100;}

@@ -9,7 +9,19 @@ class IndexController extends Zend_Controller_Action
 		$menu_types = $product_type_mapper->getAllProductType2();
 		//Zend_Debug::dump( $types);die();
 		$this->view->menuTypes = $menu_types;
-    }    
+    }
+    
+    public function _generateURL($id, $name, $type){
+        switch($type){
+            case 1: $type = 'tours'; break;
+            case 2: $type = 'tour'; break;
+            case 3: $type = 'tour-book'; break;
+        }
+        $params = $id.'-'.$name;
+        //replace non-alphanumeric character
+        $params = preg_replace("![^a-z0-9]+!i", "-", $params);
+        return '/'.$type.'/'.strtolower($params);
+    }
     
     protected function _menu(){
         $tour_type_mapper = new Application_Model_TourTypeMapper();
@@ -21,9 +33,14 @@ class IndexController extends Zend_Controller_Action
             $menu->menu1 = $tour_type_mapper->getAllTourType($menu->id);
             foreach($menu->menu1 as $menu1){
                 $menu1->menu2 =  $tour_type_mapper->getAllTourType($menu1->id);
+                //generate url
+                $menu1->url = $this->_generateURL($menu1->id, $menu1->name, 1);
+                foreach($menu1->menu2 as $menu2){
+                    $menu2->url = $this->_generateURL($menu2->id, $menu2->name, 2);
+                }
             }
         }
-        //Zend_Debug::dump($data_menu);die();
+        //Zend_Debug::dump($menu_level_0);die();
         $this->view->data_menu = $data_menu;
     }
     
@@ -109,6 +126,11 @@ class IndexController extends Zend_Controller_Action
 		$arr_ids = array();
 		foreach($hot_tour as $row){
 		    array_push($arr_ids, $row->parent_id);
+		    $row->url = $this->_generateURL($row->tour_type_id, $row->name, 2);
+		}
+		
+		foreach($tour as $t){
+		    $t->url = $this->_generateURL($t->tour_type_id, $t->name, 2);
 		}
 		
 		
@@ -153,6 +175,7 @@ class IndexController extends Zend_Controller_Action
         $sub_tour_type = $tourType_mapper->getById($id);        
         $tour->name = $sub_tour_type->name;
 		$tour->parent_id = $sub_tour_type->parent_id;
+		$tour->book_url = $this->_generateURL($tour->tour_type_id, $tour->name, 3);
 		//parse images
 		$str =  str_replace('[', '', $tour->image);
 		$str =  str_replace(']', '', $str);
@@ -168,6 +191,9 @@ class IndexController extends Zend_Controller_Action
 		        
         $tour_mapper = new Application_Model_TourMapper();
         $tours = $tour_mapper->getByParentId($tour->parent_id);
+        foreach($tours as $t){
+            $t->url = $this->_generateURL($t->tour_type_id, $t->name, 2);
+        }
         $this->view->tours = $tours;
         //Zend_Debug::dump($tours);die();
         $this->_menu();

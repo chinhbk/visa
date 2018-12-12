@@ -200,7 +200,11 @@
 							var iniVal = $("#img_uploaded_images").val();
 							var val = [];
 							if(iniVal.trim().length > 0){
-								val = JSON.parse($("#img_uploaded_images").val());
+								try{ //add case
+								  val = JSON.parse($("#img_uploaded_images").val());
+								} catch (e) { //edit case
+								  val = $("#img_uploaded_images").val().split(',');
+								}
 							}
 							for($i = 0; $i < response.files.length; $i++){
 								html += '<div id="msg" style="border:5px solid #CCC;padding:15px;"><img style="margin-left:10px;" src="'+response.files[$i]+'"><button style="margin-left:10px;" class="delete_img" data-src="'+response.files[$i]+'">Delete</button></div>'								
@@ -219,7 +223,11 @@
 				        //update data in hidden field
 				        var iniVal = $("#img_uploaded_images").val();
 				        if(iniVal.trim().length > 0){
-				        	iniVal = JSON.parse($("#img_uploaded_images").val());
+					        try{ //add case
+				        		iniVal = JSON.parse($("#img_uploaded_images").val());
+					        } catch (e) { //edit case
+					        	iniVal = $("#img_uploaded_images").val().split(',');
+							}
 				        	iniVal.splice($.inArray($file, iniVal),1);
 				        	$("#img_uploaded_images").val(JSON.stringify(iniVal));				        	
 					    }

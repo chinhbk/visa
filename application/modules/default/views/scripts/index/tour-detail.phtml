@@ -21,7 +21,7 @@
 
 
 	
-	<a class="label label-info" href="/tours/<?php echo $this->parent->id?>-<?php echo str_replace(' ', '-', $this->parent->name)?>"><?php echo $this->parent->name?></a>
+	<a class="label label-info" href="<?php echo $this->parent->url?>"><?php echo $this->parent->name?></a>
 	<a class="label label-info" href="javascript:void(0)">Vietnam Tours</a><meta itemprop="author" content="Bien Thuy" id="author">
 <meta itemprop="datePublished" content="" id="date">
 <meta itemprop="dateModified" content="" id="datemodified">
@@ -42,8 +42,8 @@ height:66.666666666667px}
 height:62.666666666667px;
 border-width:2px;
 margin-top:4px}</style><div class="fotorama--hidden"></div>
-	<div class="slideshowck camera_wrap camera_amber_skin"
-				id="camera_wrap_90">
+			<div class="slideshowck camera_wrap camera_amber_skin"
+				id="camera_wrap_tour_detail">
 				<?php foreach ($this->tour->image as $img){?>
         				<div data-src="<?php echo $img?>">
         				</div>
@@ -87,7 +87,7 @@ margin-top:4px}</style><div class="fotorama--hidden"></div>
 
 							  <div class="row center">
 								<div class="col-xs-12 col-md-12">
-								<a href="/tour-book/<?php echo $this->tour->tour_type_id;?>-<?php echo str_replace(' ', '-', $this->tour->name)?>" title="Request tour: <?php echo $this->tour->name;?>"><span class="booktour-button">REQUEST THIS TOUR</span></a>								
+								<a href="<?php echo $this->tour->book_url;?>" title="Request tour: <?php echo $this->tour->name;?>"><span class="booktour-button">REQUEST THIS TOUR</span></a>								
 								</div>
 							</div>
 							  
@@ -134,7 +134,7 @@ margin-top:4px}</style><div class="fotorama--hidden"></div>
 	<ul class="huyhoa">
 	<?php foreach($this->tours as $tour) {?>
 		<?php if($tour->tour_type_id != $this->tour->tour_type_id){?>
-		<li><a href="/tour/<?php echo $tour->tour_type_id?>-<?php echo str_replace(' ', '-', $tour->name)?>" title="<?php echo $tour->name?>"><?php echo $tour->name?></a></li>
+		<li><a href="<?php echo $tour->url?>" title="<?php echo $tour->name?>"><?php echo $tour->name?></a></li>
 	<?php }};?>
 	</ul></div>
 </div>

@@ -268,7 +268,7 @@ class Admin_TourController extends Zend_Controller_Action
 			$tour->code =  $request->getParam('code');
 			$tour->duration =  $request->getParam('duration');
 			$tour->image_small =  $request->getParam('img_uploaded');
-			$tour->image = (strlen($request->getParam('img_uploaded2')) == 0 ? null : $request->getParam('img_uploaded2')) ;
+			$tour->image = (strlen($request->getParam('img_uploaded_images')) == 0 ? null : $request->getParam('img_uploaded_images')) ;
 			$tour->price = $request->getParam('price');
 			$tour->is_hot = $request->getParam('is_hot');
 			$tour->color = $request->getParam('color');

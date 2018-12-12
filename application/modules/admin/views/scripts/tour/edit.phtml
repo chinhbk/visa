@@ -38,7 +38,7 @@
 						<form name="form_add" method="POST" action="/admin/tour/edit" onSubmit="document.form_add.editor_contents.value  = $('#editor #edit .froala-element').html()">
 							<input  type="hidden" name="id" id="id" value="<?php echo $this->tour->tour_type_id;?>" />
 							<input  type="hidden" name="img_uploaded" id="img_uploaded" value="<?php echo $this->tour->image_small;?>" />
-							<input  type="hidden" name="img_uploaded_images" id="img_uploaded_images" value="<?php echo $this->tour->image;?>" />								
+							<input  type="hidden" name="img_uploaded_images" id="img_uploaded_images" value="<?php echo implode(',', $this->tour->image);?>" />								
 							<fieldset>
 								<label>Tour type(*)</label>
 								<select name="tour_type_id" id="tour_type_id" style="width: 200px;">
