@@ -127,38 +127,6 @@ Calendar._DN = ["Sunday","Monday","Tuesday","Wednesday","Thursday","Friday","Sat
 				 keyboardNavigation: 0,
 				 container: ''
 		});
-
-			new Slideshowck('#camera_wrap_tour_detail', {
-				 height: '40%',
-				 minHeight: '150',
-				 pauseOnClick: false,
-				 hover: 1,
-				 fx: 'random',
-				 loader: 'none',
-				 pagination: 0,
-				 thumbnails: 0,
-				 thumbheight: 75,
-				 thumbwidth: 100,
-				 time: 3000,
-				 transPeriod: 1000,
-				 alignment: 'topCenter',
-				 autoAdvance: 1,
-				 mobileAutoAdvance: 1,
-				 portrait: 0,
-				 barDirection: 'leftToRight',
-				 //imagePath: '/modules/mod_slideshowck/images/',
-				 lightbox: 'mediaboxck',
-				 fullpage: 0,
-				 mobileimageresolution: '0',
-				 navigationHover: true,
-					mobileNavHover: true,
-					navigation: true,
-					playPause: true,
-				 barPosition: 'bottom',
-				 responsiveCaption: 0,
-				 keyboardNavigation: 0,
-				 container: ''
-		});
 }); 
 
 	</script>
@@ -2070,7 +2038,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 		<!-- display on mobile, tablet -->
 		<div class="t3-navbar-collapse navbar-collapse collapse" aria-expanded="true" style="">
 			<ul itemscope="" itemtype="http://www.schema.org/SiteNavigationElement" class="nav navbar-nav level0">
-				<li itemprop="name" class="current active">
+				<li itemprop="name">
                 	<a itemprop="url" href="/">Home </a>
                 </li>
                 <li itemprop="name" class="dropdown">
@@ -2102,7 +2070,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 								</li>
 							<?php } else {?>
 								<li itemprop="name" class="dropdown-submenu">
-									<a itemprop="url" href="<?php echo $menu1->url?>"></a>
+									<a itemprop="url" href="<?php echo $menu1->url?>"><?php echo $menu1->name?></a>
 									<ul class="level2 dropdown-menu">
 										<?php foreach ($menu1->menu2 as $menu2){?>
 										<li itemprop="name" class="">
