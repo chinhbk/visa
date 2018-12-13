@@ -1975,7 +1975,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 															<div class="feature-box-info">
 																<h4 class="mb-none">
 																	<span style="font-size: 11pt;">
-																		<a href="tel:0084916128611">0084 916 128 611</a>
+																		<a href="tel:<?php echo $this->setting->hotline;?>"><?php echo $this->setting->hotline;?></a>
 																	</span>
 																</h4>
 																<p>
@@ -1992,7 +1992,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 															<div class="feature-box-info">
 																<h4 class="mb-none">
 																	<span style="font-size: 11pt;">
-																		<a href="mailto:vietnamvisatours@gmail.com">vietnamvisatours@gmail.com</a>
+																		<a href="mailto:<?php echo $this->setting->email;?>"><?php echo $this->setting->email;?></a>
 																	</span>
 																</h4>
 																<p>
@@ -2024,7 +2024,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 		<!-- Brand and toggle get grouped for better mobile display -->
 		<div class="navbar-header">
 
-			<div class="hidden-lg hidden-md">
+			<div class="hidden-lg">
 		
 											<button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".t3-navbar-collapse">
 					<i class="fa fa-bars"></i>
@@ -2445,7 +2445,7 @@ function showaddmobile() {
 			
 
 <div class="custom">
-	<span class="diachicuoitrang">HANOI - VIETNAM</span><br>No 106, Dinh Cong St,<br>Thanh Xuan Dist., Hanoi<br>T: +84 916 128 611</div>
+	<span class="diachicuoitrang">HANOI - VIETNAM</span><br><?php echo $this->setting->address;?><br>T: <?php echo $this->setting->hotline;?></div>
 
 			</div>
 		</div>

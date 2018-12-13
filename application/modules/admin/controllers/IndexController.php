@@ -37,35 +37,65 @@ class Admin_IndexController extends Zend_Controller_Action
     }
 	
 	public function contactAction(){
-		$contact_mapper = new Application_Model_ContactMapper();
-	
-		$contact = $contact_mapper->getContact();
-			//die('ssssssssss');
-		//Zend_Debug::dump( $contact );die();
-		$this->view->contact = $contact;
+	    
+	    $mapper = new Application_Model_SettingMapper();
+	    
+		$setting = $mapper->get();
+		//Zend_Debug::dump( $setting );die();
+		$this->view->setting = $setting;
 		
 		$request = $this->getRequest();
 		
 		if ($request->isPost()) {
-			
-			
-			$id =  $request->getParam('contact_id');
+								
 			$editor_contents =  $request->getParam('editor_contents');
 			if(strlen($editor_contents) == 0){
-			   $this->view->errorMessage = 'Lỗi nhập thiếu dữ liệu';
+			   $this->view->errorMessage = 'Please input data';
 			   return;
 			}
 			
-			$edit_contact = new Application_Model_Contact();
-			$edit_contact->id = $id;
-			$edit_contact->text = $editor_contents;
+			$setting = new Application_Model_Setting();
+			$setting->hotline = $request->getParam('hotline');
+			$setting->email = $request->getParam('email');
+			$setting->address = $request->getParam('address');
+			$setting->contact = $editor_contents;
 		
 		
-			$contact_mapper = new Application_Model_ContactMapper();
+			$setting_mapper = new Application_Model_SettingMapper();
 				
-			$contact_mapper->save($edit_contact); //Zend_Debug::dump( $request);die;
+			$setting_mapper->save($setting); //Zend_Debug::dump( $request);die;
 			
 			$this->redirect('admin/index/contact');
+	    }
+	}
+	
+	public function whyusAction(){
+	    
+	    $mapper = new Application_Model_SettingMapper();
+	    
+	    $setting = $mapper->get();
+	    //Zend_Debug::dump( $setting );die();
+	    $this->view->setting = $setting;
+	    
+	    $request = $this->getRequest();
+	    
+	    if ($request->isPost()) {
+	        
+	        $editor_contents =  $request->getParam('editor_contents');
+	        if(strlen($editor_contents) == 0){
+	            $this->view->errorMessage = 'Please input data';
+	            return;
+	        }
+	        
+	        $setting = new Application_Model_Setting();
+	        $setting->whyus = $editor_contents;
+	        
+	        
+	        $setting_mapper = new Application_Model_SettingMapper();
+	        
+	        $setting_mapper->save($setting); //Zend_Debug::dump( $request);die;
+	        
+	        $this->redirect('admin/index/whyus');
 	    }
 	}
 	

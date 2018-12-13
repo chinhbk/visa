@@ -9,6 +9,11 @@ class IndexController extends Zend_Controller_Action
 		$menu_types = $product_type_mapper->getAllProductType2();
 		//Zend_Debug::dump( $types);die();
 		$this->view->menuTypes = $menu_types;
+		
+		
+		$mapper = new Application_Model_SettingMapper();		
+		$setting = $mapper->get();
+		$this->view->setting = $setting;
     }
     
     public function _generateURL($id, $name, $type){
@@ -135,7 +140,7 @@ class IndexController extends Zend_Controller_Action
 		
 		
 		$tour_level_1 = $tour_type_mapper->getByIds($arr_ids);
-		$this->view->hot_tour = array_chunk($hot_tour, 3);
+		$this->view->hot_tour = array_chunk($hot_tour, 2);
 		$this->view->tour = $tour;
 		$this->view->tour_level_1 = $tour_level_1;
 		//Zend_Debug::dump($tour);die();

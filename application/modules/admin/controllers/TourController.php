@@ -215,13 +215,17 @@ class Admin_TourController extends Zend_Controller_Action
 		//Zend_Debug::dump( $tour);die();
 		//$tour->content = htmlspecialchars_decode($tour->content);
 		//Zend_Debug::dump( $tour);die();
-		$str =  str_replace('[', '', $tour->image);
-		$str =  str_replace(']', '', $str);
-		$str =  str_replace('"', '', $str);
-		//$str =  str_replace(',', '', $str);
-		//Zend_Debug::dump(explode(',', $str));die();
-		$tour->image = explode(',', $str);
-		
+		if(isset($tour->image) && trim($tour->image) != ''){
+    		$str =  str_replace('[', '', $tour->image);
+    		$str =  str_replace(']', '', $str);
+    		$str =  str_replace('"', '', $str);
+    		//$str =  str_replace(',', '', $str);
+    		//Zend_Debug::dump(explode(',', $str));die();
+    		$tour->image = explode(',', $str);
+		} else {
+		    $tour->image = array();
+		}
+		//Zend_Debug::dump($tour);die();
 		$this->view->tour = $tour;
 		
 		$tourType_mapper = new Application_Model_TourTypeMapper();

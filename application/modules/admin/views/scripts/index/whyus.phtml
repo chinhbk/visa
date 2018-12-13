@@ -6,28 +6,16 @@
 ?>
 
 <article class="module width_full">
-			<header><h3>Contact Info</h3></header>
+			<header><h3>Why Us Page</h3></header>
 				<div class="module_content">
-						<form name="form_add" method="POST" onSubmit="document.form_add.editor_contents.value  = $('#editor #edit .froala-element').html()">
+						<form name="form_add" method="POST" onSubmit="document.form_add.editor_contents.value  = $('#editor #edit .froala-element').html()">							
 							<fieldset>
-								<label>Hot line(*)</label>
-								<input type="text" name="hotline" value="<?php echo $this->setting->hotline; ?>">
-							</fieldset>
-							<fieldset>
-								<label>Email(*)</label>
-								<input type="text" name="email" value="<?php echo $this->setting->email; ?>">
-							</fieldset>
-							<fieldset>
-								<label>Address(*)</label>
-								<input type="text" name="address" value="<?php echo $this->setting->address; ?>">
-							</fieldset>
-							<fieldset>
-								<label>Contact page</label>
+								<label>Info</label>
 								<textarea id="editor_contents" name="editor_contents" style="display:none;"></textarea>
 								<!-- -->
 								<section id="editor">
 								  <div id='edit' style="margin-top: 30px;">
-									 	 <?php echo $this->setting->contact; ?>
+									 	 <?php echo $this->setting->whyus; ?>
 								  </div>
 							    </section>
 

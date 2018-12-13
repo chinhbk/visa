@@ -22,14 +22,17 @@
 							  </form>
 						</fieldset>
 						<fieldset>
-							<label>Upload main image</label>
+							<label>Upload main images</label>
 							  <form action="/admin/tour/upload-images" method="POST" id="uploadImages">
 							   <input type="file" name="file[]" multiple/>
 							   <input type="submit" name="btnUpload" value="Upload"/><br/><br/>
 							   
 							    <div id="onsuccessmsgimgs" style="padding:15px;">
-							    <?php foreach($this->tour->image as $img){?>
-							    	<div id="msg" style="border:5px solid #CCC;padding:15px;"><img style="margin-left:10px;" src="<?php echo $img;?>"><button style="margin-left:10px;" class="delete_img" data-src="<?php echo $img;?>">Delete</button></div>'
+							    <!-- check if image = null or empty  -->
+							    <?php if(sizeof($this->tour->image) > 0){?>
+    							    <?php foreach($this->tour->image as $img){?>
+    							    	<div id="msg" style="border:5px solid #CCC;padding:15px;"><img style="margin-left:10px;" src="<?php echo $img;?>"><button style="margin-left:10px;" class="delete_img" data-src="<?php echo $img;?>">Delete</button></div>'
+    							    <?php }?>
 							    <?php }?>
 							    </div>
 							   <div id="onerrorimgs" style="padding:15px;"></div>

@@ -528,3 +528,43 @@ ALTER TABLE `book_tour`
 ALTER TABLE `book_tour`
   MODIFY `ID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 COMMIT;
+
+
+
+CREATE TABLE `SETTING` (
+  `ID` int(2) NOT NULL,
+  `HOTLINE` varchar(50) DEFAULT NULL,
+  `EMAIL` varchar(120) DEFAULT NULL,
+  `ADDRESS` varchar(200) DEFAULT NULL,
+  `CONTACT` text,
+  `WHYUS` text
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+--
+-- Dumping data for table `SETTING`
+--
+
+INSERT INTO `SETTING` (`ID`, `HOTLINE`, `EMAIL`, `ADDRESS`, `CONTACT`, `WHYUS`) VALUES
+(1, '0084 916 128 611', 'vietnamvisatours@gmail.com', 'No 106, Dinh Cong St, Thanh Xuan Dist., Hanoi', '<p>44444444444444No 106, Dinh Cong St, Thanh Xuan Dist., Hanoi</p>', '<p>Why Us</p>');
+
+--
+-- Indexes for dumped tables
+--
+
+--
+-- Indexes for table `SETTING`
+--
+ALTER TABLE `SETTING`
+  ADD PRIMARY KEY (`ID`);
+
+--
+-- AUTO_INCREMENT for dumped tables
+--
+
+--
+-- AUTO_INCREMENT for table `SETTING`
+--
+ALTER TABLE `SETTING`
+  MODIFY `ID` int(2) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+COMMIT;
+

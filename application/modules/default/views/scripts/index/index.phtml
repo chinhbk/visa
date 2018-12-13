@@ -33,106 +33,16 @@
 		<div class="row">
 			<!-- MAIN CONTENT -->
 			<div id="bienthuy-content"
-				class="bienthuy-content col-xs-12 col-sm-12 col-md-12">
-				<!-- Content Top-->
-				<div class="ts-content-top " style="display: none">
-					<div class="t3-module module " id="Mod113">
-						<div class="module-inner">
-							<h2 class="module-title  h3chunho customhome">
-								<span>PLAN YOUR VIETNAM TOUR</span>
-							</h2>
-							<div class="module-ct">							
-								<div id="customcustomized_tour">
-									<div class="form-area">
-										<form action="/customized-tour.html" method="post" role="form"
-											data-toggle="validator">
-											<div class="form-group">If you would rather create your own
-												itinerary, we would be happy to assist you in putting
-												together one that best suits your schedule and interest.
-												Then send us your requests, we will respond to you within 12
-												hours.</div>
-											<div class="form-group col-md-3 col-sm-6 khongcachtrai">
-												<select name="paticipant" class="form-control batbuoc"
-													required="">
-													<option value="" selected="">Number of travelers?</option>
-													<option value="1">1 Person</option>
-													<option value="2">2 Persons</option>
-													<option value="3">3 Persons</option>
-													<option value="4">4 Persons</option>
-													<option value="5">5 Persons</option>
-													<option value="6">6 Persons</option>
-													<option value="7">7 Persons</option>
-													<option value="8">8 Persons</option>
-													<option value="9">9 Persons</option>
-													<option value="10">10 Persons</option>
-													<option value="999">&gt; 10 Persons</option>
-												</select>
-											</div>
-											<div class="form-group col-md-3 col-sm-6 khongcachtrai">
-												<select name="lengthoftrip" class="form-control batbuoc"
-													style="width: auto;" required="">
-													<option value="">How many days?</option>
-													<option value="1">1 days</option>
-													<option value="2">2 days</option>
-													<option value="3">3 days</option>
-													<option value="4">4 days</option>
-													<option value="5">5 days</option>
-													<option value="6">6 days</option>
-													<option value="7">7 days</option>
-													<option value="8">8 days</option>
-													<option value="9">9 days</option>
-													<option value="10">10 days</option>
-													<option value="11">11 days</option>
-													<option value="12">12 days</option>
-													<option value="13">13 days</option>
-													<option value="14">14 days</option>
-													<option value="15">15 days</option>
-													<option value="16">16 days</option>
-													<option value="17">17 days</option>
-													<option value="18">18 days</option>
-													<option value="19">19 days</option>
-													<option value="20">20 days</option>
-												</select>
-											</div>
-											<div
-												class="form-group col-md-2 col-sm-6 khongcachtrai cachphai5">
-												<select name="hotelcategory" class="form-control batbuoc"
-													style="width: auto;" required="">
-													<option value="">Hotel category</option>
-													<option value="3">3 Stars</option>
-													<option value="4">4 Stars</option>
-													<option value="5">5 Stars</option>
-													<option value="6">Top Luxury</option>
-												</select>
-											</div>
-											<div class="form-group col-md-2 col-sm-6">
-												<input type="text"
-													class="form-control formdatehome hasDatepicker"
-													id="datepickerhomehh" name="date" placeholder="Travel Date"
-													required="">
-											</div>
-											<div class="form-group col-md-1 col-sm-6 khongcachtrai">
-												<input type="hidden" name="task" value=""> <input
-													type="hidden" name="option" value="com_customizedtour">
-												<button aria-label="Submit" type="submit" id="submit"
-													name="submit"
-													class="btn btn-primary khongcachtren fa fa-sign-in vongtron"></button>
-											</div>
-										</form>
-									</div>
-								</div>
-							</div>
-						</div>
-					</div>
-				</div>
+				class="bienthuy-content col-xs-12 col-sm-12 col-md-8">				
 				<!-- //Content top end-->
 				<!-- Content mid -->
+				<?php foreach($this->hot_tour as $arr){?>
 				<div class="ts-content-mid">
 					<!-- SPOTLIGHT -->
-					<?php foreach($this->hot_tour as $arr){?>
+		
 					<div class="t3-spotlight t3-contentmid  row">
 										<?php foreach($arr as $hot){?>
-										<div class=" col-md-4">
+										<div class="col-md-6">
 							<div class="t3-module module " id="Mod129">
 								<div class="module-inner">
 									<h3 class="module-title  h3chunho">
@@ -198,24 +108,69 @@
 								</div>
 							</div>
 						</div>																				
-						<?php }?>
-												
-					
-					<!-- SPOTLIGHT -->
-				</div>
-				<?php }?>
-				<!-- Content mid end -->
-				<!-- Content mid -->
-				<!-- Content mid end -->
-				<!-- Content mid -->
-				<!-- Content mid end -->
-				<!-- Content Bottom-->
-				<!-- //Content top end-->
-				<!-- //CONTENT MAST TOP -->
-				<div class="blog-featured" itemscope=""
-					itemtype="https://schema.org/Blog"></div>
+						<?php }?>																
+				</div>			
 			</div>
+			<?php }?>
 			<!-- //MAIN CONTENT -->
 		</div>
-	</div>
+			<div
+				class="bienthuy-sidebar bienthuy-sidebar-right col-xs-12 col-sm-12 col-md-4" style="padding-top: 14px;">
+				<div class="t3-module module " id="Mod89">
+					<div class="module-inner">
+						<h3 class="module-title  h3chunho">
+							<span>Recommended Tours</span>
+						</h3>
+						<div class="module-ct">
+							<div class="nspMain  activated" id="nsp-nsp-89" data-config="">
+
+								<div class="nspArts bottom" style="width: 100%;">
+									<div class="nspArtScroll1">
+										<div class="nspArtScroll2 nspPages1">
+											<div class="nspArtPage active nspCol1" style="margin-bottom: 10px;">
+												<div class="nspArt nspCol1" style="padding: 0 20px 20px 0;">
+													<h4 class="nspHeader tleft fnone has-image">
+														<a
+															href="/vietnam-tours/luxury-vietnam-holidays/best-of-hanoi-halong-bay-sapa-6-days.html"
+															title="Ha Long Bay 2 days"
+															target="_self">Ha Long Bay 2 days</a>
+													</h4>
+													<img class="nspImage"
+														src="http://vietnamvisatours.com/uploads/1543804225.png"
+														alt="Ha Long Bayl">
+												</div>
+
+
+
+
+											</div>
+											<div class="nspArtPage active nspCol1">
+												<div class="nspArt nspCol1" style="padding: 0 20px 20px 0;">
+													<h4 class="nspHeader tleft fnone has-image">
+														<a
+															href="/vietnam-tours/luxury-vietnam-holidays/best-of-hanoi-halong-bay-sapa-6-days.html"
+															title="Ha Long Bay 2 days"
+															target="_self">Hoa Lu Tam Coc</a>
+													</h4>
+													<img class="nspImage"
+														src="http://vietnamvisatours.com/uploads/1543823237.png"
+														alt="Hoa Lu Tam Coc">
+												</div>
+
+
+
+
+											</div>
+										</div>
+
+									</div>
+								</div>
+
+
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
 </div>

@@ -472,12 +472,6 @@
 	            </ul>
             <?php } ?>
             <div style="display: none">
-            <?php if($identity->ROLE == 0 || $identity->ROLE == 2){?>
-	            <h3>Đơn hàng <a href="javascript:void(0);" class="toggleLink">Hide</a></h3>
-	            <ul class="toggle">
-	                <li class="icn_view_users"><a href="/admin/order/index">Quản lý</a></li>                
-	            </ul>
-            <?php }?>
             <?php if($identity->ROLE == 0 || $identity->ROLE == 1){?>
 	            <h3>Sản phẩm <a href="javascript:void(0);" class="toggleLink">Hide</a></h3>
 	            <ul class="toggle">
@@ -498,6 +492,13 @@
 	            <h3>Slide images <a href="javascript:void(0);" class="toggleLink">Hide</a></h3>
 	            <ul class="toggle">
 	                <li class="icn_edit_article"><a href="/admin/image/index">Config</a></li>
+	            </ul>
+            <?php }?>
+            <?php if($identity->ROLE == 0 || $identity->ROLE == 2){?>
+	             <h3 class="toggleLink">Setting</h3>
+	            <ul class="toggle">
+	            	<li class="icn_edit_article"><a href="/admin/index/contact">Contact</a></li>
+	            	<li class="icn_edit_article"><a href="/admin/index/whyus">Why us</a></li>
 	            </ul>
             <?php }?>
             <footer>
