@@ -5,15 +5,44 @@ class IndexController extends Zend_Controller_Action
 
     public function init()
     {
-		$product_type_mapper = new Application_Model_ProductTypeMapper();
-		$menu_types = $product_type_mapper->getAllProductType2();
-		//Zend_Debug::dump( $types);die();
-		$this->view->menuTypes = $menu_types;
-		
-		
+        $this->_menu();
+				
 		$mapper = new Application_Model_SettingMapper();		
 		$setting = $mapper->get();
 		$this->view->setting = $setting;
+		
+		// dynamic page title
+		//echo $controller = $this->getRequest()->getControllerName();
+		$page_title = 'Vietnam Visa Tours - Best Vietnam Vacation Tours';
+		$action = $this->getRequest()->getActionName();
+		$id = $this->_request->getParam('id');
+		//die($action);
+		switch($action){
+		    case 'tour-menu':
+		    case 'tour-detail':
+		    case 'tour-book':
+		        $tourType_mapper = new Application_Model_TourTypeMapper();
+		        $sub_tour_type = $tourType_mapper->getById($id);
+		        $page_title = $sub_tour_type->name.' | Vietnam Visa Tours';
+		        break;
+		    case 'visa-step':
+		        $page_title = 'Steps to apply visa'.' | Vietnam Visa Tours';
+		    case 'apply-online': 
+		        $page_title = 'Visa apply online'.' | Vietnam Visa Tours';
+		        break;
+		    case 'visa-faq':
+		        $page_title = 'Visa FAQ'.' | Vietnam Visa Tours';
+		        break;
+		    case 'visa-service':
+		        $page_title = 'Visa Extra Services'.' | Vietnam Visa Tours';
+		        break;
+		    default: 
+		        if($action != 'index')
+		          $page_title = str_replace('-', ' ', $action) . ' | Vietnam Visa Tours';
+		        break;
+		}
+		$this->view->page_title = ucwords(strtolower($page_title));
+		//echo ucwords(strtolower($page_title));die;
     }
     
     public function _generateURL($id, $name, $type){
@@ -149,8 +178,6 @@ class IndexController extends Zend_Controller_Action
 		$images = $image_mapper->getAll();
 		//Zend_Debug::dump( $images);die();
 		$this->view->images = $images;
-				
-		$this->_menu();
     }
     
     public function tourMenuAction(){
@@ -165,7 +192,6 @@ class IndexController extends Zend_Controller_Action
         //Zend_Debug::dump($name);die();
         $this->view->tour = $tour;
         $this->view->parent_name = $tour_type->name;
-        $this->_menu();
     }
     
     public function tourDetailAction()
@@ -201,7 +227,6 @@ class IndexController extends Zend_Controller_Action
         }
         $this->view->tours = $tours;
         //Zend_Debug::dump($tours);die();
-        $this->_menu();
     }
     
     public function tourBookAction() {
@@ -215,9 +240,6 @@ class IndexController extends Zend_Controller_Action
         $sub_tour_type = $tourType_mapper->getById($id);
         $tour->name = $sub_tour_type->name;
         $this->view->tour = $tour;
-        
-        //menu
-        $this->_menu();
     }
     
     
@@ -232,9 +254,6 @@ class IndexController extends Zend_Controller_Action
         $sub_tour_type = $tourType_mapper->getById($id);
         $tour->name = $sub_tour_type->name;
         $this->view->tour = $tour;
-        
-        //menu
-        $this->_menu();
         
         if ($request->isPost()) {
             $name = $request->getParam('name');
@@ -301,13 +320,16 @@ class IndexController extends Zend_Controller_Action
     }
     
     public function tourBookSuccessAction() {
-        $this->_menu();
+    }
+    
+    public function tourTermConditionAction() {        
+    }
+    
+    public function visaTermConditionAction() {        
     }
     
     public function applyOnlineAction()
-    {
-        $this->_menu();
-        
+    {       
         $request = $this->getRequest();  
         if ($request->isPost()) {
             $purposeOfVisit = $request->getParam('dropPurposeOfVisit');
@@ -383,6 +405,21 @@ class IndexController extends Zend_Controller_Action
             
             //save to DB
         }
+    }
+    
+    public function whyUsAction(){    
+    }    
+    
+    public function contactUsAction(){
+    }
+        
+    public function visaFaqAction(){
+    }
+    
+    public function visaStepAction(){
+    }
+    
+    public function visaServiceAction(){
     }
 	
 	public function typeAction()

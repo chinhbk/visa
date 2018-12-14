@@ -15,6 +15,14 @@ class Application_Model_Setting
     private $contact;
 
     private $whyus;
+    
+    private $tourterm;
+    
+    private $visastep;
+    
+    private $visafaq;
+    
+    private $visaterm;
 
     // upon construction, map the values
     // from the $product_row if available
@@ -27,6 +35,10 @@ class Application_Model_Setting
             $this->address = $setting_row->ADDRESS;
             $this->contact = $setting_row->CONTACT;
             $this->whyus = $setting_row->WHYUS;
+            $this->tourterm = $setting_row->TOURTERM;
+            $this->visastep = $setting_row->VISASTEP;
+            $this->visafaq = $setting_row->VISAFAQ;
+            $this->visaterm = $setting_row->VISATERM;
         }
     }
 

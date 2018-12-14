@@ -52,7 +52,7 @@ class Bootstrap extends Zend_Application_Bootstrap_Bootstrap
 	public function _initRoute()
 
     {
-
+        //TOUR LINKS
         // get instance of front controller
         $frontController = Zend_Controller_Front::getInstance();
 
@@ -122,6 +122,100 @@ class Bootstrap extends Zend_Application_Bootstrap_Bootstrap
             // Reverse map used when assembling the route
             'tour-book/%d-%s');
             $frontController->getRouter()->addRoute('tour-book', $route_tour_book);
+            
+            $route_tour_term = new Zend_Controller_Router_Route_Regex(
+                // The pattern this route matches
+                'tour-term-condition',
+                // Configure controller/action
+                array(
+                    'action' => 'tour-term-condition',
+                    'controller' => 'index'
+                ));
+            
+            $frontController->getRouter()->addRoute('tour-term-condition', $route_tour_term);
+            
+            //GENERAL
+            $route_why_us = new Zend_Controller_Router_Route_Regex(
+                // The pattern this route matches
+                'why-us',
+                // Configure controller/action
+                array(
+                    'action' => 'why-us',
+                    'controller' => 'index'
+                ));
+            
+            $frontController->getRouter()->addRoute('why-us', $route_why_us);
+            
+            
+            $route_contact_us = new Zend_Controller_Router_Route_Regex(
+                // The pattern this route matches
+                'contact-us',
+                // Configure controller/action
+                array(
+                    'action' => 'contact-us',
+                    'controller' => 'index'
+                ));
+            
+            $frontController->getRouter()->addRoute('contact-us', $route_contact_us);
+            
+            
+            
+            //VISA
+            $route_visa = new Zend_Controller_Router_Route_Regex(
+                // The pattern this route matches
+                'visa-apply-online',
+                // Configure controller/action
+                array(
+                    'action' => 'apply-online',
+                    'controller' => 'index'
+                ));
+            
+            $frontController->getRouter()->addRoute('visa-apply-online', $route_visa);
+            
+            $route_visa_step = new Zend_Controller_Router_Route_Regex(
+                // The pattern this route matches
+                'visa-step',
+                // Configure controller/action
+                array(
+                    'action' => 'visa-step',
+                    'controller' => 'index'
+                ));
+            
+            $frontController->getRouter()->addRoute('visa-step', $route_visa_step);
+            
+            $route_visa_faq = new Zend_Controller_Router_Route_Regex(
+                // The pattern this route matches
+                'visa-faq',
+                // Configure controller/action
+                array(
+                    'action' => 'visa-faq',
+                    'controller' => 'index'
+                ));
+            
+            $frontController->getRouter()->addRoute('visa-faq', $route_visa_faq);            
+            
+            $route_visa_service = new Zend_Controller_Router_Route_Regex(
+                // The pattern this route matches
+                'visa-service',
+                // Configure controller/action
+                array(
+                    'action' => 'visa-service',
+                    'controller' => 'index'
+                ));
+            
+            $frontController->getRouter()->addRoute('visa-service', $route_visa_service);
+                        
+            $route_visa_term = new Zend_Controller_Router_Route_Regex(
+                // The pattern this route matches
+                'visa-term-condition',
+                // Configure controller/action
+                array(
+                    'action' => 'visa-term-condition',
+                    'controller' => 'index'
+                ));
+            
+            $frontController->getRouter()->addRoute('visa-term-condition', $route_visa_term);
+                
     }
 	
 } 

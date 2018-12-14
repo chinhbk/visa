@@ -69,7 +69,7 @@ class Admin_IndexController extends Zend_Controller_Action
 	    }
 	}
 	
-	public function whyusAction(){
+	public function whyUsAction(){
 	    
 	    $mapper = new Application_Model_SettingMapper();
 	    
@@ -95,9 +95,129 @@ class Admin_IndexController extends Zend_Controller_Action
 	        
 	        $setting_mapper->save($setting); //Zend_Debug::dump( $request);die;
 	        
-	        $this->redirect('admin/index/whyus');
+	        $this->redirect('admin/index/why-us');
 	    }
 	}
+	
+	public function tourTermAction(){
+	    
+	    $mapper = new Application_Model_SettingMapper();
+	    
+	    $setting = $mapper->get();
+	    //Zend_Debug::dump( $setting );die();
+	    $this->view->setting = $setting;
+	    
+	    $request = $this->getRequest();
+	    
+	    if ($request->isPost()) {
+	        
+	        $editor_contents =  $request->getParam('editor_contents');
+	        if(strlen($editor_contents) == 0){
+	            $this->view->errorMessage = 'Please input data';
+	            return;
+	        }
+	        
+	        $setting = new Application_Model_Setting();
+	        $setting->tourterm = $editor_contents;
+	        
+	        
+	        $setting_mapper = new Application_Model_SettingMapper();
+	        
+	        $setting_mapper->save($setting); //Zend_Debug::dump( $request);die;
+	        
+	        $this->redirect('admin/index/tour-term');
+	    }
+	}
+	
+	public function visaTermAction(){
+	    
+	    $mapper = new Application_Model_SettingMapper();
+	    
+	    $setting = $mapper->get();
+	    //Zend_Debug::dump( $setting );die();
+	    $this->view->setting = $setting;
+	    
+	    $request = $this->getRequest();
+	    
+	    if ($request->isPost()) {
+	        
+	        $editor_contents =  $request->getParam('editor_contents');
+	        if(strlen($editor_contents) == 0){
+	            $this->view->errorMessage = 'Please input data';
+	            return;
+	        }
+	        
+	        $setting = new Application_Model_Setting();
+	        $setting->visaterm = $editor_contents;
+	        
+	        
+	        $setting_mapper = new Application_Model_SettingMapper();
+	        
+	        $setting_mapper->save($setting); //Zend_Debug::dump( $request);die;
+	        
+	        $this->redirect('admin/index/visa-term');
+	    }
+	}
+	
+	
+	public function visaStepAction(){
+	    
+	    $mapper = new Application_Model_SettingMapper();
+	    
+	    $setting = $mapper->get();
+	    //Zend_Debug::dump( $setting );die();
+	    $this->view->setting = $setting;
+	    
+	    $request = $this->getRequest();
+	    
+	    if ($request->isPost()) {
+	        
+	        $editor_contents =  $request->getParam('editor_contents');
+	        if(strlen($editor_contents) == 0){
+	            $this->view->errorMessage = 'Please input data';
+	            return;
+	        }
+	        
+	        $setting = new Application_Model_Setting();
+	        $setting->visastep = $editor_contents;
+	        	       
+	        $setting_mapper = new Application_Model_SettingMapper();
+	        
+	        $setting_mapper->save($setting); //Zend_Debug::dump( $request);die;
+	        
+	        $this->redirect('admin/index/visa-step');
+	    }
+	}
+	
+	public function visaFaqAction(){
+	    
+	    $mapper = new Application_Model_SettingMapper();
+	    
+	    $setting = $mapper->get();
+	    //Zend_Debug::dump( $setting );die();
+	    $this->view->setting = $setting;
+	    
+	    $request = $this->getRequest();
+	    
+	    if ($request->isPost()) {
+	        
+	        $editor_contents =  $request->getParam('editor_contents');
+	        if(strlen($editor_contents) == 0){
+	            $this->view->errorMessage = 'Please input data';
+	            return;
+	        }
+	        
+	        $setting = new Application_Model_Setting();
+	        $setting->visafaq = $editor_contents;
+	        
+	        $setting_mapper = new Application_Model_SettingMapper();
+	        
+	        $setting_mapper->save($setting); //Zend_Debug::dump( $request);die;
+	        
+	        $this->redirect('admin/index/visa-faq');
+	    }
+	}
+	
 	
 	public function introAction(){
 		$intro_mapper = new Application_Model_IntroMapper();

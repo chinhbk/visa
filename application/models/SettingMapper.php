@@ -33,6 +33,23 @@
             if (!is_null($setting_object->whyus)) {
                 $data['WHYUS'] =$setting_object->whyus;
             }
+            
+            if (!is_null($setting_object->tourterm)) {
+                $data['TOURTERM'] =$setting_object->tourterm;
+            }
+            
+            if (!is_null($setting_object->visastep)) {
+                $data['VISASTEP'] =$setting_object->visastep;
+            }            
+            
+            if (!is_null($setting_object->visafaq)) {
+                $data['VISAFAQ'] =$setting_object->visafaq;
+            }          
+            
+            if (!is_null($setting_object->visaterm)) {
+                $data['VISATERM'] =$setting_object->visaterm;
+            }   
+            
             //Zend_Debug::dump( $data);		die;	
 			//Check if the product object has an ID
 			//if no, it means the product is a new product
