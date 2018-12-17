@@ -35,6 +35,12 @@
 			display: none !important;
 		}
 }
+<!-- TEST CSS logo on tablet -->
+/* @media screen and (min-width: 800px) and (max-width: 1200px) {
+    #logo-header, .logo {
+        margin-top: 35px;
+    }
+} */
 </style>
 <style type="text/css">
 
@@ -265,6 +271,17 @@ $.get("https://min-api.cryptocompare.com/data/price?fsym=ETH&tsyms=BTC,USD,EUR,G
 </script>
 <script type="text/javascript">
         $(document).ready(function () {
+        	//Listen for Device Orientation Change
+        	window.onresize = function (event) {
+        		g('#logo-header').style.marginTop = 0;
+  				if (window.innerWidth > window.innerHeight) {
+  	  				//for iPad orientation = landscape 
+                    if (window.innerWidth > 800 && window.innerWidth < 1200) {
+                  	  g('#logo-header').style.marginTop = '35px';
+                    }
+				}
+  			}
+        	
         	function validateEmail(email) {
         	    var re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
         	    return re.test(String(email).toLowerCase());
@@ -1949,7 +1966,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 				<div class="container">
 					<div class="row">
 						<!-- Logo -->
-						<div class="col-xs-12 col-sm-5 col-md-4 logo">
+						<div class="col-xs-12 col-sm-5 col-md-4 logo" id="logo-header">
 							<div class="logo-image" style="margin-left: -10px;">
 								<a href="/" title="Vietnam Travel">
 									<img class="logo-img img-responsive" src="/images/logo.png" alt="Vietnam Travel">
@@ -1979,7 +1996,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 																	</span>
 																</h4>
 																<p>
-																	<small>Viber Available</small>
+																	<small>Viber/WhatApp/WeChat/Zalo</small>
 																</p>
 															</div>
 														</div>

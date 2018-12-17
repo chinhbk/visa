@@ -1,3 +1,127 @@
+<style>
+    .support-box {
+        height: 265px;
+        margin-top: 35px;
+        border: 5px solid #ae0002;
+    }
+    p.style4 {
+        font-size: 40px;
+        margin-bottom: 5px;
+    }
+    p.support_txt {
+        margin-top: 20px;
+        padding-left: 16px;
+        font-family: 'OpenSans-Bold';
+        color: #ae0002;
+        text-transform: uppercase;
+        clear: both;
+    }
+    .local-row {
+        float: left;
+        margin-bottom: 20px;
+    }
+    .local-icon {
+        float: left;
+        width: 40px;
+        margin-left: 20px;
+    }
+    img {
+        vertical-align: middle;
+    }
+    img {
+        border: 0;
+    }
+    .local-contact {
+        float: left;
+    }
+    .local-contact p {
+    	margin:0px;
+    	padding:0px;
+    	font-family: 'OpenSans-Regular';
+    	font-size:15px;
+    	color:#000;
+    }
+    .local-contact p a {
+        color: #000;
+    }
+    .support-bottom {
+    float: left;
+    width: 100%;
+    height: auto;
+    background: #ae0002;
+    }
+    p.vietnam-time {
+        font-size: 15px;
+        margin-bottom: 0px;
+        margin-top: 10px;
+    }
+    .support-bottom p {
+        margin: 0px;
+        padding: 0px;
+        font-family: 'OpenSans-Bold';
+        color: #fff;
+        text-align: center;
+    }
+    .apply-box {
+        float: right;
+        height: auto;
+        background: #c4df9b;
+        margin-top: 20px;
+    }
+    .visa_apply {
+        margin: 0 auto;
+        width: 90%;
+        height: auto;
+    }
+    p.arrivalabout_txt {
+        margin: 0px;
+        padding: 0px;
+        font-family: 'Roboto-Regular';
+        font-size: 24px;
+        color: #000;
+        padding-top: 15px;
+        position: relative;
+        text-align: left;
+        margin-bottom: 20px;
+        clear: both;
+    }
+    p.arrivalabout_txt:after {
+        content: '';
+        position: absolute;
+        float: left;
+        left: 0px;
+        right: 0;
+        top: 80%;
+        margin-top: 12px;
+        width: 57%;
+        height: 4px;
+        background: #ae0002;
+    }
+    .visa_apply ul {
+        margin-bottom: 10px;
+        padding: 0px;
+        padding-left: 25px;
+    }
+    .visa_apply ul li {
+        color: #070707;
+        background: url(/images/openarrow.png)left 10px no-repeat;
+        list-style: none;
+        padding-left: 25px;
+        line-height: 33px;
+    }
+    p.month_tourist {
+        font-family: 'Roboto-Bold';
+        font-size: 18px;
+        font-style: italic;
+        text-align: center;
+    }
+    .visa_apply ul li a {
+        color: #070707;
+    }
+    span.style5 {
+        color: #ae0002;
+    }
+</style>
 <div class="home">
 		<div id="bienthuy-mainbody" class="container bienthuy-mainbody one-sidebar-right">
 	<div class="row">
@@ -11,6 +135,58 @@
 		<div>
 				<?php echo $this->setting->whyus?>
 		</div>
+		</div>
+		<div id="bienthuy-content" class="bienthuy-content col-xs-12 col-sm-12 col-md-4">
+				<div class="support-box">
+                	<p class="support_txt style4">Support</p>
+                    <div class="local-row">
+                    	<div class="local-icon">
+                        	
+                            <img src="/images/telephone_img.png" alt="">
+                        </div>
+                        <div class="local-contact">
+                        	<p>Global: </p>
+                                <p class="text-right">
+                                    <img src="/images/global.png" height="20px">
+                                    <a href="tel:+84988580614"><?php echo $this->setting->hotline?></a></p>
+                            
+                                 
+                            
+                                
+                          <br>
+                            <p>8:00am - 6:00pm Mon to Fri</p>
+                        </div>
+                    </div>
+                    
+                    <div class="local-row">
+                    	<div class="local-icon">
+                        	<img src="/images/mail_box.png" alt="">
+                        </div>
+                        <div class="local-contact">
+                        	<p class="mailto"><a href="mailto:<?php echo $this->setting->email?>"><?php echo $this->setting->email?></a></p>
+                        </div>
+                    </div>
+                    
+                    <div class="support-bottom">
+                    	<p class="vietnam-time">Vietnam Time</p>
+                        <p><span id="ctl00_ctl00_MainContent_ucBoxSupport_labTimeNow"><?php date_default_timezone_set('Asia/Ho_Chi_Minh');echo date('Y-m-d h:i A');?></span> </p>
+                    </div>
+                </div>
+                <div class="apply-box">
+                    <div class="visa_apply">
+                      <p class="arrivalabout_txt">Why apply with us</p>
+                        <div class="company_response">
+                        <ul>
+                          <li><a href="javascript:void(0)">Perfect tours/trips</a></li>
+                          <li><a href="javascript:void(0)">Legitimate service</a></li>
+                          <li><a href="javascript:void(0)">Quality</a></li>
+                          <li><a href="javascript:void(0)">Reliability</a></li>
+                          <li><a href="javascript:void(0)">Prompt Responses</a></li>
+                          </ul>
+                          <p class="month_tourist">Over 100,000 tourists per month assisted to enter Vietnam via <span class="style5">Vietnamvisatours.com</span> </p>
+                       </div>
+                   </div>                
+                </div>
 		</div>
 	</div>	
 </div>

@@ -215,7 +215,7 @@ class Admin_TourController extends Zend_Controller_Action
 		//Zend_Debug::dump( $tour);die();
 		//$tour->content = htmlspecialchars_decode($tour->content);
 		//Zend_Debug::dump( $tour);die();
-		if(isset($tour->image) && trim($tour->image) != ''){
+		if(strlen($tour->image) > 0){
     		$str =  str_replace('[', '', $tour->image);
     		$str =  str_replace(']', '', $str);
     		$str =  str_replace('"', '', $str);
