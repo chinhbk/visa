@@ -45,16 +45,23 @@ class IndexController extends Zend_Controller_Action
 		//echo ucwords(strtolower($page_title));die;
     }
     
-    public function _generateURL($id, $name, $type){
+    public function _generateURL($id, $name, $type, $parent_name = null){
         switch($type){
-            case 1: $type = 'tours'; break;
-            case 2: $type = 'tour'; break;
-            case 3: $type = 'tour-book'; break;
+            case 1: //list tours
+                $type = '/';                 
+                break;
+            case 2: //tour detail
+                $parent_name = preg_replace("![^a-z0-9]+!i", "-", strtolower($parent_name));
+                $type = '/'.($parent_name).'/'; 
+                break;
+            case 3: //book 1 tour
+                $type = '/booking/';
+                break;
         }
-        $params = $id.'-'.$name;
-        //replace non-alphanumeric character
-        $params = preg_replace("![^a-z0-9]+!i", "-", $params);
-        return '/'.$type.'/'.strtolower($params);
+        $name = preg_replace("![^a-z0-9]+!i", "-", strtolower($name));
+        $url = $type.$name.'/'.$id;  
+    
+        return $url;
     }
     
     protected function _menu(){
@@ -70,7 +77,7 @@ class IndexController extends Zend_Controller_Action
                 //generate url
                 $menu1->url = $this->_generateURL($menu1->id, $menu1->name, 1);
                 foreach($menu1->menu2 as $menu2){
-                    $menu2->url = $this->_generateURL($menu2->id, $menu2->name, 2);
+                    $menu2->url = $this->_generateURL($menu2->id, $menu2->name, 2, $menu1->name);
                 }
             }
         }
@@ -141,6 +148,16 @@ class IndexController extends Zend_Controller_Action
         }
         return $randomString;
     }
+    
+    //$arr of Application_Model_TourType
+    protected function _getName($arr, $id) {
+        foreach($arr as $tour_type){
+            if($tour_type->id == $id){
+                return $tour_type->name;
+            }
+        }
+        return '';
+    }
 
     public function indexAction()
     {
@@ -160,19 +177,21 @@ class IndexController extends Zend_Controller_Action
 		$arr_ids = array();
 		foreach($hot_tour as $row){
 		    array_push($arr_ids, $row->parent_id);
-		    $row->url = $this->_generateURL($row->tour_type_id, $row->name, 2);
-		}
-		
-		foreach($tour as $t){
-		    $t->url = $this->_generateURL($t->tour_type_id, $t->name, 2);
-		}
-		
+		}		
 		
 		$tour_level_1 = $tour_type_mapper->getByIds($arr_ids);
 		$this->view->hot_tour = array_chunk($hot_tour, 2);
 		$this->view->tour = $tour;
 		$this->view->tour_level_1 = $tour_level_1;
-		//Zend_Debug::dump($tour);die();
+		//Zend_Debug::dump($tour_level_1);die();
+        
+        //generate URLs
+        foreach($hot_tour as $row){
+            $row->url = $this->_generateURL($row->tour_type_id, $row->name, 2, $this->_getName($tour_level_1, $row->parent_id));
+        }
+		foreach($tour as $t){
+		    $t->url = $this->_generateURL($t->tour_type_id, $t->name, 2, $this->_getName($tour_level_1, $t->parent_id));
+		}
 				
 		$image_mapper = new Application_Model_ImageMapper();
 		$images = $image_mapper->getAll();
@@ -190,6 +209,9 @@ class IndexController extends Zend_Controller_Action
         $tour_type_mapper = new Application_Model_TourTypeMapper();
         $tour_type = $tour_type_mapper->getById($id);
         //Zend_Debug::dump($name);die();
+        foreach($tour as $t){
+		    $t->url = $this->_generateURL($t->tour_type_id, $t->name, 2, $tour_type->name);
+		}
         $this->view->tour = $tour;
         $this->view->parent_name = $tour_type->name;
     }
@@ -223,7 +245,7 @@ class IndexController extends Zend_Controller_Action
         $tour_mapper = new Application_Model_TourMapper();
         $tours = $tour_mapper->getByParentId($tour->parent_id);
         foreach($tours as $t){
-            $t->url = $this->_generateURL($t->tour_type_id, $t->name, 2);
+            $t->url = $this->_generateURL($t->tour_type_id, $t->name, 2, $parent->name);
         }
         $this->view->tours = $tours;
         //Zend_Debug::dump($tours);die();

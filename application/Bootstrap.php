@@ -62,7 +62,7 @@ class Bootstrap extends Zend_Application_Bootstrap_Bootstrap
         // tour/10-hanoi.html
         $route = new Zend_Controller_Router_Route_Regex(
             // The pattern this route matches
-            'tour/([\d]+)-([a-z0-9-*()]+)', 
+            '([a-z0-9-*()]+)/([a-z0-9-*()]+)/([\d]+)', 
             // Configure controller/action
             array(
                 'action' => 'tour-detail',
@@ -71,9 +71,11 @@ class Bootstrap extends Zend_Application_Bootstrap_Bootstrap
             // Map the subpatterns to params
             array(
 
-                1 => 'id',
+                1 => 'parent_name',
 
-                2 => 'name'
+                2 => 'name',
+                
+                3 => 'id'
             ), 
 
             // Reverse map used when assembling the route
@@ -84,7 +86,7 @@ class Bootstrap extends Zend_Application_Bootstrap_Bootstrap
         // tour-menu
         $route_tour_menu = new Zend_Controller_Router_Route_Regex(
             // The pattern this route matches
-            'tours/([\d]+)-([a-z0-9-*()]+)', 
+            '([a-z0-9-*()]+)/([\d]+)', 
             // Configure controller/action
             array(
                 'action' => 'tour-menu',
@@ -93,9 +95,9 @@ class Bootstrap extends Zend_Application_Bootstrap_Bootstrap
             // Map the subpatterns to params
             array(
 
-                1 => 'id',
+                1 => 'name',
 
-                2 => 'name'
+                2 => 'id'
             ), 
 
             // Reverse map used when assembling the route
@@ -105,7 +107,7 @@ class Bootstrap extends Zend_Application_Bootstrap_Bootstrap
         
         $route_tour_book = new Zend_Controller_Router_Route_Regex(
             // The pattern this route matches
-            'tour-book/([\d]+)-([a-z0-9-*()]+)',
+            'booking/([a-z0-9-*()]+)/([\d]+)',
             // Configure controller/action
             array(
                 'action' => 'tour-book',
@@ -114,9 +116,9 @@ class Bootstrap extends Zend_Application_Bootstrap_Bootstrap
             // Map the subpatterns to params
             array(
                 
-                1 => 'id',
+                1 => 'name',
                 
-                2 => 'name'
+                2 => 'id'
             ),
             
             // Reverse map used when assembling the route
