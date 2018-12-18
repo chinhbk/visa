@@ -16,7 +16,7 @@
       href="http://vietnamvisatours.com" target="_blank">vietnamvisatours.com</a></font>
    -----<br>Request code: <font color="red"><?php echo $this->request_code?></font><br>
    <i>This Code allows you to check with our staff about your booking status.
-   </i><br>Interested in tour: <font color="green"><a href="http://vietnamvisatours.com/index/tour-detail/id/<?php echo $this->tour_id?>" target="_blank"><?php echo $this->tour_name?></a></font><br>Name: <font
+   </i><br>Interested in tour: <font color="green"><a href="<?php echo $this->url?>" target="_blank"><?php echo $this->tour_name?></a></font><br>Name: <font
       color="green"><?php echo $this->name;?></font><br>Email: <font color="green"><a
       href="mailto:<?php echo $this->email?>" target="_blank"><?php echo $this->email;?></a></font><br>Phone
    number: <font color="red"></font><font color="green"><?php echo $this->phone?></font><br>

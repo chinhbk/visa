@@ -290,6 +290,9 @@ class IndexController extends Zend_Controller_Action
             $comment = $request->getParam('comment');
             //die($comment);
             $request_code = $this->_generateRandomString();
+            //generate link
+            $parent = $tourType_mapper->getById($sub_tour_type->parent_id);
+            $url =  $this->_generateURL($id, $tour->name, 2, $parent->name);
             
             //send mail
             $html = new Zend_View();
@@ -299,6 +302,7 @@ class IndexController extends Zend_Controller_Action
             $html->assign('tour_id', $id);
             $html->assign('tour_name', $tour->name);
             $html->assign('request_code', $request_code);
+            $html->assign('url', $url);
             $html->assign('book_time', $book_time);
             $html->assign('name', $name);
             $html->assign('arivaldate', $arivaldate);
@@ -331,8 +335,8 @@ class IndexController extends Zend_Controller_Action
             $book_tour->comment = $comment;
             $book_tour->status = 'NEW';
             $book_tour->arrival_date = $arivaldate;
-            $book_tour->create_date = $this->_helper->CommonUtils->getVnDateTime();;
-            $book_tour->update_date = $this->_helper->CommonUtils->getVnDateTime();;
+            $book_tour->create_date = $this->_helper->CommonUtils->getVnDateTime();
+            $book_tour->update_date = $this->_helper->CommonUtils->getVnDateTime();
             
             $booktour_mapper = new Application_Model_BookTourMapper();
             $booktour_mapper->save($book_tour);
