@@ -67,36 +67,176 @@ margin-top:4px}</style><div class="fotorama--hidden"></div>
 	
 	<div class="nomobile" style="margin-top: 20px;"><span style="line-height: 16.5px;"><?php echo $this->tour->short_desc?></span></div>
  
-<p>
-		<!--<div id="sticky-wrapper" class="stickyhuyhoa-collapse" data-tmpl-sticky="true" data-tmpl-offset="30" style="height: 52px;">
-					<ul role="tablist" class="nav stickyhuyhoa hidden-xs" id="menustop">
-                        <li><a href="#price"  data-toggle="collapse" class="nav-scroll scroll-price">Tour Price</a></li>
-                        <li><a href="#itinerary" data-toggle="collapse" class="nav-scroll scroll-itinerary">Full Itinerary</a></li>
-                        <li><a href="#exclude" class="nav-scroll scroll-options" data-toggle="collapse">Inclusions &amp; Exclusions</a></li>
-                        <li><a href="#tourmap"  data-toggle="collapse" class="nav-scroll scroll-options">Tour map</a></li>
-                        <li><a href="#FAQs"  data-toggle="collapse" class="nav-scroll scroll-reviews">Questions & Answers</a></li>
-                    </ul></div> -->
-		</p><div class="row cachtop" itemscope="" itemtype="http://schema.org/Product">  
+<p></p>
+				<div class="row cachtop" itemscope="" itemtype="http://schema.org/Product">  
 							<div class="col-xs-8 col-md-8">							
     							  <p class="thongtintour"><strong>Duration: </strong><?php echo $this->tour->duration?></p>
     							  <p class="thongtintour"><strong>Codes: </strong><?php echo $this->tour->code?></p>
-    							  <p class="thongtintour"><strong>Price: </strong>$<?php echo $this->tour->price?></p>
-    							  <p class="thongtintour"><strong>Departure: </strong>Daily, upon your request.</p>    							 
+    							  <p class="thongtintour"><strong>From : </strong>$<?php echo $this->tour->price?></p>						 
 							  </div>
 							<div class="col-xs-12 col-md-4">							  
 
 							  <div class="row center">
 								<div class="col-xs-12 col-md-12">
-								<a href="<?php echo $this->tour->book_url;?>" title="Request tour: <?php echo $this->tour->name;?>"><span class="booktour-button">REQUEST THIS TOUR</span></a>								
+									<a href="<?php echo $this->tour->book_url;?>" title="Request tour: <?php echo $this->tour->name;?>"><span class="booktour-button">REQUEST THIS TOUR</span></a>								
+								</div>
 								</div>
 							</div>
-							  
-							 
-							</div>
+				</div>
 				<!-- START BIENTHUY.COM DIV -->
 				<div class="clearfix">&nbsp;</div>
 				<div class="row cachtop">
-				<div class="col-xs-12 col-md-12">
+   <div class="col-xs-12 col-md-12">
+      <div class="panel-group">
+         <div class="panel panel-bienthuy">
+            <div class="panel-heading border-bienthuy">
+               <div class="row cachtop">
+                  <div class="col-xs-10">
+                     <h3 class="panel-title" id="price" data-toggle="collapse" href="#panel-price">PRICE</h3>
+                  </div>
+                  <div class="col-xs-2 text-right">
+                     <a data-toggle="collapse" href="#panel-price"><i class="fa fa-angle-double-down ht18"></i></a>
+                  </div>
+               </div>
+            </div>
+            <div id="panel-price" class="panel-collapse collapse in">
+               <div class="panel-body backgroundxam">
+                  <div class="alert alert-success">Prices are quoted in <strong>US Dollars per person, double occupancy</strong>.</div>
+                  <!--<div class="alert alert-success">If you have group of more  than 6 people, please email: <span id="cloak75f6d40c586f81c2ce41dda5d36b7098">This email address is being protected from spambots. You need JavaScript enabled to view it.</span><script type='text/javascript'>
+                     document.getElementById('cloak75f6d40c586f81c2ce41dda5d36b7098').innerHTML = '';
+                     var prefix = '&#109;a' + 'i&#108;' + '&#116;o';
+                     var path = 'hr' + 'ef' + '=';
+                     var addy75f6d40c586f81c2ce41dda5d36b7098 = 's&#97;l&#101;s' + '&#64;';
+                     addy75f6d40c586f81c2ce41dda5d36b7098 = addy75f6d40c586f81c2ce41dda5d36b7098 + 'tr&#97;v&#101;lv&#105;&#101;tn&#97;m' + '&#46;' + 'c&#111;m';
+                     var addy_text75f6d40c586f81c2ce41dda5d36b7098 = 's&#97;l&#101;s' + '&#64;' + 'tr&#97;v&#101;lv&#105;&#101;tn&#97;m' + '&#46;' + 'c&#111;m';document.getElementById('cloak75f6d40c586f81c2ce41dda5d36b7098').innerHTML += '<a ' + path + '\'' + prefix + ':' + addy75f6d40c586f81c2ce41dda5d36b7098 + '\'>'+addy_text75f6d40c586f81c2ce41dda5d36b7098+'<\/a>';
+                     </script> for the best offers.</div> -->
+                  <div id="bienthuy-responsive-table">
+                     <table class="col-md-12 table-striped table-condensed cf">
+                        <thead class="cf">
+                           <tr>
+                              <th><?php echo $this->tour->price_type == 1 ? 'GROUP TOUR' : ''?></th>
+                              <th class="htcenter">PRICE/Person</th>
+                              <th class="htcenter"></th>
+                           </tr>
+                        </thead>
+                        <tbody>
+                        <?php if($this->tour->price_type == 1){?>
+                        	<?php $i = 0;foreach($this->type_1_group as $t){++$i;?>
+                                <tr>
+                                  <?php if(trim($t->to_pax) != ''){?>
+                                  	<th><?php echo $t->from_pax?>-<?php echo $t->to_pax?> pax</th>
+                                  <?php } else{?>
+                                  	<th><?php echo $i == sizeof($this->type_1_group) ? '&gt;=' : '' ?> <?php echo $t->from_pax?> pax</th>
+                                  <?php }?>
+                                  <td data-title="Price" class="htcenter"><span class="chudam pricecam">$<?php echo $t->price;?></span></td>
+                                  <td data-title="" class="numeric htcenter"><a href="<?php echo $this->tour->book_url.'/'.$t->price;?>" title="Request tour: <?php echo $this->tour->name?>">Reservation</a></td>
+                               </tr>
+                            <?php }?>
+                           	<?php if(sizeof($this->type_1_private) > 0){?>
+                               <tr>
+                                  <th><?php echo $this->tour->price_type == 1 ? 'PRIVATE TOUR' : ''?></th>
+                                  <td></td>
+                                  <td></td>
+                               </tr>
+                             <?php }?>
+                             <?php  $i = 0;foreach($this->type_1_private as $t){++$i;?>
+                                <tr>
+                                  <?php if(trim($t->to_pax) != ''){?>
+                                  	<th><?php echo $t->from_pax?>-<?php echo $t->to_pax?> pax</th>
+                                  <?php } else{?>
+                                  	<th><?php echo $i == sizeof($this->type_1_private) ? '&gt;=' : '' ?><?php echo $t->from_pax?> pax</th>
+                                  <?php }?>
+                                  <td data-title="Price" class="htcenter"><span class="chudam pricecam">$<?php echo $t->price;?></span></td>
+                                  <td data-title="" class="numeric htcenter"><a href="<?php echo $this->tour->book_url.'/'.$t->price;?>" title="Request tour: <?php echo $this->tour->name?>">Reservation</a></td>
+                               </tr>
+                           <?php }?>
+                        <?php }?>
+                        <?php if($this->tour->price_type == 2){?>
+                        	<?php foreach($this->type_2 as $t){ if($t->tour_price_group_id==$this->HOMESTAY_DORM_ID){?>
+                        		<tr>
+                        			<th>Homestay/dorm room</th>
+                        			<td class="htcenter"><span class="chudam pricecam">$<?php echo $t->price?></span></td>
+                        			<td data-title="" class="numeric htcenter"><a href="<?php echo $this->tour->book_url.'/'.$t->price;?>" title="Request tour: <?php echo $this->tour->name?>">Reservation</a></td>
+                        		</tr>
+                        	<?php }else if($t->tour_price_group_id==$this->HOMESTAY_PRIVATE_ID){?>
+                        		<tr>
+                        			<th>Homestay/private room</th>
+                        			<td class="htcenter"><span class="chudam pricecam">$<?php echo $t->price?></span></td>
+                        			<td data-title="" class="numeric htcenter"><a href="<?php echo $this->tour->book_url.'/'.$t->price;?>" title="Request tour: <?php echo $this->tour->name?>">Reservation</a></td>
+                        		</tr>
+                           <?php }else if($t->tour_price_group_id==$this->HOTEL_2_STAR_ID){?>
+                        		<tr>
+                        			<th>2* Hotel</th>
+                        			<td class="htcenter"><span class="chudam pricecam">$<?php echo $t->price?></span></td>
+                        			<td data-title="" class="numeric htcenter"><a href="<?php echo $this->tour->book_url.'/'.$t->price;?>" title="Request tour: <?php echo $this->tour->name?>">Reservation</a></td>
+                        		</tr>
+                        	<?php }else if($t->tour_price_group_id==$this->HOTEL_3_STAR_ID){?>
+                        		<tr>
+                        			<th>3* Hotel</th>
+                        			<td class="htcenter"><span class="chudam pricecam">$<?php echo $t->price?></span></td>
+                        			<td data-title="" class="numeric htcenter"><a href="<?php echo $this->tour->book_url.'/'.$t->price;?>" title="Request tour: <?php echo $this->tour->name?>">Reservation</a></td>
+                        		</tr>
+                        	<?php }else if($t->tour_price_group_id==$this->HOTEL_4_STAR_ID){?>
+                        		<tr>
+                        			<th>4* Hotel</th>
+                        			<td class="htcenter"><span class="chudam pricecam">$<?php echo $t->price?></span></td>
+                        			<td data-title="" class="numeric htcenter"><a href="<?php echo $this->tour->book_url.'/'.$t->price;?>" title="Request tour: <?php echo $this->tour->name?>">Reservation</a></td>
+                        		</tr>
+                           <?php }else if($t->tour_price_group_id==$this->HOTEL_5_STAR_ID){?>
+                        		<tr>
+                        			<th>5* Hotel</th>
+                        			<td class="htcenter"><span class="chudam pricecam">$<?php echo $t->price?></span></td>
+                        			<td data-title="" class="numeric htcenter"><a href="<?php echo $this->tour->book_url.'/'.$t->price;?>" title="Request tour: <?php echo $this->tour->name?>">Reservation</a></td>
+                        		</tr>
+                        	<?php }?>
+                        	<?php }?>
+                        	<?php foreach($this->type_2_add_price as $t){?>
+                        		<tr>
+                        			<th><?php echo $t->name?></th>
+                        			<td class="htcenter"><span class="chudam pricecam">$<?php echo $t->price?></span></td>
+                        			<td data-title="" class="numeric htcenter"><a href="<?php echo $this->tour->book_url.'/'.($t->price + $this->type_2[sizeof($this->type_2)-1]->price);?>" title="Request tour: <?php echo $this->tour->name?>">Reservation</a></td>
+                        		</tr>
+                        	<?php }?>
+                        <?php }?>
+                        <?php if($this->tour->price_type == 3){?>
+                        	<?php foreach($this->type_3 as $t){ if($t->tour_price_group_id==$this->CRUISE_3_STAR_ID){?>
+                        		<tr>
+                        			<th>3* Cruise</th>
+                        			<td class="htcenter"><span class="chudam pricecam">$<?php echo $t->price?></span></td>
+                        			<td data-title="" class="numeric htcenter"><a href="<?php echo $this->tour->book_url.'/'.$t->price;?>" title="Request tour: <?php echo $this->tour->name?>">Reservation</a></td>
+                        		</tr>
+                        	<?php }else if($t->tour_price_group_id==$this->CRUISE_4_STAR_ID){?>
+                        		<tr>
+                        			<th>4* Cruise</th>
+                        			<td class="htcenter"><span class="chudam pricecam">$<?php echo $t->price?></span></td>
+                        			<td data-title="" class="numeric htcenter"><a href="<?php echo $this->tour->book_url.'/'.$t->price;?>" title="Request tour: <?php echo $this->tour->name?>">Reservation</a></td>
+                        		</tr>
+                           <?php }else if($t->tour_price_group_id==$this->CRUISE_4_PLUS_STAR_ID){?>
+                        		<tr>
+                        			<th>4*++ Cruise</th>
+                        			<td class="htcenter"><span class="chudam pricecam">$<?php echo $t->price?></span></td>
+                        			<td data-title="" class="numeric htcenter"><a href="<?php echo $this->tour->book_url.'/'.$t->price;?>" title="Request tour: <?php echo $this->tour->name?>">Reservation</a></td>
+                        		</tr>
+                        	<?php }else if($t->tour_price_group_id==$this->CRUISE_5_STAR_ID){?>
+                        		<tr>
+                        			<th>5* Cruise</th>
+                        			<td class="htcenter"><span class="chudam pricecam">$<?php echo $t->price?></span></td>
+                        			<td data-title="" class="numeric htcenter"><a href="<?php echo $this->tour->book_url.'/'.$t->price;?>" title="Request tour: <?php echo $this->tour->name?>">Reservation</a></td>
+                        		</tr>
+                        	<?php }?>
+                        	<?php }?>
+                        <?php }?>
+                        </tbody>
+                     </table>
+                  </div>
+               </div>
+               <!-- end panel-body -->
+            </div>
+         </div>
+         <!-- end panel-default -->
+      </div>
+   </div>
+</div>
 				<div class="panel-group">
 					<div class="panel panel-bienthuy">
 									<div class="panel-heading border-bienthuy">
@@ -122,7 +262,7 @@ margin-top:4px}</style><div class="fotorama--hidden"></div>
 							</div>
 						<!-- end panel-default -->
 
-</div>	</div>	</div>	
+</div>	
 <!-- CLOSE PRICE -->
 <!-- CLOSE HIGHLIGHTS DIV -->
 <!-- CLOSE ITINERARY DIV -->

@@ -102,8 +102,113 @@
 							  $("#sub_tour_type_id").html($html);
 						  }
 						});							    
-				   });  
+				   });
+				  //selection box
+				  $('#price_type').change(function () {
+				       //console.log( $(this).val());
+				       // admin/tour/menu
+				      
+					$price_type =  $(this).val();
+					$div = "price_type_" + $price_type;
+					//alert($price_type );
+					//hide 
+					$("#price_type_1").hide();
+					$("#price_type_2").hide();
+					$("#price_type_3").hide();
+					
+					$("#"+$div).show();
+					switch ($price_type) {
+    					case 1:
+    						//show group/private tour
+    						break;
+    					case 2:
+    						//on land 2*, 3* tour
+    						break;
+    					case 3:
+    						//on cruise
+    						break;
+    					default:
+    						break;
+					};					   
+				});
+					
+			    $( "#add_addtional_price_type_2" ).button().on( "click", function() {
+			     	  event.preventDefault();
+			     	  //console.log($('#price_type_2 table tbody').html());
+			     	  var no_tag= ($('input[name*="additional_price_text[]"').length);
+			     	  if(no_tag >=3){
+                         alert('Allow up to 3 addtional prices');
+					  } else {
+				     	  $add_price_html = '<tr>' +
+                    	 						"<td><input type='text' name='additional_price_text[]' class='star_hotel'></td>" +
+                       							"<td><input type='number' name='additional_price[]'></td>"+
+                         					'</tr>';
+                          $('#price_type_2 table tbody').append($add_price_html);   
+					  }
+			    });
+
+				//validate data before submitting tour data				
+			    $( "#btnSumitTour").button().on( "click", function() {
+			     	  //console.log($('#price_type_2 table tbody').html());
+			     	  //alert('OK');
+			     	 var type = $("#price_type").val();
+			     	 if(type == 1){
+
+					    event.preventDefault();
+					    
+			     		var from_values = [];
+			     		var to_values = [];
+			     		$("input[name='from_pax_type_1_group[]']").each(function() {
+			     			from_values.push($(this).val().trim());			     		    
+			     		});
+			     		$("input[name='from_pax_type_1_private[]']").each(function() {
+			     			from_values.push($(this).val().trim());			     		    
+			     		});
+			     		$("input[name='to_pax_type_1_group[]'").each(function() {
+			     			to_values.push($(this).val().trim());			     		    
+			     		});
+			     		$("input[name='to_pax_type_1_private[]'").each(function() {
+			     			to_values.push($(this).val().trim());			     		    
+			     		});
+
+						//validate number left < right < next left
+			     		var msg = null;
+			     		for(i=0; i< from_values.length; i++){
+				     		if(parseInt(from_values[i]) <= 0){
+				     			msg = "Invalid 'From Pax' = 0";
+			     				break;
+					     	}
+				     		if(to_values[i].length != 0){
+				     			if(parseInt(to_values[i]) <= parseInt(from_values[i])){
+				     				msg = "'To Pax' value must greater than 'From Pax' value";
+				     				break;							
+						     	}
+						    }
+							
+						    if(i < 2  && i < from_values.length - 1 && to_values[i].length != 0 && parseInt(to_values[i]) >= parseInt(from_values[i+1])){
+							    //console.log(parseInt(to_values[i]) +'==' + parseInt(from_values[i+1]));
+								msg = "'To Pax' value of next option must less than 'From Pax' of previous one";
+								break;
+							}
+
+						    if(i >= 3  && i < from_values.length - 1 && to_values[i].length != 0 && parseInt(to_values[i]) >= parseInt(from_values[i+1])){
+						    	//console.log(parseInt(to_values[i]) +'==' + parseInt(from_values[i+1]));
+								msg = "'To Pax' value of next option must less than 'From Pax' of previous one";
+								break;
+							} 
+				     	}
+				     	
+				     	if(msg == null){ //submit data
+				     		$('#form_tour_detail').submit();				     		
+					    } else {
+					    	alert(msg);
+						}
+
+				     	
+				     }
+			    });
 			});
+				
 		</script>
 		<!-- end -->
         <script type="text/javascript">

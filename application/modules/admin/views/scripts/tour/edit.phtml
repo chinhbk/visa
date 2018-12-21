@@ -1,5 +1,20 @@
 
-			
+<style>
+.star_hotel{
+    width: 70% !important;
+    float: right !important;
+}
+.number_pax {
+    /*width: 20% !important;
+    float: right !important;*/
+}
+th, td {
+  padding: 5px;
+}
+.price_type{
+    display:none;
+}
+</style>				
 			
 <?php 
   if($this->errorMessage != null && $this->errorMessage != ''){
@@ -38,7 +53,7 @@
 							   <div id="onerrorimgs" style="padding:15px;"></div>
 							  </form>
 						</fieldset>
-						<form name="form_add" method="POST" action="/admin/tour/edit" onSubmit="document.form_add.editor_contents.value  = $('#editor #edit .froala-element').html()">
+						<form id="form_tour_detail" name="form_add" method="POST" action="/admin/tour/edit" onSubmit="document.form_add.editor_contents.value  = $('#editor #edit .froala-element').html()">
 							<input  type="hidden" name="id" id="id" value="<?php echo $this->tour->tour_type_id;?>" />
 							<input  type="hidden" name="img_uploaded" id="img_uploaded" value="<?php echo $this->tour->image_small;?>" />
 							<input  type="hidden" name="img_uploaded_images" id="img_uploaded_images" value="<?php echo implode(',', $this->tour->image);?>" />								
@@ -87,14 +102,145 @@
 								<input type="text" name="duration" value="<?php echo $this->tour->duration;?>">
 							</fieldset>
 							<fieldset>
-								<label>Price</label>
-								<input type="text" name="price" value="<?php echo $this->tour->price;?>">
+								<label>Lowest Price</label>
+								<input type="number" name="price" value="<?php echo $this->tour->price;?>" style="width:50px;">
+							</fieldset>
+							<fieldset>
+								<label>Price Type</label>
+								<select name="price_type" id="price_type" style="width: 200px;">
+									<option value="0" selected disabled>Please select</option>
+									<option value="1" <?php echo $this->tour->price_type == 1 ? 'selected' : '';?>>On Land(Private/Group Tour)</option>
+									<option value="2" <?php echo $this->tour->price_type == 2 ? 'selected' : '';?>>On Land(>2days Tour)</option>
+									<option value="3" <?php echo $this->tour->price_type == 3 ? 'selected' : '';?>>On Cruise Tour</option>
+								</select>
+							</fieldset>
+							<fieldset id="price_type_1" class="price_type" style="display:<?php echo  $this->tour->price_type == 1 ? 'block': 'none'?>">
+                                <table>
+                                  <tr>
+							      	<td colspan="8" style="color:red">Leave 'Price Per Pax' fields blank if you don't want to input for price type</td>
+							      </tr>
+                                  <tr>
+                                    <th rowspan="5"><label>Group Tour<input type="hidden" name="group_tour" value="0" /><input type="checkbox" name="group_tour" value="1" checked></label></th>
+                                    <th>From Pax</th>
+                                    <th>To Pax</th>
+                                    <th>Price Per Pax</th>
+                                  </tr>
+                                  <?php foreach($this->type_1_group as $t){?>
+									<tr>
+                                    	<td><input type="number" name="from_pax_type_1_group[]"  value="<?php echo $t->from_pax?>" class="number_pax"></td>
+                                    	<td><input type="number" name="to_pax_type_1_group[]" value="<?php echo $t->to_pax?>"></td>
+                                    	<td><input type="number" name="price_pax_type_1_group[]" value="<?php echo $t->price?>"></td>
+                                  	</tr>                                  	
+                                  <?php }?>
+                                  <?php for($i = 3; $i > sizeof($this->type_1_group); $i--){?>
+                                  	  <tr>
+                                        <td><input type="number" name="from_pax_type_1_group[]" class="number_pax"></td>
+                                        <td><input type="number" name="to_pax_type_1_group[]" ></td>
+                                        <td><input type="number" name="price_pax_type_1_group[]" ></td>
+                                      </tr>
+                                  <?php }?>
+                                </table>
+                                <hr/>
+                                <table>
+                                  <tr>
+                                    <th rowspan="4"><label>Private Tour<input type="hidden" name="private_tour" value="0" /><input type="checkbox" name="private_tour" value="1" checked></label></th>
+                                    <th>From Pax</th>
+                                    <th>To Pax</th>
+                                    <th>Price Per Pax</th>
+                                  </tr>
+                                  <?php foreach($this->type_1_private as $t){?>
+                                  <tr>
+                                  	<td><input type="number" name="from_pax_type_1_private[]"  value="<?php echo $t->from_pax?>" class="number_pax"></td>
+                                    <td><input type="number" name="to_pax_type_1_private[]" value="<?php echo $t->to_pax?>"></td>
+                                    <td><input type="number" name="price_pax_type_1_private[]" value="<?php echo $t->price?>"></td>
+                                  </tr>
+                                  <?php }?>
+                                  <?php for($i = 3; $i > sizeof($this->type_1_group); $i--){?>
+                                  <tr>
+                                    <td><input type="number" name="from_pax_type_1_private[]"></td>
+                                    <td><input type="number" name="to_pax_type_1_private[]"></td>
+                                    <td><input type="number" name="price_pax_type_1_private[]" ></td>
+                                  </tr>
+                                   <?php }?>
+                                </table>
+							</fieldset>
+							<fieldset id="price_type_2" class="price_type" style="display:<?php echo  $this->tour->price_type == 2 ? 'block': 'none'?>">
+							 <table style="float:left">
+							      <tr>
+							      	<td colspan="2" style="color:red">Leave 'Price Per Pax' fields blank if you don't want to input for price type</td>
+							      </tr>
+							      <tr>
+                                    <th>Hotel *</th>
+                                    <th>Price Per Pax</th>
+                                  </tr>
+                                  <tr>
+                                    <td><input type="text" name="homestay_dorm" value="Homestay/dorm room" class="star_hotel" readonly></td>
+                                    <td><input type="number" name="price_pax_type_2[]" value="<?php foreach($this->type_2 as $t){ if($t->tour_price_group_id==$this->HOMESTAY_DORM_ID) echo $t->price;}?>"></td>
+                                  </tr>
+                                  <tr>
+                                    <td><input type="text" name="homestay_private" value="Homestay/private room" class="star_hotel" readonly></td>
+                                    <td><input type="number" name="price_pax_type_2[]" value="<?php foreach($this->type_2 as $t){ if($t->tour_price_group_id==$this->HOMESTAY_PRIVATE_ID) echo $t->price;}?>"></td>
+                                  </tr>
+                                  <tr>
+                                    <td><input type="text" name="2star_hotel" value="2* Hotel" class="star_hotel" readonly></td>
+                                    <td><input type="number" name="price_pax_type_2[]" value="<?php foreach($this->type_2 as $t){ if($t->tour_price_group_id==$this->HOTEL_2_STAR_ID) echo $t->price;}?>"></td>
+                                  </tr>
+                                  <tr>
+                                    <td><input type="text" name="3star_hotel"value="3* Hotel" class="star_hotel" readonly></td>
+                                    <td><input type="number" name="price_pax_type_2[]" value="<?php foreach($this->type_2 as $t){ if($t->tour_price_group_id==$this->HOTEL_3_STAR_ID) echo $t->price;}?>"></td>
+                                  </tr>
+                                  <tr>
+                                    <td><input type="text" name="4star_hotel"value="4* Hotel" class="star_hotel" readonly></td>
+                                    <td><input type="number" name="price_pax_type_2[]" value="<?php foreach($this->type_2 as $t){ if($t->tour_price_group_id==$this->HOTEL_4_STAR_ID) echo $t->price;}?>"></td>
+                                  </tr>
+                                  <tr>
+                                    <td><input type="text" name="5star_hotel"value="5* Hotel" class="star_hotel" readonly></td>
+                                    <td><input type="number" name="price_pax_type_2[]" value="<?php foreach($this->type_2 as $t){ if($t->tour_price_group_id==$this->HOTEL_5_STAR_ID) echo $t->price;}?>"></td>
+                                  </tr>
+                                  <tr>
+                                  	<?php foreach($this->type_2_add_price as $t){?>
+                                  		<td><input type='text' name='additional_price_text[]' class='star_hotel' value="<?php echo $t->name?>"></td>
+                                  		<td><input type='number' name='additional_price[]' value="<?php echo $t->price?>"></td>
+                                  	<?php }?>
+                                  </tr>
+                                </table>
+                                <button id="add_addtional_price_type_2" style="margin: 10px 20px;padding: 0 10px">Add additional price</button>
+							</fieldset>
+							<fieldset id="price_type_3" class="price_type" style="display:<?php echo  $this->tour->price_type == 3 ? 'block': 'none'?>">
+							 <table>
+							 	  <tr>
+							      	<td colspan="2" style="color:red">Leave 'Price Per Pax' fields blank if you don't want to input for price type</td>
+							      </tr>
+                                  <tr>
+                                    <td><input type="text" name="3star_cruise" value="3* Cruise" class="star_hotel" readonly></td>
+                                    <td><input type="number" name="price_pax_type_3[]" value="<?php foreach($this->type_3 as $t){ if($t->tour_price_group_id==$this->CRUISE_3_STAR_ID) echo $t->price;}?>"></td>
+                                  </tr>
+                                  <tr>
+                                    <td><input type="text" name="4star_cruise"value="4* Cruise" class="star_hotel" readonly></td>
+                                    <td><input type="number" name="price_pax_type_3[]" value="<?php foreach($this->type_3 as $t){ if($t->tour_price_group_id==$this->CRUISE_4_STAR_ID) echo $t->price;}?>"></td>
+                                  </tr>
+                                  <tr>
+                                    <td><input type="text" name="4star_cruise"value="4* Cruise++" class="star_hotel" readonly></td>
+                                    <td><input type="number" name="price_pax_type_3[]" value="<?php foreach($this->type_3 as $t){ if($t->tour_price_group_id==$this->CRUISE_4_PLUS_STAR_ID) echo $t->price;}?>"></td>
+                                  </tr>
+                                  <tr>
+                                    <td><input type="text" name="5star_cruise"value="5* Cruise" class="star_hotel" readonly></td>
+                                    <td><input type="number" name="price_pax_type_3[]" value="<?php foreach($this->type_3 as $t){ if($t->tour_price_group_id==$this->CRUISE_5_STAR_ID) echo $t->price;}?>"></td>
+                                  </tr>
+                                </table>
 							</fieldset>
 							<fieldset>
 								<p>
 									<label>Hot Tour</label>
 									<input type="hidden" name="is_hot" value="0" />
 									<input type="checkbox" name="is_hot" value="1"  <?php if($this->tour->is_hot == 1){ echo 'checked';};?>  >
+								</p>
+							</fieldset>
+							<fieldset>
+								<p>
+									<label>Show on home page</label>
+									<input type="hidden" name="is_show_on_homepage" value="0" />
+									<input type="checkbox" name="is_show_on_home_page" value="1" <?php if($this->tour->is_show_on_home_page == 1){ echo 'checked';};?>>
 								</p>
 							</fieldset>
 							<fieldset>
@@ -112,7 +258,7 @@
 							<div class="clear"></div>
 							<footer>
 								<div class="submit_link">
-									<input type="submit" name="btnSubmit" class="alt_btn" value="Update">
+									<input type="submit" id="btnSumitTour" name="btnSubmit" class="alt_btn" value="Update">
 								</div>
 							</footer>
 						</form>

@@ -3,6 +3,19 @@
 class IndexController extends Zend_Controller_Action
 {
 
+    private static $PRICE_GROUP_ID = 10;
+    private static $PRICE_PRIVATE_ID = 11;
+    private static $HOMESTAY_DORM_ID = 0;
+    private static $HOMESTAY_PRIVATE_ID = 1;
+    private static $HOTEL_2_STAR_ID = 2;
+    private static $HOTEL_3_STAR_ID = 3;
+    private static $HOTEL_4_STAR_ID = 4;
+    private static $HOTEL_5_STAR_ID = 5;
+    private static $CRUISE_3_STAR_ID = 6;
+    private static $CRUISE_4_STAR_ID = 7;
+    private static $CRUISE_4_PLUS_STAR_ID = 8;
+    private static $CRUISE_5_STAR_ID = 9;
+    
     public function init()
     {
         $this->_menu();
@@ -223,6 +236,9 @@ class IndexController extends Zend_Controller_Action
         $tour_mapper = new Application_Model_TourMapper();
         $tour = $tour_mapper->getById($id);
         
+        //processing get group prices
+        $this->_getPrice($tour);
+        
         //get name of tour
         $tourType_mapper = new Application_Model_TourTypeMapper();
         $sub_tour_type = $tourType_mapper->getById($id);        
@@ -249,6 +265,55 @@ class IndexController extends Zend_Controller_Action
         }
         $this->view->tours = $tours;
         //Zend_Debug::dump($tours);die();
+    }
+    
+    protected function _getPrice($tour){
+        $tour_price_group_detail_mapper = new Application_Model_TourPriceGroupDetailMapper();
+        $price_arr = $tour_price_group_detail_mapper->getByTourIdAndOrGroupIds($tour->tour_type_id);
+        
+        $type_1_group = array();
+        $type_1_private = array();
+        $type_2 = array();
+        $type_2_add_price = array();
+        $type_3 = array();
+        //$tour->price_arr = $price_arr;
+        if($tour->price_type == 1) {
+            //$groupIds = self::$GROUP_PRIVATE_IDS;
+            //Zend_Debug::dump($price_arr);die;
+            $type_1_group = array();
+            $type_1_private = array();
+            foreach($price_arr as $p){
+                $p->tour_price_group_id == self::$PRICE_GROUP_ID ? array_push($type_1_group, $p) : array_push($type_1_private, $p);
+            }
+            //Zend_Debug::dump($type_1_group);die;
+        } else {
+            $groupId = $tour->price_type == 2 ? [0, 1, 2, 3, 4, 5] : [6, 7, 8, 9]; // ~ Homestay/dorm room --> 5* hotel
+            foreach($price_arr as $p){
+                if($p->tour_price_group_id >= 0 && $p->tour_price_group_id <= 5){
+                    array_push($type_2, $p);
+                } else if($p->is_add_price == 1){
+                    array_push($type_2_add_price, $p);
+                } else {
+                    array_push($type_3, $p);
+                }
+            }
+        }
+        
+        $this->view->type_1_group= $type_1_group;
+        $this->view->type_1_private= $type_1_private;
+        $this->view->type_2= $type_2;
+        $this->view->type_2_add_price= $type_2_add_price;
+        $this->view->type_3= $type_3;
+        $this->view->HOMESTAY_DORM_ID = self::$HOMESTAY_DORM_ID;
+        $this->view->HOMESTAY_PRIVATE_ID = self::$HOMESTAY_PRIVATE_ID;
+        $this->view->HOTEL_2_STAR_ID = self::$HOTEL_2_STAR_ID;
+        $this->view->HOTEL_3_STAR_ID = self::$HOTEL_3_STAR_ID;
+        $this->view->HOTEL_4_STAR_ID = self::$HOTEL_4_STAR_ID;
+        $this->view->HOTEL_5_STAR_ID = self::$HOTEL_5_STAR_ID;
+        $this->view->CRUISE_3_STAR_ID = self::$CRUISE_3_STAR_ID;
+        $this->view->CRUISE_4_STAR_ID = self::$CRUISE_4_STAR_ID;
+        $this->view->CRUISE_4_PLUS_STAR_ID = self::$CRUISE_4_PLUS_STAR_ID;
+        $this->view->CRUISE_5_STAR_ID = self::$CRUISE_5_STAR_ID;
     }
     
     public function tourBookAction() {

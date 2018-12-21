@@ -1,12 +1,27 @@
 
-			
+
+<style>
+.star_hotel{
+    width: 70% !important;
+    float: right !important;
+}
+.number_pax {
+    /*width: 20% !important;
+    float: right !important;*/
+}
+th, td {
+  padding: 5px;
+}
+.price_type{
+    display:none;
+}
+</style>			
 			
 <?php 
   if($this->errorMessage != null && $this->errorMessage != ''){
 	echo "<h4 class='alert_error'>".$this->errorMessage."</h4>";
   }
 ?>
-
 <article class="module width_full">
 			<header><h3>Add a new tour</h3></header>
 				<div class="module_content">
@@ -29,7 +44,7 @@
 							   <div id="onerrorimgs" style="padding:15px;"></div>
 							  </form>
 						</fieldset>
-						<form name="form_add" method="POST" action="/admin/tour/add" onSubmit="document.form_add.editor_contents.value  = $('#editor #edit .froala-element').html()">
+						<form id="form_tour_detail" name="form_add" method="POST" action="/admin/tour/add" onSubmit="document.form_add.editor_contents.value  = $('#editor #edit .froala-element').html()">
 							<input  type="hidden" name="img_uploaded" id="img_uploaded" value="" />
 							<input  type="hidden" name="img_uploaded_images" id="img_uploaded_images" value="" />
 							<fieldset>
@@ -63,14 +78,141 @@
 								<input type="text" name="duration">
 							</fieldset>
 							<fieldset>
-								<label>Price</label>
-								<input type="text" name="price">
+								<label>Lowest Price</label>
+								<input type="number" name="price" style="width:50px;">
+							</fieldset>
+							<fieldset>
+								<label>Price Type</label>
+								<select name="price_type" id="price_type" style="width: 200px;">
+									<option value="0" selected disabled>Please select</option>
+									<option value="1">On Land(Private/Group Tour)</option>
+									<option value="2">On Land(>2days Tour)</option>
+									<option value="3">On Cruise Tour</option>
+								</select>
+							</fieldset>
+							<fieldset id="price_type_1" class="price_type">
+                                <table>
+                                  <tr>
+							      	<td colspan="8" style="color:red">Leave 'Price Per Pax' fields blank if you don't want to input for price type</td>
+							      </tr>
+                                  <tr>
+                                    <th rowspan="5"><label>Group Tour<input type="hidden" name="group_tour" value="0" /><input type="checkbox" name="group_tour" value="1" checked></label></th>
+                                    <th>From Pax</th>
+                                    <th>To Pax</th>
+                                    <th>Price Per Pax</th>
+                                  </tr>
+                                  <tr>
+                                    <td><input type="number" name="from_pax_type_1_group[]"  value="1" class="number_pax"></td>
+                                    <td><input type="number" name="to_pax_type_1_group[]" ></td>
+                                    <td><input type="number" name="price_pax_type_1_group[]" ></td>
+                                  </tr>
+                                  <tr>
+                                    <td><input type="number" name="from_pax_type_1_group[]"  value="2" class="number_pax"></td>
+                                    <td><input type="number" name="to_pax_type_1_group[]"  value="4"></td>
+                                    <td><input type="number" name="price_pax_type_1_group[]" ></td>
+                                  </tr>
+                                  <tr>
+                                    <td><input type="number" name="from_pax_type_1_group[]"  value="5" class="number_pax"></td>
+                                    <td><input type="number" name="to_pax_type_1_group[]" ></td>
+                                    <td><input type="number" name="price_pax_type_1_group[]" ></td>
+                                  </tr>
+                                </table>
+                                <hr/>
+                                <table>
+                                  <tr>
+                                    <th rowspan="4"><label>Private Tour<input type="hidden" name="private_tour" value="0" /><input type="checkbox" name="private_tour" value="1" checked></label></th>
+                                    <th>From Pax</th>
+                                    <th>To Pax</th>
+                                    <th>Price Per Pax</th>
+                                  </tr>
+                                  <tr>
+                                  	<td><input type="number" name="from_pax_type_1_private[]"  value="1"></td>
+                                    <td><input type="number" name="to_pax_type_1_private[]" ></td>
+                                    <td><input type="number" name="price_pax_type_1_private[]" ></td>
+                                  </tr>
+                                  <tr>
+                                    <td><input type="number" name="from_pax_type_1_private[]"  value="2"></td>
+                                    <td><input type="number" name="to_pax_type_1_private[]"  value="4"></td>
+                                    <td><input type="number" name="price_pax_type_1_private[]" ></td>
+                                  </tr>
+                                  <tr>
+                                    <td><input type="number" name="from_pax_type_1_private[]"  value="5"></td>
+                                    <td><input type="number" name="to_pax_type_1_private[]" ></td>
+                                    <td><input type="number" name="price_pax_type_1_private[]" ></td>
+                                  </tr>
+                                </table>
+							</fieldset>
+							<fieldset id="price_type_2" class="price_type">
+							 <table style="float:left">
+							      <tr>
+							      	<td colspan="2" style="color:red">Leave 'Price Per Pax' fields blank if you don't want to input for price type</td>
+							      </tr>
+							      <tr>
+                                    <th>Hotel *</th>
+                                    <th>Price Per Pax</th>
+                                  </tr>
+                                  <tr>
+                                    <td><input type="text" name="homestay_dorm" value="Homestay/dorm room" class="star_hotel" readonly></td>
+                                    <td><input type="number" name="price_pax_type_2[]"></td>
+                                  </tr>
+                                  <tr>
+                                    <td><input type="text" name="homestay_private" value="Homestay/private room" class="star_hotel" readonly></td>
+                                    <td><input type="number" name="price_pax_type_2[]" ></td>
+                                  </tr>
+                                  <tr>
+                                    <td><input type="text" name="2star_hotel" value="2* Hotel" class="star_hotel" readonly></td>
+                                    <td><input type="number" name="price_pax_type_2[]" ></td>
+                                  </tr>
+                                  <tr>
+                                    <td><input type="text" name="3star_hotel"value="3* Hotel" class="star_hotel" readonly></td>
+                                    <td><input type="number" name="price_pax_type_2[]" ></td>
+                                  </tr>
+                                  <tr>
+                                    <td><input type="text" name="4star_hotel"value="4* Hotel" class="star_hotel" readonly></td>
+                                    <td><input type="number" name="price_pax_type_2[]" ></td>
+                                  </tr>
+                                  <tr>
+                                    <td><input type="text" name="5star_hotel"value="5* Hotel" class="star_hotel" readonly></td>
+                                    <td><input type="number" name="price_pax_type_2[]" ></td>
+                                  </tr>
+                                </table>
+                                <button id="add_addtional_price_type_2" style="margin: 10px 20px;padding: 0 10px">Add additional price</button>
+							</fieldset>
+							<fieldset id="price_type_3" class="price_type">
+							 <table>
+							 	  <tr>
+							      	<td colspan="2" style="color:red">Leave 'Price Per Pax' fields blank if you don't want to input for price type</td>
+							      </tr>
+                                  <tr>
+                                    <td><input type="text" name="3star_cruise" value="3* Cruise" class="star_hotel" readonly></td>
+                                    <td><input type="number" name="price_pax_type_3[]" ></td>
+                                  </tr>
+                                  <tr>
+                                    <td><input type="text" name="4star_cruise"value="4* Cruise" class="star_hotel" readonly></td>
+                                    <td><input type="number" name="price_pax_type_3[]" ></td>
+                                  </tr>
+                                  <tr>
+                                    <td><input type="text" name="4star_cruise"value="4* Cruise++" class="star_hotel" readonly></td>
+                                    <td><input type="number" name="price_pax_type_3[]" ></td>
+                                  </tr>
+                                  <tr>
+                                    <td><input type="text" name="5star_cruise"value="5* Cruise" class="star_hotel" readonly></td>
+                                    <td><input type="number" name="price_pax_type_3[]" ></td>
+                                  </tr>
+                                </table>
 							</fieldset>
 							<fieldset>
 								<p>
 									<label>Hot Tour</label>
 									<input type="hidden" name="is_hot" value="0" />
 									<input type="checkbox" name="is_hot" value="1">
+								</p>
+							</fieldset>
+							<fieldset>
+								<p>
+									<label>Show on home page</label>
+									<input type="hidden" name="is_show_on_home_page" value="0" />
+									<input type="checkbox" name="is_show_on_home_page" value="1">
 								</p>
 							</fieldset>
 							<fieldset>
@@ -88,7 +230,7 @@
 							<div class="clear"></div>
 							<footer>
 								<div class="submit_link">
-									<input type="submit" name="btnSubmit" class="alt_btn" value="Save">
+									<input type="submit" id="btnSumitTour" name="btnSubmit" class="alt_btn" value="Save">
 								</div>
 							</footer>
 						</form>

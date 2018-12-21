@@ -58,6 +58,7 @@
         background: none;
         font-size: 15px !important;
         margin-left: -20px;
+        width: 100%;
     }
 </style>
 
@@ -317,7 +318,8 @@ $.get("https://min-api.cryptocompare.com/data/price?fsym=ETH&tsyms=BTC,USD,EUR,G
         	
             $("#no_traveller").on('change', function() {
             	  var no = this.value*1;
-            	  var p = document.getElementById("tour_price").innerHTML;
+            	  var index = location.pathname.lastIndexOf('/');
+            	  var p = location.pathname.substr(index+1);
             	  var total_price = document.getElementById("total_price");
             	  if(no > 0)      	  
           		  	total_price.value = "$" + p +" * " + no + " = $" + (p*no);

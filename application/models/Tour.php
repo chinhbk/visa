@@ -10,8 +10,10 @@ class Application_Model_Tour
     private $code;
     private $duration;
     private $price;
+    private $price_type;
 	private $details;
     private $is_hot;
+    private $is_show_on_home_page;
     private $create_date;
     private $update_date;
     private $name; //DTO
@@ -21,6 +23,7 @@ class Application_Model_Tour
     //from the $obj if available
     public function __construct($obj = null)
     {
+        //Zend_Debug::dump($obj); die;
         if( !is_null($obj) && $obj instanceof Zend_Db_Table_Row ) {
 			$this->tour_type_id = $obj->TOUR_TYPE_ID;
 			$this->short_desc = $obj->SHORT_DESC;
@@ -29,8 +32,10 @@ class Application_Model_Tour
 			$this->code = $obj->CODE;
 			$this->duration = $obj->DURATION;
 			$this->price = $obj->PRICE;
+			$this->price_type = $obj->PRICE_TYPE;
           	$this->details = $obj->DETAILS;
 			$this->is_hot = $obj->IS_HOT;
+			$this->is_show_on_home_page = $obj->IS_SHOW_ON_HOME_PAGE;
 			$this->create_date = $obj->CREATE_DATE;
 			$this->update_date = $obj->UPDATE_DATE;			
         }
@@ -46,6 +51,7 @@ class Application_Model_Tour
             $this->parent_id = $obj['PARENT_ID'];
             if(isset($obj['PRICE'])) $this->price = $obj['PRICE'];
             if(isset($obj['DURATION'])) $this->duration = $obj['DURATION'];
+            if(isset($obj['IS_SHOW_ON_HOME_PAGE'])) $this->is_show_on_home_page = $obj['IS_SHOW_ON_HOME_PAGE'];
         }
     }
      

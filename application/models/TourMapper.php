@@ -22,11 +22,14 @@
 			    'CODE' => $obj->code,
 			    'DURATION' => $obj->duration,
 			    'PRICE' => $obj->price,
+			    'PRICE_TYPE' => $obj->price_type,
 			    'DETAILS' => $obj->details,				
 			    'IS_HOT' => $obj->is_hot,
+			    'IS_SHOW_ON_HOME_PAGE' => $obj->is_show_on_home_page,
 			    'UPDATE_DATE' => $obj->update_date,
 			);
-
+			//echo $is_update;
+			//Zend_Debug::dump( $data);die();
 			try {
 			    if($is_update == false) {
 			        //Zend_Debug::dump( $data);		die;
@@ -68,7 +71,7 @@
 		{
 		    try{
 		        $select = $this->_db_table->select()
-		        ->from(array('t' => self::TABLE), array('TOUR_TYPE_ID','SHORT_DESC', 'CODE','IMAGE_SMALL', 'IS_HOT'))
+		        ->from(array('t' => self::TABLE), array('TOUR_TYPE_ID','SHORT_DESC', 'CODE','IMAGE_SMALL', 'IS_HOT', 'IS_SHOW_ON_HOME_PAGE'))
 		        ->join(array('tt' => 'TOUR_TYPE'),'tt.ID = t.TOUR_TYPE_ID', array('NAME', 'PARENT_ID'))
 		        ->setIntegrityCheck(false) // ADD This Line
 		        ->order('PARENT_ID ASC');
@@ -102,7 +105,7 @@
 		{
 		    try{
 		        $select = $this->_db_table->select()
-		        ->from(array('t' => self::TABLE), array('TOUR_TYPE_ID','SHORT_DESC', 'CODE','IMAGE_SMALL', 'IS_HOT', 'PRICE', 'DURATION'))
+		        ->from(array('t' => self::TABLE), array('TOUR_TYPE_ID','SHORT_DESC', 'CODE','IMAGE_SMALL', 'IS_HOT', 'IS_SHOW_ON_HOME_PAGE', 'PRICE', 'DURATION'))
 		        ->join(array('tt' => 'TOUR_TYPE'),'tt.ID = t.TOUR_TYPE_ID', array('NAME', 'PARENT_ID'))
 		        ->setIntegrityCheck(false) // ADD This Line
 		        ->order('PARENT_ID ASC');		      

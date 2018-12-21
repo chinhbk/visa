@@ -570,4 +570,90 @@ ALTER TABLE `SETTING`
 --
 ALTER TABLE `SETTING`
   MODIFY `ID` int(2) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  
+  ALTER TABLE `TOUR` ADD `PRICE_TYPE` VARCHAR(100) NULL AFTER `PRICE`;
+ALTER TABLE `TOUR` ADD `IS_SHOW_ON_HOME_PAGE` TINYINT NULL AFTER `IS_HOT`;
+
+
+--
+-- Table structure for table `TOUR_PRICE_GROUP`
+--
+
+CREATE TABLE `TOUR_PRICE_GROUP` (
+  `ID` int(11) NOT NULL,
+  `NAME` varchar(100) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+--
+-- Dumping data for table `TOUR_PRICE_GROUP`
+--
+
+INSERT INTO `TOUR_PRICE_GROUP` (`ID`, `NAME`) VALUES
+(0, 'Homestay/private room'),
+(1, 'Homestay/dorm room'),
+(2, '2* Hotel'),
+(3, '3* Hotel'),
+(4, '4* Hotel'),
+(5, '5* Hotel'),
+(6, '3* Cruise'),
+(7, '4* Cruise'),
+(8, '4* cruise ++'),
+(9, '5* Cruise'),
+(10, 'Group tour'),
+(11, 'Private tour');
+
+--
+-- Indexes for dumped tables
+--
+
+--
+-- Indexes for table `TOUR_PRICE_GROUP`
+--
+ALTER TABLE `TOUR_PRICE_GROUP`
+  ADD PRIMARY KEY (`ID`);
+
+--
+-- AUTO_INCREMENT for dumped tables
+--
+
+--
+-- AUTO_INCREMENT for table `TOUR_PRICE_GROUP`
+--
+ALTER TABLE `TOUR_PRICE_GROUP`
+  MODIFY `ID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=15;
+  
+  
+  
+  
+--
+-- Table structure for table `TOUR_PRICE_GROUP_DETAIL`
+--
+
+CREATE TABLE `TOUR_PRICE_GROUP_DETAIL` (
+  `ID` int(11) NOT NULL,
+  `TOUR_TYPE_ID` int(11) NOT NULL,
+  `TOUR_PRICE_GROUP_ID` int(11) NOT NULL,
+  `FROM_PAX` smallint(6) DEFAULT NULL,
+  `TO_PAX` smallint(6) DEFAULT NULL,
+  `PRICE` double NOT NULL,
+  `IS_ADD_PRICE` tinyint(4) DEFAULT '0',
+  `ORDER` tinyint(4) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+
+--
+-- Indexes for table `TOUR_PRICE_GROUP_DETAIL`
+--
+ALTER TABLE `TOUR_PRICE_GROUP_DETAIL`
+  ADD PRIMARY KEY (`ID`);
+
+--
+-- AUTO_INCREMENT for dumped tables
+--
+
+--
+-- AUTO_INCREMENT for table `TOUR_PRICE_GROUP_DETAIL`
+--
+ALTER TABLE `TOUR_PRICE_GROUP_DETAIL`
+  MODIFY `ID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=292;
 
