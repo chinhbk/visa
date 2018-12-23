@@ -102,7 +102,7 @@ th, td {
 								<input type="text" name="duration" value="<?php echo $this->tour->duration;?>">
 							</fieldset>
 							<fieldset>
-								<label>Lowest Price</label>
+								<label>Price</label>
 								<input type="number" name="price" value="<?php echo $this->tour->price;?>" style="width:50px;">
 							</fieldset>
 							<fieldset>
@@ -155,7 +155,7 @@ th, td {
                                     <td><input type="number" name="price_pax_type_1_private[]" value="<?php echo $t->price?>"></td>
                                   </tr>
                                   <?php }?>
-                                  <?php for($i = 3; $i > sizeof($this->type_1_group); $i--){?>
+                                  <?php for($i = 3; $i > sizeof($this->type_1_private); $i--){?>
                                   <tr>
                                     <td><input type="number" name="from_pax_type_1_private[]"></td>
                                     <td><input type="number" name="to_pax_type_1_private[]"></td>

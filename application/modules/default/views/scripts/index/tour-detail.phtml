@@ -78,7 +78,7 @@ margin-top:4px}</style><div class="fotorama--hidden"></div>
 
 							  <div class="row center">
 								<div class="col-xs-12 col-md-12">
-									<a href="<?php echo $this->tour->book_url;?>" title="Request tour: <?php echo $this->tour->name;?>"><span class="booktour-button">REQUEST THIS TOUR</span></a>								
+									<a href="<?php echo $this->tour->book_url.'/'.$this->tour->price?>" title="Request tour: <?php echo $this->tour->name;?>"><span class="booktour-button">REQUEST THIS TOUR</span></a>								
 								</div>
 								</div>
 							</div>
@@ -193,7 +193,7 @@ margin-top:4px}</style><div class="fotorama--hidden"></div>
                         	<?php foreach($this->type_2_add_price as $t){?>
                         		<tr>
                         			<th><?php echo $t->name?></th>
-                        			<td class="htcenter"><span class="chudam pricecam">$<?php echo $t->price?></span></td>
+                        			<td class="htcenter"><span class="chudam pricecam">$<?php echo $t->price + $this->type_2[sizeof($this->type_2)-1]->price;?></span></td>
                         			<td data-title="" class="numeric htcenter"><a href="<?php echo $this->tour->book_url.'/'.($t->price + $this->type_2[sizeof($this->type_2)-1]->price);?>" title="Request tour: <?php echo $this->tour->name?>">Reservation</a></td>
                         		</tr>
                         	<?php }?>

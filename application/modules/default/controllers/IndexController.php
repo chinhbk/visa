@@ -287,7 +287,7 @@ class IndexController extends Zend_Controller_Action
             }
             //Zend_Debug::dump($type_1_group);die;
         } else {
-            $groupId = $tour->price_type == 2 ? [0, 1, 2, 3, 4, 5] : [6, 7, 8, 9]; // ~ Homestay/dorm room --> 5* hotel
+            $groupId = $tour->price_type == 2 ? array(0, 1, 2, 3, 4, 5) : array(6, 7, 8, 9);
             foreach($price_arr as $p){
                 if($p->tour_price_group_id >= 0 && $p->tour_price_group_id <= 5){
                     array_push($type_2, $p);

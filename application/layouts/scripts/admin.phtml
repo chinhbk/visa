@@ -132,7 +132,7 @@
 					};					   
 				});
 					
-			    $( "#add_addtional_price_type_2" ).button().on( "click", function() {
+			    $( "#add_addtional_price_type_2" ).button().on( "click", function(event) {
 			     	  event.preventDefault();
 			     	  //console.log($('#price_type_2 table tbody').html());
 			     	  var no_tag= ($('input[name*="additional_price_text[]"').length);

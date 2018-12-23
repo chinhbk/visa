@@ -227,20 +227,21 @@ class Admin_TourController extends Zend_Controller_Action
 	        $to_pax_type_1_group_arr = $request->getParam('to_pax_type_1_group');
 	        $price_pax_type_1_group_arr = $request->getParam('price_pax_type_1_group');
 	        
-	        //Zend_Debug::dump($to_pax_type_1_group_arr); die;
+	       
 	        
 	        $from_pax_type_1_private_arr = $request->getParam('from_pax_type_1_private');
 	        $to_pax_type_1_private_arr = $request->getParam('to_pax_type_1_private');
 	        $price_pax_type_1_private_arr = $request->getParam('price_pax_type_1_private');
+             //Zend_Debug::dump($price_pax_type_1_private_arr); die;
 	        $this->_saveTourPriceGroupDetail(10,  $tour_type_id, $price_pax_type_1_group_arr, $from_pax_type_1_group_arr, $to_pax_type_1_group_arr);
 	        if($request->getParam('private_tour') == 1){ //tick checbox private tour
 	            $this->_saveTourPriceGroupDetail(11,  $tour_type_id, $price_pax_type_1_private_arr, $from_pax_type_1_private_arr, $to_pax_type_1_private_arr);
 	        }
 	    } else if($price_type == 2 ||$price_type == 3 ){
-	        $groupId = $price_type == 2 ? [0, 1, 2, 3, 4, 5] : [6, 7, 8, 9]; // ~ Homestay/dorm room --> 5* hotel
+	        $groupId = $price_type == 2 ? array(0, 1, 2, 3, 4, 5) : array(6, 7, 8, 9); // ~ Homestay/dorm room --> 5* hotel
 	        //Zend_Debug::dump($price_pax_arr); die;
 	        for($i=0; $i < sizeof($price_pax_arr); $i++ ){
-	            if(strlen(trim($price_pax_arr[$i])) > 0){
+	            if(strlen(trim($price_pax_arr[$i])) > 0 && floatval(trim($price_pax_arr[$i])) > 0){
 	                $detail = new Application_Model_TourPriceGroupDetail();
 	                $detail->tour_type_id = $tour_type_id;
 	                $detail->tour_price_group_id = $groupId[$i];
@@ -259,7 +260,7 @@ class Admin_TourController extends Zend_Controller_Action
 	            $additional_price =  $request->getParam('additional_price');
 	            //Zend_Debug::dump($additional_price); die;
 	            for($i=0; $i < sizeof($additional_price); $i++ ){
-	                if(strlen(trim($price_pax_arr[$i])) > 0){
+	                if(strlen(trim($additional_price[$i])) > 0 && floatval(trim($additional_price[$i])) > 0){
 	                    //check then add new group price
 	                    $group_id = $this->_getByPriceGroupName($groups, $additional_price_text_arr[$i]);
 	                    if($group_id == null){
@@ -295,18 +296,20 @@ class Admin_TourController extends Zend_Controller_Action
 	protected function _saveTourPriceGroupDetail($priceGroupId, $tour_type_id, $price_arr, $from_pax_arr, $to_pax_arr){
 	    $mapper = new Application_Model_TourPriceGroupDetailMapper();
 	    for($i=0; $i < sizeof($price_arr); $i++ ){
-	        $detail = new Application_Model_TourPriceGroupDetail();	        
-	        $detail->tour_type_id = $tour_type_id;
-	        $detail->tour_price_group_id = $priceGroupId;
-	        $detail->from_pax = $from_pax_arr[$i];
-	        $detail->to_pax = $to_pax_arr[$i];
-	        //to pax can be null or empty
-	        if(strlen(trim($to_pax_arr[$i])) == 0){
-	            $detail->to_pax = null;
-	        }
-	        $detail->price = $price_arr[$i];
-	        $detail->order = $i;	        
-	        $mapper->save($detail);
+	        if(floatval(trim($price_arr[$i])) > 0){
+    	        $detail = new Application_Model_TourPriceGroupDetail();	        
+    	        $detail->tour_type_id = $tour_type_id;
+    	        $detail->tour_price_group_id = $priceGroupId;
+    	        $detail->from_pax = $from_pax_arr[$i];
+    	        $detail->to_pax = $to_pax_arr[$i];
+    	        //to pax can be null or empty
+    	        if(strlen(trim($to_pax_arr[$i])) == 0){
+    	            $detail->to_pax = null;
+    	        }
+    	        $detail->price = $price_arr[$i];
+    	        $detail->order = $i;	        
+    	        $mapper->save($detail);
+            }
 	    }
 	}
 	
@@ -363,7 +366,7 @@ class Admin_TourController extends Zend_Controller_Action
 		    }
 		    //Zend_Debug::dump($type_1_group);die;
 		} else {
-		    $groupId = $tour->price_type == 2 ? [0, 1, 2, 3, 4, 5] : [6, 7, 8, 9]; // ~ Homestay/dorm room --> 5* hotel
+		    $groupId = $tour->price_type == 2 ? array(0, 1, 2, 3, 4, 5) : array(6, 7, 8, 9); // ~ Homestay/dorm room --> 5* hotel
 		    foreach($price_arr as $p){
 		        if($p->tour_price_group_id >= 0 && $p->tour_price_group_id <= 5){
 		            array_push($type_2, $p);
