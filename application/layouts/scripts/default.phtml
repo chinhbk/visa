@@ -315,14 +315,50 @@ $.get("https://min-api.cryptocompare.com/data/price?fsym=ETH&tsyms=BTC,USD,EUR,G
         	function hideErr() {
          	  document.getElementById("system-message-container").style.display = 'none';
           	}
-        	
+
+        	//BOOKING TOUR
+        	//load options no of travellers
+        	loadOptionsTravellers();
+        	function loadOptionsTravellers(){
+            	var selectNoTraveller = document.getElementById("no_traveller");
+            	if(selectNoTraveller == null) return;
+        		var index = location.pathname.lastIndexOf('/');
+          	 	var p = location.pathname.substr(index+1);
+          	  	var priceData = p.split('_');
+          	  	var from = priceData[0];
+          	  	var to = priceData[1];
+
+          	    var newHtml= '';
+          	    if(from < to){  
+          	    	newHtml = getHtmlTravellerOptions(from, to);
+                } else if(from == to){ // 1-20
+                	newHtml = getHtmlTravellerOptions(from, 20);
+                }
+
+          	  selectNoTraveller.innerHTML += newHtml;
+            }
+
+            function getHtmlTravellerOptions(from, to){
+            	var newHtml= '';
+            	for(var i = from; i <= to; i++){
+					var option;
+					if(i == 1) option  = "<option value='1'>1 Person</option>";
+					else option = "<option value='"+i+"'>"+ i + " Persons</option>";
+					newHtml += option;
+				}
+				return newHtml;
+            }
             $("#no_traveller").on('change', function() {
             	  var no = this.value*1;
             	  var index = location.pathname.lastIndexOf('/');
             	  var p = location.pathname.substr(index+1);
+            	  var priceData = p.split('_');
+            	  var from = priceData[0];
+            	  var to = priceData[1];
+            	  var price = priceData[2];
             	  var total_price = document.getElementById("total_price");
-            	  if(no > 0)      	  
-          		  	total_price.value = "$" + p +" * " + no + " = $" + (p*no);
+            	  if(no > 0)
+          		  	total_price.value = "$" + price +" * " + no + " = $" + (price*no);
             	  else 
             	  	total_price.value = '';
             });
