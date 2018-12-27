@@ -97,15 +97,16 @@
 		}
 		
 		//get by tour_price_group_id
-		public function getByTourIdAndOrGroupIds( $tour_type_id = null, $parent_ids = null)
+		public function getByTourIdAndOrGroupIds( $tour_type_id = null, $parent_ids = null, $order = null)
 		{
 		    try{
+		        if($order == null) $order = 'ASC';
 		        $select = $this->_db_table->select()
 		        ->from(array('t' => self::TABLE), array('ID', 'TOUR_TYPE_ID', 'TOUR_PRICE_GROUP_ID', 'FROM_PAX', 'TO_PAX', 'PRICE', 'ORDER', 'IS_ADD_PRICE'))
 		        ->join(array('tt' => 'TOUR_PRICE_GROUP'),'tt.ID = t.TOUR_PRICE_GROUP_ID', array('NAME'))
 		        ->setIntegrityCheck(false) // ADD This Line
-		        ->order('TOUR_PRICE_GROUP_ID ASC')
-		        ->order('ORDER ASC');		      
+		        ->order('TOUR_PRICE_GROUP_ID '.$order)
+		        ->order('ORDER '.$order);
 		        
 		        if($parent_ids){
 		            $select = $select->where('TOUR_PRICE_GROUP_ID IN (?)', $parent_ids);

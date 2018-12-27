@@ -51,7 +51,7 @@
         margin-top: 10px ;
     }
     
-    #total_price {
+    #total_price, #booking_type {
         font-weight: 600;
         color: red !important;
         border: none;
@@ -322,17 +322,21 @@ $.get("https://min-api.cryptocompare.com/data/price?fsym=ETH&tsyms=BTC,USD,EUR,G
         	function loadOptionsTravellers(){
             	var selectNoTraveller = document.getElementById("no_traveller");
             	if(selectNoTraveller == null) return;
-        		var index = location.pathname.lastIndexOf('/');
-          	 	var p = location.pathname.substr(index+1);
-          	  	var priceData = p.split('_');
-          	  	var from = priceData[0];
-          	  	var to = priceData[1];
-
+          	  	var from =  g("#from").value;
+          	  	var to = g("#to").value;
+          	  	var price = g("#price").value;
+            	price_type = g("#price_type").value;
           	    var newHtml= '';
-          	    if(from < to){  
+          	    if(from < to){
           	    	newHtml = getHtmlTravellerOptions(from, to);
                 } else if(from == to){ // 1-20
-                	newHtml = getHtmlTravellerOptions(from, 20);
+                	//group/private tour
+                    if(price_type == 1 && from == to && from == 1){
+                    	newHtml = "<option value='1' selected>1 Person</option>";
+                    	showTotalTourPrice(1, price);
+                    } else {
+                		newHtml = getHtmlTravellerOptions(from, 20);
+                	}
                 }
 
           	  selectNoTraveller.innerHTML += newHtml;
@@ -340,6 +344,7 @@ $.get("https://min-api.cryptocompare.com/data/price?fsym=ETH&tsyms=BTC,USD,EUR,G
 
             function getHtmlTravellerOptions(from, to){
             	var newHtml= '';
+
             	for(var i = from; i <= to; i++){
 					var option;
 					if(i == 1) option  = "<option value='1'>1 Person</option>";
@@ -350,18 +355,17 @@ $.get("https://min-api.cryptocompare.com/data/price?fsym=ETH&tsyms=BTC,USD,EUR,G
             }
             $("#no_traveller").on('change', function() {
             	  var no = this.value*1;
-            	  var index = location.pathname.lastIndexOf('/');
-            	  var p = location.pathname.substr(index+1);
-            	  var priceData = p.split('_');
-            	  var from = priceData[0];
-            	  var to = priceData[1];
-            	  var price = priceData[2];
-            	  var total_price = document.getElementById("total_price");
-            	  if(no > 0)
-          		  	total_price.value = "$" + price +" * " + no + " = $" + (price*no);
-            	  else 
-            	  	total_price.value = '';
+            	  var price = g("#price").value;
+            	  showTotalTourPrice(no, price);
             });
+
+            function showTotalTourPrice(no, price){ // no of travellers
+            	 var total_price = document.getElementById("total_price");
+               	 if(no > 0)
+             	  	total_price.value = "$" + price +" * " + no + " = $" + (price*no);
+               	 else 
+               		total_price.value = '';
+            }
 
             $('#booktour').on('submit', function (e) {
             	  e.preventDefault();              	  

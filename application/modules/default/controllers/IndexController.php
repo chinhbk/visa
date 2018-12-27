@@ -236,15 +236,14 @@ class IndexController extends Zend_Controller_Action
         $tour_mapper = new Application_Model_TourMapper();
         $tour = $tour_mapper->getById($id);
         
-        //processing get group prices
-        $this->_getPrice($tour);
-        
         //get name of tour
         $tourType_mapper = new Application_Model_TourTypeMapper();
         $sub_tour_type = $tourType_mapper->getById($id);        
         $tour->name = $sub_tour_type->name;
 		$tour->parent_id = $sub_tour_type->parent_id;
 		$tour->book_url = $this->_generateURL($tour->tour_type_id, $tour->name, 3);
+		//processing get group prices
+		$this->_getPrice($tour);
 		//parse images
 		$str =  str_replace('[', '', $tour->image);
 		$str =  str_replace(']', '', $str);
@@ -283,13 +282,15 @@ class IndexController extends Zend_Controller_Action
             $type_1_group = array();
             $type_1_private = array();
             foreach($price_arr as $p){
+                $p->book_url = $tour->book_url .'/'.$p->id;
                 $p->tour_price_group_id == self::$PRICE_GROUP_ID ? array_push($type_1_group, $p) : array_push($type_1_private, $p);
             }
             //Zend_Debug::dump($type_1_group);die;
         } else {
             $groupId = $tour->price_type == 2 ? array(0, 1, 2, 3, 4, 5) : array(6, 7, 8, 9);
             foreach($price_arr as $p){
-                if($p->tour_price_group_id >= 0 && $p->tour_price_group_id <= 5){
+                $p->book_url = $tour->book_url .'/'.$p->id;
+                if($p->tour_price_group_id >= 0 && $p->tour_price_group_id <= 5){                    
                     array_push($type_2, $p);
                 } else if($p->is_add_price == 1){
                     array_push($type_2_add_price, $p);
@@ -327,6 +328,40 @@ class IndexController extends Zend_Controller_Action
         $sub_tour_type = $tourType_mapper->getById($id);
         $tour->name = $sub_tour_type->name;
         $this->view->tour = $tour;
+        
+        $tour_price_group_detail_mapper = new Application_Model_TourPriceGroupDetailMapper();
+        $price_arr = $tour_price_group_detail_mapper->getByTourIdAndOrGroupIds($tour->tour_type_id);
+        $price_group_detail_id = $request->getParam('price_group_detail_id');
+        
+        $price_group_detail = null;       
+        foreach($price_arr as $p){
+            if($p->id == $price_group_detail_id){
+                $price_group_detail = $p;
+                break;
+            }
+        }
+        
+        //check if additional price
+        if($tour->price_type == 2 && $price_group_detail->is_add_price == 1){
+            $arr_price_type2= array(self::$HOMESTAY_DORM_ID, self::$HOMESTAY_PRIVATE_ID, self::$HOTEL_2_STAR_ID, self::$HOTEL_3_STAR_ID, self::$HOTEL_4_STAR_ID, self::$HOTEL_5_STAR_ID);
+            $price_arr = $tour_price_group_detail_mapper->getByTourIdAndOrGroupIds($tour->tour_type_id, $arr_price_type2, 'DESC');
+            //Zend_Debug::dump($price_arr);die;
+            $price_group_detail->price += $price_arr[0]->price;
+        }
+        
+        if($price_group_detail->from_pax == null ) {
+            $price_group_detail->from_pax = 1;
+        }
+        if($price_group_detail->to_pax == null ) {
+            if($tour->price_type != 1){
+                $price_group_detail->to_pax = 1;
+            } else {
+                $price_group_detail->to_pax = $price_group_detail->from_pax;
+            }
+        }        
+        
+        $this->view->price_group_detail = $price_group_detail;
+       // Zend_Debug::dump($price_group_detail);die;
     }
     
     
@@ -346,6 +381,7 @@ class IndexController extends Zend_Controller_Action
             $name = $request->getParam('name');
             $arivaldate = $request->getParam('arivaldate');
             $total_price = $request->getParam('total_price');
+            $booking_type = $request->getParam('booking_type');
             $email = $request->getParam('email');
             $no_traveller = $request->getParam('no_traveller');
             $phone = $request->getParam('phone');
@@ -372,6 +408,7 @@ class IndexController extends Zend_Controller_Action
             $html->assign('name', $name);
             $html->assign('arivaldate', $arivaldate);
             $html->assign('total_price', $total_price);
+            $html->assign('booking_type', $booking_type);
             $html->assign('email', $email);
             $html->assign('no_traveller', $no_traveller);
             $html->assign('phone', $phone);

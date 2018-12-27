@@ -107,7 +107,7 @@ class Bootstrap extends Zend_Application_Bootstrap_Bootstrap
         
         $route_tour_book = new Zend_Controller_Router_Route_Regex(
             // The pattern this route matches
-            'booking/([a-z0-9-*()]+)/([\d]+)/([\d]+)_([\d]+)_([\d]+)',
+            'booking/([a-z0-9-*()]+)/([\d]+)/([\d]+)',
             // Configure controller/action
             array(
                 'action' => 'tour-book',
@@ -120,11 +120,7 @@ class Bootstrap extends Zend_Application_Bootstrap_Bootstrap
                 
                 2 => 'id',
                 
-                3 => 'from_pax',
-                
-                4 => 'to_pax',
-                
-                5 => 'price_pax'
+                3 => 'price_group_detail_id'
             ),
             
             // Reverse map used when assembling the route
