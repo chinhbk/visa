@@ -380,16 +380,17 @@ class IndexController extends Zend_Controller_Action
         if ($request->isPost()) {
             $name = $request->getParam('name');
             $arivaldate = $request->getParam('arivaldate');
+            $tour_price_group_id = $request->getParam('tour_price_group_id');
             $total_price = $request->getParam('total_price');
             $booking_type = $request->getParam('booking_type');
             $email = $request->getParam('email');
             $no_traveller = $request->getParam('no_traveller');
             $phone = $request->getParam('phone');
             $nationality = $request->getParam('nationality');
-            //die($phone);
+            //die($tour_price_group_id);
             $book_time = $request->getParam('book_time');
             $comment = $request->getParam('comment');
-            //die($comment);
+            //die($total_price);
             $request_code = $this->_generateRandomString();
             //generate link
             $parent = $tourType_mapper->getById($sub_tour_type->parent_id);
@@ -415,18 +416,26 @@ class IndexController extends Zend_Controller_Action
             $html->assign('nationality', $nationality);
             $html->assign('email', $email);
             $html->assign('comment', $comment);
+            
+            //get phone hotline from DB
+            $mapper = new Application_Model_SettingMapper();
+            $setting = $mapper->get();
+            
+            $html->assign('hotline', $setting->hotline);
             //die('a');
             // render view
             
             $bodyHtml = $html->render('tour-book-email.phtml');
             //die($bodyHtml);
             $subject = 'Your Travel request to vietnamvisatours.com at '.$book_time;
-            $this->_sendMail($subject, $bodyHtml, $email);
+            //$this->_sendMail($subject, $bodyHtml, $email);
             
             
             //save data
             $book_tour = new Application_Model_BookTour();
             $book_tour->tour_id = $id;
+            $book_tour->tour_price_group_id = $tour_price_group_id;
+            $book_tour->total_price = $total_price;
             $book_tour->arivaldate = $arivaldate;
             $book_tour->code = $request_code;
             $book_tour->name = $name;

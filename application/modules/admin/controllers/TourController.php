@@ -82,6 +82,20 @@ class Admin_TourController extends Zend_Controller_Action
     	//Zend_Debug::dump( $tour);die();
     }
     
+    public function bookingAction()
+    {
+        $request = $this->getRequest();
+        
+        $keyword = $request->getParam('keyword');
+        $mapper = new Application_Model_BookTourMapper();
+        $bookings = $mapper->search($keyword);
+        $this->view->keyword = $keyword;
+        //Zend_Debug::dump( $bookings);die();
+               
+        $this->view->bookings = $bookings;
+        //Zend_Debug::dump( $tour);die();
+    }
+    
     public function menuAction()
     {
         $request = $this->getRequest();

@@ -17,6 +17,7 @@
 			$data = array(
 			    'ID' => $obj->id,
 			    'TOUR_ID' => $obj->tour_id,
+			    'TOUR_PRICE_GROUP_ID' => $obj->tour_price_group_id,
 			    'CODE' => $obj->code,
 			    'NAME' => $obj->name,
 			    'EMAIL' => $obj->email,
@@ -24,6 +25,7 @@
 			    'COUNTRY' => $obj->country,
 			    'STATUS' => $obj->status,
 			    'NO' => $obj->no,
+			    'TOTAL_PRICE' => $obj->total_price,
 			    'COMMENT' => $obj->comment,
 			    'ARRIVAL_DATE' => $obj->arrival_date,
 			    'UPDATE_DATE' => $obj->update_date,
@@ -66,21 +68,23 @@
 			return $obj;
 		}
 		
-		public function getByIds($ids=null, $is_hot = null, $numberRecords = null)
+		public function search($keyword=null)
 		{
 		    try{
 		        $select = $this->_db_table->select()
-		        ->from(array('t' => self::TABLE), array('TOUR_TYPE_ID','SHORT_DESC', 'CODE','IMAGE_SMALL', 'IS_HOT'))
-		        ->join(array('tt' => 'TOUR_TYPE'),'tt.ID = t.TOUR_TYPE_ID', array('NAME', 'PARENT_ID'))
+		        ->from(array('t' => self::TABLE), array('ID', 'TOUR_ID', 'TOUR_PRICE_GROUP_ID', 'NO', 'TOTAL_PRICE', 'ARRIVAL_DATE', 'CODE','NAME', 'EMAIL', 'PHONE', 'COUNTRY', 'STATUS', 'UPDATE_DATE'))
+		        ->join(array('tt' => 'TOUR_TYPE'),'tt.ID = t.TOUR_ID', array('TOUR_NAME' => 'NAME'))
+		        ->joinLeft(array('tp' => 'TOUR_PRICE_GROUP'),'tp.ID = t.TOUR_PRICE_GROUP_ID', array('PRICE_GROUP_NAME' => 'NAME'))
 		        ->setIntegrityCheck(false) // ADD This Line
-		        ->order('PARENT_ID ASC');
+		        ->order('UPDATE_DATE DESC');	     
 		        
-		        if(!empty($ids) && sizeof($ids) > 0){
-		            $select = $select->where('TOUR_TYPE_ID IN (?)', $ids);
-		        }
-		        
-		        if($is_hot){
-		            $select = $select->where('IS_HOT = 1');
+		        if(!is_null($keyword) && strlen($keyword) > 0){
+		            $keyword = strtolower($keyword);
+		            $select = $select->where('LOWER(t.NAME) LIKE ?', "%{$keyword}%");
+		            $select = $select->orWhere('LOWER(EMAIL) LIKE ?', "%{$keyword}%");
+		            $select = $select->orWhere('LOWER(PHONE) LIKE ?', "%{$keyword}%");
+		            $select = $select->orWhere('LOWER(tt.NAME) LIKE ?', "%{$keyword}%");
+		            $select = $select->orWhere('LOWER(tp.NAME) LIKE ?', "%{$keyword}%");
 		        }
 		        
 		        $result = $this->_db_table->getAdapter()->fetchAll($select);
@@ -88,7 +92,7 @@
 		        //Zend_Debug::dump( $result);die();
 		        foreach ($result as $row){
 		            //Zend_Debug::dump( $row);die();
-		            $tour_object = new Application_Model_Tour($row);
+		            $tour_object = new Application_Model_BookTour($row);
 		            //Zend_Debug::dump( $tour_object);die();
 		            array_push($tour_arr, $tour_object);
 		        }
