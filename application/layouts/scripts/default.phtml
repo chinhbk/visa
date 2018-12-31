@@ -274,18 +274,21 @@ $.get("https://min-api.cryptocompare.com/data/price?fsym=ETH&tsyms=BTC,USD,EUR,G
 })
 }) */
 </script>
+<style type="text/css">
+    /*css for logo on tablet 800px->1200px*/
+    @media (max-width:1199px) and (min-width:992px) {
+        #logo-header {
+            margin-top: 70px;
+        }
+    }
+    @media (max-width:991px) and (min-width:801px) {
+        #logo-header {
+            margin-top: 35px;
+        }
+    }​
+</style>
 <script type="text/javascript">
         $(document).ready(function () {
-        	//Listen for Device Orientation Change
-        	window.onresize = function (event) {
-        		g('#logo-header').style.marginTop = 0;
-  				if (window.innerWidth > window.innerHeight) {
-  	  				//for iPad orientation = landscape 
-                    if (window.innerWidth > 800 && window.innerWidth < 1200) {
-                  	  g('#logo-header').style.marginTop = '35px';
-                    }
-				}
-  			}
         	
         	function validateEmail(email) {
         	    var re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
