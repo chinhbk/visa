@@ -42,6 +42,33 @@
     }
 } */
 </style>
+<style>
+    .loader {
+      display: none;
+      position: absolute;
+      left: 50%;
+      top: 50%;
+      z-index: 1;
+      border: 10px solid #f3f3f3;
+      border-radius: 50%;
+      border-top: 10px solid #F58634 ;
+      border-bottom: 10px solid #F58634 ;
+      width: 80px;
+      height: 80px;
+      -webkit-animation: spin 2s linear infinite;
+      animation: spin 2s linear infinite;
+    }
+    
+    @-webkit-keyframes spin {
+      0% { -webkit-transform: rotate(0deg); }
+      100% { -webkit-transform: rotate(360deg); }
+    }
+    
+    @keyframes spin {
+      0% { transform: rotate(0deg); }
+      100% { transform: rotate(360deg); }
+    }
+</style>
 <style type="text/css">
 
     .nspLinks ul li h4::before {
@@ -326,6 +353,14 @@ $.get("https://min-api.cryptocompare.com/data/price?fsym=ETH&tsyms=BTC,USD,EUR,G
         	function hideErr() {
          	  document.getElementById("system-message-container").style.display = 'none';
           	}
+          	
+        	function showLoading(){
+        		document.getElementById("loader").style.display = 'block';
+           	}
+
+        	function hideLoading(){
+        		document.getElementById("loader").style.display = 'none';
+           	}
 
         	//BOOKING TOUR
         	//load options no of travellers
@@ -379,14 +414,17 @@ $.get("https://min-api.cryptocompare.com/data/price?fsym=ETH&tsyms=BTC,USD,EUR,G
             }
 
             $('#booktour').on('submit', function (e) {
-            	  e.preventDefault();              	  
+            	  e.preventDefault();
+            	  showLoading();           	  
             	  var arivaldate = document.getElementById("arivaldate").value;
             	  var email = document.getElementById("email").value;
             	  var ccemail = document.getElementById("ccemail").value
             	  var name = document.getElementById("name").value;
             	  var no = document.getElementById("no_traveller");
-            	  var no_traveller = no.options[no.selectedIndex].text;
+            	  var no_traveller = no.options[no.selectedIndex].value;
+            	  //alert(no_traveller);
 //             	  /validateEmail(email)
+				  var total = g("#total_price").value.split('=')[1].replace('$','').trim();				  
             	  if(!arivaldate  || !name || !ccemail || !email || !no_traveller) {
             		  showErr('Please input the mandatory fields.');
                   } else if(!validateEmail(email) || !validateEmail(ccemail)) {
@@ -395,9 +433,55 @@ $.get("https://min-api.cryptocompare.com/data/price?fsym=ETH&tsyms=BTC,USD,EUR,G
             		  showErr('The email and confirm email you entered does not match each other.');
                   } else {
                       document.getElementById("book_time").value = dateTimeNow();
-                	  document.getElementById("booktour").submit();
+                      var data = {
+                    		 id: g("#id").value,
+                     		 name: name,
+                    		 arivaldate: arivaldate,
+                    		 tour_price_group_id: g("#tour_price_group_id").value,
+                    		 total_price: total,
+                    		 booking_type: g("#booking_type").value,
+                    		 email: email,
+                    		 no_traveller: no_traveller,
+                    		 phone: g("#phone").value,
+                    		 nationality: g("#nationality").value,
+                    		 book_time: g("#book_time").value,
+                    		 comment: g("#comment").value,
+                      };
+                      callAjax('POST', '/index/tour-book-send-mail', data);                  	                    	                    
+                	  //document.getElementById("booktour").submit();
                   }
-            }); 
+            });
+
+            function callAjax(type, url, data) {
+            	var xhr = new XMLHttpRequest();
+            	xhr.open(type, url);
+            	xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+            	xhr.onload = function() {
+            	    if (xhr.status === 200) {
+                	    //console.log(xhr.responseText);
+            	        var code = JSON.parse(xhr.responseText);
+            	        //rediret to payment gate
+            	        hideLoading();
+		
+						//--->
+            	        window.location.href = "/index/tour-book-success/code/"+code;
+            	    }
+            	};
+            	xhr.send(param(data));
+            }
+
+            function param(object) {
+                var encodedString = '';
+                for (var prop in object) {
+                    if (object.hasOwnProperty(prop)) {
+                        if (encodedString.length > 0) {
+                            encodedString += '&';
+                        }
+                        encodedString += encodeURI(prop + '=' + object[prop]);
+                    }
+                }
+                return encodedString;
+            }
 
             var handleSubmitMyForm1 = function(event){
                 event.preventDefault();
@@ -2332,7 +2416,7 @@ function showaddmobile() {
 <!-- Global site tag (gtag.js) - Google Analytics -->
 	</div>
 </div>
-
+<div class="loader" id="loader"></div>
 <div id="ui-datepicker-div" class="ui-datepicker ui-widget ui-widget-content ui-helper-clearfix ui-corner-all"></div>
 </div><div id="lc_invite_layer" style="text-align: left; display: none; z-index: 16777261;"></div><div id="lc_overlay_layer" style="background-color: rgb(0, 0, 0); position: fixed; left: 0px; top: 0px; z-index: 16777260; display: none; width: 100%; height: 100%;"></div>
 </body></html>

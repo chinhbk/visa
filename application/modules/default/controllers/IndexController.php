@@ -365,7 +365,13 @@ class IndexController extends Zend_Controller_Action
     }
     
     
-    public function tourBookPostAction() {
+    public function tourBookSendMailAction(){
+        $this->_helper->layout()->disableLayout(); //  shuts off of the layout
+        $this->_helper->viewRenderer->setNoRender();// stop automatic rendering
+        //echo json_encode('12344');
+        
+        //echo($_POST['id']); die;
+        
         $request = $this->getRequest();
         $id = $request->getParam('id');
         $tour_mapper = new Application_Model_TourMapper();
@@ -375,7 +381,8 @@ class IndexController extends Zend_Controller_Action
         $tourType_mapper = new Application_Model_TourTypeMapper();
         $sub_tour_type = $tourType_mapper->getById($id);
         $tour->name = $sub_tour_type->name;
-        $this->view->tour = $tour;
+               
+        $booktour_mapper = new Application_Model_BookTourMapper();
         
         if ($request->isPost()) {
             $name = $request->getParam('name');
@@ -391,10 +398,32 @@ class IndexController extends Zend_Controller_Action
             $book_time = $request->getParam('book_time');
             $comment = $request->getParam('comment');
             //die($total_price);
-            $request_code = $this->_generateRandomString();
+            $latest_book_id = $booktour_mapper->getLatestId();
+            $request_code = $this->_generateCode($latest_book_id + 1);
+            //echo $request_code; die;
             //generate link
             $parent = $tourType_mapper->getById($sub_tour_type->parent_id);
-            $url =  $this->_generateURL($id, $tour->name, 2, $parent->name);
+            $url =  $this->_generateURL($id, $tour->name, 2, $parent->name);                        
+            
+            //save data
+            $book_tour = new Application_Model_BookTour();
+            $book_tour->tour_id = $id;
+            $book_tour->tour_price_group_id = $tour_price_group_id;
+            $book_tour->total_price = $total_price;
+            $book_tour->arivaldate = $arivaldate;
+            $book_tour->code = $request_code;
+            $book_tour->name = $name;
+            $book_tour->email = $email;
+            $book_tour->no = $no_traveller;
+            $book_tour->phone = $phone;
+            $book_tour->country = $nationality;
+            $book_tour->comment = $comment;
+            $book_tour->status = 'NEW';
+            $book_tour->arrival_date = $arivaldate;
+            $book_tour->create_date = $this->_helper->CommonUtils->getVnDateTime();
+            $book_tour->update_date = $this->_helper->CommonUtils->getVnDateTime();
+
+            $book_id = $booktour_mapper->save($book_tour);
             
             //send mail
             $html = new Zend_View();
@@ -422,41 +451,29 @@ class IndexController extends Zend_Controller_Action
             $setting = $mapper->get();
             
             $html->assign('hotline', $setting->hotline);
+            $html->assign('address', $setting->address);
             //die('a');
             // render view
             
             $bodyHtml = $html->render('tour-book-email.phtml');
             //die($bodyHtml);
-            $subject = 'Your Travel request to vietnamvisatours.com at '.$book_time;
-            //$this->_sendMail($subject, $bodyHtml, $email);
+            $subject = $request_code.' - Tour Request from '.$name;
+            //die($subject);
+            $this->_sendMail($subject, $bodyHtml, $email);
             
-            
-            //save data
-            $book_tour = new Application_Model_BookTour();
-            $book_tour->tour_id = $id;
-            $book_tour->tour_price_group_id = $tour_price_group_id;
-            $book_tour->total_price = $total_price;
-            $book_tour->arivaldate = $arivaldate;
-            $book_tour->code = $request_code;
-            $book_tour->name = $name;
-            $book_tour->email = $email;
-            $book_tour->no = $no_traveller;
-            $book_tour->phone = $phone;
-            $book_tour->country = $nationality;
-            $book_tour->comment = $comment;
-            $book_tour->status = 'NEW';
-            $book_tour->arrival_date = $arivaldate;
-            $book_tour->create_date = $this->_helper->CommonUtils->getVnDateTime();
-            $book_tour->update_date = $this->_helper->CommonUtils->getVnDateTime();
-            
-            $booktour_mapper = new Application_Model_BookTourMapper();
-            $booktour_mapper->save($book_tour);
-            
-            $this->view->request_code = $request_code;
+            echo json_encode($request_code);
         }
+        
     }
     
     public function tourBookSuccessAction() {
+        $request = $this->getRequest();
+        $code = $request->getParam('code');
+        $this->view->code = $code;
+    }
+    
+    protected function _generateCode($id) {
+        return 'T'.$id.date('jny'); // day, month without leading 0
     }
     
     public function tourTermConditionAction() {        

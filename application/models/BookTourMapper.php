@@ -68,6 +68,23 @@
 			return $obj;
 		}
 		
+		public function getLatestId()
+		{
+		    $select = $this->_db_table->select()
+		    ->from(array('t' => self::TABLE), array('ID'))		    
+		    ->order('ID DESC')
+		    ->limit(1, 0);
+		    
+		    $result = $this->_db_table->getAdapter()->fetchRow($select);
+		    //Zend_Debug::dump( $result);die();
+		    //if not found, throw an exception
+		    if( count($result) == 0 ) {
+		       return 0;
+		    }
+		    return $result['ID'];
+		}
+		
+		
 		public function search($keyword=null)
 		{
 		    try{

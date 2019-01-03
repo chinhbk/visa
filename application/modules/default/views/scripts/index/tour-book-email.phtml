@@ -1,38 +1,23 @@
-<div id=":o6" class="a3s aXjCH " role="gridcell" tabindex="-1">
-   <i>You're receiving this email from <font color="#ff9900"><a
-      href="http://vietnamvisatours.com" target="_blank">vietnamvisatours.com</a></font>
-   because you (or someone) have just booked <font color="#ff9900"></font>
-   tour on our website: <font color="#ff9900"><a
-      href="http://vietnamvisatours.com" target="_blank">vietnamvisatours.com</a></font>
-   at <font color="green"><?php echo $this->book_time?></font><br>A
-   travel consultant will be following up your request and get back to
-   you shortly.
-   </i><br> <i>* NOTE: If you don't receive our email reply in your inbox
-   in the next 24 hours, please check your spam folder, or call us: <i
-      class="m_4883848576026057380fa"></i> <?php echo $this->hotline;?>.
-   </i><br> <font size="3" color="#336600"><b>We would like to confirm you
-   that we have well received your request with information as below: </b></font><br>
-   <br>----- Book <font color="#339900"></font> on <font color="green"><a
-      href="http://vietnamvisatours.com" target="_blank">vietnamvisatours.com</a></font>
-   -----<br>Request code: <font color="red"><?php echo $this->request_code?></font><br>
-   <i>This Code allows you to check with our staff about your booking status.
-   </i><br>Interested in tour: <font color="green"><a href="http://vietnamvisatours.com<?php echo $this->url?>" target="_blank"><?php echo $this->tour_name?></a></font><br>Name: <font
+<div>
+   <p>Dear <?php echo $this->name;?>,</p>
+   <p>Thanks so much for booking tours with us,</p>
+   <p>Kindly inform you that we have got your request information as bellow:</p>
+   Request code: <?php echo $this->request_code?><br>
+   Interested in tour: <font color="green"><a href="http://vietnamvisatours.com<?php echo $this->url?>" target="_blank"><?php echo $this->tour_name?></a></font><br>Name: <font
       color="green"><?php echo $this->name;?></font><br>Email: <font color="green"><a
       href="mailto:<?php echo $this->email?>" target="_blank"><?php echo $this->email;?></a></font><br>Phone
    number: <font color="red"></font><font color="green"><?php echo $this->phone?></font><br>
-  Nationality: <font color="green"><?php echo $this->nationality?></font><br>Arrival
-   date: <font color="green"><?php echo $this->arivaldate?></font><br>Start
+  Nationality: <font color="green"><?php echo $this->nationality?></font><br>Travel
    date: <font color="green"><?php echo $this->arivaldate?></font><br>Number
-   of Adults: <font color="green"><?php echo $this->no_traveller?> </font>
+   of pax: <font color="green"><?php echo $this->no_traveller?> </font>
    person(s)<br>Total Price: <font color="green"><?php echo $this->total_price?> </font>
    <br>Type: <font color="green"><?php echo $this->booking_type?> </font>
    <br>Your comment
-   (optional): <font color="green"><?php echo $this->comment?></font><br>
-   <font color="#f58723"><br> <i>A copy of this Request has been sent to
-   customer email address at <a href="mailto:<?php echo $this->email?>"
-      target="_blank"><?php echo $this->email;?></a>
-   </i></font><br> <br> <br> <font color="#7a7b7b">-----------------------*****--<wbr>---------------------
-   </font><br>Message: <font color="green"></font><br> <font
-      color="#7a7b7b">-----------------------*****--<wbr>---------------------
-   </font>
+   (optional): <font color="green"><?php echo $this->comment?></font>
+   
+   <p>Best Regards,</p>
+   
+   <p>Website: <a href="http://vietnamvisatours.com" target="_blank">vietnamvisatours.com</a></p>
+   <p>Phone: <?php echo $this->hotline;?></p>
+   <p>Office Address: <?php echo $this->address;?></p>
 </div>
