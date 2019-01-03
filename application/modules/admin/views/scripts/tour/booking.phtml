@@ -46,7 +46,7 @@ input {
     				<td><?php echo $booking->tour_name;?></td> 
     				<td><?php echo $booking->price_group_name;?></td>
     				<td><?php echo $booking->no;?></td>
-    				<td><?php echo $booking->total_price;?></td>
+    				<td><?php echo is_null($booking->total_price) ? '' : ('$'.$booking->total_price);?></td>
     				<td><?php echo $booking->name;?></td>
     				<td><?php echo $booking->phone;?></td>
     				<td><?php echo $booking->email;?></td>
