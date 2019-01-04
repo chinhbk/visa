@@ -45,7 +45,7 @@
 <style>
     .loader {
       display: none;
-      position: absolute;
+      position: fixed;
       left: 50%;
       top: 50%;
       z-index: 2;
@@ -72,9 +72,9 @@
 <style type="text/css">
     
     #overlay {
-        background-color: rgba(0, 0, 0, 0.8);
+        background-color: rgba(0, 0, 0, 0.5);
         z-index: 1;
-        position: absolute;
+        position: fixed;
         top: 0;
         left: 0;
         right: 0;
@@ -368,12 +368,12 @@ $.get("https://min-api.cryptocompare.com/data/price?fsym=ETH&tsyms=BTC,USD,EUR,G
           	
         	function showLoading(){
         		document.getElementById("loader").style.display = 'block';
-                //document.getElementById("overlay").style.display = 'block';
+                document.getElementById("overlay").style.display = 'block';
            	}
 
         	function hideLoading(){
         		document.getElementById("loader").style.display = 'none';
-                //document.getElementById("overlay").style.display = 'none';
+                document.getElementById("overlay").style.display = 'none';
            	}
 
         	//BOOKING TOUR
