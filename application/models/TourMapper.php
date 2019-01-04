@@ -164,6 +164,36 @@
 		    return $tour_arr;
 		}
 		
+		public function getRandom($numberRecords = null)
+		{
+		    try{
+		        $select = $this->_db_table->select()
+		        ->from(array('t' => self::TABLE), array('TOUR_TYPE_ID','SHORT_DESC', 'CODE','IMAGE_SMALL', 'IS_HOT', 'IS_SHOW_ON_HOME_PAGE'))
+		        ->join(array('tt' => 'TOUR_TYPE'),'tt.ID = t.TOUR_TYPE_ID', array('NAME', 'PARENT_ID'))
+		        ->setIntegrityCheck(false) // ADD This Line
+		        ->order(new Zend_Db_Expr('RAND()'));
+		        
+		        if($numberRecords){
+		            $select = $select->limit($numberRecords, 0);
+		        }
+		        
+		        $result = $this->_db_table->getAdapter()->fetchAll($select);
+		        $tour_arr = array();
+		        //Zend_Debug::dump( $result);die();
+		        foreach ($result as $row){
+		            //Zend_Debug::dump( $row);die();
+		            $tour_object = new Application_Model_Tour($row);
+		            //Zend_Debug::dump( $tour_object);die();
+		            array_push($tour_arr, $tour_object);
+		        }
+		        //Zend_Debug::dump( $tour_arr);die();
+		        
+		    } catch (Exception $e) {
+		        Zend_Debug::dump( $e);die();
+		    }
+		    return $tour_arr;
+		}
+		
 		public function changeHot($id, $is_hot=null){
 		    
 		    $data = array(

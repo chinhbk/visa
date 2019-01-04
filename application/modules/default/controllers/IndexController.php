@@ -264,6 +264,15 @@ class IndexController extends Zend_Controller_Action
         }
         $this->view->tours = $tours;
         //Zend_Debug::dump($tours);die();
+        
+        //get random 5 tours
+        $tour_level_1 = $tourType_mapper->getByIds();
+        $random = $tour_mapper->getRandom(5);
+        foreach($random as $t){
+            $t->url = $this->_generateURL($t->tour_type_id, $t->name, 2, $this->_getName($tour_level_1, $t->parent_id));
+        }
+        //Zend_Debug::dump($random);die();
+        $this->view->random = $random;
     }
     
     protected function _getPrice($tour){

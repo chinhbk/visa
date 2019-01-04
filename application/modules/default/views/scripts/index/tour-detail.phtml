@@ -110,7 +110,7 @@ margin-top:4px}</style><div class="fotorama--hidden"></div>
                                   <?php } else{?>
                                   	<th><?php echo $i == sizeof($this->type_1_group) ? '&gt;=' : '' ?> <?php echo $t->from_pax?> pax</th>
                                   <?php }?>
-                                  <td data-title="Price" class="htcenter"><span class="chudam pricecam">$<?php echo $t->price;?></span></td>
+                                  <td data-title="Price" class="htcenter"><span class="chudam pricecam">$<?php echo number_format($t->price);?></span></td>
                                   <td data-title="" class="numeric htcenter"><a href="<?php echo $this->tour->book_url.'/'.$t->id;?>" title="Request tour: <?php echo $this->tour->name?>">Reservation</a></td>
                                </tr>
                             <?php }?>
@@ -126,7 +126,7 @@ margin-top:4px}</style><div class="fotorama--hidden"></div>
                                   <?php } else{?>
                                   	<th><?php echo $i == sizeof($this->type_1_private) ? '&gt;=' : '' ?><?php echo $t->from_pax?> pax</th>
                                   <?php }?>
-                                  <td data-title="Price" class="htcenter"><span class="chudam pricecam">$<?php echo $t->price;?></span></td>
+                                  <td data-title="Price" class="htcenter"><span class="chudam pricecam">$<?php echo number_format($t->price);?></span></td>
                                   <td data-title="" class="numeric htcenter"><a href="<?php echo $this->tour->book_url.'/'.$t->id;?>" title="Request tour: <?php echo $this->tour->name?>">Reservation</a></td>
                                </tr>
                            <?php }?>
@@ -135,37 +135,37 @@ margin-top:4px}</style><div class="fotorama--hidden"></div>
                         	<?php foreach($this->type_2 as $t){ if($t->tour_price_group_id==$this->HOMESTAY_DORM_ID){?>
                         		<tr>
                         			<th>Homestay/dorm room</th>
-                        			<td class="htcenter"><span class="chudam pricecam">$<?php echo $t->price?></span></td>
+                        			<td class="htcenter"><span class="chudam pricecam">$<?php echo number_format($t->price)?></span></td>
                         			<td data-title="" class="numeric htcenter"><a href="<?php echo $t->book_url;?>" title="Request tour: <?php echo $this->tour->name?>">Reservation</a></td>
                         		</tr>
                         	<?php }else if($t->tour_price_group_id==$this->HOMESTAY_PRIVATE_ID){?>
                         		<tr>
                         			<th>Homestay/private room</th>
-                        			<td class="htcenter"><span class="chudam pricecam">$<?php echo $t->price?></span></td>
+                        			<td class="htcenter"><span class="chudam pricecam">$<?php echo number_format($t->price)?></span></td>
                         			<td data-title="" class="numeric htcenter"><a href="<?php echo $t->book_url?>" title="Request tour: <?php echo $this->tour->name?>">Reservation</a></td>
                         		</tr>
                            <?php }else if($t->tour_price_group_id==$this->HOTEL_2_STAR_ID){?>
                         		<tr>
                         			<th>2* Hotel</th>
-                        			<td class="htcenter"><span class="chudam pricecam">$<?php echo $t->price?></span></td>
+                        			<td class="htcenter"><span class="chudam pricecam">$<?php echo number_format($t->price)?></span></td>
                         			<td data-title="" class="numeric htcenter"><a href="<?php echo $t->book_url;?>" title="Request tour: <?php echo $this->tour->name?>">Reservation</a></td>
                         		</tr>
                         	<?php }else if($t->tour_price_group_id==$this->HOTEL_3_STAR_ID){?>
                         		<tr>
                         			<th>3* Hotel</th>
-                        			<td class="htcenter"><span class="chudam pricecam">$<?php echo $t->price?></span></td>
+                        			<td class="htcenter"><span class="chudam pricecam">$<?php echo number_format($t->price)?></span></td>
                         			<td data-title="" class="numeric htcenter"><a href="<?php echo $t->book_url;?>" title="Request tour: <?php echo $this->tour->name?>">Reservation</a></td>
                         		</tr>
                         	<?php }else if($t->tour_price_group_id==$this->HOTEL_4_STAR_ID){?>
                         		<tr>
                         			<th>4* Hotel</th>
-                        			<td class="htcenter"><span class="chudam pricecam">$<?php echo $t->price?></span></td>
+                        			<td class="htcenter"><span class="chudam pricecam">$<?php echo number_format($t->price)?></span></td>
                         			<td data-title="" class="numeric htcenter"><a href="<?php echo $t->book_url;?>" title="Request tour: <?php echo $this->tour->name?>">Reservation</a></td>
                         		</tr>
                            <?php }else if($t->tour_price_group_id==$this->HOTEL_5_STAR_ID){?>
                         		<tr>
                         			<th>5* Hotel</th>
-                        			<td class="htcenter"><span class="chudam pricecam">$<?php echo $t->price?></span></td>
+                        			<td class="htcenter"><span class="chudam pricecam">$<?php echo number_format($t->price)?></span></td>
                         			<td data-title="" class="numeric htcenter"><a href="<?php echo $t->book_url;?>" title="Request tour: <?php echo $this->tour->name?>">Reservation</a></td>
                         		</tr>
                         	<?php }?>
@@ -173,7 +173,7 @@ margin-top:4px}</style><div class="fotorama--hidden"></div>
                         	<?php foreach($this->type_2_add_price as $t){?>
                         		<tr>
                         			<th><?php echo $t->name?></th>
-                        			<td class="htcenter"><span class="chudam pricecam">$<?php echo $t->price + $this->type_2[sizeof($this->type_2)-1]->price;?></span></td>
+                        			<td class="htcenter"><span class="chudam pricecam">$<?php echo number_format($t->price + $this->type_2[sizeof($this->type_2)-1]->price);?></span></td>
                         			<td data-title="" class="numeric htcenter"><a href="<?php echo $t->book_url;?>" title="Request tour: <?php echo $this->tour->name?>">Reservation</a></td>
                         		</tr>
                         	<?php }?>
@@ -182,25 +182,25 @@ margin-top:4px}</style><div class="fotorama--hidden"></div>
                         	<?php foreach($this->type_3 as $t){ if($t->tour_price_group_id==$this->CRUISE_3_STAR_ID){?>
                         		<tr>
                         			<th>3* Cruise</th>
-                        			<td class="htcenter"><span class="chudam pricecam">$<?php echo $t->price?></span></td>
+                        			<td class="htcenter"><span class="chudam pricecam">$<?php echo number_format($t->price)?></span></td>
                         			<td data-title="" class="numeric htcenter"><a href="<?php echo $t->book_url;?>"  title="Request tour: <?php echo $this->tour->name?>">Reservation</a></td>
                         		</tr>
                         	<?php }else if($t->tour_price_group_id==$this->CRUISE_4_STAR_ID){?>
                         		<tr>
                         			<th>4* Cruise</th>
-                        			<td class="htcenter"><span class="chudam pricecam">$<?php echo $t->price?></span></td>
+                        			<td class="htcenter"><span class="chudam pricecam">$<?php echo number_format($t->price)?></span></td>
                         			<td data-title="" class="numeric htcenter"><a href="<?php echo $t->book_url;?>"  title="Request tour: <?php echo $this->tour->name?>">Reservation</a></td>
                         		</tr>
                            <?php }else if($t->tour_price_group_id==$this->CRUISE_4_PLUS_STAR_ID){?>
                         		<tr>
                         			<th>4*++ Cruise</th>
-                        			<td class="htcenter"><span class="chudam pricecam">$<?php echo $t->price?></span></td>
+                        			<td class="htcenter"><span class="chudam pricecam">$<?php echo number_format($t->price)?></span></td>
                         			<td data-title="" class="numeric htcenter"><a href="<?php echo $t->book_url;?>"  title="Request tour: <?php echo $this->tour->name?>">Reservation</a></td>
                         		</tr>
                         	<?php }else if($t->tour_price_group_id==$this->CRUISE_5_STAR_ID){?>
                         		<tr>
                         			<th>5* Cruise</th>
-                        			<td class="htcenter"><span class="chudam pricecam">$<?php echo $t->price?></span></td>
+                        			<td class="htcenter"><span class="chudam pricecam">$<?php echo number_format($t->price)?></span></td>
                         			<td data-title="" class="numeric htcenter"><a href="<?php echo $t->book_url;?>"  title="Request tour: <?php echo $this->tour->name?>">Reservation</a></td>
                         		</tr>
                         	<?php }?>
@@ -279,39 +279,22 @@ margin-top:4px}</style><div class="fotorama--hidden"></div>
 								<div class="nspArts bottom" style="width: 100%;">
 									<div class="nspArtScroll1">
 										<div class="nspArtScroll2 nspPages1">
-											<div class="nspArtPage active nspCol1" style="margin-bottom: 10px;">
-												<div class="nspArt nspCol1" style="padding: 0 20px 20px 0;">
-													<h4 class="nspHeader tleft fnone has-image">
-														<a
-															href="/vietnam-tours/luxury-vietnam-holidays/best-of-hanoi-halong-bay-sapa-6-days.html"
-															title="Ha Long Bay 2 days"
-															target="_self">Ha Long Bay 2 days</a>
-													</h4>
-													<img class="nspImage"
-														src="http://vietnamvisatours.com/uploads/1543804225.png"
-														alt="Ha Long Bayl">
-												</div>
-
-
-
-
-											</div>
-											<div class="nspArtPage active nspCol1">
-												<div class="nspArt nspCol1" style="padding: 0 20px 20px 0;">
-													<h4 class="nspHeader tleft fnone has-image">
-														<a
-															href="/vietnam-tours/luxury-vietnam-holidays/best-of-hanoi-halong-bay-sapa-6-days.html"
-															title="Ha Long Bay 2 days"
-															target="_self">Hoa Lu Tam Coc</a>
-													</h4>
-													<img class="nspImage"
-														src="http://vietnamvisatours.com/uploads/1543823237.png"
-														alt="Hoa Lu Tam Coc">
-												</div>
-
-
-
-
+											<?php foreach($this->random as $t){?>
+    											<?php if($t->name != $this->tour->name){?>
+    											<div class="nspArtPage active nspCol1" style="margin-bottom: 10px;">
+    												<div class="nspArt nspCol1" style="padding: 0 20px 20px 0;">
+    													<h4 class="nspHeader tleft fnone has-image">
+    														<a
+    															href="<?php echo $t->url?>"
+    															title="<?php echo $t->name?>"
+    															target="_self"><?php echo $t->name?></a>
+    													</h4>
+    													<a href="<?php echo $t->url?>"><img class="nspImage"
+    														src="<?php echo $t->image_small?>"
+    														alt="<?php echo $t->name?>"></a>
+    												</div>
+    											</div>
+											<?php }}?>
 											</div>
 										</div>
 

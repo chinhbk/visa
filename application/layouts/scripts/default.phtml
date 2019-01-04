@@ -391,9 +391,13 @@ $.get("https://min-api.cryptocompare.com/data/price?fsym=ETH&tsyms=BTC,USD,EUR,G
             function showTotalTourPrice(no, price){ // no of travellers
             	 var total_price = document.getElementById("total_price");
                	 if(no > 0)
-             	  	total_price.value = "$" + price +" * " + no + " = $" + (price*no);
+             	  	total_price.value = "$" + formatCurrency(price) +" * " + no + " = $" + formatCurrency(price*no);
                	 else 
                		total_price.value = '';
+            }
+
+            function formatCurrency(x) {
+                return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
             }
 
             $('#booktour').on('submit', function (e) {
