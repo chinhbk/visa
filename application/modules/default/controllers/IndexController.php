@@ -584,6 +584,9 @@ class IndexController extends Zend_Controller_Action
     
     public function visaServiceAction(){
     }
+    
+    public function vietnamVisaExemptionAction(){
+    }
 	
 	public function typeAction()
 	{

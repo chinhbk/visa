@@ -219,6 +219,17 @@ class Bootstrap extends Zend_Application_Bootstrap_Bootstrap
                 ));
             
             $frontController->getRouter()->addRoute('visa-term-condition', $route_visa_term);
+            
+            $route_visa_exemption = new Zend_Controller_Router_Route_Regex(
+                // The pattern this route matches
+                'vietnam-visa-exemption',
+                // Configure controller/action
+                array(
+                    'action' => 'vietnam-visa-exemption',
+                    'controller' => 'index'
+                ));
+            
+            $frontController->getRouter()->addRoute('visa-term-condition', $route_visa_exemption);
                 
     }
 	
