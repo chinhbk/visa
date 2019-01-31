@@ -1,0 +1,88 @@
+<style>
+.search {
+    margin: 15px;
+}
+input {
+    border-radius: 5px;
+    border: 1px solid #BBBBBB;
+    height: 20px;
+    color: #666666;
+}
+.btn-primary {
+
+}
+input[type=number] { 
+  -moz-appearance: textfield;
+  appearance: textfield;
+  margin: 0;
+  width:50px;
+}
+</style>
+<article class="module width_full">
+
+		<form name="form_add" method="GET" action="/admin/visa/normal" class="search">						
+			<input type="text" name="keyword" id="keyword" value="<?php echo $this->keyword;?>"/>
+			<input type="submit" value="Search" class="btn-primary"/>									
+		</form>
+		<header><h3 class="tabs_involved">Normal nationalities (Tourist Visa)</h3>		
+		</header>
+		<h5 style="margin-left:10px">1MSE: 1 Month Single Entry, U15: Urgent 15 mintues</h5>
+		<div class="tab_container">
+			<div class="tab_content" id="tab1" style="display: block;">
+			<table cellspacing="0" class="tablesorter"> 
+			<thead> 
+				<tr> 
+   					<th class="header">No</th> 
+   					<th class="header">Name</th>
+    				<th class="header">1MSE</th>
+    				<th class="header">1MME</th>
+    				<th class="header">3MSE</th>
+    				<th class="header">3MME</th>
+    				<th class="header">6MME</th>
+    				<th class="header">1YME</th>  
+    				<th class="header">U15 min</th>
+    				<th class="header">U30 min</th>
+    				<th class="header">U2 hour</th>
+    				<th class="header">U4 hour</th>
+    				<th class="header">U8 Hours</th>
+    				<th class="header">U1 Day</th>
+    				<th class="header">UHoliday</th>
+    				<th class="header"></th> 
+				</tr> 
+			</thead> 
+			<tbody> 
+			   <?php $i=0; foreach ($this->nationality as $na) {
+				       // Zend_Debug::dump($product);die;
+									
+				?>				
+				<tr>
+   					<td><?php echo ++$i;?><input class ="nationality_id" type="hidden" value=<?php echo $na->id?> /></td> 
+   					<td><?php echo $na->name;?><input class ="nationality_name" type="hidden" value=<?php echo $na->name?> /></td>
+    				<td><input class ="1MSE" type="number" id ="<?php echo $this->map_name_id_visa_type[$this->VISA_TYPE_1MSE]?>" value="<?php echo $na->visa_type_prices[$this->VISA_TYPE_1MSE]?>"/></td> 
+    				<td><input class ="1MME" type="number" id ="<?php echo $this->map_name_id_visa_type[$this->VISA_TYPE_1MME]?>" value="<?php echo $na->visa_type_prices[$this->VISA_TYPE_1MME]?>"/></td>
+    				<td><input class ="3MSE" type="number" id ="<?php echo $this->map_name_id_visa_type[$this->VISA_TYPE_3MSE]?>" value="<?php echo $na->visa_type_prices[$this->VISA_TYPE_3MSE]?>"/></td>
+    				<td><input class ="3MME" type="number" id ="<?php echo $this->map_name_id_visa_type[$this->VISA_TYPE_3MME]?>" value="<?php echo $na->visa_type_prices[$this->VISA_TYPE_3MME]?>"/></td>  
+					<td><input class ="6MME" type="number" id ="<?php echo $this->map_name_id_visa_type[$this->VISA_TYPE_6MME]?>" value="<?php echo $na->visa_type_prices[$this->VISA_TYPE_6MME]?>"/></td>
+					<td><input class ="1YME" type="number" id ="<?php echo $this->map_name_id_visa_type[$this->VISA_TYPE_1YME]?>" value="<?php echo $na->visa_type_prices[$this->VISA_TYPE_1YME]?>"/></td>
+					<td><input class ="U15min" type="number" id ="<?php echo $this->map_name_id_processing_type[$this->PROCESSING_TIME_TYPE_U15_MIN]?>" value="<?php echo $na->processing_time_type_prices[$this->PROCESSING_TIME_TYPE_U15_MIN]?>"/></td>
+					<td><input class ="U30min" type="number" id ="<?php echo $this->map_name_id_processing_type[$this->PROCESSING_TIME_TYPE_U30_MIN]?>" value="<?php echo $na->processing_time_type_prices[$this->PROCESSING_TIME_TYPE_U30_MIN]?>"/></td>
+					<td><input class ="U2hour" type="number" id ="<?php echo $this->map_name_id_processing_type[$this->PROCESSING_TIME_TYPE_U2_HOURS]?>" value="<?php echo $na->processing_time_type_prices[$this->PROCESSING_TIME_TYPE_U2_HOURS]?>"/></td>
+					<td><input class ="U4hour" type="number" id ="<?php echo $this->map_name_id_processing_type[$this->PROCESSING_TIME_TYPE_U4_HOURS]?>" value="<?php echo $na->processing_time_type_prices[$this->PROCESSING_TIME_TYPE_U4_HOURS]?>"/></td>
+					<td><input class ="U8hour" type="number" id ="<?php echo $this->map_name_id_processing_type[$this->PROCESSING_TIME_TYPE_U8_HOURS]?>" value="<?php echo $na->processing_time_type_prices[$this->PROCESSING_TIME_TYPE_U8_HOURS]?>"/></td>
+					<td><input class ="U1Day" type="number"  id ="<?php echo $this->map_name_id_processing_type[$this->PROCESSING_TIME_TYPE_U1_DAY]?>" value="<?php echo $na->processing_time_type_prices[$this->PROCESSING_TIME_TYPE_U1_DAY]?>"/></td>
+					<td><input class ="UHoliday" type="number" id ="<?php echo $this->map_name_id_processing_type[$this->PROCESSING_TIME_TYPE_UHoliday]?>" value="<?php echo $na->processing_time_type_prices[$this->PROCESSING_TIME_TYPE_UHoliday]?>"/></td>
+					<td>
+						<a class="update_normal_nationality"><image src="/images/edit.png" alt="Edit" style="padding-right:30px;"/></a>						
+					</td>
+					
+				</tr> 
+				</form>
+				<?php }	?>
+				  
+			</tbody> 
+			</table>
+			</div><!-- end of #tab1 -->
+			
+			
+		
+		</article>

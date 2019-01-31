@@ -493,7 +493,36 @@ class IndexController extends Zend_Controller_Action
     
     public function applyOnlineAction()
     {       
-        $request = $this->getRequest();  
+        $request = $this->getRequest();
+        $visa_type_mapper = new Application_Model_VisaTypeMapper();
+        $visa_type = $visa_type_mapper->getAll(1, 'TOURIST VISA');
+        $this->view->visa_type = $visa_type;
+        
+        $processing_time_type_mapper = new Application_Model_ProcessingTimeTypeMapper();
+        $processing_time_type = $processing_time_type_mapper->getAll(1, 'TOURIST VISA');
+        $this->view->processing_time_type = $processing_time_type;
+        
+        
+        $nationality_mapper = new Application_Model_NationalityMapper();
+        $nationality = $nationality_mapper->getAll(1);
+        $this->view->nationality = $nationality;
+        
+        $visa_setting_mapper = new Application_Model_VisaSettingMapper();
+        $visa_setting = $visa_setting_mapper->getAll();
+        $this->view->visa_setting = $visa_setting;
+        $numerOfVisa = 0;
+        $private_visa_letter_price = 0;
+        foreach($visa_setting as $s) {
+            switch ($s->name){
+                case 'Number Of Visa':  $numerOfVisa = $s->value; break;
+                case 'Private Visa Letter':  $private_visa_letter_price = $s->value; break;
+            }
+        }
+        $this->view->numerOfVisa = $numerOfVisa;
+        $this->view->private_visa_letter_price = $private_visa_letter_price;
+        
+        //Zend_Debug::dump($visa_setting[0]);die;
+        
         if ($request->isPost()) {
             $purposeOfVisit = $request->getParam('dropPurposeOfVisit');
             $numberApp = $request->getParam('dropNumberApp');
@@ -586,6 +615,59 @@ class IndexController extends Zend_Controller_Action
     }
     
     public function vietnamVisaExemptionAction(){
+    }
+    
+    public function purposeOfVisitChangeAction(){
+        $this->_helper->layout()->disableLayout(); //  shuts off of the layout
+        $this->_helper->viewRenderer->setNoRender();// stop automatic rendering
+        $request = $this->getRequest();
+        $type = $request->getParam('dropPurposeOfVisit');
+        $visa_type_mapper = new Application_Model_VisaTypeMapper();
+        $visa_type = $visa_type_mapper->getAll(1, $type);
+        $processing_time_type_mapper = new Application_Model_ProcessingTimeTypeMapper();
+        $processing_time_type = $processing_time_type_mapper->getAll(1, $type);
+        
+        $visa_type_ids = $this->_getIdsOf($visa_type);
+        //Zend_Debug::dump($visa_type_ids);die();
+        $nationality_visa_type_mapper = new Application_Model_NationalityVisaTypeMapper();
+        $visa_type_prices = $nationality_visa_type_mapper->getPrices($type, $visa_type_ids, $nationality_id);
+        foreach($visa_type as $v) {
+            foreach($visa_type_prices as $vprice) {
+                if($v->id == $vprice->visa_type_id) {                   
+                    $v->price = $vprice->price;
+                }
+            }
+        }
+        
+        $processing_time_type_ids = $this->_getIdsOf($processing_time_type);        
+        $nationality_processing_type_mapper = new Application_Model_NationalityProcessingTimeTypeMapper();
+        $processing_time_type_prices = $nationality_processing_type_mapper->getPrices($type, $processing_time_type_ids, $nationality_id);
+        foreach($processing_time_type as $v) {
+            foreach($processing_time_type_prices as $vprice) {
+                if($v->id == $vprice->processing_time_type_id) {
+                    $v->price = $vprice->price;
+                }
+            }
+        }
+        //Zend_Debug::dump($processing_time_type);die();
+        //Zend_Debug::dump($processing_time_type_prices);die();
+        
+        //Zend_Debug::dump($visa_type_prices);die();
+        $data = array();
+        $data['visa_type'] = $visa_type;
+        $data['processing_time'] = $processing_time_type;
+        $price = 15;
+        if($type == 'BUSINESS VISA') $price = 75;
+        $data['priceFor1Person'] = $price;
+        echo json_encode($data);
+    }
+    
+    private function _getIdsOf($data){
+        $ids = array();
+        foreach($data as $v){
+            array_push($ids, $v->id);
+        }
+        return $ids;
     }
 	
 	public function typeAction()

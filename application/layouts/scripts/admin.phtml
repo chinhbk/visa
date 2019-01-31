@@ -372,7 +372,68 @@
 				  };
 				  $(this).ajaxSubmit(options);
 				 return false;
-				 }); 
+				 });
+
+				 $(document).on("click", ".update_normal_nationality", function(e) { //user click on delete image button
+				        e.preventDefault();
+						var $row = $(this).closest("tr");    // selected the row
+				        var conf = confirm('Are you sure you want to update prices for ' + $row.find(".nationality_name").val());
+						if(conf){
+							  var $nationality_id = $row.find(".nationality_id").val();
+							  var $1MSE = $row.find(".1MSE");					 
+							  var $1MME = $row.find(".1MME");
+							  var $3MSE = $row.find(".3MSE");
+							  var $3MME = $row.find(".3MME");
+							  var $6MME = $row.find(".6MME");
+							  var $1YME = $row.find(".1YME");
+							  var $U15min = $row.find(".U15min");
+							  var $U30min = $row.find(".U30min");
+							  var $U2hour = $row.find(".U2hour");
+							  var $U4hour = $row.find(".U4hour");
+							  var $U8hour = $row.find(".U8hour");
+							  var $U1Day = $row.find(".U1Day");
+							  var $UHoliday = $row.find(".UHoliday");
+
+							  //warning input negative price
+							  if($1MSE.val() < 0 || $1MME.val() < 0 || $3MSE.val() < 0 || $6MME.val() < 0 || $1YME.val() < 0 
+									  || $U15min.val() < 0 || $U30min.val() < 0 || $U2hour.val() < 0 || $U4hour.val() < 0 || $U8hour.val()< 0 
+									  || $U1Day.val() < 0 || $UHoliday.val() < 0){
+								alert('Wrong input data , number is negative');
+								return;
+							  }
+							  
+                              var data = {};
+                              data.nationality_id = $row.find(".nationality_id").val();
+                              data.visa_type = [
+                            	  {'id': $1MSE.attr('id'), 'price': $1MSE.val()},
+                            	  {'id': $1MME.attr('id'), 'price': $1MME.val()},
+                            	  {'id': $3MSE.attr('id'), 'price': $3MSE.val()},
+                            	  {'id': $3MME.attr('id'), 'price': $3MME.val()},
+                            	  {'id': $6MME.attr('id'), 'price': $6MME.val()},
+                            	  {'id': $1YME.attr('id'), 'price': $1YME.val()},
+                              ];
+                              data.processing_time_type = [
+                            	  {'id': $U15min.attr('id'), 'price': $U15min.val()},
+                            	  {'id': $U30min.attr('id'), 'price': $U30min.val()},
+                            	  {'id': $U2hour.attr('id'), 'price': $U2hour.val()},
+                            	  {'id': $U4hour.attr('id'), 'price': $U4hour.val()},
+                            	  {'id': $U8hour.attr('id'), 'price': $U8hour.val()},
+                            	  {'id': $U1Day.attr('id'), 'price': $U1Day.val()},
+                            	  {'id': $UHoliday.attr('id'), 'price': $UHoliday.val()},
+                              ];
+						        //delete image on server
+								$.ajax({
+		 					  type: "POST",
+		 					  url: "/admin/visa/update-price",
+		 					  data: { 'data': JSON.stringify(data)},
+		 					  success: function(response,status)
+		 					  {   
+		 						 alert(response);
+		 					  }
+								});	
+						}
+				        
+				    }) 	
 			});
 	</script>			
 	<script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0];if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src="http://platform.twitter.com/widgets.js";fjs.parentNode.insertBefore(js,fjs);}}(document,"script","twitter-wjs");</script>
@@ -572,10 +633,20 @@
         	<?php if($identity->ROLE == 0 || $identity->ROLE == 1){?>
 	            <h3 class="toggleLink">Tour</h3>
 	            <ul class="toggle">
+	            	<li class="icn_edit_article"><a href="/admin/tour/booking">Tour Booking</a></li>
 	            	<li class="icn_edit_article"><a href="/admin/tour/index">Manage</a></li>
 	                <li class="icn_new_article"><a href="/admin/tour/add">Add Tour</a></li>
-	                <li class="icn_edit_article"><a href="/admin/tour/menu">Tour Menu</a></li>
-	                <li class="icn_edit_article"><a href="/admin/tour/booking">Tour Booking</a></li>
+	                <li class="icn_edit_article"><a href="/admin/tour/menu">Tour Menu</a></li>	                
+	            </ul>
+            <?php } ?>
+            <?php if($identity->ROLE == 0 || $identity->ROLE == 1){?>
+	            <h3 class="toggleLink">Visa</h3>
+	            <ul class="toggle">
+	            	<li class="icn_edit_article"><a href="/admin/visa/booking">Visa Booking</a></li>
+	            	<li class="icn_edit_article"><a href="/admin/visa/normal">Normal Nationality (Tourirst Visa)</a></li>
+	                <li class="icn_new_article"><a href="/admin/visa/difficult">Difficult Nationality (Tourirst Visa)</a></li>
+	                <li class="icn_edit_article"><a href="/admin/visa/business">Business Visa</a></li>
+	                <li class="icn_edit_article"><a href="/admin/visa/exemption">Vietnam Visa Exemption</a></li>	                
 	            </ul>
             <?php } ?>
             <div style="display: none">

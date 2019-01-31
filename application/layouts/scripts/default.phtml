@@ -506,7 +506,7 @@ $.get("https://min-api.cryptocompare.com/data/price?fsym=ETH&tsyms=BTC,USD,EUR,G
             	    }
             	};
             	xhr.send(param(data));
-            }
+            }            
 
             function param(object) {
                 var encodedString = '';
@@ -519,6 +519,232 @@ $.get("https://min-api.cryptocompare.com/data/price?fsym=ETH&tsyms=BTC,USD,EUR,G
                     }
                 }
                 return encodedString;
+            }
+
+            //GLOBAL DATA
+            var visa_data = null;
+            var visa_selection = null;
+            //init data
+            onChangeSelectionOnVisaApplyOnlinePage();
+            function ajax(type, url, data) {
+            	if(visa_selection == 'dropPurposeOfVisit' || visa_selection == null){
+                	var xhr = new XMLHttpRequest();
+                	xhr.open(type, url);
+                	xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+                    //window.location.href = "/index/tour-book-post";
+                	xhr.onload = function() {
+                	    if (xhr.status === 200) {                	    
+                	        var response =  JSON.parse(xhr.responseText);
+                	        g("#type_of_visa").innerHTML = rebuildHTML(response.visa_type, true);
+                	        g("#processing_time").innerHTML = rebuildHTML(response.processing_time, false);
+                	        visa_data = response;
+                	        calPriceHtml(g("#dropPurposeOfVisit").value, g("#dropNumberApp").value, g("#processing_time").value, g("#radioPrivate1").checked);
+                	    }
+                	};
+                	xhr.send(param(data));
+               	}    
+               	if(visa_data != null){
+            		calPriceHtml(g("#dropPurposeOfVisit").value, g("#dropNumberApp").value, g("#processing_time").value, g("#radioPrivate1").checked);
+               	}
+            }
+
+            function rebuildHTML(data, none_option){
+            	var html = "";
+            	if(none_option) html = "<option value='' selected disabled></option>";
+     	        for(var i=0; i< data.length; i++) {
+     	        	html += "<option value='"+data[i].id+"'>"+ data[i].name + "</option>";
+          	    }
+          	    return html;
+            }
+
+            function calPriceHtml(purpose_of_visit, number_app, processing_time, private_visa) {
+            	var htmlDes = "";
+            	var htmlTotal = "";
+            	var total = 0;
+            	var type_of_visa = g("#type_of_visa");
+            	var text_type_visa = type_of_visa.options[type_of_visa.selectedIndex].text;
+            	var processing_time = g("#processing_time");
+            	var text_processing_time = processing_time.options[processing_time.selectedIndex].text;
+            	//default processing_time= normal processing
+            	if(text_type_visa.length == 0){
+            		//htmlDes += number_app + " Applicant (" + purpose_of_visit + ") * (" + type_of_visa + " fee) = " +  number_app + " * " + total;
+            		htmlDes += buildHTMLPriceDes(number_app, purpose_of_visit, text_type_visa, 0);
+            		htmlTotal += total + " USD";
+                } else {
+                	var type_of_visa_id = type_of_visa.value;
+                	var visa_type_price = getPrice(type_of_visa_id, visa_data.visa_type);             	
+                	total += number_app * visa_type_price;
+                	htmlDes += buildHTMLPriceDes(number_app, purpose_of_visit, text_type_visa, visa_type_price);
+                	if(!text_processing_time.includes("Normal")){ // exclude Normal processing
+                    	var processing_time_id = processing_time.value;
+                    	var processing_time_price = getPrice(processing_time_id, visa_data.processing_time);
+                    	if(processing_time_price > 0){
+                    		total += number_app * processing_time_price;
+                    		htmlDes += buildHTMLPriceDes2(number_app, text_processing_time, processing_time_price);
+                       	}
+                	}
+
+                	//++ private visa letter
+                	var visa_letter = g("#radioPrivate1").checked ? g("#radioPrivate1").value : g("#radioPrivate2").value;
+                	if(visa_letter == 'Private Visa'){
+                		var private_visa_letter_price = g("#private_visa_letter_price").innerHTML;
+                    	htmlDes += buildHTMLPriceDes3(number_app, visa_letter, private_visa_letter_price);
+                    	total += number_app* private_visa_letter_price;
+                   	}
+                	
+                	htmlTotal += total + " USD";
+                }
+            	setHTMLPriceBottom("#idStep1_div", htmlDes, htmlTotal);
+            	setHTMLPriceBottom("#idStep2_div", htmlDes, htmlTotal);
+            	setHTMLPriceBottom("#idStep3_div", htmlDes, htmlTotal);
+            }
+
+            function setHTMLPriceBottom(div, htmlDes,htmlTotal){
+            	g(div).getElementsByClassName('price_des')[0].innerHTML = htmlDes;
+            	g(div).getElementsByClassName('price_total')[0].innerHTML = htmlTotal;
+            }
+
+            function getPrice(id, data){
+            	console.log(id);
+                console.log(data);
+            	for (var i = 0; i < data.length; i++) {
+            		 if(data[i].id == id)
+                		 return data[i].price;            		 
+            	}
+            	return 0;
+            }
+
+            function buildHTMLPriceDes(number_app, purpose_of_visit, type_of_visa, price){
+				return number_app + " Applicant (" + purpose_of_visit + ") * ('" + type_of_visa + "' fee) = " +  number_app + "*" + price;
+            }
+
+            function buildHTMLPriceDes2(number_app, processing_time, price){
+				return "<p style='color:#468847;'><br>" + number_app + " Applicant * ('" + processing_time + "' fee) = " +  number_app + "*" + price + "</p>";
+            }
+
+            function buildHTMLPriceDes3(number_app, visa_letter, price){
+				return "<p style='color:#468847;'><br>" + number_app + " Applicant * ('" + visa_letter + "' fee) = " +  number_app + "*" + price + "</p>";
+            }
+
+            $("#dropPurposeOfVisit").on('change', function() {
+            	visa_selection = 'dropPurposeOfVisit';
+          	  	var purposeOfVisit = this.value;
+	          	//alert(purposeOfVisit);
+          	 	onChangeSelectionOnVisaApplyOnlinePage();      	  
+          	});
+
+            $("#dropNumberApp").on('change', function() {
+            	visa_selection = 'dropNumberApp';
+            	onChangeSelectionOnVisaApplyOnlinePage();    	  
+            });
+            
+            $("#type_of_visa").on('change', function() {
+                visa_selection = 'type_of_visa';
+          	    onChangeSelectionOnVisaApplyOnlinePage();    	  
+            });
+
+            //keep the previous selected nationality
+            var old_nationality1_id = g("#nationality1").value;
+            var old_nationality2_id = g("#nationality2").value;
+            var old_nationality3_id = g("#nationality3").value;
+            var old_nationality4_id = g("#nationality4").value;
+            var old_nationality5_id = g("#nationality5").value;
+            var old_nationality6_id = g("#nationality6").value;
+            
+            $("#nationality1").on('change', function() {
+            	onChangeNationality(this, 1);
+            });
+            $("#nationality2").on('change', function() {
+            	onChangeNationality(this, 2);
+            });
+            $("#nationality3").on('change', function() {
+            	onChangeNationality(this, 3);
+            });
+            $("#nationality4").on('change', function() {
+            	onChangeNationality(this, 4);
+            });
+            $("#nationality5").on('change', function() {
+            	onChangeNationality(this, 5);
+            });
+            $("#nationality6").on('change', function() {
+            	onChangeNationality(this, 6);
+            });
+
+
+            function onChangeNationality(element, id){
+                var optionsText = element.options[element.selectedIndex].text;
+                var is_diff= element.options[element.selectedIndex].getAttribute('data-is-diff');
+            	var processing_time = g("#processing_time");
+            	var text_processing_time = processing_time.options[processing_time.selectedIndex].text;
+                if(is_diff == 1 && !text_processing_time.includes("Normal")){
+                    //TODO show custom alert CSS
+                    alert(optionsText + ' is only applicable for Normal Processing Time');
+                    element.value = getOldNationality(id);
+                }else {
+                	//first time select => et other nationality = selected value
+                	//console.log(old_nationality1_id.trim().length);
+                	if(id == 1 && old_nationality1_id.trim().length == 0){
+                		g("#nationality2").value = element.value;
+                		g("#nationality3").value = element.value;
+                		g("#nationality4").value = element.value;
+                		g("#nationality5").value = element.value;
+                		g("#nationality6").value = element.value;
+                    }
+                	setOldNationality(id, element.value);
+                }
+            }
+            function getOldNationality(id){
+                switch (id){
+                    case 1: return old_nationality1_id;
+                    case 2: return old_nationality2_id;
+                    case 3: return old_nationality3_id;
+                    case 4: return old_nationality4_id;
+                    case 5: return old_nationality5_id;
+                    case 6: return old_nationality6_id;
+                }
+            }
+
+            function setOldNationality(id, value){
+                switch (id){
+                    case 1: old_nationality1_id = value;
+                    case 2: old_nationality2_id = value;
+                    case 3: old_nationality3_id = value;
+                    case 4: old_nationality4_id = value;
+                    case 5: old_nationality5_id = value;
+                    case 6: old_nationality6_id = value;
+                }
+            }
+
+            $("#processing_time").on('change', function() {
+                visa_selection = 'processing_time';
+                var optionsText = this.options[this.selectedIndex].text;
+          	  	if(optionsText.includes("Normal")){
+              	  	g("#processing_time_alert").style.display = 'none';  
+              	} else {
+              		g("#processing_time_alert").style.display = 'block';
+                }
+          	    onChangeSelectionOnVisaApplyOnlinePage();    	  
+            });
+
+            $("input[name='radioPrivate']" ).change(function() {            	  
+          	  	visa_selection = this.value; // only apply for Private Visa
+          	  	onChangeSelectionOnVisaApplyOnlinePage();
+            });
+
+            function onChangeSelectionOnVisaApplyOnlinePage() {
+            	 var data = {
+      			 		 dropPurposeOfVisit: g("#dropPurposeOfVisit").value,
+      			 		 dropNumberApp: g("#dropNumberApp").value,
+      			 		 type_of_visa: g("#type_of_visa").value,
+      			 		 processing_time: g("#processing_time").value,
+      			 		 nationality1: g("#nationality1").value,          			 		                  		
+      			 		 nationality2: g("#nationality2").value,
+      			 		 nationality3: g("#nationality3").value,
+      			 		 nationality4: g("#nationality4").value,
+      			 		 nationality5: g("#nationality5").value,
+      			 		 nationality6: g("#nationality6").value,
+                  };
+		  		var response = ajax('POST', '/index/purpose-of-visit-change', data); 
             }
 
             var handleSubmitMyForm1 = function(event){
