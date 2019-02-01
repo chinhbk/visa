@@ -622,6 +622,7 @@ class IndexController extends Zend_Controller_Action
         $this->_helper->viewRenderer->setNoRender();// stop automatic rendering
         $request = $this->getRequest();
         $type = $request->getParam('dropPurposeOfVisit');
+        $nationality1= $request->getParam('nationality1');
         $visa_type_mapper = new Application_Model_VisaTypeMapper();
         $visa_type = $visa_type_mapper->getAll(1, $type);
         $processing_time_type_mapper = new Application_Model_ProcessingTimeTypeMapper();
@@ -630,7 +631,7 @@ class IndexController extends Zend_Controller_Action
         $visa_type_ids = $this->_getIdsOf($visa_type);
         //Zend_Debug::dump($visa_type_ids);die();
         $nationality_visa_type_mapper = new Application_Model_NationalityVisaTypeMapper();
-        $visa_type_prices = $nationality_visa_type_mapper->getPrices($type, $visa_type_ids, $nationality_id);
+        $visa_type_prices = $nationality_visa_type_mapper->getPrices($type, $visa_type_ids, $nationality1);
         foreach($visa_type as $v) {
             foreach($visa_type_prices as $vprice) {
                 if($v->id == $vprice->visa_type_id) {                   
@@ -641,7 +642,7 @@ class IndexController extends Zend_Controller_Action
         
         $processing_time_type_ids = $this->_getIdsOf($processing_time_type);        
         $nationality_processing_type_mapper = new Application_Model_NationalityProcessingTimeTypeMapper();
-        $processing_time_type_prices = $nationality_processing_type_mapper->getPrices($type, $processing_time_type_ids, $nationality_id);
+        $processing_time_type_prices = $nationality_processing_type_mapper->getPrices($type, $processing_time_type_ids, $nationality1);
         foreach($processing_time_type as $v) {
             foreach($processing_time_type_prices as $vprice) {
                 if($v->id == $vprice->processing_time_type_id) {

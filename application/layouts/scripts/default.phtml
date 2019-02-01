@@ -527,7 +527,7 @@ $.get("https://min-api.cryptocompare.com/data/price?fsym=ETH&tsyms=BTC,USD,EUR,G
             //init data
             onChangeSelectionOnVisaApplyOnlinePage();
             function ajax(type, url, data) {
-            	if(visa_selection == 'dropPurposeOfVisit' || visa_selection == null){
+            	if(visa_selection == 'dropPurposeOfVisit' || visa_selection == 'nationality' || visa_selection == null){
                 	var xhr = new XMLHttpRequest();
                 	xhr.open(type, url);
                 	xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
@@ -535,7 +535,7 @@ $.get("https://min-api.cryptocompare.com/data/price?fsym=ETH&tsyms=BTC,USD,EUR,G
                 	xhr.onload = function() {
                 	    if (xhr.status === 200) {                	    
                 	        var response =  JSON.parse(xhr.responseText);
-                	        g("#type_of_visa").innerHTML = rebuildHTML(response.visa_type, true);
+                	        g("#type_of_visa").innerHTML = rebuildHTML(response.visa_type, false);
                 	        g("#processing_time").innerHTML = rebuildHTML(response.processing_time, false);
                 	        visa_data = response;
                 	        calPriceHtml(g("#dropPurposeOfVisit").value, g("#dropNumberApp").value, g("#processing_time").value, g("#radioPrivate1").checked);
@@ -543,7 +543,7 @@ $.get("https://min-api.cryptocompare.com/data/price?fsym=ETH&tsyms=BTC,USD,EUR,G
                 	};
                 	xhr.send(param(data));
                	}    
-               	if(visa_data != null){
+               	if(visa_data != null && visa_selection != 'nationality'){
             		calPriceHtml(g("#dropPurposeOfVisit").value, g("#dropNumberApp").value, g("#processing_time").value, g("#radioPrivate1").checked);
                	}
             }
@@ -552,6 +552,7 @@ $.get("https://min-api.cryptocompare.com/data/price?fsym=ETH&tsyms=BTC,USD,EUR,G
             	var html = "";
             	if(none_option) html = "<option value='' selected disabled></option>";
      	        for(var i=0; i< data.length; i++) {
+         	        //if(data[i].price > 0)
      	        	html += "<option value='"+data[i].id+"'>"+ data[i].name + "</option>";
           	    }
           	    return html;
@@ -676,10 +677,13 @@ $.get("https://min-api.cryptocompare.com/data/price?fsym=ETH&tsyms=BTC,USD,EUR,G
                 var is_diff= element.options[element.selectedIndex].getAttribute('data-is-diff');
             	var processing_time = g("#processing_time");
             	var text_processing_time = processing_time.options[processing_time.selectedIndex].text;
+            	//check if selected a difficult nationality
                 if(is_diff == 1 && !text_processing_time.includes("Normal")){
                     //TODO show custom alert CSS
-                    alert(optionsText + ' is only applicable for Normal Processing Time');
-                    element.value = getOldNationality(id);
+                    alert(optionsText + ' is only applicable for 1 month single entry with Normal Processing Time (3-4 working days)');
+                    //element.value = getOldNationality(id);
+                    g("#processing_time").value = 1; //set to normal processing time...
+                    onChangeProcessingTimeType('Normal');
                 }else {
                 	//first time select => et other nationality = selected value
                 	//console.log(old_nationality1_id.trim().length);
@@ -691,6 +695,9 @@ $.get("https://min-api.cryptocompare.com/data/price?fsym=ETH&tsyms=BTC,USD,EUR,G
                 		g("#nationality6").value = element.value;
                     }
                 	setOldNationality(id, element.value);
+
+                	visa_selection = 'nationality';
+                	onChangeSelectionOnVisaApplyOnlinePage();
                 }
             }
             function getOldNationality(id){
@@ -718,13 +725,17 @@ $.get("https://min-api.cryptocompare.com/data/price?fsym=ETH&tsyms=BTC,USD,EUR,G
             $("#processing_time").on('change', function() {
                 visa_selection = 'processing_time';
                 var optionsText = this.options[this.selectedIndex].text;
-          	  	if(optionsText.includes("Normal")){
+                onChangeProcessingTimeType(optionsText);
+            });
+
+            function onChangeProcessingTimeType(optionsText){
+            	if(optionsText.includes("Normal")){
               	  	g("#processing_time_alert").style.display = 'none';  
               	} else {
               		g("#processing_time_alert").style.display = 'block';
                 }
-          	    onChangeSelectionOnVisaApplyOnlinePage();    	  
-            });
+          	    onChangeSelectionOnVisaApplyOnlinePage();   
+            }
 
             $("input[name='radioPrivate']" ).change(function() {            	  
           	  	visa_selection = this.value; // only apply for Private Visa

@@ -24,7 +24,7 @@ input[type=number] {
 			<input type="text" name="keyword" id="keyword" value="<?php echo $this->keyword;?>"/>
 			<input type="submit" value="Search" class="btn-primary"/>									
 		</form>
-		<header><h3 class="tabs_involved">Normal nationalities (Tourist Visa)</h3>		
+		<header><h3 class="tabs_involved">Difficult nationalities (Tourist Visa)</h3>		
 		</header>
 		<h5 style="margin-left:10px">1MSE: 1 Month Single Entry, U15: Urgent 15 mintues</h5>
 		<div class="tab_container">
@@ -72,11 +72,10 @@ input[type=number] {
 					<td><input class ="U1Day" type="number"  id ="<?php echo $this->map_name_id_processing_type[$this->PROCESSING_TIME_TYPE_U1_DAY]?>" value="<?php echo $na->processing_time_type_prices[$this->PROCESSING_TIME_TYPE_U1_DAY]?>"/></td>
 					<td><input class ="UHoliday" type="number" id ="<?php echo $this->map_name_id_processing_type[$this->PROCESSING_TIME_TYPE_UHoliday]?>" value="<?php echo $na->processing_time_type_prices[$this->PROCESSING_TIME_TYPE_UHoliday]?>"/></td>
 					<td>
-						<a class="update_normal_nationality"><image src="/images/edit.png" alt="Edit" style="padding-right:30px;"/></a>						
+						<a class="update_normal_nationality" data-purpose_of_visit = "TOURIST VISA"><image src="/images/edit.png" alt="Edit" style="padding-right:30px;"/></a>						
 					</td>
 					
-				</tr> 
-				</form>
+				</tr>
 				<?php }	?>
 				  
 			</tbody> 

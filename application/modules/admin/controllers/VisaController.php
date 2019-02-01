@@ -89,11 +89,11 @@ class Admin_VisaController extends Zend_Controller_Action
         $data = json_decode($_POST["data"]);
         
         $nationality_visa_type_mapper = new Application_Model_NationalityVisaTypeMapper();
-        $this->_saveVisaTypeOrProcessingTimeTypePrices('visa_type', $nationality_visa_type_mapper, $data->visa_type, $data->nationality_id);
+        $this->_saveVisaTypeOrProcessingTimeTypePrices($data->purpose_of_visit, 'visa_type', $nationality_visa_type_mapper, $data->visa_type, $data->nationality_id);
         
         //update processing time price
         $nationality_processing_time_type_mapper = new Application_Model_NationalityProcessingTimeTypeMapper();
-        $this->_saveVisaTypeOrProcessingTimeTypePrices('processing_type', $nationality_processing_time_type_mapper, $data->processing_time_type, $data->nationality_id);
+        $this->_saveVisaTypeOrProcessingTimeTypePrices($data->purpose_of_visit, 'processing_type', $nationality_processing_time_type_mapper, $data->processing_time_type, $data->nationality_id);
         
         //die();
         echo 'Success';
@@ -166,13 +166,16 @@ class Admin_VisaController extends Zend_Controller_Action
         return $map_name_id;
     }
     
-    protected  function _saveVisaTypeOrProcessingTimeTypePrices($type, $mapper, $input, $nationality_id){
+    protected  function _saveVisaTypeOrProcessingTimeTypePrices($purpose_of_visit, $type, $mapper, $input, $nationality_id){
        
         foreach($input as $v){
             if(strlen(trim($v->price)) == 0){
                 $v->price = null;
             }
-            $id = $mapper->getId('TOURIST VISA', $v->id,  $nationality_id);
+            if(strlen(trim($v->id)) == 0){
+               continue;
+            }
+            $id = $mapper->getId($purpose_of_visit, $v->id,  $nationality_id);
             //Zend_Debug::dump($id);
             $data = $type == 'visa_type' ? new Application_Model_NationalityVisaType(): new Application_Model_NationalityProcessingTimeType();
             $data->id = $id;
@@ -181,7 +184,7 @@ class Admin_VisaController extends Zend_Controller_Action
             $type == 'visa_type' ? ($data->visa_type_id = $v->id) : ($data->processing_time_type_id = $v->id);
             //$data->visa_type_id = $v->id;
             //$data->processing_time_type_id = $v->id;
-            $data->purpose_of_visit = 'TOURIST VISA';
+            $data->purpose_of_visit = $purpose_of_visit;
             $data->price = $v->price;
             $data->update_date = $this->_helper->CommonUtils->getVnDateTime();
             //Zend_Debug::dump($data);die;
@@ -203,6 +206,24 @@ class Admin_VisaController extends Zend_Controller_Action
         //Zend_Debug::dump( $tour);die();
     }
     
+    
+    public function exemptionAction(){
+        $visa_setting_mapper = new Application_Model_VisaSettingMapper();
+        $visa_setting = $visa_setting_mapper->getAll('text');
+        
+        $exemption_note = '';
+        $exemption_nationality = array();
+        foreach($visa_setting as $s) {
+            switch ($s->name){
+                case 'Visa Exemption':  $exemption_note = $s->text; break;
+                default: $exemption_nationality[] = $s; break;
+            }
+        }
+        
+        $this->view->exemption_note = $exemption_note;
+        $this->view->exemption_nationality = $exemption_nationality;
+        //Zend_Debug::dump( $visa_setting);die();
+    }
 
 }
 

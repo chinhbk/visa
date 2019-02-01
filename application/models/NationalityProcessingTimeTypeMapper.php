@@ -17,6 +17,8 @@
 		        'NATIONALITY_ID' => $obj->nationality_id,
 		        'PROCESSING_TIME_TYPE_ID' => $obj->processing_time_type_id,
 		        'PRICE' => $obj->price,
+		        'PURPOSE_OF_VISIT' => $obj->purpose_of_visit,
+		        'UPDATE_DATE' => $obj->update_date,
 		    );
 
 		    //Check if the product object has an ID

@@ -4,6 +4,7 @@ class Application_Model_VisaSetting
 {   
 	public $name;
 	public $value;
+	public $text;
      
     //upon construction, map the values
     //from the $product_row if available
@@ -12,6 +13,7 @@ class Application_Model_VisaSetting
         if( !is_null($type_row)) {
 			$this->name =  $type_row instanceof Zend_Db_Table_Row  ? $type_row->NAME : $type_row['NAME'];
 			$this->value = $type_row instanceof Zend_Db_Table_Row  ? $type_row->VALUE : $type_row['VALUE'];
+			$this->text = $type_row instanceof Zend_Db_Table_Row  ? $type_row->TEXT : $type_row['TEXT'];
         }
         
     }

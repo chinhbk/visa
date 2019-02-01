@@ -14,20 +14,20 @@
 		    //Create an associative array
 		    //of the data you want to update
 		    $data = array(
-		        'NAME' => $obj->name
+		        'VALUE' => $obj->value,
+		        'TEXT' => $obj->text
 		    );
 		    
 		    //Check if the product object has an ID
 		    //if no, it means the product is a new product
 		    //if yes, then it means you're updating an old product
 		    try {
-		        if( is_null($obj->id) ) {
+		        if( is_null($obj->name) ) {
 		            //Zend_Debug::dump( $data);		die;
-		            $obj->id = $this->_db_table->insert($data);
-		            return $obj;
+		            $this->_db_table->insert($data);		            
 		        } else {
 		            //Zend_Debug::dump( $data);		die;
-		            $this->_db_table->update($data, array('ID = ?' => $obj->id));
+		            $this->_db_table->update($data, array('NAME = ?' => $obj->name));
 		        }
 		    } catch (Exception $e) {
 		        Zend_Debug::dump( $e);die();
@@ -57,10 +57,14 @@
 		    return $obj;
 		}
 		 
-		public function getAll(){
+		public function getAll($text = null){
 			try{
 				$select = $this->_db_table->select()
-				->from(self::TABLE, array('NAME', 'VALUE'));
+				->from(self::TABLE, array('NAME', 'VALUE', 'TEXT'));
+				
+				if(isset($text)){
+				    $select = $select->where('TEXT IS NOT NULL');
+				}
 				
 				$result = $this->_db_table->getAdapter()->fetchAll($select);
 				$arr = array();
@@ -79,8 +83,8 @@
 			return $arr;							
 		}			
 		
-		public function delete($id){
-			$where = $this->_db_table->getAdapter()->quoteInto("ID = ?", $id);
+		public function delete($name){
+		    $where = $this->_db_table->getAdapter()->quoteInto("NAME = ?", $name);
 			$this->_db_table->delete($where);
 		}
 	}

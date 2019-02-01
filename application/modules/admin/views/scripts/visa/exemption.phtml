@@ -1,0 +1,55 @@
+<style>
+input[type=number] { 
+  -moz-appearance: textfield;
+  appearance: textfield;
+  margin: 0;
+  width:50px;
+}
+</style>
+<?php 
+  if($this->errorMessage != null && $this->errorMessage != ''){
+	echo "<h4 class='alert_error'>".$this->errorMessage."</h4>";
+  }
+?>
+
+<article class="module width_full">
+			<header><h3>VietNam Visa Exemption List</h3></header>
+				<div class="module_content">
+						<form name="form_add" method="POST" onSubmit="document.form_add.editor_contents.value  = $('#editor #edit .froala-element').html()">
+							<fieldset>
+								<label>Note</label>
+								<textarea id="editor_contents" name="editor_contents" style="display:none;"></textarea>
+								<!-- -->
+								<section id="editor">
+								  <div id='edit' style="margin-top: 30px;">
+									 	 <?php echo $this->exemption_note; ?>
+								  </div>
+							    </section>
+
+							<div class="clear"></div>
+							</fieldset>
+							<fieldset>
+							<table>
+							<tr>
+								<td><label>Countries</label></td>
+								<td><label>MAXIMUM STAY</label></td>
+							</tr>
+							<?php foreach($this->exemption_nationality as $na){?>
+   								<tr>
+    								<td><label><?php echo $na->name?></label></td>
+    								<td><input type="number" name=<?php echo $na->name?> value="<?php echo $na->text?>"></td>
+    							</tr>   
+							<?php }?>
+							</table>
+							</fieldset>
+							<div class="clear"></div>
+							<footer>
+								<div class="submit_link">
+									<input type="submit" name="btnSubmit" class="alt_btn" value="Update">
+								</div>
+							</footer>
+						</form>
+						
+				</div>
+		
+		</article>
