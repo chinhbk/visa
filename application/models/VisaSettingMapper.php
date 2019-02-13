@@ -9,7 +9,7 @@
 			$this->_db_table = new Application_Model_DbTable_VisaSetting();
 		}
 		 
-		public function save(Application_Model_VisaSetting $obj)
+		public function save(Application_Model_VisaSetting $obj, $is_insert = false)
 		{
 		    //Create an associative array
 		    //of the data you want to update
@@ -22,8 +22,9 @@
 		    //if no, it means the product is a new product
 		    //if yes, then it means you're updating an old product
 		    try {
-		        if( is_null($obj->name) ) {
+		        if($is_insert) {
 		            //Zend_Debug::dump( $data);		die;
+		            $data['NAME'] = $obj->name;
 		            $this->_db_table->insert($data);		            
 		        } else {
 		            //Zend_Debug::dump( $data);		die;

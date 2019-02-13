@@ -5,6 +5,22 @@ input[type=number] {
   margin: 0;
   width:50px;
 }
+.btn{
+    /* font: bold 11px Arial; */
+    text-decoration: none !important;
+    background: #D0D1D4 url(../images/btn_submit_2.png) repeat-x;
+    /* color: #333333; */
+    padding: 2px 6px 2px 6px;
+    border: 1px solid#30B0C8;
+    font-weight: bold;
+    color: #003E49;
+    text-shadow: 0 1px 0 #6CDCF9;
+    /* border-right: 1px solid #333333; */
+    /* border-bottom: 1px solid #333333; */
+    /* border-left: 1px solid #CCCCCC; */
+    margin: 10px;
+    cursor: pointer;
+    }
 </style>
 <?php 
   if($this->errorMessage != null && $this->errorMessage != ''){
@@ -13,6 +29,20 @@ input[type=number] {
 ?>
 
 <article class="module width_full">
+<div id="exemption-dialog-form" title="Add Nationality">
+  <p class="validateTips">All form fields are required.</p>
+ 
+  <form>
+    <fieldset>
+      <label for="name">Nationality</label>
+      <input type="text" name="nationality" id="nationality" class="text ui-widget-content ui-corner-all" style="max-width: 290px;">
+ 	  <label for="name">Maximum stay</label>
+      <input type="text" name="maximum_stay" id="maximum_stay" class="text ui-widget-content ui-corner-all" style="max-width: 290px;">
+      <!-- Allow form submission with keyboard without duplicating the dialog button -->
+      <input type="submit" tabindex="-1" style="position:absolute; top:-1000px">
+    </fieldset>
+  </form>
+</div>
 			<header><h3>VietNam Visa Exemption List</h3></header>
 				<div class="module_content">
 						<form name="form_add" method="POST" onSubmit="document.form_add.editor_contents.value  = $('#editor #edit .froala-element').html()">
@@ -29,15 +59,20 @@ input[type=number] {
 							<div class="clear"></div>
 							</fieldset>
 							<fieldset>
+							<div><a class="btn" id="add-nationality">Add New Nationality</a></div><br/>
 							<table>
 							<tr>
-								<td><label>Countries</label></td>
-								<td><label>MAXIMUM STAY</label></td>
+								<td><strong>No</strong></td>
+								<td><strong>Countries</strong></td>
+								<td><strong>MAXIMUM STAY</strong></td>
+								<td></td>
 							</tr>
-							<?php foreach($this->exemption_nationality as $na){?>
+							<?php $i=0;foreach($this->exemption_nationality as $na){?>
    								<tr>
-    								<td><label><?php echo $na->name?></label></td>
+   									<td><?php echo ++$i;?></td>
+    								<td><?php echo $na->name?></td>
     								<td><input type="number" name=<?php echo $na->name?> value="<?php echo $na->text?>"></td>
+    								<td><a href="/admin/visa/delete-nationality-exemption/name/<?php echo $na->name?>" onclick="return confirm('Are you sure you delete <?php echo $na->name?>?')"><img src="/images/delete.png" alt="Delete"></a></td>
     							</tr>   
 							<?php }?>
 							</table>

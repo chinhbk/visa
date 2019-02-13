@@ -450,9 +450,11 @@
 		
 		});
   $( function() {
-    var dialog, form,
+    var dialog, exemption_dialog, form,
       
       name = $( "#name" ),
+      nationality = $( "#nationality" ),
+      maximum_stay = $( "#maximum_stay" ),
       allFields = $( [] ).add( name ),
       tips = $( ".validateTips" );
  
@@ -508,6 +510,28 @@
       return valid;
     }
 
+    function addNationalityExemption() {
+    	 var valid = true;
+         allFields.removeClass( "ui-state-error" );
+    
+         valid = valid && checkLength( nationality, "nationality", 3, 50 );
+         valid = valid && checkLength( maximum_stay, "maximum_stay", 1, 5 );
+    	
+         if ( valid ) {			
+   		  $.ajax({
+   			  type: "POST",
+   			  url: "/admin/visa/add-nationality-exemption",
+   			  data: { name: nationality.val(), text: maximum_stay.val() },
+   			  success: function(response,status)
+   			  { 
+   				 location.reload();
+   			  }
+   			});
+   		    exemption_dialog.dialog( "close" );
+         }
+         return valid;
+    }
+
     function editTourType() {
         var valid = true;
         allFields.removeClass( "ui-state-error" );
@@ -549,6 +573,24 @@
       }
     });
 
+    exemption_dialog = $("#exemption-dialog-form" ).dialog({
+        autoOpen: false,
+        height: 250,
+        width: 550,
+        modal: true,
+        buttons: {
+          "Create": addNationalityExemption,
+          Cancel: function() {
+        	  exemption_dialog.dialog( "close" );
+          }
+        },
+        close: function() {
+          form_exemption[ 0 ].reset();
+          allFields.removeClass( "ui-state-error" );
+        }
+      });
+      
+
     editDialog = $( "#edit-dialog-form" ).dialog({
         autoOpen: false,
         height: 250,
@@ -575,6 +617,14 @@
    	  event.preventDefault();
       dialog.dialog( "open" );
     });
+
+    $( "#add-nationality" ).on( "click", function(event) {
+     	event.preventDefault();
+     	exemption_dialog.dialog( "open" );
+      });
+    form_exemption = exemption_dialog.find( "form" ).on( "submit", function( event ) {
+      });
+    
     $( ".edit_tour_type_name" ).button().on( "click", function() {
      	event.preventDefault();
      	var id = $(this).data("tour-type-id");

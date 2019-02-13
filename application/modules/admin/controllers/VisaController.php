@@ -256,6 +256,33 @@ class Admin_VisaController extends Zend_Controller_Action
             //die();
         }
     }
+    
+    public function addNationalityExemptionAction(){
+        $this->_helper->layout()->disableLayout();
+        $this->_helper->viewRenderer->setNoRender(true);
+        if (isset($_POST)) {
+            //die( $_POST['name']);
+            // echo json_encode($_POST['name']);die;
+            $model = new Application_Model_VisaSetting();
+            $model->name = $_POST['name'];
+            $model->text = $_POST['text'];
+
+            $mapper = new Application_Model_VisaSettingMapper();
+            $mapper->save($model, true);
+            echo json_encode($model);
+        }
+    }
+    
+    public function deleteNationalityExemptionAction(){        
+        $request = $this->getRequest();
+        //Zend_Debug::dump( $request);die();
+        $name = $request->getParam('name');
+        //die($id);
+        $mapper = new Application_Model_VisaSettingMapper();
+        $mapper->delete($name);       
+        
+        $this->redirect('admin/visa/exemption');
+    }
 
 }
 
