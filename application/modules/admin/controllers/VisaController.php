@@ -223,6 +223,32 @@ class Admin_VisaController extends Zend_Controller_Action
         $this->view->exemption_note = $exemption_note;
         $this->view->exemption_nationality = $exemption_nationality;
         //Zend_Debug::dump( $visa_setting);die();
+        
+        $request = $this->getRequest();
+        if ($request->isPost()) {           
+            $editor_contents =  $request->getParam('editor_contents');
+            if(strlen($editor_contents) == 0){
+                $this->view->errorMessage = 'Please input data';
+                return;
+            }
+            $model = new Application_Model_VisaSetting();
+            $model->name = 'Visa Exemption';
+            $model->text = $editor_contents;
+            $visa_setting_mapper->save($model);             
+            foreach ($_POST as $name => $value) {
+               // echo "{$key} = {$value}\r\n";
+                
+                if (preg_match('/^\d+$/', $value) ) {
+                    $model = new Application_Model_VisaSetting();
+                    $model->name = $name;
+                    $model->text = $value;
+                    $visa_setting_mapper->save($model);
+                    //die($value);
+                }
+            }
+            $this->redirect('admin/visa/exemption');
+            //die();
+        }
     }
 
 }

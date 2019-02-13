@@ -614,7 +614,21 @@ class IndexController extends Zend_Controller_Action
     public function visaServiceAction(){
     }
     
-    public function vietnamVisaExemptionAction(){
+    public function vietnamVisaExemptionAction() {
+        $visa_setting_mapper = new Application_Model_VisaSettingMapper();
+        $visa_setting = $visa_setting_mapper->getAll('text');
+        
+        $exemption_note = '';
+        $exemption_nationality = array();
+        foreach($visa_setting as $s) {
+            switch ($s->name){
+                case 'Visa Exemption':  $exemption_note = $s->text; break;
+                default: $exemption_nationality[] = $s; break;
+            }
+        }
+        
+        $this->view->exemption_note = $exemption_note;
+        $this->view->exemption_nationality = $exemption_nationality;
     }
     
     public function purposeOfVisitChangeAction(){
