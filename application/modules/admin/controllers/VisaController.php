@@ -55,6 +55,8 @@ class Admin_VisaController extends Zend_Controller_Action
     	$request = $this->getRequest();
     	
     	$keyword = $request->getParam('keyword');
+		
+		$this->view->keyword = $keyword;
     	
     	$this->_managePrices($keyword, 0, 'TOURIST VISA');
     	    	
@@ -66,6 +68,8 @@ class Admin_VisaController extends Zend_Controller_Action
         $request = $this->getRequest();
         
         $keyword = $request->getParam('keyword');
+		
+		$this->view->keyword = $keyword;
         
         $this->_managePrices($keyword, 1, 'TOURIST VISA');
         
@@ -77,6 +81,8 @@ class Admin_VisaController extends Zend_Controller_Action
         $request = $this->getRequest();
         
         $keyword = $request->getParam('keyword');
+		
+		$this->view->keyword = $keyword;
         
         $this->_managePrices($keyword, 0, 'BUSINESS VISA');
         
