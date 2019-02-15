@@ -535,9 +535,19 @@ $.get("https://min-api.cryptocompare.com/data/price?fsym=ETH&tsyms=BTC,USD,EUR,G
                 	xhr.onload = function() {
                 	    if (xhr.status === 200) {                	    
                 	        var response =  JSON.parse(xhr.responseText);
-                	        g("#type_of_visa").innerHTML = rebuildHTML(response.visa_type, false);
-                	        g("#processing_time").innerHTML = rebuildHTML(response.processing_time, false);
-                	        visa_data = response;
+                	        if(visa_selection == 'nationality'){
+                	        	//check price data
+                	        	if(response.error_msg != '') {
+                    	        	alert(response.error_msg);
+                    	        } else { //recalculate
+                    	        	visa_data = response;
+                    	        	calPriceHtml(g("#dropPurposeOfVisit").value, g("#dropNumberApp").value, g("#processing_time").value, g("#radioPrivate1").checked);
+                        	    }
+                	        }  else {
+                	        	g("#type_of_visa").innerHTML = rebuildHTML(response.visa_type, false);
+                	        	g("#processing_time").innerHTML = rebuildHTML(response.processing_time, false);
+                	        	visa_data = response;
+                    	    }              	        
                 	        calPriceHtml(g("#dropPurposeOfVisit").value, g("#dropNumberApp").value, g("#processing_time").value, g("#radioPrivate1").checked);
                 	    }
                 	};
@@ -552,8 +562,12 @@ $.get("https://min-api.cryptocompare.com/data/price?fsym=ETH&tsyms=BTC,USD,EUR,G
             	var html = "";
             	if(none_option) html = "<option value='' selected disabled></option>";
      	        for(var i=0; i< data.length; i++) {
-         	        //if(data[i].price > 0)
-     	        	html += "<option value='"+data[i].id+"'>"+ data[i].name + "</option>";
+         	        if(data[i].price == null && visa_selection == 'nationality'){ // prevent in step 2 , back to step 1 to change price to null
+         	        	html += "<option disabled value='"+data[i].id+"'>"+ data[i].name + "</option>";
+             	    } else{
+             	   		html += "<option value='"+data[i].id+"'>"+ data[i].name + "</option>";
+                 	}
+     	        	
           	    }
           	    return html;
             }
@@ -573,12 +587,21 @@ $.get("https://min-api.cryptocompare.com/data/price?fsym=ETH&tsyms=BTC,USD,EUR,G
             		htmlTotal += total + " USD";
                 } else {
                 	var type_of_visa_id = type_of_visa.value;
-                	var visa_type_price = getPrice(type_of_visa_id, visa_data.visa_type);             	
+                	var visa_type_price = getPrice(type_of_visa_id, visa_data.visa_type);
+                	//warning incase price  =0 or null
+                	/* if(visa_type_price == null){
+                    	alert('Unavailable price for '+ text_type_visa); //back to previous selected visa type
+                    	return;
+                    } */
                 	total += number_app * visa_type_price;
                 	htmlDes += buildHTMLPriceDes(number_app, purpose_of_visit, text_type_visa, visa_type_price);
                 	if(!text_processing_time.includes("Normal")){ // exclude Normal processing
                     	var processing_time_id = processing_time.value;
                     	var processing_time_price = getPrice(processing_time_id, visa_data.processing_time);
+                    	/* if(processing_time_price == null){
+                    		alert('Unavailable price for '+ text_processing_time); //back to previous selected visa type
+                        	return;
+                       	} */
                     	if(processing_time_price > 0){
                     		total += number_app * processing_time_price;
                     		htmlDes += buildHTMLPriceDes2(number_app, text_processing_time, processing_time_price);
@@ -682,24 +705,34 @@ $.get("https://min-api.cryptocompare.com/data/price?fsym=ETH&tsyms=BTC,USD,EUR,G
                     //TODO show custom alert CSS
                     alert(optionsText + ' is only applicable for 1 month single entry with Normal Processing Time (3-4 working days)');
                     //element.value = getOldNationality(id);
-                    g("#processing_time").value = 1; //set to normal processing time...
+                    setDefaultNationalityForFirstSelection(id, old_nationality1_id, element.value);
+                    
+                    var options = g("#type_of_visa").getElementsByTagName("option");
+                    g("#type_of_visa").value = g("#type_of_visa").options[0].value;  // set to 1 month single entry
+                    g("#processing_time").value = g("#processing_time").options[0].value; //set to normal processing time...
+                    visa_selection = 'nationality';
                     onChangeProcessingTimeType('Normal');
                 }else {
                 	//first time select => et other nationality = selected value
                 	//console.log(old_nationality1_id.trim().length);
-                	if(id == 1 && old_nationality1_id.trim().length == 0){
-                		g("#nationality2").value = element.value;
-                		g("#nationality3").value = element.value;
-                		g("#nationality4").value = element.value;
-                		g("#nationality5").value = element.value;
-                		g("#nationality6").value = element.value;
-                    }
+                	setDefaultNationalityForFirstSelection(id, old_nationality1_id, element.value);
                 	setOldNationality(id, element.value);
 
                 	visa_selection = 'nationality';
                 	onChangeSelectionOnVisaApplyOnlinePage();
                 }
             }
+
+            function setDefaultNationalityForFirstSelection(id, old_nationality1_id, value){
+            	if(id == 1 && old_nationality1_id.trim().length == 0){
+            		g("#nationality2").value = value;
+            		g("#nationality3").value = value;
+            		g("#nationality4").value = value;
+            		g("#nationality5").value = value;
+            		g("#nationality6").value = value;
+                }
+            }
+            
             function getOldNationality(id){
                 switch (id){
                     case 1: return old_nationality1_id;
@@ -762,7 +795,9 @@ $.get("https://min-api.cryptocompare.com/data/price?fsym=ETH&tsyms=BTC,USD,EUR,G
                 event.preventDefault();
                 var email = g("#contact_email").value;
                 var ccemail = g("#contact_cc_email").value;
-                if(email != ccemail){
+                if(isLessThanNow(g("#arrival_date").value)){
+                    alert("Arrival Date must be greater than present day");
+                } else if(email != ccemail){
                 	showErr('The email and confirm email you entered does not match each other.');
                 } else {
                 	hideErr();
@@ -779,10 +814,17 @@ $.get("https://min-api.cryptocompare.com/data/price?fsym=ETH&tsyms=BTC,USD,EUR,G
                 switchToTab('idStep3');
 
                 //set data for label
-                g("#dropPurposeOfVisit_text").innerHTML = g("#dropPurposeOfVisit").value + ", " + g("#type_of_visa").value ;
+                var type_of_visa = g("#type_of_visa");
+            	var text_type_visa = type_of_visa.options[type_of_visa.selectedIndex].text;
+
+                var p_time = g('#processing_time');
+                var p_timeText = p_time.options[p_time.selectedIndex].text;
+                
+            	//g("#type_of_visa").value
+                g("#dropPurposeOfVisit_text").innerHTML = g("#dropPurposeOfVisit").value + ", " + text_type_visa ;
                 g("#arrival_date_text").innerHTML = g("#arrival_date").value;
-                g("#radioPrivate_text").innerHTML =g("#radioPrivate1").checked ? g("#radioPrivate1").value : g("#radioPrivate2").value ;
-                g("#processing_time_text").innerHTML = g("#processing_time").value;
+                g("#radioPrivate_text").innerHTML = g("#radioPrivate1").checked ? g("#radioPrivate1").value : g("#radioPrivate2").value ;
+                g("#processing_time_text").innerHTML = p_timeText; //g("#processing_time").value;
                 g("#contact_text").innerHTML = g("#contact_name").value + ", " + g("#contact_email").value + ", " + g("#contact_phone").value;
                 g("#radioPay_text").innerHTML = g("#radioPay1").checked ? g("#radioPay1").value : g("#radioPay2").value;
 
@@ -793,7 +835,10 @@ $.get("https://min-api.cryptocompare.com/data/price?fsym=ETH&tsyms=BTC,USD,EUR,G
                     app_text.style.display = 'block';
 
                     app_text.getElementById("fullname"+i+"_text").innerHTML = g('#fullname'+i).value;
-                    app_text.getElementById("nationality"+i+"_text").innerHTML = g('#nationality'+i).value;
+                    var nationality = g('#nationality'+i);
+                    var nationality_text = nationality.options[nationality.selectedIndex].text;
+                    
+                    app_text.getElementById("nationality"+i+"_text").innerHTML = nationality_text;
                     app_text.getElementById("dateOfBirth"+i+"_text").innerHTML = g('#dateOfBirth'+i).value;
                     app_text.getElementById("passport_number"+i+"_text").innerHTML = g('#passport_number'+i).value;
                     app_text.getElementById("passportExpiryDate"+i+"_text").innerHTML = g('#passportExpiryDate'+i).value;
@@ -834,6 +879,20 @@ $.get("https://min-api.cryptocompare.com/data/price?fsym=ETH&tsyms=BTC,USD,EUR,G
 					age--;
 				}
 				return parseInt(age);
+			}
+			function isLessThanNow(dateString) {
+
+				var today = new Date();
+
+				var mydate = new Date(dateString);
+				
+				//console.log(today);
+				//console.log(mydate);
+				if(mydate < today)
+				{
+				    return true;
+				}
+				return false;					
 			}
             
             KhoiTao();
@@ -891,11 +950,99 @@ $.get("https://min-api.cryptocompare.com/data/price?fsym=ETH&tsyms=BTC,USD,EUR,G
             });
 
             $('#ApplicationForm').find('#btnSubmit').click(function () {
-            	g("#book_time").value = dateTimeNow();
-            	g("#myForm1").submit(); //remove later
-            	g("#myForm2").submit(); //remove later
+
+            	//g("#myForm1").submit(); //remove later
+            	//g("#myForm2").submit(); //remove later
+
+				
+          	  showLoading();
+              var type_of_visa = g("#type_of_visa");
+          	  var text_type_visa = type_of_visa.options[type_of_visa.selectedIndex].text;
+              var p_time = g('#processing_time');
+              var p_timeText = p_time.options[p_time.selectedIndex].text;
+              var radioPrivate= g("#radioPrivate1").checked ? g("#radioPrivate1").value : g("#radioPrivate2").value;
+              var payment_method = g("#radioPay1").checked ? g("#radioPay1").value : g("#radioPay2").value;
+              var data = {
+            		 dropPurposeOfVisit: g("#dropPurposeOfVisit").value,
+            		 dropNumberApp: g("#dropNumberApp").value,
+            		 type_of_visa: text_type_visa,
+            		 arrival_date: g("#arrival_date").value,
+            		 processing_time: p_timeText,
+            		 radioPay: payment_method,
+            		 Arrival_Airport: g("#Arrival_Airport").value,
+            		 contact_name: g("#contact_name").value,
+            		 contact_email: g("#contact_email").value,
+            		 contact_phone: g("#contact_phone").value,
+            		 radioPrivate: radioPrivate,
+            		 nationality1: getNationalityText(1),
+            		 nationality2: getNationalityText(2),
+            		 nationality3: getNationalityText(3),
+            		 nationality4: getNationalityText(4),
+            		 nationality5: getNationalityText(5),
+            		 nationality6: getNationalityText(6),
+            		 fullname1: g('#fullname'+1).value,
+            		 fullname2: g('#fullname'+2).value,
+            		 fullname3: g('#fullname'+3).value,
+            		 fullname4: g('#fullname'+4).value,
+            		 fullname5: g('#fullname'+5).value,
+            		 fullname6: g('#fullname'+6).value,
+            		 gender1: g('#gender'+1).value,
+            		 gender2: g('#gender'+2).value,
+            		 gender3: g('#gender'+3).value,
+            		 gender4: g('#gender'+4).value,
+            		 gender5: g('#gender'+5).value,
+            		 gender6: g('#gender'+6).value,
+            		 dateOfBirth1: g('#dateOfBirth'+1).value,
+            		 dateOfBirth2: g('#dateOfBirth'+2).value,
+            		 dateOfBirth3: g('#dateOfBirth'+3).value,
+            		 dateOfBirth4: g('#dateOfBirth'+4).value,
+            		 dateOfBirth5: g('#dateOfBirth'+5).value,
+            		 dateOfBirth6: g('#dateOfBirth'+6).value,
+            		 passport_number1: g('#passport_number'+1).value,
+            		 passport_number2: g('#passport_number'+2).value,
+            		 passport_number3: g('#passport_number'+3).value,
+            		 passport_number4: g('#passport_number'+4).value,
+            		 passport_number5: g('#passport_number'+5).value,
+            		 passport_number6: g('#passport_number'+6).value,
+            		 passportExpiryDate1: g('#passportExpiryDate'+1).value,
+            		 passportExpiryDate2: g('#passportExpiryDate'+2).value,
+            		 passportExpiryDate3: g('#passportExpiryDate'+3).value,
+            		 passportExpiryDate4: g('#passportExpiryDate'+4).value,
+            		 passportExpiryDate5: g('#passportExpiryDate'+5).value,
+            		 passportExpiryDate6: g('#passportExpiryDate'+6).value,
+            		 totalPrice: g("#idStep3_div").getElementsByClassName('price_total')[0].innerHTML
+              };
+              
+              ajaxApplyOnline('POST', '/index/apply-online', data); 
+              
 				//TODO call ajax to save data and then redirect to payment gateway        
             });
+
+            function ajaxApplyOnline(type, url, data) {
+            	var xhr = new XMLHttpRequest();
+            	xhr.open(type, url);
+            	xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+                //window.location.href = "/index/tour-book-post";
+            	xhr.onload = function() {
+            	    if (xhr.status === 200) {
+                	    //console.log(xhr.responseText);
+            	        var code = JSON.parse(xhr.responseText);
+            	        //rediret to payment gate
+            	        hideLoading();
+		
+						//--->
+						//redirect to payment gate
+            	        //window.location.href = "/index/tour-book-success/code/"+code;
+            	    }
+            	};
+            	xhr.send(param(data));
+            }  
+
+            function getNationalityText(i){
+                var nationality = g('#nationality'+i);
+                var nationality_text = nationality.options[nationality.selectedIndex].text;
+                return nationality_text;
+            }
 
             function switchToTab(idTab){
             	switch (idTab) {
@@ -2666,7 +2813,7 @@ function showaddmobile() {
 			</div>
 		</div>
 		<div class="t3-spotlight t3-spotlight-2 row">
-				<div class="col-xs-12 col-md-6">© 2018 <img src="/templates/bienthuy/images/vietnam-flag.png" alt="Vietnam Tour" border="0" width="16"> <b>Vietnam Visa Tour</b>. International Tour Operator. All rights Reserved. <a style="display:none" href="https://www.dmca.com/Protection/Status.aspx?ID=c2cb4482-165e-4571-9060-1164fc0b823a&amp;refurl=http://vietnamvisatours.com/" title="DMCA.com Protection Status" class="dmca-badge" target="_blank" rel="noopenner nofollow"> <img src="//images.dmca.com/Badges/dmca_protected_sml_120n.png?ID=c2cb4482-165e-4571-9060-1164fc0b823a" alt="DMCA.com Protection Status"></a> <script src="//images.dmca.com/Badges/DMCABadgeHelper.min.js"> </script>			
+				<div class="col-xs-12 col-md-6">© <?php echo date("Y"); ?> <img src="/templates/bienthuy/images/vietnam-flag.png" alt="Vietnam Tour" border="0" width="16"> <b>Vietnam Visa Tour</b>. International Tour Operator. All rights Reserved. <a style="display:none" href="https://www.dmca.com/Protection/Status.aspx?ID=c2cb4482-165e-4571-9060-1164fc0b823a&amp;refurl=http://vietnamvisatours.com/" title="DMCA.com Protection Status" class="dmca-badge" target="_blank" rel="noopenner nofollow"> <img src="//images.dmca.com/Badges/dmca_protected_sml_120n.png?ID=c2cb4482-165e-4571-9060-1164fc0b823a" alt="DMCA.com Protection Status"></a> <script src="//images.dmca.com/Badges/DMCABadgeHelper.min.js"> </script>			
 				<ul class="social-icons icon-circle icon-rotate list-unstyled list-inline"> 
 						  <li> <a title="Find Vietnam Tour on Facebook" href="javascript:void(0)" target="_blank" rel="noopenner nofollow"><i class="fa fa-facebook"></i></a></li>  
 						  <li> <a title="Find Vietnam Tour on Google Plus" href="javascript:void(0)" target="_blank" rel="noopenner nofollow"><i class="fa fa-google-plus"></i></a></li> 

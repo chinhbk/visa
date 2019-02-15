@@ -539,8 +539,7 @@ class IndexController extends Zend_Controller_Action
             $booking_code = "V".$this->_generateRandomString();
             $book_time = $request->getParam('book_time');
             //echo $purposeOfVisit; die;
-            
-            // Application 1
+
             $nationality1 = $request->getParam("nationality1");
             $fullname1 = $request->getParam("fullname1");
             $gender1 = $request->getParam("gender1");
@@ -548,14 +547,43 @@ class IndexController extends Zend_Controller_Action
             $passport_number1 = $request->getParam("passport_number1");
             $passportExpiryDate1 = $request->getParam("passportExpiryDate1");
             
-            // Application 2
             $nationality2 = $request->getParam("nationality2");
             $fullname2 = $request->getParam("fullname2");
             $gender2 = $request->getParam("gender2");
             $dateOfBirth2 = $request->getParam("dateOfBirth2");
             $passport_number2 = $request->getParam("passport_number2");
             $passportExpiryDate2 = $request->getParam("passportExpiryDate2");
+                   
+            $nationality3 = $request->getParam("nationality3");
+            $fullname3 = $request->getParam("fullname3");
+            $gender3 = $request->getParam("gender3");
+            $dateOfBirth3 = $request->getParam("dateOfBirth3");
+            $passport_number3 = $request->getParam("passport_number3");
+            $passportExpiryDate3 = $request->getParam("passportExpiryDate3");
             
+            $nationality4 = $request->getParam("nationality4");
+            $fullname4 = $request->getParam("fullname4");
+            $gender4 = $request->getParam("gender4");
+            $dateOfBirth4 = $request->getParam("dateOfBirth4");
+            $passport_number4 = $request->getParam("passport_number4");
+            $passportExpiryDate4 = $request->getParam("passportExpiryDate4");
+                        
+            $nationality5 = $request->getParam("nationality5");
+            $fullname5 = $request->getParam("fullname5");
+            $gender5 = $request->getParam("gender5");
+            $dateOfBirth5 = $request->getParam("dateOfBirth5");
+            $passport_number5 = $request->getParam("passport_number5");
+            $passportExpiryDate5 = $request->getParam("passportExpiryDate5");
+            
+            
+            $nationality6 = $request->getParam("nationality6");
+            $fullname6 = $request->getParam("fullname6");
+            $gender6 = $request->getParam("gender6");
+            $dateOfBirth6 = $request->getParam("dateOfBirth6");
+            $passport_number6 = $request->getParam("passport_number6");
+            $passportExpiryDate6 = $request->getParam("passportExpiryDate6");
+            
+            $totalPrice = $request->getParam("totalPrice");
             
             //echo $gender1; die;
             //send mail
@@ -576,16 +604,51 @@ class IndexController extends Zend_Controller_Action
             $html->assign('fullname1', $fullname1);
             $html->assign('gender1', $gender1);
             $html->assign('dateOfBirth1', $dateOfBirth1);
+            $html->assign('image1', $this->_getAgeImage($dateOfBirth1, $gender1));
             $html->assign('passport_number1', $passport_number1);
             $html->assign('passportExpiryDate1', $passportExpiryDate1);
-            
-            
+                        
             $html->assign('nationality2', $nationality2);
             $html->assign('fullname2', $fullname2);
             $html->assign('gender2', $gender2);
             $html->assign('dateOfBirth2', $dateOfBirth2);
+            $html->assign('image2', $this->_getAgeImage($dateOfBirth2, $gender2));
             $html->assign('passport_number2', $passport_number2);
             $html->assign('passportExpiryDate2', $passportExpiryDate2);
+            
+            $html->assign('nationality3', $nationality3);
+            $html->assign('fullname3', $fullname3);
+            $html->assign('gender3', $gender3);
+            $html->assign('dateOfBirth3', $dateOfBirth3);
+            $html->assign('image3', $this->_getAgeImage($dateOfBirth3, $gender3));
+            $html->assign('passport_number3', $passport_number3);
+            $html->assign('passportExpiryDate3', $passportExpiryDate3);
+            
+            $html->assign('nationality4', $nationality4);
+            $html->assign('fullname4', $fullname4);
+            $html->assign('gender4', $gender4);
+            $html->assign('dateOfBirth4', $dateOfBirth4);
+            $html->assign('image4', $this->_getAgeImage($dateOfBirth4, $gender4));
+            $html->assign('passport_number4', $passport_number4);
+            $html->assign('passportExpiryDate4', $passportExpiryDate4);
+            
+            $html->assign('nationality5', $nationality5);
+            $html->assign('fullname5', $fullname5);
+            $html->assign('gender5', $gender5);
+            $html->assign('dateOfBirth5', $dateOfBirth5);
+            $html->assign('image5', $this->_getAgeImage($dateOfBirth5, $gender5));
+            $html->assign('passport_number5', $passport_number5);
+            $html->assign('passportExpiryDate5', $passportExpiryDate5);
+            
+            $html->assign('nationality6', $nationality6);
+            $html->assign('fullname6', $fullname6);
+            $html->assign('gender6', $gender6);
+            $html->assign('dateOfBirth6', $dateOfBirth6);
+            $html->assign('image6', $this->_getAgeImage($dateOfBirth6, $gender6));
+            $html->assign('passport_number6', $passport_number6);
+            $html->assign('passportExpiryDate6', $passportExpiryDate6);
+            
+            $html->assign('totalPrice', $totalPrice); 
             
             //die($nationality1);
             // render view
@@ -597,6 +660,26 @@ class IndexController extends Zend_Controller_Action
             
             //save to DB
         }
+    }
+    
+    protected function _getAge($dateOfBirth){
+        $today = date("Y-m-d");
+        $diff = date_diff(date_create($dateOfBirth), date_create($today));
+        return $diff->format('%y');
+    }
+    
+    protected function _getAgeImage($dateOfBirth, $gender){
+        $age = $this->_getAge($dateOfBirth);
+        if($age <= 2){
+            return $gender == 'Male' ? '/img/maleU1y.png' : '/img/femaleU1y.png';
+        } else if($age > 2 && $age <= 6){
+            return $gender == 'Male' ? '/img/maleU3y.png' : '/img/femaleU3y.png';
+        } else if($age > 6 && $age < 18){
+            return $gender == 'Male' ? '/img/maleU12y.png' : '/img/femaleU12y.png';
+        } else {
+            return $gender == 'Male' ? '/img/male.png' : '/img/female.png';
+        }
+        return '';
     }
     
     public function whyUsAction(){    
@@ -636,6 +719,7 @@ class IndexController extends Zend_Controller_Action
         $this->_helper->viewRenderer->setNoRender();// stop automatic rendering
         $request = $this->getRequest();
         $type = $request->getParam('dropPurposeOfVisit');
+        $dropNumberApp = $request->getParam('dropNumberApp');
         $nationality1= $request->getParam('nationality1');
         $visa_type_mapper = new Application_Model_VisaTypeMapper();
         $visa_type = $visa_type_mapper->getAll(1, $type);
@@ -664,6 +748,46 @@ class IndexController extends Zend_Controller_Action
                 }
             }
         }
+        //checking price data of different nationalities
+        $nationality2= $request->getParam('nationality2');
+        $nationality3= $request->getParam('nationality3');
+        $nationality4= $request->getParam('nationality4');
+        $nationality5= $request->getParam('nationality5');
+        $nationality6= $request->getParam('nationality6');
+        $nationality_arr = array($nationality1);
+        if($dropNumberApp >=2 && $nationality2 != ''){
+            array_push($nationality_arr, $nationality2);
+        }
+        if($dropNumberApp >=3 && $nationality3 != ''){
+            array_push($nationality_arr, $nationality3);
+        }
+        if($dropNumberApp >=4 && $nationality4 != ''){
+            array_push($nationality_arr, $nationality4);
+        }
+        if($dropNumberApp >=5 && $nationality5 != ''){
+            array_push($nationality_arr, $nationality5);
+        }
+        if($dropNumberApp >=6 && $nationality6 != ''){
+            array_push($nationality_arr, $nationality6);
+        }
+
+        $nationality_arr = array_unique($nationality_arr);
+       // Zend_Debug::dump($nationality_arr);die();
+        $error_msg = '';
+        if(sizeof($nationality_arr) > 1){
+            foreach($nationality_arr as $nationality){
+                if($nationality != $nationality1){
+                    $temp = $nationality_visa_type_mapper->getPrices($type, $visa_type_ids, $nationality);
+                    foreach($temp as $vprice) {
+                        $price1 = $this->_getPriceOfArrById($visa_type, $vprice->visa_type_id);
+                        if($price1 != $vprice->price) {
+                            $error_msg = 'Price difference between selected nationalities';
+                            break 2;
+                        }
+                    }                    
+                }
+            }            
+        }
         //Zend_Debug::dump($processing_time_type);die();
         //Zend_Debug::dump($processing_time_type_prices);die();
         
@@ -674,7 +798,17 @@ class IndexController extends Zend_Controller_Action
         $price = 15;
         if($type == 'BUSINESS VISA') $price = 75;
         $data['priceFor1Person'] = $price;
+        $data['error_msg'] = $error_msg;
         echo json_encode($data);
+    }
+    
+    private function _getPriceOfArrById($arr, $id){
+        foreach($arr as $a){
+            if($id == $a->id){
+                return $a->price;
+            }
+        }
+        return null;
     }
     
     private function _getIdsOf($data){

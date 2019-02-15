@@ -9,18 +9,18 @@
         <div class="m_4850890863703252059row" style="padding-left:20px;padding-right:20px">
             <ul class="m_4850890863703252059list-group">
                
-                <li class="m_4850890863703252059list-group-item">Visa type:  <span class="m_4850890863703252059badge" style="font-weight:bold"><?php echo $this->purposeOfVisit;?>, <?php echo $this->type_of_visa;?></span>
+                <li>Visa type:  <span style="font-weight:bold"><?php echo $this->purposeOfVisit;?>, <?php echo $this->type_of_visa;?></span>
 
                 </li>
-                <li class="m_4850890863703252059list-group-item">Arrival Date:  <span class="m_4850890863703252059badge" style="font-weight:bold"><?php echo $this->arrival_date;?></span>
-
-                </li>
-
-                <li class="m_4850890863703252059list-group-item">Processing Time:  <span class="m_4850890863703252059badge" style="font-weight:bold"><?php echo $this->processing_time;?></span>
+                <li>Arrival Date:  <span style="font-weight:bold"><?php echo $this->arrival_date;?></span>
 
                 </li>
 
-                <li class="m_4850890863703252059list-group-item">Shared Visa or Private Visa:  <span class="m_4850890863703252059badge" style="font-weight:bold"><?php echo $this->private;?></span>
+                <li>Processing Time:  <span style="font-weight:bold"><?php echo $this->processing_time;?></span>
+
+                </li>
+
+                <li>Shared Visa or Private Visa:  <span style="font-weight:bold"><?php echo $this->private;?></span>
 
                 </li>
 
@@ -32,80 +32,176 @@
         <td>
              <h3><?php echo $this->fullname1?></h3>
         </td>
-        <td style="text-align:right"><img src="https://ci6.googleusercontent.com/proxy/0bFbrY4pJflDteH_ySXAk9Qxosc_xIewkK3Vjl8PdnA7uvl7w4V_f8Vjhwbo0Zq5uKg3uBX2kPgw7pRG9KPHqdTFGE8=s0-d-e1-ft#https://vietnamvisa.org/apply/images/64x64/AS.png" class="m_4850890863703252059img-fluid CToWUd"></td>
+        <td style="text-align:right">
+        	<?php echo $this->nationality1?>  
+        </td>
     </tr>
     <tr>
         <td>
-            <img src="https://ci6.googleusercontent.com/proxy/DIN4I2yo-nq6PwcRHnMIETtEphNRC35BGe8g0wNwENdPAkIrc1teUbN4Pe4XVbw6i56KXBiIOVAkIKNbPGh6Q6w=s0-d-e1-ft#https://vietnamvisa.org/imagesNew/maleU12y.png" class="m_4850890863703252059img-fluid CToWUd">
+            <img src="https://vietnamvisatours.com<?php echo $this->image1?>">
         </td>
         <td>
             		<ul>
-                        <li>Gender: <b><?php echo $this->gender1?></b></li>
-                        <li>Date Of Birth: <b><?php echo $this->dateOfBirth1?></b></li>
-                        <li>Nationality: <b><?php echo $this->nationality1?></b></li>
-                        <li>Passport number: <b><?php echo $this->passport_number1?></b></li>
-                        <li>Expiry date: <b><?php echo $this->passportExpiryDate1?></b></li>
+            			<li>Date Of Birth: <b><?php echo $this->dateOfBirth1?></b></li>
+            			<li>Passport number: <b><?php echo $this->passport_number1?></b></li>
+            			<li>Expiry date: <b><?php echo $this->passportExpiryDate1?></b></li>
+                        <li>Gender: <b><?php echo $this->gender1?></b></li>                                                                        
                     </ul>
         </td>
     </tr>
 	</tbody>
 </table>
+<?php if($this->numberApp >= 2){?>
 <hr>
 <table>
     <tbody><tr>
         <td>
              <h3><?php echo $this->fullname2?></h3>
         </td>
-        <td style="text-align:right"><img src="https://ci3.googleusercontent.com/proxy/0a4LjDRFuCNg8k67UuDgtjqc63Ef2VFuVq_HjKeupKPJReOimbf_HGKM9510f55qtD98A-7cY6DF6RfU1BToDlDTxdw=s0-d-e1-ft#https://vietnamvisa.org/apply/images/64x64/AD.png" class="m_4850890863703252059img-fluid CToWUd"></td>
+        <td style="text-align:right">
+        	<?php echo $this->nationality2?>
+        </td>
     </tr>
     <tr>
         <td>
-            <img src="https://ci3.googleusercontent.com/proxy/jqkeY06M0jD6eLIGO68Dztol072JZO9-qmZsdm21ToNOb5_ScsU_c0d1WD_MKifFgPUFurp4XhG_CUgG1Gz1O53aqQ=s0-d-e1-ft#https://vietnamvisa.org/imagesNew/femaleU18y.png" class="m_4850890863703252059img-fluid CToWUd">
+            <img src="https://vietnamvisatours.com<?php echo $this->image2?>">
         </td>
         <td>
             		<ul>
-                        <li>Gender: <b><?php echo $this->gender2?></b></li>
-                        <li>Date Of Birth: <b><?php echo $this->dateOfBirth2?></b></li>
-                        <li>Nationality: <b><?php echo $this->nationality2?></b></li>
+            			<li>Date Of Birth: <b><?php echo $this->dateOfBirth2?></b></li>
                         <li>Passport number: <b><?php echo $this->passport_number2?></b></li>
                         <li>Expiry date: <b><?php echo $this->passportExpiryDate2?></b></li>
+                        <li>Gender: <b><?php echo $this->gender2?></b></li>                        
                     </ul>
         </td>
     </tr>
 	</tbody>
 </table>
+<?php }?>
+<?php if($this->numberApp >= 3){?>
+<hr>
+<table>
+    <tbody><tr>
+        <td>
+             <h3><?php echo $this->fullname3?></h3>
+        </td>
+        <td style="text-align:right">
+        	<?php echo $this->nationality3?>
+        </td>
+    </tr>
+    <tr>
+        <td>
+            <img src="https://vietnamvisatours.com<?php echo $this->image3?>">
+        </td>
+        <td>
+            		<ul>
+                        <li>Date Of Birth: <b><?php echo $this->dateOfBirth3?></b></li>                        
+                        <li>Passport number: <b><?php echo $this->passport_number3?></b></li>
+                        <li>Expiry date: <b><?php echo $this->passportExpiryDate3?></b></li>
+                        <li>Gender: <b><?php echo $this->gender3?></b></li>                        
+                    </ul>
+        </td>
+    </tr>
+	</tbody>
+</table>
+<?php }?>
+<?php if($this->numberApp >= 4){?>
+<hr>
+<table>
+    <tbody><tr>
+        <td>
+             <h3><?php echo $this->fullname4?></h3>
+        </td>
+        <td style="text-align:right">
+        	<?php echo $this->nationality4?>
+        </td>
+    </tr>
+    <tr>
+        <td>
+            <img src="https://vietnamvisatours.com<?php echo $this->image4?>">
+        </td>
+        <td>
+            		<ul>                        
+                        <li>Date Of Birth: <b><?php echo $this->dateOfBirth4?></b></li>
+                        <li>Passport number: <b><?php echo $this->passport_number4?></b></li>
+                        <li>Expiry date: <b><?php echo $this->passportExpiryDate4?></b></li>
+                        <li>Gender: <b><?php echo $this->gender4?></b></li>
+                    </ul>
+        </td>
+    </tr>
+	</tbody>
+</table>
+<?php }?>
+<?php if($this->numberApp >= 5){?>
+<hr>
+<table>
+    <tbody><tr>
+        <td>
+             <h3><?php echo $this->fullname5?></h3>
+        </td>
+        <td style="text-align:right">
+        	<?php echo $this->nationality5?>
+        </td>
+    </tr>
+    <tr>
+        <td>
+            <img src="https://vietnamvisatours.com<?php echo $this->image5?>">
+        </td>
+        <td>
+            		<ul>                       
+                        <li>Date Of Birth: <b><?php echo $this->dateOfBirth5?></b></li>
+                        <li>Passport number: <b><?php echo $this->passport_number5?></b></li>
+                        <li>Expiry date: <b><?php echo $this->passportExpiryDate5?></b></li>
+                        <li>Gender: <b><?php echo $this->gender5?></b></li>
+                    </ul>
+        </td>
+    </tr>
+	</tbody>
+</table>
+<?php }?>
+<?php if($this->numberApp >= 6){?>
+<hr>
+<table>
+    <tbody><tr>
+        <td>
+             <h3><?php echo $this->fullname6?></h3>
+        </td>
+        <td style="text-align:right">
+        	<?php echo $this->nationality6?>
+        </td>
+    </tr>
+    <tr>
+        <td>
+            <img src="https://vietnamvisatours.com<?php echo $this->image6?>">
+        </td>
+        <td>
+            		<ul>                        
+                        <li>Date Of Birth: <b><?php echo $this->dateOfBirth6?></b></li>
+                        <li>Passport number: <b><?php echo $this->passport_number6?></b></li>
+                        <li>Expiry date: <b><?php echo $this->passportExpiryDate6?></b></li>
+                        <li>Gender: <b><?php echo $this->gender6?></b></li>
+                    </ul>
+        </td>
+    </tr>
+	</tbody>
+</table>
+<?php }?>
 <hr>
 
         <br>
         <p>If there is any mistake, please correct the mistake through this</p>
         <p><a href="http://vietnamvisatours.com/apply/form.aspx?id=95906&amp;unique_code=dd5906048e" target="_blank" data-saferedirecturl="https://www.google.com/url?q=http://vietnamvisa.org/apply/form.aspx?id%3D95906%26unique_code%3Ddd5906048e&amp;source=gmail&amp;ust=1544002809935000&amp;usg=AFQjCNHwIbJF_W6Prhqo0jOhZWm5GxV5wg">http://vietnamvisatours.com/apply/<wbr>form.aspx?id=95906&amp;unique_<wbr>code=dd5906048e</a></p>
         <br>
-        <p>Kindly support us to pay 150 USD with one of these link payment:</p>
+        <p>Kindly support us to pay <b><?php echo $this->totalPrice?></b> with one of these link payment:</p>
         <p><b>Visa/Master/American Express/JCB Card:</b>  <a href="http://vietnamvisatours.com/secure/onepay/150/V95906/dd5906048e/vu-duc-chinh" target="_blank" data-saferedirecturl="https://www.google.com/url?q=http://vietnamvisa.org/secure/onepay/150/V95906/dd5906048e/vu-duc-chinh&amp;source=gmail&amp;ust=1544002809935000&amp;usg=AFQjCNERwj850NDA_z3cB8oPclTaRmJAjg">http://vietnamvisatours.com/secure/<wbr>onepay/150/V95906/dd5906048e/<wbr>vu-duc-chinh</a><br><br><b>Paypal:</b>  <a href="http://vietnamvisa.org/secure/paypal/150/V95906/dd5906048e/vu-duc-chinh" target="_blank" data-saferedirecturl="https://www.google.com/url?q=http://vietnamvisa.org/secure/paypal/150/V95906/dd5906048e/vu-duc-chinh&amp;source=gmail&amp;ust=1544002809935000&amp;usg=AFQjCNFMfQ_vnujiKm9vAs0wu7kVLrtnvA">http://vietnamvisa.org/secure/<wbr>paypal/150/V95906/dd5906048e/<wbr>vu-duc-chinh</a></p>
-        <br>
-        <p>
-            If you have any questions or would like to speak to a customer service representative,
-                                    please call our Hanoi office at +84-999-999-999 or email us at <a href="mailto:vietnamvisatours@gmail.com" title="Email us" target="_blank">vietnamvisatours@gmail.com</a>
-        </p>
 
         <p>We look forward to hearing from you,</p>
 
 
-        <p>Best regards,</p>
+       <p>Best Regards,</p>
+       
+       <p>Website: <a href="http://vietnamvisatours.com" target="_blank">vietnamvisatours.com</a></p>
+       <p>Phone: <?php echo $this->hotline;?></p>
+       <p>Office Address: <?php echo $this->address;?></p>
 
-        <p>
-            Ms Thom<br>
-            <br>
-            <strong>Vietnam Visa Tours - VietnamVisaTours.com</strong><br>
-            <strong>Address</strong>: Office - XXX Nguyen Trai, Thanh Xuan, Hanoi<br>
-                                        <br>
-            <strong>Sales</strong>: (+84 999 999 999)
-                                 <br>
-            <strong>Fax</strong>: (+844 9 999 9999)
-                                    <br>
-            <strong>24/7 Mobile Services</strong>: (+84 999 999 999)
-                                    <br>
-            <strong>Email</strong>: <a href="mailto:vietnamvisatours@gmail.com" title="Email us" target="_blank">vietnamvisatours@gmail.com</a>
-        </p><div class="yj6qo"></div><div class="adL">
-
-    </div></div>
+</div>
