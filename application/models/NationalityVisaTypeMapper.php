@@ -75,7 +75,7 @@
 		        $visa_type_ids =  array(1);
 		    }
 		    if($nationality_id == null){
-		        $nationality_id = 1;
+		        $nationality_id = 74; //default United States ( has prices for 6 month entry, 1 year entry 
 		    }
 		    
 		    $select = $select->where('PURPOSE_OF_VISIT = ?', $purpose_of_visit);

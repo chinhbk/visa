@@ -10,6 +10,7 @@ class Application_Model_NationalityVisaType
 	public $update_date;	
 	public $name; //FE
 	public $visa_type; //FE
+	public $is_difficult; //FE
      
     //upon construction, map the values
     //from the $product_row if available
@@ -32,6 +33,7 @@ class Application_Model_NationalityVisaType
             $this->price = $obj['PRICE'];           
             if(isset($obj['NAME'])) $this->name = $obj['NAME'];
             if(isset($obj['VISA_TYPE'])) $this->visa_type = $obj['VISA_TYPE'];
+            if(isset($obj['IS_DIFFICULT'])) $this->is_difficult = $obj['IS_DIFFICULT'];
         }
         
     }

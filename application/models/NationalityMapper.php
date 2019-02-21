@@ -167,6 +167,42 @@
 		    return $arr;
 		}
 		
+		
+		public function getNationalitiesApplyForVisaType($purpose_of_visit, $visa_type_id)
+		{
+		    try{
+		        $select = $this->_db_table->select()
+		        ->from(array('n' => self::TABLE), array('NAME', 'IS_DIFFICULT'))		        
+		        ->joinLeft(array('nv' => 'NATIONALITY_VISA_TYPE'),'n.ID = nv.NATIONALITY_ID', array('VISA_TYPE_ID', 'NATIONALITY_ID'))
+		        ->setIntegrityCheck(false) // ADD This Line
+		        ->order('n.NAME ASC');		       
+		        
+		        if($purpose_of_visit) {
+		            $select = $select->where('LOWER(nv.PURPOSE_OF_VISIT) = ?', strtolower($purpose_of_visit));
+		            $select = $select->where('nv.PRICE IS NOT NULL ');
+		        }
+		        
+		        if($visa_type_id) {
+		            $select = $select->where('nv.VISA_TYPE_ID = ?', $visa_type_id);		           
+		        }
+		        
+		        $result = $this->_db_table->getAdapter()->fetchAll($select);
+		        $arr = array();
+		        //Zend_Debug::dump($result);die();
+		        foreach ($result as $row){
+		            //Zend_Debug::dump( $row);die();
+		            $obj = new Application_Model_NationalityVisaType($row);
+		           // Zend_Debug::dump( $obj);die();
+		            array_push($arr, $obj);
+		        }
+		        //Zend_Debug::dump( $arr);die();
+		        
+		    } catch (Exception $e) {
+		        Zend_Debug::dump( $e);die();
+		    }
+		    return $arr;
+		}
+		
 		public function delete($id){
 			$where = $this->_db_table->getAdapter()->quoteInto("ID = ?", $id);
 			$this->_db_table->delete($where);

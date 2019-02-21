@@ -572,6 +572,16 @@ $.get("https://min-api.cryptocompare.com/data/price?fsym=ETH&tsyms=BTC,USD,EUR,G
           	    return html;
             }
 
+            function rebuildHTMLNationality(){
+                var html = '';
+                // if only 1 valid nationality ==> set default automatically
+                if(nationality_valid.length > 1) html ="<option value='' selected disabled></option>";
+                for(i=0; i < nationality_valid.length; i++){
+                    html += "<option value='"+nationality_valid[i].id+"' data-is-diff='"+nationality_valid[i].is_difficult+"'>"+nationality_valid[i].name+"</option>";
+                }
+                return html;                
+            }
+
             function calPriceHtml(purpose_of_visit, number_app, processing_time, private_visa) {
             	var htmlDes = "";
             	var htmlTotal = "";
@@ -629,8 +639,8 @@ $.get("https://min-api.cryptocompare.com/data/price?fsym=ETH&tsyms=BTC,USD,EUR,G
             }
 
             function getPrice(id, data){
-            	console.log(id);
-                console.log(data);
+            	//console.log(id);
+                //console.log(data);
             	for (var i = 0; i < data.length; i++) {
             		 if(data[i].id == id)
                 		 return data[i].price;            		 
@@ -661,10 +671,17 @@ $.get("https://min-api.cryptocompare.com/data/price?fsym=ETH&tsyms=BTC,USD,EUR,G
             	visa_selection = 'dropNumberApp';
             	onChangeSelectionOnVisaApplyOnlinePage();    	  
             });
-            
+
+            var isChangeTypeOfVisa = false;
             $("#type_of_visa").on('change', function() {
                 visa_selection = 'type_of_visa';
-          	    onChangeSelectionOnVisaApplyOnlinePage();    	  
+                isChangeTypeOfVisa = true;
+          	    onChangeSelectionOnVisaApplyOnlinePage();
+            	var msg = checkVisaTypeToWarn();
+            	if(msg != ''){
+                	alert(msg);
+                	//return;
+                }
             });
 
             //keep the previous selected nationality
@@ -801,12 +818,72 @@ $.get("https://min-api.cryptocompare.com/data/price?fsym=ETH&tsyms=BTC,USD,EUR,G
                 	showErr('The email and confirm email you entered does not match each other.');
                 } else {
                 	hideErr();
+               	  	var no = g("#dropNumberApp").value;
+                	showApplication(no);
+                	//rebuild HTML nationality
+                	
+                	
+                	//console.log(html);
+                	//change type of visa ==> reload nationality
+                	if(isChangeTypeOfVisa){
+                		var html = rebuildHTMLNationality();
+                    	for(i=1; i<= no; i++){
+                    		g('#nationality'+i).innerHTML = html;
+                       	}
+                	}
+                	
+                	///---------------
                 	switchToTab('idStep2');
                 	//var dropNumberApp = document.getElementById("dropNumberApp");
                	  	//var no = dropNumberApp.options[dropNumberApp.selectedIndex].value;
-               	  	var no = g("#dropNumberApp").value;
-                	showApplication(no);
+
                 }
+            }
+            
+			var nationality_valid = [];
+            function checkVisaTypeToWarn(){
+            	nationality_valid = [];
+                var msg ='';
+	        	//warning prices
+	            var type_of_visa = g("#type_of_visa");
+            	var text_type_visa = type_of_visa.options[type_of_visa.selectedIndex].text;
+            	//alert(text_type_visa);
+	        	for(var i = 0; i< visa_data.visa_type.length; i++){
+        	        	for(var k=0; k< visa_data.visa_type[i].nationality_apply.length; k++){
+            	        	if(visa_data.visa_type[i].name.includes("1 Month Single") && text_type_visa.includes("1 Month Single")){
+                    	    	nationality_valid.push(objNationality(visa_data.visa_type[i].nationality_apply[k]));
+                        	} else if(visa_data.visa_type[i].name.includes("1 Month Multiple") && text_type_visa.includes("1 Month Multiple")){
+                        		nationality_valid.push(objNationality(visa_data.visa_type[i].nationality_apply[k]));
+                            } else if(visa_data.visa_type[i].name.includes("3 Months Single") && text_type_visa.includes("3 Months Single")){
+                    	    	nationality_valid.push(objNationality(visa_data.visa_type[i].nationality_apply[k]));
+                        	} else if(visa_data.visa_type[i].name.includes("3 Months Multiple") && text_type_visa.includes("3 Months Multiple")){
+                            	nationality_valid.push(objNationality(visa_data.visa_type[i].nationality_apply[k]));
+                            } else if(visa_data.visa_type[i].name.includes("6 Months") && text_type_visa.includes("6 Months")){
+            	        		//nationality_valid[''+visa_data.visa_type[i].nationality_apply[k].nationality_id] = visa_data.visa_type[i].nationality_apply[k].name;
+            	        		nationality_valid.push(objNationality(visa_data.visa_type[i].nationality_apply[k]));
+                	       	} else if(visa_data.visa_type[i].name.includes("1 Year") && text_type_visa.includes("1 Year")){
+                	       		//nationality_valid[''+visa_data.visa_type[i].nationality_apply[k].nationality_id] = visa_data.visa_type[i].nationality_apply[k].name;
+                	       		nationality_valid.push(objNationality(visa_data.visa_type[i].nationality_apply[k]));
+                    	    }
+            	        }        	        
+    	       	}
+
+				var msg ='';
+				var nationality = '';
+				//console.log('=========')
+                //console.log(nationality_valid);
+				if(text_type_visa.includes("6 Months") || text_type_visa.includes("1 Year")){
+					for(i=0; i< nationality_valid.length; i++){
+	                	nationality += nationality_valid[i].name;
+	                }
+	            	msg = text_type_visa + ' apply ' + nationality;
+				}
+				
+            	return msg;
+            }
+
+            function objNationality(nationality){
+                return {id: nationality.nationality_id, name: nationality.name, is_diff: nationality.is_difficult};
             }
 
             var handleSubmitMyForm2 = function(event){
@@ -1010,7 +1087,8 @@ $.get("https://min-api.cryptocompare.com/data/price?fsym=ETH&tsyms=BTC,USD,EUR,G
             		 passportExpiryDate4: g('#passportExpiryDate'+4).value,
             		 passportExpiryDate5: g('#passportExpiryDate'+5).value,
             		 passportExpiryDate6: g('#passportExpiryDate'+6).value,
-            		 totalPrice: g("#idStep3_div").getElementsByClassName('price_total')[0].innerHTML
+            		 price_detail: g("#idStep3_div").getElementsByClassName('price_des')[0].innerHTML,
+            		 totalPrice: g("#idStep3_div").getElementsByClassName('price_total')[0].innerHTML            		 
               };
               
               ajaxApplyOnline('POST', '/index/apply-online', data); 

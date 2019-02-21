@@ -408,7 +408,7 @@ class IndexController extends Zend_Controller_Action
             $comment = $request->getParam('comment');
             //die($total_price);
             $latest_book_id = $booktour_mapper->getLatestId();
-            $request_code = $this->_generateCode($latest_book_id + 1);
+            $request_code = $this->_generateCode($latest_book_id + 1, 'T');
             //echo $request_code; die;
             //generate link
             $parent = $tourType_mapper->getById($sub_tour_type->parent_id);
@@ -481,8 +481,8 @@ class IndexController extends Zend_Controller_Action
         $this->view->code = $code;
     }
     
-    protected function _generateCode($id) {
-        return 'T'.$id.date('jny'); // day, month without leading 0
+    protected function _generateCode($id, $type = null) {
+        return $type.$id.date('jny'); // day, month without leading 0
     }
     
     public function tourTermConditionAction() {        
@@ -522,6 +522,7 @@ class IndexController extends Zend_Controller_Action
         $this->view->private_visa_letter_price = $private_visa_letter_price;
         
         //Zend_Debug::dump($visa_setting[0]);die;
+        $bookvisa_mapper = new Application_Model_BookVisaMapper();
         
         if ($request->isPost()) {
             $purposeOfVisit = $request->getParam('dropPurposeOfVisit');
@@ -536,7 +537,10 @@ class IndexController extends Zend_Controller_Action
             $contact_cc_email = $request->getParam("contact_cc_email");
             $contact_phone = $request->getParam("contact_phone");
             $private = $request->getParam("radioPrivate"); //Private/Shared visa
-            $booking_code = "V".$this->_generateRandomString();
+            
+            $latest_book_id = $bookvisa_mapper->getLatestId();
+            $booking_code = $this->_generateCode($latest_book_id + 1, 'V');
+            
             $book_time = $request->getParam('book_time');
             //echo $purposeOfVisit; die;
 
@@ -584,6 +588,49 @@ class IndexController extends Zend_Controller_Action
             $passportExpiryDate6 = $request->getParam("passportExpiryDate6");
             
             $totalPrice = $request->getParam("totalPrice");
+            $price_detail =  $request->getParam("price_detail");
+                        
+            //save data
+            $book_visa = new Application_Model_BookVisa();
+            //die('123333');
+            $book_visa->code = $booking_code;
+            
+            $book_visa->purpose_of_visit = $purposeOfVisit;
+            $book_visa->visa_type = $type_of_visa;
+            $book_visa->processing_time_type = $processing_time;
+            $book_visa->visa_letter = $private;
+            $book_visa->number_of_visa = $numberApp;
+            $book_visa->price_detail = $price_detail;
+            $book_visa->total_price = $totalPrice;
+            $book_visa->arrival_date = $arrival_date;
+            $book_visa->arrival_airport = $Arrival_Airport;
+            $book_visa->contact_name = $contact_name;
+            $book_visa->contact_email = $contact_email;
+            $book_visa->contact_phone = $contact_phone;
+            $book_visa->status = 'NEW';
+            $book_visa->create_date = $this->_helper->CommonUtils->getVnDateTime();
+            $book_visa->update_date = $this->_helper->CommonUtils->getVnDateTime();
+            //die($arrival_date);
+            $book_visa_id = $bookvisa_mapper->save($book_visa);
+            
+            //save applicants
+            $applicant_visa_mapper = new Application_Model_ApplicantVisaMapper();
+            //die($book_visa_id);
+            //die($request->getParam("nationality1"));
+            for($i = 1; $i <= $numberApp; $i++) {
+                $app = new Application_Model_ApplicantVisa();
+                $app->book_visa_id = $book_visa_id;
+                //die($request->getParam("nationality".$i));
+                $app->nationality = $request->getParam("nationality".$i);
+                $app->name = $request->getParam("fullname".$i);
+                //Zend_Debug::dump($app);die;
+                $app->gender = $request->getParam("gender".$i);
+                $app->date_of_birth = $request->getParam("dateOfBirth".$i);
+                $app->passport_number = $request->getParam("passport_number".$i);
+                $app->passport_expiry_date = $request->getParam("passportExpiryDate".$i);
+                //Zend_Debug::dump($app);die;
+                $applicant_visa_mapper->save($app);
+            }
             
             //echo $gender1; die;
             //send mail
@@ -654,11 +701,12 @@ class IndexController extends Zend_Controller_Action
             // render view
             
             $bodyHtml = $html->render('visa-book-email.phtml');
-            //die($bodyHtml);
-            $subject = 'Visa request from '.$contact_name .' at '.$book_time;
+            //die($bodyHtml);            
+            $subject = $booking_code.' - Visa Request from '.$contact_name;
             $this->_sendMail($subject, $bodyHtml, $contact_email);
+                 
             
-            //save to DB
+            echo json_encode($booking_code);
         }
     }
     
@@ -719,6 +767,7 @@ class IndexController extends Zend_Controller_Action
         $this->_helper->viewRenderer->setNoRender();// stop automatic rendering
         $request = $this->getRequest();
         $type = $request->getParam('dropPurposeOfVisit');
+        $type_of_visa = $request->getParam('type_of_visa');
         $dropNumberApp = $request->getParam('dropNumberApp');
         $nationality1= $request->getParam('nationality1');
         $visa_type_mapper = new Application_Model_VisaTypeMapper();
@@ -730,12 +779,23 @@ class IndexController extends Zend_Controller_Action
         //Zend_Debug::dump($visa_type_ids);die();
         $nationality_visa_type_mapper = new Application_Model_NationalityVisaTypeMapper();
         $visa_type_prices = $nationality_visa_type_mapper->getPrices($type, $visa_type_ids, $nationality1);
+        //Zend_Debug::dump($visa_type_prices);die();
+        //check when select 6 month , 1year ( price = null)
+        $nationality_mapper = new Application_Model_NationalityMapper();
+        $nationality_apply = $nationality_mapper->getNationalitiesApplyForVisaType($type);
         foreach($visa_type as $v) {
+            $nationality_apply_v = array();
             foreach($visa_type_prices as $vprice) {
                 if($v->id == $vprice->visa_type_id) {                   
                     $v->price = $vprice->price;
                 }
             }
+            foreach($nationality_apply as $n){
+                if($v->id == $n->visa_type_id){
+                    array_push($nationality_apply_v, $n);
+                }
+            }
+            $v->nationality_apply = $nationality_apply_v;
         }
         
         $processing_time_type_ids = $this->_getIdsOf($processing_time_type);        
@@ -786,8 +846,9 @@ class IndexController extends Zend_Controller_Action
                         }
                     }                    
                 }
-            }            
-        }
+            }
+        }        
+        
         //Zend_Debug::dump($processing_time_type);die();
         //Zend_Debug::dump($processing_time_type_prices);die();
         
