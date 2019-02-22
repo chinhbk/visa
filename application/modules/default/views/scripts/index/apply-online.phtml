@@ -89,8 +89,8 @@
                                     </div>
                                     <div class="col-md-8">
                                         <select name="dropPurposeOfVisit" id="dropPurposeOfVisit" class="form-control" required="">
-                                         	<option value="TOURIST VISA">TOURIST VISA</option>
-                                         	<option value="BUSINESS VISA">BUSINESS VISA</option>
+                                         	<option <?php echo $this->booking->purpose_of_visit == 'TOURIST VISA' ? 'selected' : ''?> value="TOURIST VISA">TOURIST VISA</option>
+                                         	<option <?php echo $this->booking->purpose_of_visit == 'BUSINESS VISA' ? 'selected' : ''?> value="BUSINESS VISA">BUSINESS VISA</option>
                                         </select>
                                         
                                     </div>
@@ -104,7 +104,11 @@
                                     <div class="col-md-8">
                                         <select name="dropNumberApp" id="dropNumberApp" class="form-control" required="">              
                                         	<?php for($i = 1; $i <= $this->numerOfVisa; $i++){?>
-													<option value="<?php echo $i?>"><?php echo $i.($i == 1? ' Applicant' : ' Applicants')?></option>
+                                        			<?php if($i == $this->booking->number_of_visa){?>
+														<option selected value="<?php echo $i?>"><?php echo $i.($i == 1? ' Applicant' : ' Applicants')?></option>
+													<?php } else {?>
+														<option value="<?php echo $i?>"><?php echo $i.($i == 1? ' Applicant' : ' Applicants')?></option>
+													<?php }?>
 											<?php }?>
                                         </select>
                                     </div>
@@ -120,7 +124,11 @@
 														class="form-control" required="">
 														<option></option>
 														<?php foreach($this->visa_type as $type) {?>
-															<option value="<?php echo $type->id?>"><?php echo $type->name?></option>
+															<?php if($type->id == $this->booking->visa_type_id){?>
+																<option selected value="<?php echo $type->id?>"><?php echo $type->name?></option>
+															<?php }else{?>
+																<option value="<?php echo $type->id?>"><?php echo $type->name?></option>
+															<?php }?>
 														<?php }?>		
 													</select>
 
@@ -133,7 +141,7 @@
                                         Arrival Date*
                                     </div>
                                     <div class="col-md-8">
-                                        <input name="arrival_date" id="arrival_date" class="form-control arrival_date" placeholder="Arrival date" required="">                                        
+                                        <input name="arrival_date" id="arrival_date" class="form-control arrival_date" placeholder="Arrival date" required="" value="<?php echo $this->booking->arrival_date?>">                                        
                                     </div>
                                 </div>
                             </div>
@@ -146,7 +154,11 @@
                                     <div class="col-md-8">
                                         <select name="processing_time" id="processing_time" class="form-control" required="">                                        
                                         		<?php foreach($this->processing_time_type as $type) {?>
-															<option value="<?php echo $type->id?>"><?php echo $type->name?></option>
+                                        			<?php if($type->id == $this->booking->processing_time_type_id){?>
+                                        				<option selected value="<?php echo $type->id?>"><?php echo $type->name?></option>
+                                        			<?php } else {?>
+                                        				<option value="<?php echo $type->id?>"><?php echo $type->name?></option>
+                                        			<?php } ?>													
 												<?php }?>                                            
                                         </select>
                                         <p id="msg_arrival_date" style="color:red;display:none">Please change 'Arrival Date'</p>
@@ -170,11 +182,19 @@
                                     <div class="col-md-8">
                                         <div class="radio">
                                              <label>
-                                                 <input type="radio" name="radioPay" id="radioPay1" value="Visa/Master/American Express/JCB Card" checked="">Visa/Master/American Express/JCB Card</label>
+                                             	<?php if(strpos($this->booking->payment,'Visa') || !isset($this->booking->payment)){?>
+                                                	<input type="radio" name="radioPay" id="radioPay1" value="Visa/Master/American Express/JCB Card" checked="">Visa/Master/American Express/JCB Card</label>
+                                                <?php } else {?>
+                                                	<input type="radio" name="radioPay" id="radioPay1" value="Visa/Master/American Express/JCB Card">Visa/Master/American Express/JCB Card</label>
+                                                <?php }?>
                                          </div>
                                          <div class="radio">
                                              <label>
-                                                 <input type="radio" name="radioPay" id="radioPay2" value="Paypal">Paypal</label>
+                                             	 <?php if($this->booking->payment == 'Paypal'){?>
+                                             	 	<input type="radio" name="radioPay" id="radioPay2" value="Paypal" checked="">Paypal</label>
+                                             	 <?php }else {?>
+                                                 	<input type="radio" name="radioPay" id="radioPay2" value="Paypal">Paypal</label>
+                                                 <?php }?>
                                          </div>
                                     </div>
                                 </div>
@@ -194,10 +214,10 @@
                                     <div class="col-md-8">
                                         <select name="Arrival_Airport" class="form-control" id="Arrival_Airport">
                                             <option></option>
-                                            <option>Noi Bai Airport (HAN)</option>
-                                            <option>Tan Son Nhat Airport (SGN)</option>
-                                            <option>Danang Airport (DAD)</option>
-                                            <option>NhaTrang Airport (CXR)</option>
+                                            <option <?php echo $this->booking->arrival_airport == 'Noi Bai Airport (HAN)' ? 'selected' : ''?>>Noi Bai Airport (HAN)</option>
+                                            <option <?php echo $this->booking->arrival_airport == 'Tan Son Nhat Airport (SGN)' ? 'selected' : ''?>>Tan Son Nhat Airport (SGN)</option>
+                                            <option <?php echo $this->booking->arrival_airport == 'Danang Airport (DAD)' ? 'selected' : ''?>>Danang Airport (DAD)</option>
+                                            <option <?php echo $this->booking->arrival_airport == 'NhaTrang Airport (CXR)' ? 'selected' : ''?>>NhaTrang Airport (CXR)</option>
                                         </select>
                                     </div>
                                 </div>
@@ -209,7 +229,7 @@
                                         Contact Name*
                                     </div>
                                     <div class="col-md-8">
-                                        <input name="contact_name" class="form-control" id="contact_name" type="text" placeholder="Type your name here" required="">
+                                        <input name="contact_name" class="form-control" id="contact_name" type="text" placeholder="Type your name here" required="" value="<?php echo $this->booking->contact_name?>">
                                     </div>
                                 </div>
                             </div>
@@ -219,7 +239,7 @@
                                         Contact Email*
                                     </div>
                                     <div class="col-md-8">
-                                        <input name="contact_email" class="form-control" id="contact_email" type="email" placeholder="email@domainname" required="">
+                                        <input name="contact_email" class="form-control" id="contact_email" type="email" placeholder="email@domainname" required="" value="<?php echo $this->booking->contact_email?>">
                                     </div>
                                 </div>
                             </div>
@@ -228,7 +248,7 @@
                                     <div class="col-md-4">
                                     </div>
                                     <div class="col-md-8">
-                                        <input name="confirm_email" class="form-control" id="contact_cc_email" onpaste="return false;" type="email" placeholder="Confirm email address" required="">
+                                        <input name="confirm_email" class="form-control" id="contact_cc_email" onpaste="return false;" type="email" placeholder="Confirm email address" required="" value="<?php echo $this->booking->contact_email?>">
                                     </div>
                                 </div>
                             </div>
@@ -238,7 +258,7 @@
                                         Contact Phone*
                                     </div>
                                     <div class="col-md-8">
-                                        <input name="contact_phone" class="form-control" id="contact_phone" type="text" placeholder="+84 xxx xxxx" value="" required="">
+                                        <input name="contact_phone" class="form-control" id="contact_phone" type="text" placeholder="+84 xxx xxxx" required="" value="<?php echo $this->booking->contact_phone?>">
                                     </div>
                                 </div>
                             </div>
@@ -247,11 +267,17 @@
                                 <div class="row" style="padding-left: 20px; padding-right: 20px;">
                                     <div class="radio">
                                         <label>
-                                            <input type="radio" name="radioPrivate" id="radioPrivate1" value="Shared Visa" checked=""><b>Shared Visa letter:</b> The visa approval letter may include many other customers on the same letter (recommended)</label>
+                                        	<?php if($this->booking->visa_letter == 'Shared Visa' || !isset($this->booking->visa_letter)){?>
+                                            	<input type="radio" name="radioPrivate" id="radioPrivate1" value="Shared Visa" checked><b>Shared Visa letter:</b> The visa approval letter may include many other customers on the same letter (recommended)</label>                                                                               
+                                            <?php }?>
                                     </div>
                                     <div class="radio">
                                         <label>
-                                            <input type="radio" name="radioPrivate" id="radioPrivate2" value="Private Visa"><b>Private Visa letter:</b> Just show your (and your partner’s) details on it (plus <span id="private_visa_letter_price"><?php echo $this->private_visa_letter_price?></span> usd)</label>
+                                        	<?php if($this->booking->visa_letter == 'Private Visa'){?>
+                                            	<input type="radio" name="radioPrivate" id="radioPrivate2" value="Private Visa" checked><b>Private Visa letter:</b> Just show your (and your partner’s) details on it (plus <span id="private_visa_letter_price"><?php echo $this->private_visa_letter_price?></span> usd)</label>
+                                            <?php } else {?>
+                                            	<input type="radio" name="radioPrivate" id="radioPrivate2" value="Private Visa"><b>Private Visa letter:</b> Just show your (and your partner’s) details on it (plus <span id="private_visa_letter_price"><?php echo $this->private_visa_letter_price?></span> usd)</label>
+                                            <?php }?>
                                     </div>
                                 </div>
                             </div>
@@ -314,29 +340,29 @@
                                     <div class="col-md-2">
                                         <select id="nationality1" name="nationality1" class="form-control mySelectCoutry select2-hidden-accessible" style="width:150px" required="" tabindex="-1" aria-hidden="true">
                                              <option value="" selected disabled>Select Nationality</option>
-                                             <?php foreach($this->nationality as $type) {?>
-															<option value="<?php echo $type->id?>" data-is-diff = '<?php echo $type->is_difficult?>'><?php echo $type->name?></option>
+                                             <?php foreach($this->nationality as $type) {?>                                             	
+											 	<option <?php echo $this->applicants[0]->nationality_id == $type->id ? 'selected' : ''?> value="<?php echo $type->id?>" data-is-diff = '<?php echo $type->is_difficult?>'><?php echo $type->name?></option>
 											 <?php }?>   
                                         </select><span class="select2 select2-container select2-container--default" dir="ltr" style="width: 150px;"><span class="selection"><span class="select2-selection select2-selection--single" role="combobox" aria-autocomplete="list" aria-haspopup="true" aria-expanded="false" tabindex="0" aria-labelledby="select2-nationality1-container">
                                         <span class="select2-selection__arrow" role="presentation"><b role="presentation"></b></span></span></span><span class="dropdown-wrapper" aria-hidden="true"></span></span>
                                     </div>
                                     <div class="col-md-2">
-                                        <input name="fullname1" id="fullname1"" class="form-control" type="text" placeholder="Applicant's fullname">
+                                        <input name="fullname1" id="fullname1"" class="form-control" type="text" placeholder="Applicant's fullname" value="<?php echo $this->applicants[0]->name;?>">
                                     </div>
                                     <div class="col-md-2">
                                         <select id="gender1" name ="gender1" class="form-control gender">
                                             <option value="">Select Gender</option>
-                                            <option value="Male">Male</option><option value="Female">Female</option>
+                                            <option <?php echo $this->applicants[0]->gender == 'Male' ? 'selected' : ''?> value="Male">Male</option><option <?php echo $this->applicants[0]->gender == 'Female' ? 'selected' : ''?> value="Female">Female</option>
                                         </select>
                                     </div>
                                     <div class="col-md-2">
-                                        <input name="dateOfBirth1" id="dateOfBirth1" type="text" placeholder="Date Of Birth" class="form-control dateOfBirth">
+                                        <input name="dateOfBirth1" id="dateOfBirth1" type="text" placeholder="Date Of Birth" class="form-control dateOfBirth" value="<?php echo $this->applicants[0]->date_of_birth?>">
                                     </div>
                                     <div class="col-md-2">
-                                        <input name="passport_number1" id="passport_number1" class="form-control" type="text" placeholder="Passport number">
+                                        <input name="passport_number1" id="passport_number1" class="form-control" type="text" placeholder="Passport number" value="<?php echo $this->applicants[0]->passport_number?>">
                                     </div>
                                     <div class="col-md-2">
-                                        <input name="passportExpiryDate1" id="passportExpiryDate1" class="form-control PPExpireDate" type="text" placeholder="Expiry Date (MMM dd, YYYY)" required="">
+                                        <input name="passportExpiryDate1" id="passportExpiryDate1" class="form-control PPExpireDate" type="text" placeholder="Expiry Date (MMM dd, YYYY)" required="" value="<?php echo $this->applicants[0]->passport_expiry_date?>">
                                     </div>
                                 </div>
                             </div>
@@ -357,28 +383,28 @@
                                         <select id="nationality2" class="form-control mySelectCoutry select2-hidden-accessible" style="width:150px" tabindex="-1" aria-hidden="true">
                                              <option value="" selected disabled>Select Nationality</option>
                                              <?php foreach($this->nationality as $type) {?>
-											 	<option value="<?php echo $type->id?>" data-is-diff = '<?php echo $type->is_difficult?>'><?php echo $type->name?></option>
+											 	<option <?php echo $this->applicants[1]->nationality_id == $type->id ? 'selected' : ''?> value="<?php echo $type->id?>" data-is-diff = '<?php echo $type->is_difficult?>'><?php echo $type->name?></option>
 											 <?php }?>
                                         </select><span class="select2 select2-container select2-container--default" dir="ltr" style="width: 150px;"><span class="selection"><span class="select2-selection select2-selection--single" role="combobox" aria-autocomplete="list" aria-haspopup="true" aria-expanded="false" tabindex="0" aria-labelledby="select2-nationality2-container">
                                         <span class="select2-selection__arrow" role="presentation"><b role="presentation"></b></span></span></span><span class="dropdown-wrapper" aria-hidden="true"></span></span>
                                     </div>
                                     <div class="col-md-2">
-                                        <input name="fullname2" id="fullname2" class="form-control" type="text" placeholder="Applicant's fullname">
+                                        <input name="fullname2" id="fullname2" class="form-control" type="text" placeholder="Applicant's fullname" value="<?php echo $this->applicants[1]->name;?>">
                                     </div>
                                     <div class="col-md-2">
                                         <select id="gender2" class="form-control gender" required="">
                                             <option value="">Select Gender</option>
-                                            <option value="Male">Male</option><option value="Female">Female</option>
+                                            <option <?php echo $this->applicants[1]->gender == 'Male' ? 'selected' : ''?> value="Male">Male</option><option <?php echo $this->applicants[1]->gender == 'Female' ? 'selected' : ''?> value="Female">Female</option>
                                         </select>
                                     </div>
                                     <div class="col-md-2">
-                                        <input name="dateOfBirth2" id="dateOfBirth2" type="text" placeholder="Date Of Birth" class="form-control dateOfBirth" >
+                                        <input name="dateOfBirth2" id="dateOfBirth2" type="text" placeholder="Date Of Birth" class="form-control dateOfBirth" value="<?php echo $this->applicants[1]->date_of_birth?>">
                                     </div>
                                     <div class="col-md-2">
-                                        <input name="passport_number2" id="passport_number2" class="form-control" type="text" placeholder="Passport number" >
+                                        <input name="passport_number2" id="passport_number2" class="form-control" type="text" placeholder="Passport number" value="<?php echo $this->applicants[1]->passport_number?>">
                                     </div>
                                     <div class="col-md-2">
-                                        <input name="passportExpiryDate2" id="passportExpiryDate2" class="form-control PPExpireDate" type="text" placeholder="Expiry Date (MMM dd, YYYY)" >
+                                        <input name="passportExpiryDate2" id="passportExpiryDate2" class="form-control PPExpireDate" type="text" placeholder="Expiry Date (MMM dd, YYYY)" value="<?php echo $this->applicants[1]->passport_expiry_date?>">
                                     </div>
                                 </div>
                             </div>
@@ -400,28 +426,28 @@
                                         <select id="nationality3" class="form-control mySelectCoutry select2-hidden-accessible" style="width:150px" tabindex="-1" aria-hidden="true" required="">
                                             <option value="" selected disabled>Select Nationality</option>
                                             <?php foreach($this->nationality as $type) {?>
-												<option value="<?php echo $type->id?>" data-is-diff = '<?php echo $type->is_difficult?>'><?php echo $type->name?></option>
+												<option <?php echo $this->applicants[2]->nationality_id == $type->id ? 'selected' : ''?> value="<?php echo $type->id?>" data-is-diff = '<?php echo $type->is_difficult?>'><?php echo $type->name?></option>
 											<?php }?>
                                         </select><span class="select2 select2-container select2-container--default" dir="ltr" style="width: 150px;"><span class="selection"><span class="select2-selection select2-selection--single" role="combobox" aria-autocomplete="list" aria-haspopup="true" aria-expanded="false" tabindex="0" aria-labelledby="select2-nationality3-container">
                                         <span class="select2-selection__arrow" role="presentation"><b role="presentation"></b></span></span></span><span class="dropdown-wrapper" aria-hidden="true"></span></span>
                                     </div>
                                     <div class="col-md-2">
-                                        <input name="fullname3" id="fullname3" class="form-control" type="text" placeholder="Applicant's fullname" >
+                                        <input name="fullname3" id="fullname3" class="form-control" type="text" placeholder="Applicant's fullname" value="<?php echo $this->applicants[2]->name;?>">
                                     </div>
                                     <div class="col-md-2">
                                         <select id="gender3" class="form-control gender" >
                                             <option value="">Select Gender</option>
-                                            <option value="Male">Male</option><option value="Female">Female</option>
+                                            <option <?php echo $this->applicants[2]->gender == 'Male' ? 'selected' : ''?> value="Male">Male</option><option <?php echo $this->applicants[2]->gender == 'Female' ? 'selected' : ''?> value="Female">Female</option>
                                         </select>
                                     </div>
                                     <div class="col-md-2">
-                                        <input name="dateOfBirth3" id="dateOfBirth3" type="text" placeholder="Date Of Birth" class="form-control dateOfBirth" >
+                                        <input name="dateOfBirth3" id="dateOfBirth3" type="text" placeholder="Date Of Birth" class="form-control dateOfBirth" value="<?php echo $this->applicants[2]->date_of_birth?>">
                                     </div>
                                     <div class="col-md-2">
-                                        <input name="passport_number3" id="passport_number3" class="form-control" type="text" placeholder="Passport number" >
+                                        <input name="passport_number3" id="passport_number3" class="form-control" type="text" placeholder="Passport number" value="<?php echo $this->applicants[2]->passport_number?>">
                                     </div>
                                     <div class="col-md-2">
-                                        <input name="passportExpiryDate3" id="passportExpiryDate3" class="form-control PPExpireDate" type="text" placeholder="Expiry Date (MMM dd, YYYY)" >
+                                        <input name="passportExpiryDate3" id="passportExpiryDate3" class="form-control PPExpireDate" type="text" placeholder="Expiry Date (MMM dd, YYYY)" value="<?php echo $this->applicants[2]->passport_expiry_date?>">
                                     </div>
                                 </div>  
                                
@@ -444,28 +470,28 @@
                                         <select id="nationality4" class="form-control mySelectCoutry select2-hidden-accessible" style="width:150px"  tabindex="-1" aria-hidden="true">
                                              <option value="" selected disabled>Select Nationality</option>
                                              <?php foreach($this->nationality as $type) {?>
-												<option value="<?php echo $type->id?>" data-is-diff = '<?php echo $type->is_difficult?>'><?php echo $type->name?></option>
+												<option <?php echo $this->applicants[3]->nationality_id == $type->id ? 'selected' : ''?> value="<?php echo $type->id?>" data-is-diff = '<?php echo $type->is_difficult?>'><?php echo $type->name?></option>
 											<?php }?>
                                         </select><span class="select2 select2-container select2-container--default" dir="ltr" style="width: 150px;"><span class="selection"><span class="select2-selection select2-selection--single" role="combobox" aria-autocomplete="list" aria-haspopup="true" aria-expanded="false" tabindex="0" aria-labelledby="select2-nationality4-container">
                                         <span class="select2-selection__arrow" role="presentation"><b role="presentation"></b></span></span></span><span class="dropdown-wrapper" aria-hidden="true"></span></span>
                                     </div>
                                     <div class="col-md-2">
-                                        <input name="fullname4" id="fullname4" class="form-control" type="text" placeholder="Applicant's fullname" >
+                                        <input name="fullname4" id="fullname4" class="form-control" type="text" placeholder="Applicant's fullname" value="<?php echo $this->applicants[3]->name;?>">
                                     </div>
                                     <div class="col-md-2">
                                         <select id="gender4" class="form-control gender" >
                                             <option value="">Select Gender</option>
-                                            <option value="Male">Male</option><option value="Female">Female</option>
+                                            <option <?php echo $this->applicants[3]->gender == 'Male' ? 'selected' : ''?> value="Male">Male</option><option <?php echo $this->applicants[3]->gender == 'Female' ? 'selected' : ''?> value="Female">Female</option>
                                         </select>
                                     </div>
                                     <div class="col-md-2">
-                                        <input name="dateOfBirth4" id="dateOfBirth4" type="text" placeholder="Date Of Birth" class="form-control dateOfBirth" >
+                                        <input name="dateOfBirth4" id="dateOfBirth4" type="text" placeholder="Date Of Birth" class="form-control dateOfBirth" value="<?php echo $this->applicants[3]->date_of_birth?>">
                                     </div>
                                     <div class="col-md-2">
-                                        <input name="passport_number4" id="passport_number4" class="form-control" type="text" placeholder="Passport number" >
+                                        <input name="passport_number4" id="passport_number4" class="form-control" type="text" placeholder="Passport number" value="<?php echo $this->applicants[3]->passport_expiry_date?>">
                                     </div>
                                     <div class="col-md-2">
-                                        <input name="passportExpiryDate4" id="passportExpiryDate4" class="form-control PPExpireDate" type="text" placeholder="Expiry Date (MMM dd, YYYY)" >
+                                        <input name="passportExpiryDate4" id="passportExpiryDate4" class="form-control PPExpireDate" type="text" placeholder="Expiry Date (MMM dd, YYYY)" value="<?php echo $this->applicants[3]->passport_expiry_date?>">
                                     </div>
                                 </div>
                             </div>
@@ -487,28 +513,28 @@
                                         <select id="nationality5" class="form-control mySelectCoutry select2-hidden-accessible" style="width:150px"  tabindex="-1" aria-hidden="true">
                                              <option value="" selected disabled>Select Nationality</option>
                                              <?php foreach($this->nationality as $type) {?>
-												<option value="<?php echo $type->id?>" data-is-diff = '<?php echo $type->is_difficult?>'><?php echo $type->name?></option>
+												<option <?php echo $this->applicants[4]->nationality_id == $type->id ? 'selected' : ''?> value="<?php echo $type->id?>" data-is-diff = '<?php echo $type->is_difficult?>'><?php echo $type->name?></option>
 											<?php }?>
                                         </select><span class="select2 select2-container select2-container--default" dir="ltr" style="width: 150px;"><span class="selection"><span class="select2-selection select2-selection--single" role="combobox" aria-autocomplete="list" aria-haspopup="true" aria-expanded="false" tabindex="0" aria-labelledby="select2-nationality5-container">
                                         <span class="select2-selection__arrow" role="presentation"><b role="presentation"></b></span></span></span><span class="dropdown-wrapper" aria-hidden="true"></span></span>
                                     </div>
                                     <div class="col-md-2">
-                                        <input name="fullname5" id="fullname5" class="form-control" type="text" placeholder="Applicant's fullname" >
+                                        <input name="fullname5" id="fullname5" class="form-control" type="text" placeholder="Applicant's fullname" value="<?php echo $this->applicants[4]->name;?>">
                                     </div>
                                     <div class="col-md-2">
                                         <select id="gender5" class="form-control gender" >
                                             <option value="">Select Gender</option>
-                                            <option value="Male">Male</option><option value="Female">Female</option>
+                                            <option <?php echo $this->applicants[4]->gender == 'Male' ? 'selected' : ''?> value="Male">Male</option><option <?php echo $this->applicants[4]->gender == 'Female' ? 'selected' : ''?> value="Female">Female</option>
                                         </select>
                                     </div>
                                     <div class="col-md-2">
-                                        <input name="dateOfBirth5" id="dateOfBirth5" type="text" placeholder="Date Of Birth" class="form-control dateOfBirth" >
+                                        <input name="dateOfBirth5" id="dateOfBirth5" type="text" placeholder="Date Of Birth" class="form-control dateOfBirth" value="<?php echo $this->applicants[4]->date_of_birth?>">
                                     </div>
                                     <div class="col-md-2">
-                                        <input name="passport_number5" id="passport_number5" class="form-control" type="text" placeholder="Passport number" >
+                                        <input name="passport_number5" id="passport_number5" class="form-control" type="text" placeholder="Passport number" value="<?php echo $this->applicants[4]->passport_expiry_date?>">
                                     </div>
                                     <div class="col-md-2">
-                                        <input name="passportExpiryDate5" id="passportExpiryDate5" class="form-control PPExpireDate" type="text" placeholder="Expiry Date (MMM dd, YYYY)" >
+                                        <input name="passportExpiryDate5" id="passportExpiryDate5" class="form-control PPExpireDate" type="text" placeholder="Expiry Date (MMM dd, YYYY)" value="<?php echo $this->applicants[4]->passport_expiry_date?>">
                                     </div>
                                 </div>
                             </div>
@@ -530,28 +556,28 @@
                                            <select id="nationality6" class="form-control mySelectCoutry select2-hidden-accessible" style="width:150px"  tabindex="-1" aria-hidden="true">
                                                 <option value="" selected disabled>Select Nationality</option>
                                                 <?php foreach($this->nationality as $type) {?>
-													<option value="<?php echo $type->id?>" data-is-diff = '<?php echo $type->is_difficult?>'><?php echo $type->name?></option>
+													<option <?php echo $this->applicants[5]->nationality_id == $type->id ? 'selected' : ''?> value="<?php echo $type->id?>" data-is-diff = '<?php echo $type->is_difficult?>'><?php echo $type->name?></option>
 												<?php }?>
                                            </select><span class="select2 select2-container select2-container--default" dir="ltr" style="width: 150px;"><span class="selection"><span class="select2-selection select2-selection--single" role="combobox" aria-autocomplete="list" aria-haspopup="true" aria-expanded="false" tabindex="0" aria-labelledby="select2-nationality6-container">
                                            <span class="select2-selection__arrow" role="presentation"><b role="presentation"></b></span></span></span><span class="dropdown-wrapper" aria-hidden="true"></span></span>
                                     </div>
                                     <div class="col-md-2">
-                                        <input name="fullname6" id="fullname6" class="form-control" type="text" placeholder="Applicant's fullname" >
+                                        <input name="fullname6" id="fullname6" class="form-control" type="text" placeholder="Applicant's fullname" value="<?php echo $this->applicants[5]->name;?>">
                                     </div>
                                     <div class="col-md-2">
                                         <select id="gender6" class="form-control gender" >
                                             <option value="">Select Gender</option>
-                                            <option value="Male">Male</option><option value="Female">Female</option>
+                                            <option <?php echo $this->applicants[5]->gender == 'Male' ? 'selected' : ''?> value="Male">Male</option><option <?php echo $this->applicants[5]->gender == 'Female' ? 'selected' : ''?> value="Female">Female</option>
                                         </select>
                                     </div>
                                     <div class="col-md-2">
-                                        <input name="dateOfBirth6" id="dateOfBirth6" type="text" placeholder="Date Of Birth" class="form-control dateOfBirth" >
+                                        <input name="dateOfBirth6" id="dateOfBirth6" type="text" placeholder="Date Of Birth" class="form-control dateOfBirth" value="<?php echo $this->applicants[5]->date_of_birth?>">
                                     </div>
                                     <div class="col-md-2">
-                                        <input name="passport_number6" id="passport_number6" class="form-control" type="text" placeholder="Passport number" >
+                                        <input name="passport_number6" id="passport_number6" class="form-control" type="text" placeholder="Passport number" value="<?php echo $this->applicants[5]->passport_expiry_date?>">
                                     </div>
                                     <div class="col-md-2">
-                                        <input name="passportExpiryDate6" id="passportExpiryDate6" class="form-control PPExpireDate" type="text" placeholder="Expiry Date (MMM dd, YYYY)" >
+                                        <input name="passportExpiryDate6" id="passportExpiryDate6" class="form-control PPExpireDate" type="text" placeholder="Expiry Date (MMM dd, YYYY)" value="<?php echo $this->applicants[5]->passport_expiry_date?>">
                                     </div>
                                 </div>
                             </div>

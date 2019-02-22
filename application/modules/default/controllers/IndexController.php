@@ -494,12 +494,32 @@ class IndexController extends Zend_Controller_Action
     public function applyOnlineAction()
     {       
         $request = $this->getRequest();
+                
+        //edit visa apply online
+        $booking_code = $request->getParam('code');
+        $booking = null;
+        $applicants = null;
+        if(isset($booking_code)){
+            $book_mapper = new Application_Model_BookVisaMapper();
+            $booking = $book_mapper->getByCode($booking_code);
+            //Zend_Debug::dump($booking);die;
+            $applicant_mapper = new Application_Model_ApplicantVisaMapper();
+            $applicants = $applicant_mapper->getApplicants($booking->id);
+            
+            $this->view->booking = $booking;
+            $this->view->applicants = $applicants;
+            //die($applicants[0]->nationality_id);
+            //Zend_Debug::dump(booking);die;
+        }
+        
+        $default_purpose = $booking != null && $booking->purpose_of_visit != null ? $booking->purpose_of_visit : 'TOURIST VISA';
+        //die($booking->purpose_of_visit);
         $visa_type_mapper = new Application_Model_VisaTypeMapper();
-        $visa_type = $visa_type_mapper->getAll(1, 'TOURIST VISA');
+        $visa_type = $visa_type_mapper->getAll(1, $default_purpose);
         $this->view->visa_type = $visa_type;
         
         $processing_time_type_mapper = new Application_Model_ProcessingTimeTypeMapper();
-        $processing_time_type = $processing_time_type_mapper->getAll(1, 'TOURIST VISA');
+        $processing_time_type = $processing_time_type_mapper->getAll(1, $default_purpose);
         $this->view->processing_time_type = $processing_time_type;
         
         
@@ -519,23 +539,7 @@ class IndexController extends Zend_Controller_Action
             }
         }
         $this->view->numerOfVisa = $numerOfVisa;
-        $this->view->private_visa_letter_price = $private_visa_letter_price;
-        
-        
-        //edit visa apply online
-        $booking_code = $request->getParam('code');
-        $booking = null;
-        $applicants = null;
-        if(isset($booking_code)){
-            $book_mapper = new Application_Model_BookVisaMapper();
-            $booking = $book_mapper->getById($id);
-            
-            $applicant_mapper = new Application_Model_ApplicantVisaMapper();
-            $applicants = $applicant_mapper->getApplicants($id);
-            
-            $this->view->booking = $booking;
-            $this->view->applicants = $applicants;
-        }
+        $this->view->private_visa_letter_price = $private_visa_letter_price;        
         
         //Zend_Debug::dump($visa_setting[0]);die;
         $bookvisa_mapper = new Application_Model_BookVisaMapper();
@@ -623,6 +627,7 @@ class IndexController extends Zend_Controller_Action
             $book_visa->price_detail = $price_detail;
             $book_visa->total_price = $totalPrice;
             $book_visa->arrival_date = $arrival_date;
+            $book_visa->payment = $pay;
             $book_visa->arrival_airport = $Arrival_Airport;
             $book_visa->contact_name = $contact_name;
             $book_visa->contact_email = $contact_email;
@@ -730,7 +735,7 @@ class IndexController extends Zend_Controller_Action
             $bodyHtml = $html->render('visa-book-email.phtml');
             //die($bodyHtml);            
             $subject = $booking_code.' - Visa Request from '.$contact_name;
-            $this->_sendMail($subject, $bodyHtml, $contact_email);
+            //$this->_sendMail($subject, $bodyHtml, $contact_email);
                  
             
             echo json_encode($booking_code);

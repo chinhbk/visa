@@ -23,6 +23,7 @@
 		        'PRICE_DETAIL' => $obj->price_detail,
 		        'TOTAL_PRICE' => $obj->total_price,
 		        'ARRIVAL_DATE' => $obj->arrival_date,
+		        'PAYMENT' => $obj->payment,
 		        'ARRIVAL_AIRPORT' => $obj->arrival_airport,
 		        'CONTACT_NAME' => $obj->contact_name,
 		        'CONTACT_EMAIL' => $obj->contact_email,
@@ -68,6 +69,22 @@
 		    return $obj;
 		}
 		
+		public function getByCode($code)
+		{
+		    $select = $this->_db_table->select()
+		    ->from(array('t' => self::TABLE))
+		    ->order('ID DESC')
+		    ->limit(1, 0);
+		    
+		    if(!is_null($code) && strlen($code) > 0){
+		        $select = $select->where('LOWER(CODE) = ?', strtolower($code));		        
+		    }
+		    
+		    
+		    $row = $this->_db_table->getAdapter()->fetchRow($select);
+		    $obj = new Application_Model_BookVisa($row);
+		    return $obj;
+		}
 		
 		public function getLatestId()
 		{

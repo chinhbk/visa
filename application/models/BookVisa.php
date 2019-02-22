@@ -13,6 +13,7 @@ class Application_Model_BookVisa
     private $price_detail;
     private $total_price;
     private $arrival_date;
+    private $payment;
     private $arrival_airport;
     private $contact_name;
     private $contact_email;
@@ -40,6 +41,7 @@ class Application_Model_BookVisa
          $this->total_price = $obj->TOTAL_PRICE;
          $this->arrival_date = $obj->ARRIVAL_DATE;
          $this->arrival_airport = $obj->ARRIVAL_AIRPORT;
+         $this->payment = $obj->PAYMENT;
          
          $this->contact_name = $obj->CONTACT_NAME;
          $this->contact_email = $obj->CONTACT_EMAIL;
@@ -69,6 +71,7 @@ class Application_Model_BookVisa
          $this->status = $obj['STATUS'];
          if(isset($obj['VISA_TYPE'])) $this->visa_type = $obj['VISA_TYPE'];
          if(isset($obj['PROCESSING_TIME_TYPE'])) $this->processing_time_type = $obj['PROCESSING_TIME_TYPE'];
+         if(isset($obj['PAYMENT'])) $this->payment = $obj['PAYMENT'];
          if(isset($obj['CREATE_DATE'])) $this->create_date = $obj['CREATE_DATE'];
          if(isset($obj['UPDATE_DATE'])) $this->update_date = $obj['UPDATE_DATE'];
        }

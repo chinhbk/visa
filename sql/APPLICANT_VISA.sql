@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Feb 21, 2019 at 11:56 AM
+-- Generation Time: Feb 22, 2019 at 11:34 AM
 -- Server version: 10.1.36-MariaDB
 -- PHP Version: 7.0.32
 
@@ -31,7 +31,7 @@ SET time_zone = "+00:00";
 CREATE TABLE `APPLICANT_VISA` (
   `ID` int(11) NOT NULL,
   `BOOK_VISA_ID` int(11) NOT NULL,
-  `NATIONALITY` varchar(100) NOT NULL,
+  `NATIONALITY_ID` int(11) NOT NULL,
   `NAME` varchar(200) NOT NULL,
   `GENDER` varchar(10) NOT NULL,
   `DATE_OF_BIRTH` varchar(20) NOT NULL,
@@ -57,7 +57,7 @@ ALTER TABLE `APPLICANT_VISA`
 -- AUTO_INCREMENT for table `APPLICANT_VISA`
 --
 ALTER TABLE `APPLICANT_VISA`
-  MODIFY `ID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `ID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=23;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
