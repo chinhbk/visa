@@ -15,7 +15,7 @@ class Application_Model_ApplicantVisaMapper{
 		    //of the data you want to update
 		    $data = array(
 		        'BOOK_VISA_ID' => $obj->book_visa_id,
-		        'NATIONALITY' => $obj->nationality,    
+		        'NATIONALITY_ID' => $obj->nationality_id,		      
 		        'NAME' => $obj->name,
 		        'GENDER' => $obj->gender,
 		        'DATE_OF_BIRTH' => $obj->date_of_birth,
@@ -64,7 +64,9 @@ class Application_Model_ApplicantVisaMapper{
 		{
 		    try{
 		        $select = $this->_db_table->select()
-		        ->from(array('a' => self::TABLE), array('ID', 'NATIONALITY', 'NAME', 'GENDER', 'DATE_OF_BIRTH', 'PASSPORT_NUMBER', 'PASSPORT_EXPIRY_DATE'))		        
+		        ->from(array('a' => self::TABLE), array('ID', 'NATIONALITY_ID', 'NAME', 'GENDER', 'DATE_OF_BIRTH', 'PASSPORT_NUMBER', 'PASSPORT_EXPIRY_DATE'))
+		        ->join(array('tt' => 'NATIONALITY'),'tt.ID = a.NATIONALITY_ID', array('NATIONALITY' => 'NAME'))	
+		        ->setIntegrityCheck(false) // ADD This Line
 		        ->order('ID ASC');
 		        
 		        if(!is_null($bookVisaId) && strlen($bookVisaId) > 0){

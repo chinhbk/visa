@@ -1,0 +1,62 @@
+<style>
+.search {
+    margin: 15px;
+}
+input {
+    border-radius: 5px;
+    border: 1px solid #BBBBBB;
+    height: 20px;
+    color: #666666;
+}
+.btn-primary {
+
+}
+</style>
+<article class="module width_full">
+		<header><h3 class="tabs_involved">Visa Booking Detail</h3>
+		</header>
+		<div class="tab_container">
+			<div class="tab_content" id="tab1" style="display: block;">
+			<table cellspacing="0" class="tablesorter"> 
+			<thead> 
+				<tr> 
+   					<th class="header">Nationality</th>    				
+    				<th class="header">Full Name</th>
+    				<th class="header">Gender</th>
+    				<th class="header">Date of Birth</th>
+    				<th class="header">Passport Number</th>
+    				<th class="header">Passport Expiry date</th>
+    				<th class="header"></th> 
+				</tr> 
+			</thead> 
+			<tbody> 
+			   <?php $i=0; foreach ($this->applicants as $applicant) {
+				       // Zend_Debug::dump($product);die;
+									
+				?>
+				<tr>
+    				<td><?php echo $applicant->nationality;?></td> 
+    				<td><?php echo $applicant->name?></td>
+    				<td><?php echo $applicant->gender;?></td>
+    				<td><?php echo $applicant->date_of_birth;?></td>
+    				<td><?php echo $applicant->passport_number;?></td>
+    				<td><?php echo $applicant->passport_expiry_date;?></td>
+    				<td>
+						<a style="display: none" href="/admin/visa/booking-detail/id/<?php echo $booking->id;?>"><image src="/images/edit.png" alt="Edit" style="padding-right:30px;"/></a>						
+					</td> 
+				</tr> 
+				
+				<?php }	?>
+				  
+			</tbody>
+			</table>
+			
+			<div style="margin-left: 10px;">
+        		<p><?php echo $this->booking->price_detail?></p>
+        		<p style="color: red; font-size: 20px;">Total: <strong>$<?php echo $this->booking->total_price?></strong></p>
+        	</div>
+			</div><!-- end of #tab1 -->
+			
+			
+		
+		</article>

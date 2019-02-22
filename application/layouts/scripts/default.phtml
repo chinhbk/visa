@@ -155,6 +155,10 @@
         margin-left: -20px;
         width: 100%;
     }
+    
+    .price_des_detail{
+        color: #468847 !important;
+    }
 </style>
 	
 	<script src="/css/js/js-cf70e-35222.js" type="text/javascript"></script>
@@ -653,11 +657,11 @@ $.get("https://min-api.cryptocompare.com/data/price?fsym=ETH&tsyms=BTC,USD,EUR,G
             }
 
             function buildHTMLPriceDes2(number_app, processing_time, price){
-				return "<p style='color:#468847;'><br>" + number_app + " Applicant * ('" + processing_time + "' fee) = " +  number_app + "*" + price + "</p>";
+				return "<p class='price_des_detail'><br>" + number_app + " Applicant * ('" + processing_time + "' fee) = " +  number_app + "*" + price + "</p>";
             }
 
             function buildHTMLPriceDes3(number_app, visa_letter, price){
-				return "<p style='color:#468847;'><br>" + number_app + " Applicant * ('" + visa_letter + "' fee) = " +  number_app + "*" + price + "</p>";
+				return "<p class='price_des_detail'><br>" + number_app + " Applicant * ('" + visa_letter + "' fee) = " +  number_app + "*" + price + "</p>";
             }
 
             $("#dropPurposeOfVisit").on('change', function() {
@@ -1043,8 +1047,10 @@ $.get("https://min-api.cryptocompare.com/data/price?fsym=ETH&tsyms=BTC,USD,EUR,G
             		 dropPurposeOfVisit: g("#dropPurposeOfVisit").value,
             		 dropNumberApp: g("#dropNumberApp").value,
             		 type_of_visa: text_type_visa,
+            		 type_of_visa_id: type_of_visa.value,
             		 arrival_date: g("#arrival_date").value,
             		 processing_time: p_timeText,
+            		 processing_time_id: p_time.value,
             		 radioPay: payment_method,
             		 Arrival_Airport: g("#Arrival_Airport").value,
             		 contact_name: g("#contact_name").value,
@@ -1052,11 +1058,17 @@ $.get("https://min-api.cryptocompare.com/data/price?fsym=ETH&tsyms=BTC,USD,EUR,G
             		 contact_phone: g("#contact_phone").value,
             		 radioPrivate: radioPrivate,
             		 nationality1: getNationalityText(1),
+            		 nationality_id1:  getNationalityId(1),
             		 nationality2: getNationalityText(2),
+            		 nationality_id2:  getNationalityId(2),
             		 nationality3: getNationalityText(3),
+            		 nationality_id3:  getNationalityId(3),
             		 nationality4: getNationalityText(4),
+            		 nationality_id4:  getNationalityId(4),
             		 nationality5: getNationalityText(5),
+            		 nationality_id5:  getNationalityId(5),
             		 nationality6: getNationalityText(6),
+            		 nationality_id6:  getNationalityId(6),
             		 fullname1: g('#fullname'+1).value,
             		 fullname2: g('#fullname'+2).value,
             		 fullname3: g('#fullname'+3).value,
@@ -1104,7 +1116,7 @@ $.get("https://min-api.cryptocompare.com/data/price?fsym=ETH&tsyms=BTC,USD,EUR,G
             	xhr.onload = function() {
             	    if (xhr.status === 200) {
                 	    //console.log(xhr.responseText);
-            	        var code = JSON.parse(xhr.responseText);
+            	        var code = xhr.responseText;
             	        //rediret to payment gate
             	        hideLoading();
 		
@@ -1116,6 +1128,10 @@ $.get("https://min-api.cryptocompare.com/data/price?fsym=ETH&tsyms=BTC,USD,EUR,G
             	xhr.send(param(data));
             }  
 
+            function getNationalityId(i){
+                return g('#nationality'+i).value;                
+            }
+            
             function getNationalityText(i){
                 var nationality = g('#nationality'+i);
                 var nationality_text = nationality.options[nationality.selectedIndex].text;

@@ -6,8 +6,8 @@ class Application_Model_BookVisa
     private $id;
     private $code;
     private $purpose_of_visit;
-    private $visa_type;
-    private $processing_time_type;
+    private $visa_type_id;
+    private $processing_time_type_id;
     private $visa_letter;
     private $number_of_visa;
     private $price_detail;
@@ -21,6 +21,9 @@ class Application_Model_BookVisa
     private $update_date;
     private $status;
     
+    private $visa_type; //DTO
+    private $processing_time_type; //DTO
+    
     //upon construction, map the values
     //from the $obj if available
     public function __construct($obj = null)
@@ -29,8 +32,8 @@ class Application_Model_BookVisa
          $this->id = $obj->ID;
          $this->code = $obj->CODE;
          $this->purpose_of_visit = $obj->PURPOSE_OF_VISIT;
-         $this->visa_type = $obj->VISA_TYPE;
-         $this->processing_time_type = $obj->PROCESSING_TIME_TYPE;
+         $this->visa_type_id = $obj->VISA_TYPE_ID;
+         $this->processing_time_type_id = $obj->PROCESSING_TIME_TYPE_ID;
          $this->visa_letter = $obj->VISA_LETTER;
          $this->number_of_visa = $obj->NUMBER_OF_VISA;
          $this->price_detail = $obj->PRICE_DETAIL;
@@ -50,8 +53,8 @@ class Application_Model_BookVisa
          $this->id = $obj['ID'];
          $this->code = $obj['CODE'];
          $this->purpose_of_visit = $obj['PURPOSE_OF_VISIT'];
-         $this->visa_type = $obj['VISA_TYPE'];
-         $this->processing_time_type = $obj['PROCESSING_TIME_TYPE'];
+         $this->visa_type_id = $obj['VISA_TYPE_ID'];
+         $this->processing_time_type_id = $obj['PROCESSING_TIME_TYPE_ID'];
          $this->visa_letter = $obj['VISA_LETTER'];
          $this->number_of_visa = $obj['NUMBER_OF_VISA'];
          $this->price_detail = $obj['PRICE_DETAIL'];
@@ -59,11 +62,13 @@ class Application_Model_BookVisa
          $this->arrival_date = $obj['ARRIVAL_DATE'];
          $this->arrival_airport = $obj['ARRIVAL_AIRPORT'];
          
-         $this->contact_name = $obj['contact_name'];
+         $this->contact_name = $obj['CONTACT_NAME'];
          $this->contact_email = $obj['CONTACT_EMAIL'];
          $this->contact_phone = $obj['CONTACT_PHONE'];
          
          $this->status = $obj['STATUS'];
+         if(isset($obj['VISA_TYPE'])) $this->visa_type = $obj['VISA_TYPE'];
+         if(isset($obj['PROCESSING_TIME_TYPE'])) $this->processing_time_type = $obj['PROCESSING_TIME_TYPE'];
          if(isset($obj['CREATE_DATE'])) $this->create_date = $obj['CREATE_DATE'];
          if(isset($obj['UPDATE_DATE'])) $this->update_date = $obj['UPDATE_DATE'];
        }

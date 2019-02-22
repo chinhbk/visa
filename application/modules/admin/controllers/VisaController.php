@@ -203,13 +203,30 @@ class Admin_VisaController extends Zend_Controller_Action
         $request = $this->getRequest();
         
         $keyword = $request->getParam('keyword');
-        $mapper = new Application_Model_BookTourMapper();
+        $mapper = new Application_Model_BookVisaMapper();
         $bookings = $mapper->search($keyword);
         $this->view->keyword = $keyword;
         //Zend_Debug::dump( $bookings);die();
                
         $this->view->bookings = $bookings;
         //Zend_Debug::dump( $tour);die();
+    }
+    
+    public function bookingDetailAction()
+    {
+        $request = $this->getRequest();
+        
+        $id= $request->getParam('id');
+        $mapper = new Application_Model_BookVisaMapper();
+        $booking = $mapper->getById($id);
+        
+        //Zend_Debug::dump( $booking);die();
+        $applicant_mapper = new Application_Model_ApplicantVisaMapper();
+        $applicants = $applicant_mapper->getApplicants($id);       
+        
+        $this->view->booking = $booking;
+        $this->view->applicants = $applicants;
+        //Zend_Debug::dump( $applicants);die();
     }
     
     

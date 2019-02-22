@@ -1,0 +1,70 @@
+<style>
+.search {
+    margin: 15px;
+}
+input {
+    border-radius: 5px;
+    border: 1px solid #BBBBBB;
+    height: 20px;
+    color: #666666;
+}
+.btn-primary {
+
+}
+</style>
+<article class="module width_full">
+
+		<form name="form_add" method="GET" class="search">						
+			<input type="text" name="keyword" id="keyword" value="<?php echo $this->keyword;?>"/>
+			<input type="submit" value="Search" class="btn-primary"/>									
+		</form>
+		<header><h3 class="tabs_involved">Manage Visa Booking</h3>
+		</header>
+		<div class="tab_container">
+			<div class="tab_content" id="tab1" style="display: block;">
+			<table cellspacing="0" class="tablesorter"> 
+			<thead> 
+				<tr> 
+   					<th class="header">Code</th>    				
+    				<th class="header">Visa Type</th>
+    				<th class="header">Processing Type</th>
+    				<th class="header">Arrival Date</th>
+    				<th class="header">Private/Share</th>
+    				<th class="header">No of Visa</th>
+    				<th class="header">Price</th>
+    				<th class="header">Contact</th>
+    				<th class="header">Last Updated</th>
+    				<th class="header">Status</th> 
+    				<th class="header"></th> 
+				</tr> 
+			</thead> 
+			<tbody> 
+			   <?php $i=0; foreach ($this->bookings as $booking) {
+				       // Zend_Debug::dump($product);die;
+									
+				?>
+				<tr>
+    				<td><?php echo $booking->code;?></td> 
+    				<td><?php echo $booking->purpose_of_visit.','.$booking->visa_type;?></td>
+    				<td><?php echo $booking->processing_time_type;?></td>
+    				<td><?php echo $booking->arrival_date;?></td>
+    				<td><?php echo $booking->visa_letter;?></td>
+    				<td><?php echo $booking->number_of_visa;?></td>
+    				<td><?php echo is_null($booking->total_price) ? '' : ('$'.$booking->total_price);?></td>
+    				<td><?php echo $booking->contact_name.', '.$booking->contact_email.', '.$booking->contact_phone;?></td>
+    				<td><?php echo $booking->update_date;?></td>
+    				<td><?php echo $booking->status;?></td>
+    				<td>
+						<a href="/admin/visa/booking-detail/id/<?php echo $booking->id;?>"><image src="/images/edit.png" alt="Edit" style="padding-right:30px;"/></a>						
+					</td> 
+				</tr> 
+				
+				<?php }	?>
+				  
+			</tbody> 
+			</table>
+			</div><!-- end of #tab1 -->
+			
+			
+		
+		</article>

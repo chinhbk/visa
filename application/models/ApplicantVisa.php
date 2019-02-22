@@ -5,12 +5,14 @@ class Application_Model_ApplicantVisa
     //declare the tour's attributes    
 	private $id;
 	private $book_visa_id;
-	private $nationality;
+	private $nationality_id;
 	private $name;
 	private $gender;
 	private $date_of_birth;
 	private $passport_number;
 	private $passport_expiry_date;
+	
+    private $nationality; //DTO
     
     //upon construction, map the values
     //from the $obj if available
@@ -19,7 +21,7 @@ class Application_Model_ApplicantVisa
         if( !is_null($obj) && $obj instanceof Zend_Db_Table_Row ) {
             $this->id = $obj->ID;
             $this->book_visa_id = $obj->BOOK_VISA_ID;
-            $this->nationality = $obj->NATIONALITY;
+            $this->nationality_id = $obj->NATIONALITY_ID;
 
             $this->name = $obj->NAME;
             $this->gender = $obj->GENDER;
@@ -34,9 +36,11 @@ class Application_Model_ApplicantVisa
             
             $this->name = $obj['NAME'];
             $this->gender = $obj['GENDER'];
+            $this->date_of_birth = $obj['DATE_OF_BIRTH'];
             $this->passport_number = $obj['PASSPORT_NUMBER'];
             $this->passport_expiry_date = $obj['PASSPORT_EXPIRY_DATE'];
             
+            if(isset($obj['NATIONALITY_ID'])) $this->nationality_id = $obj['NATIONALITY_ID'];
             if(isset($obj['NATIONALITY'])) $this->nationality = $obj['NATIONALITY'];
         }
     }

@@ -16,8 +16,8 @@
 		    $data = array(
 		        'CODE' => $obj->code,
 		        'PURPOSE_OF_VISIT' => $obj->purpose_of_visit,
-		        'VISA_TYPE' => $obj->visa_type,
-		        'PROCESSING_TIME_TYPE' => $obj->processing_time_type,
+		        'VISA_TYPE_ID' => $obj->visa_type_id,
+		        'PROCESSING_TIME_TYPE_ID' => $obj->processing_time_type_id,
 		        'VISA_LETTER' => $obj->visa_letter,
 		        'NUMBER_OF_VISA' => $obj->number_of_visa,
 		        'PRICE_DETAIL' => $obj->price_detail,
@@ -60,7 +60,7 @@
 		        //if found, get the result, and map it to the
 		        //corresponding Data Object
 		        $row = $result->current();
-		        $obj = new Application_Model_DbTable_BookVisa($row);
+		        $obj = new Application_Model_BookVisa($row);
 		    } catch (Exception $e) {
 		        Zend_Debug::dump( $e);die();
 		    }
@@ -89,12 +89,16 @@
 		{
 		    try{
 		        $select = $this->_db_table->select()
-		        ->from(array('b' => self::TABLE), array('ID', 'CODE', 'PURPOSE_OF_VISIT', 'VISA_TYPE', 'PROCESSING_TIME_TYPE', 'VISA_LETTER', 'NUMBER_OF_VISA', 'TOTAL_PRICE', 'ARRIVAL_DATE', 'ARRIVAL_AIRPORT', 'CONTACT_NAME', 'CONTACT_EMAIL', 'CONTACT_PHONE', 'STATUS', 'UPDATE_DATE'))
+		        ->from(array('b' => self::TABLE), array('ID', 'CODE', 'PURPOSE_OF_VISIT', 'VISA_TYPE_ID', 'PROCESSING_TIME_TYPE_ID', 'VISA_LETTER', 'NUMBER_OF_VISA', 'TOTAL_PRICE', 'ARRIVAL_DATE', 'ARRIVAL_AIRPORT', 'CONTACT_NAME', 'CONTACT_EMAIL', 'CONTACT_PHONE', 'STATUS', 'UPDATE_DATE'))
+		        ->join(array('v' => 'VISA_TYPE'),'v.ID = b.VISA_TYPE_ID', array('VISA_TYPE' => 'NAME'))		        
+		        ->join(array('p' => 'PROCESSING_TIME_TYPE'),'p.ID = b.PROCESSING_TIME_TYPE_ID', array('PROCESSING_TIME_TYPE' => 'NAME'))
+		        ->setIntegrityCheck(false) // ADD This Line
 		        ->order('UPDATE_DATE DESC');
 		        
 		        if(!is_null($keyword) && strlen($keyword) > 0){
 		            $keyword = strtolower($keyword);
-		            $select = $select->where('LOWER(CONTACT_NAME) LIKE ?', "%{$keyword}%");
+		            $select = $select->where('LOWER(CODE) LIKE ?', "%{$keyword}%");
+		            $select = $select->orWhere('LOWER(CONTACT_NAME) LIKE ?', "%{$keyword}%");
 		            $select = $select->orWhere('LOWER(CONTACT_EMAIL) LIKE ?', "%{$keyword}%");
 		            $select = $select->orWhere('LOWER(CONTACT_PHONE) LIKE ?', "%{$keyword}%");
 		        }

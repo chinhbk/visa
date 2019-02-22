@@ -521,15 +521,35 @@ class IndexController extends Zend_Controller_Action
         $this->view->numerOfVisa = $numerOfVisa;
         $this->view->private_visa_letter_price = $private_visa_letter_price;
         
+        
+        //edit visa apply online
+        $booking_code = $request->getParam('code');
+        $booking = null;
+        $applicants = null;
+        if(isset($booking_code)){
+            $book_mapper = new Application_Model_BookVisaMapper();
+            $booking = $book_mapper->getById($id);
+            
+            $applicant_mapper = new Application_Model_ApplicantVisaMapper();
+            $applicants = $applicant_mapper->getApplicants($id);
+            
+            $this->view->booking = $booking;
+            $this->view->applicants = $applicants;
+        }
+        
         //Zend_Debug::dump($visa_setting[0]);die;
         $bookvisa_mapper = new Application_Model_BookVisaMapper();
         
         if ($request->isPost()) {
+            $this->_helper->layout()->disableLayout(); //  shuts off of the layout
+            $this->_helper->viewRenderer->setNoRender();// stop automatic rendering
             $purposeOfVisit = $request->getParam('dropPurposeOfVisit');
             $numberApp = $request->getParam('dropNumberApp');
             $type_of_visa = $request->getParam('type_of_visa');
+            $type_of_visa_id = $request->getParam('type_of_visa_id');
             $arrival_date = $request->getParam('arrival_date');
             $processing_time = $request->getParam("processing_time");
+            $processing_time_id = $request->getParam("processing_time_id");
             $pay = $request->getParam("radioPay");
             $Arrival_Airport =  $request->getParam("Arrival_Airport");
             $contact_name = $request->getParam("contact_name");
@@ -596,8 +616,8 @@ class IndexController extends Zend_Controller_Action
             $book_visa->code = $booking_code;
             
             $book_visa->purpose_of_visit = $purposeOfVisit;
-            $book_visa->visa_type = $type_of_visa;
-            $book_visa->processing_time_type = $processing_time;
+            $book_visa->visa_type_id = $type_of_visa_id;
+            $book_visa->processing_time_type_id = $processing_time_id;
             $book_visa->visa_letter = $private;
             $book_visa->number_of_visa = $numberApp;
             $book_visa->price_detail = $price_detail;
@@ -621,7 +641,7 @@ class IndexController extends Zend_Controller_Action
                 $app = new Application_Model_ApplicantVisa();
                 $app->book_visa_id = $book_visa_id;
                 //die($request->getParam("nationality".$i));
-                $app->nationality = $request->getParam("nationality".$i);
+                $app->nationality_id = $request->getParam("nationality_id".$i);
                 $app->name = $request->getParam("fullname".$i);
                 //Zend_Debug::dump($app);die;
                 $app->gender = $request->getParam("gender".$i);
@@ -696,6 +716,13 @@ class IndexController extends Zend_Controller_Action
             $html->assign('passportExpiryDate6', $passportExpiryDate6);
             
             $html->assign('totalPrice', $totalPrice); 
+            
+            //get phone hotline from DB
+            $mapper = new Application_Model_SettingMapper();
+            $setting = $mapper->get();
+            
+            $html->assign('hotline', $setting->hotline);
+            $html->assign('address', $setting->address);
             
             //die($nationality1);
             // render view

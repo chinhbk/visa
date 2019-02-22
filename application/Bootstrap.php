@@ -1,6 +1,8 @@
 <?php
 class Bootstrap extends Zend_Application_Bootstrap_Bootstrap
 {
+    
+    //works on real domain
 	protected function _initForceSSL() {
 		if($_SERVER['SERVER_PORT'] != '443') {
 			header('Location: https://' . $_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI']);
@@ -236,7 +238,7 @@ class Bootstrap extends Zend_Application_Bootstrap_Bootstrap
                     'controller' => 'index'
                 ));
             
-            $frontController->getRouter()->addRoute('visa-term-condition', $route_visa_exemption);
+            $frontController->getRouter()->addRoute('vietnam-visa-exemption', $route_visa_exemption);
                 
     }
 	
