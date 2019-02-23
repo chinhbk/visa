@@ -735,7 +735,7 @@ class IndexController extends Zend_Controller_Action
             $bodyHtml = $html->render('visa-book-email.phtml');
             //die($bodyHtml);            
             $subject = $booking_code.' - Visa Request from '.$contact_name;
-            //$this->_sendMail($subject, $bodyHtml, $contact_email);
+            $this->_sendMail($subject, $bodyHtml, $contact_email);
                  
             
             echo json_encode($booking_code);

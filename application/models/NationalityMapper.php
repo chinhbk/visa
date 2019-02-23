@@ -168,7 +168,7 @@
 		}
 		
 		
-		public function getNationalitiesApplyForVisaType($purpose_of_visit, $visa_type_id)
+		public function getNationalitiesApplyForVisaType($purpose_of_visit, $visa_type_id = null)
 		{
 		    try{
 		        $select = $this->_db_table->select()
