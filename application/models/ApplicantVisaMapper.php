@@ -25,7 +25,7 @@ class Application_Model_ApplicantVisaMapper{
 
 		    
 		    try {
-		        if($is_update == false) {
+		        if( is_null($obj->id) ) {
 		            //Zend_Debug::dump( $data);		die;
 		            //$data['CREATE_DATE'] = $obj->create_date;
 		            return $this->_db_table->insert($data);
@@ -93,6 +93,11 @@ class Application_Model_ApplicantVisaMapper{
 		        Zend_Debug::dump( $e);die();
 		    }
 		    return $arr;
+		}
+		
+		public function deleteByBookId($book_id){
+		    $where = $this->_db_table->getAdapter()->quoteInto("BOOK_VISA_ID = ?", $book_id);
+		    $this->_db_table->delete($where);
 		}
 		
 		public function delete($id){

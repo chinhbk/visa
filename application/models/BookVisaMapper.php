@@ -34,12 +34,13 @@
 
 		    
 		    try {
-		        if($is_update == false) {
+		        if( is_null($obj->id) ) {
 		            //Zend_Debug::dump( $data);		die;
 		            $data['CREATE_DATE'] = $obj->create_date;
 		            return $this->_db_table->insert($data);
 		        } else {
 		            $this->_db_table->update($data, array('ID = ?' => $obj->id));
+		            return $obj->id;
 		        }
 		    } catch (Exception $e) {
 		        Zend_Debug::dump( $e);die();
@@ -82,6 +83,9 @@
 		    
 		    
 		    $row = $this->_db_table->getAdapter()->fetchRow($select);
+		    if(count($row) == 0){
+		        return null;
+		    }
 		    $obj = new Application_Model_BookVisa($row);
 		    return $obj;
 		}

@@ -60,12 +60,14 @@
 			</div>
 		</div>
 		
-	     <a href="/vietnam-visa-exemption" style="color:#f58634">Vietnam Visa Exemption</a>
-         <h1>Apply Online</h1>
-
-        <div id="showInfoPayment" style="display: block;">
-             
-        
+		<div style="display: <?php echo $this->booking_code != null ? 'none' : 'block'?>;">
+	    	<a href="/vietnam-visa-exemption" style="color:#f58634">Vietnam Visa Exemption</a>
+         	<h1>Apply Online</h1>
+		</div>
+        <div id="showInfoPayment" style="display: <?php echo $this->booking_code != null ? 'block' : 'none'?>;width: 98%;">
+             <div class="alert alert-info">
+                Your booking number is <strong><?php echo $this->booking_code?></strong>
+            </div>
         </div>
          
         <ul class="nav nav-tabs">

@@ -1061,7 +1061,11 @@ $.get("https://min-api.cryptocompare.com/data/price?fsym=ETH&tsyms=BTC,USD,EUR,G
               var p_timeText = p_time.options[p_time.selectedIndex].text;
               var radioPrivate= g("#radioPrivate1").checked ? g("#radioPrivate1").value : g("#radioPrivate2").value;
               var payment_method = g("#radioPay1").checked ? g("#radioPay1").value : g("#radioPay2").value;
+              //edit case
+              var code = getQueryVariable('code');
+              if (typeof code == 'undefined' || code == null) code = '';
               var data = {
+                     code: code,
             		 dropPurposeOfVisit: g("#dropPurposeOfVisit").value,
             		 dropNumberApp: g("#dropNumberApp").value,
             		 type_of_visa: text_type_visa,

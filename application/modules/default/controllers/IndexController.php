@@ -499,17 +499,21 @@ class IndexController extends Zend_Controller_Action
         $booking_code = $request->getParam('code');
         $booking = null;
         $applicants = null;
-        if(isset($booking_code)){
+        if($booking_code != ''){ //update case
             $book_mapper = new Application_Model_BookVisaMapper();
             $booking = $book_mapper->getByCode($booking_code);
+            if($booking == null){
+                //redirect to home page;
+            }
             //Zend_Debug::dump($booking);die;
             $applicant_mapper = new Application_Model_ApplicantVisaMapper();
             $applicants = $applicant_mapper->getApplicants($booking->id);
             
             $this->view->booking = $booking;
             $this->view->applicants = $applicants;
-            //die($applicants[0]->nationality_id);
-            //Zend_Debug::dump(booking);die;
+            $this->view->booking_code = $booking_code;
+            //die($applicants[0]->nationality_id);            
+            //Zend_Debug::dump($booking);die;
         }
         
         $default_purpose = $booking != null && $booking->purpose_of_visit != null ? $booking->purpose_of_visit : 'TOURIST VISA';
@@ -561,12 +565,16 @@ class IndexController extends Zend_Controller_Action
             $contact_cc_email = $request->getParam("contact_cc_email");
             $contact_phone = $request->getParam("contact_phone");
             $private = $request->getParam("radioPrivate"); //Private/Shared visa
-            
-            $latest_book_id = $bookvisa_mapper->getLatestId();
-            $booking_code = $this->_generateCode($latest_book_id + 1, 'V');
+            $booking_code = $request->getParam('code');
+            //die($booking_code.'===');
+            //create new
+            if($booking_code == ''){
+                $latest_book_id = $bookvisa_mapper->getLatestId();
+                $booking_code = $this->_generateCode($latest_book_id + 1, 'V');
+            }
             
             $book_time = $request->getParam('book_time');
-            //echo $purposeOfVisit; die;
+            //echo $booking_code; die;
 
             $nationality1 = $request->getParam("nationality1");
             $fullname1 = $request->getParam("fullname1");
@@ -614,8 +622,12 @@ class IndexController extends Zend_Controller_Action
             $totalPrice = $request->getParam("totalPrice");
             $price_detail =  $request->getParam("price_detail");
                         
-            //save data
+            //save/update data
             $book_visa = new Application_Model_BookVisa();
+            //Zend_Debug::dump($booking);die;
+            if($booking != null){ //update
+                $book_visa = $booking;
+            }
             //die('123333');
             $book_visa->code = $booking_code;
             
@@ -637,12 +649,15 @@ class IndexController extends Zend_Controller_Action
             $book_visa->update_date = $this->_helper->CommonUtils->getVnDateTime();
             //die($arrival_date);
             $book_visa_id = $bookvisa_mapper->save($book_visa);
-            
             //save applicants
             $applicant_visa_mapper = new Application_Model_ApplicantVisaMapper();
             //die($book_visa_id);
             //die($request->getParam("nationality1"));
-            for($i = 1; $i <= $numberApp; $i++) {
+            //delete existing applicants, then reinsert again
+            if($applicants != null){
+                $applicant_visa_mapper->deleteByBookId($book_visa_id);
+            }
+            for($i = 1; $i <= $numberApp; $i++) {                
                 $app = new Application_Model_ApplicantVisa();
                 $app->book_visa_id = $book_visa_id;
                 //die($request->getParam("nationality".$i));
