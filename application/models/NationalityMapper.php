@@ -76,6 +76,8 @@
 				    //$select = $select->where('LOWER(EMAIL) LIKE ?', "%{$keyword}%");
 				}
 				
+				$select = $select->order('NAME ASC');
+				
 				$result = $this->_db_table->getAdapter()->fetchAll($select);
 				$arr = array();
 				//Zend_Debug::dump($result);die();		
