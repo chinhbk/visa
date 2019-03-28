@@ -647,6 +647,8 @@ class IndexController extends Zend_Controller_Action
             $book_visa->status = 'NEW';
             $book_visa->create_date = $this->_helper->CommonUtils->getVnDateTime();
             $book_visa->update_date = $this->_helper->CommonUtils->getVnDateTime();
+            $onepay_link = $this->_buildOnePayLink($totalPrice, $booking_code, $contact_phone, $contact_email);
+            $book_visa->onepay_link = $onepay_link;
             //die($arrival_date);
             $book_visa_id = $bookvisa_mapper->save($book_visa);
             //save applicants
@@ -751,9 +753,329 @@ class IndexController extends Zend_Controller_Action
             //die($bodyHtml);            
             $subject = $booking_code.' - Visa Request from '.$contact_name;
             $this->_sendMail($subject, $bodyHtml, $contact_email);
-                 
             
-            echo json_encode($booking_code);
+            echo $onepay_link;
+        }
+    }
+    
+    public function bookingResultAction() {
+        $SECURE_SECRET = self::$SECURE_SECRET;
+        
+        // get and remove the vpc_TxnResponseCode code from the response fields as we
+        // do not want to include this field in the hash calculation
+        $vpc_Txn_Secure_Hash = $_GET["vpc_SecureHash"];
+        $vpc_MerchTxnRef = $_GET["vpc_MerchTxnRef"];
+        $vpc_AcqResponseCode = $_GET["vpc_AcqResponseCode"];
+        unset($_GET["vpc_SecureHash"]);
+        // set a flag to indicate if hash has been validated
+        $errorExists = false;
+        
+        if (strlen($SECURE_SECRET) > 0 && $_GET["vpc_TxnResponseCode"] != "7" && $_GET["vpc_TxnResponseCode"] != "No Value Returned") {
+            
+            ksort($_GET);
+            //$md5HashData = $SECURE_SECRET;
+            //khởi tạo chuỗi mã hóa rỗng
+            $md5HashData = "";
+            // sort all the incoming vpc response fields and leave out any with no value
+            foreach ($_GET as $key => $value) {
+                //        if ($key != "vpc_SecureHash" or strlen($value) > 0) {
+                //            $md5HashData .= $value;
+                //        }
+                //      chỉ lấy các tham số bắt đầu bằng "vpc_" hoặc "user_" và khác trống và không phải chuỗi hash code trả về
+                if ($key != "vpc_SecureHash" && (strlen($value) > 0) && ((substr($key, 0,4)=="vpc_") || (substr($key,0,5) =="user_"))) {
+                    $md5HashData .= $key . "=" . $value . "&";
+                }
+            }
+            //  Xóa dấu & thừa cuối chuỗi dữ liệu
+            $md5HashData = rtrim($md5HashData, "&");
+            
+            //    if (strtoupper ( $vpc_Txn_Secure_Hash ) == strtoupper ( md5 ( $md5HashData ) )) {
+            //    Thay hàm tạo chuỗi mã hóa
+            if (strtoupper ( $vpc_Txn_Secure_Hash ) == strtoupper(hash_hmac('SHA256', $md5HashData, pack('H*',$SECURE_SECRET)))) {
+                // Secure Hash validation succeeded, add a data field to be displayed
+                // later.
+                $hashValidated = "CORRECT";
+            } else {
+                // Secure Hash validation failed, add a data field to be displayed
+                // later.
+                $hashValidated = "INVALID HASH";
+            }
+        } else {
+            // Secure Hash was not validated, add a data field to be displayed later.
+            $hashValidated = "INVALID HASH";
+        }
+        //die($hashValidated);
+        // Define Variables
+        // ----------------
+        // Extract the available receipt fields from the VPC Response
+        // If not present then let the value be equal to 'No Value Returned'
+        
+        // Standard Receipt Data
+        $amount = $this->_null2unknown($_GET["vpc_Amount"]);
+        $this->view->amount = $amount/100;
+        $locale = $this->_null2unknown($_GET["vpc_Locale"]);
+        $batchNo = $this->_null2unknown($_GET["vpc_BatchNo"]);
+        $command = $this->_null2unknown($_GET["vpc_Command"]);
+        $message = $this->_null2unknown($_GET["vpc_Message"]);
+        $this->view->message = $message;
+        $version = $this->_null2unknown($_GET["vpc_Version"]);
+        $cardType = $this->_null2unknown($_GET["vpc_Card"]);
+        $orderInfo = $this->_null2unknown($_GET["vpc_OrderInfo"]);
+        $this->view->orderInfo = $orderInfo;
+        $receiptNo = $this->_null2unknown($_GET["vpc_ReceiptNo"]);
+        $merchantID = $this->_null2unknown($_GET["vpc_Merchant"]);
+        //$authorizeID = $this->_null2unknown($_GET["vpc_AuthorizeId"]);
+        $merchTxnRef = $this->_null2unknown($_GET["vpc_MerchTxnRef"]);
+        $this->view->merchTxnRef = $merchTxnRef;
+        $transactionNo = $this->_null2unknown($_GET["vpc_TransactionNo"]);
+        $this->view->transactionNo = $transactionNo;
+        $acqResponseCode = $this->_null2unknown($_GET["vpc_AcqResponseCode"]);
+        $txnResponseCode = $this->_null2unknown($_GET["vpc_TxnResponseCode"]);
+        $this->view->txnResponseCode = $txnResponseCode;
+        // 3-D Secure Data
+        $verType = array_key_exists("vpc_VerType", $_GET) ? $_GET["vpc_VerType"] : "No Value Returned";
+        $verStatus = array_key_exists("vpc_VerStatus", $_GET) ? $_GET["vpc_VerStatus"] : "No Value Returned";
+        $token = array_key_exists("vpc_VerToken", $_GET) ? $_GET["vpc_VerToken"] : "No Value Returned";
+        $verSecurLevel = array_key_exists("vpc_VerSecurityLevel", $_GET) ? $_GET["vpc_VerSecurityLevel"] : "No Value Returned";
+        $enrolled = array_key_exists("vpc_3DSenrolled", $_GET) ? $_GET["vpc_3DSenrolled"] : "No Value Returned";
+        $xid = array_key_exists("vpc_3DSXID", $_GET) ? $_GET["vpc_3DSXID"] : "No Value Returned";
+        $acqECI = array_key_exists("vpc_3DSECI", $_GET) ? $_GET["vpc_3DSECI"] : "No Value Returned";
+        $authStatus = array_key_exists("vpc_3DSstatus", $_GET) ? $_GET["vpc_3DSstatus"] : "No Value Returned";
+        
+        // *******************
+        // END OF MAIN PROGRAM
+        // *******************
+        
+        // FINISH TRANSACTION - Process the VPC Response Data
+        // =====================================================
+        // For the purposes of demonstration, we simply display the Result fields on a
+        // web page.
+        
+        // Show 'Error' in title if an error condition
+        $errorTxt = "";
+        
+        // Show this page as an error page if vpc_TxnResponseCode equals '7'
+        if ($txnResponseCode == "7" || $txnResponseCode == "No Value Returned" || $errorExists) {
+            $errorTxt = "Error ";
+        }
+        
+        // This is the display title for 'Receipt' page
+        $title = $_GET["Title"];
+        
+        // The URL link for the receipt to do another transaction.
+        // Note: This is ONLY used for this example and is not required for
+        // production code. You would hard code your own URL into your application
+        // to allow customers to try another transaction.
+        //TK//$againLink = URLDecode($_GET["AgainLink"]);
+        
+        
+        $transStatus = "";
+        if($hashValidated=="CORRECT" && $txnResponseCode=="0"){
+            $transStatus = "Transaction Successful";
+        }elseif ($hashValidated=="INVALID HASH" && $txnResponseCode=="0"){
+            $transStatus = "Transaction Pendding";
+        }else {
+            $transStatus = "Transaction Failure";
+        }
+        
+        //update DB
+        $bookingCode = $merchTxnRef;
+        $mapper = new Application_Model_BookVisaMapper();
+        //die($bookingCode);
+        $bookingVisa = $mapper->getByCode($bookingCode);
+        //Zend_Debug::dump( $bookingVisa);die();
+        $bookingVisa->status = $transStatus;
+        if ($txnResponseCode != "7" && $txnResponseCode != "No Value Returned"){
+            $bookingVisa->trans_code = $transactionNo;
+        }
+        $mapper->save($bookingVisa);
+        
+        $this->view->transactionDes = $this->_getResponseDescription($txnResponseCode);
+        $this->view->transStatus = $transStatus;
+    }
+    
+    
+    private static $VPC_URL = 'https://mtf.onepay.vn/vpcpay/vpcpay.op'; //TODO update 
+    private static $SECURE_SECRET = '18D7EC3F36DF842B42E1AA729E4AB010'; //TODO update
+    private static $VPC_MERCHANT = 'TESTONEPAYUSD'; //TODO update
+    private static $VPC_ACCESS_CODE = '614240F4'; //TODO update
+    private static $VPC_RETURN_URL = 'https://vietnamvisatours.com/index/booking-result';
+    private static $AGAIN_LINK = 'https://vietnamvisatours.com/visa-apply-online?code=';
+    
+    private function _buildOnePayLink($amountUSD, $bookingCode, $phone, $email) {
+        $vpcURL = self::$VPC_URL . '?';
+        // This is secret for encoding the MD5 hash
+        $SECURE_SECRET = self::$SECURE_SECRET; 
+        //$md5HashData = $SECURE_SECRET; Khởi tạo chuỗi dữ liệu mã hóa trống
+        $md5HashData = "";
+        
+        $data = array(
+            'Title' => 'VPC 3-Party', //TODO update
+            'vpc_Merchant' => self::$VPC_MERCHANT,
+            'vpc_AccessCode' => self::$VPC_ACCESS_CODE,
+            'vpc_MerchTxnRef' => $bookingCode,
+            'vpc_OrderInfo' => 'JSECURETEST01',
+            'vpc_Amount' => $amountUSD * 100,
+            'vpc_ReturnURL' => self::$VPC_RETURN_URL,
+            'vpc_Version' => 2,
+            'vpc_Command' => pay,
+            'vpc_Locale'  => 'en',
+            'vpc_TicketNo' => '::1',
+            'vpc_SHIP_Street01' => '',
+            'vpc_SHIP_Provice' => '',
+            'vpc_SHIP_City' => '',
+            'vpc_SHIP_Country' => '',
+            'vpc_Customer_Phone' => $phone,
+            'vpc_Customer_Email' => $email,
+            'AgainLink' => self::$AGAIN_LINK.$bookingCode,
+        );
+        
+        ksort($data);
+        
+        foreach($data as $key => $value) {
+            
+            // create the md5 input and URL leaving out any fields that have no value
+            if (strlen($value) > 0) {
+                
+                // this ensures the first paramter of the URL is preceded by the '?' char
+                if ($appendAmp == 0) {
+                    $vpcURL .= urlencode($key) . '=' . urlencode($value);
+                    $appendAmp = 1;
+                } else {
+                    $vpcURL .= '&' . urlencode($key) . "=" . urlencode($value);
+                }
+                //$md5HashData .= $value; sử dụng cả tên và giá trị tham số để mã hóa
+                if ((strlen($value) > 0) && ((substr($key, 0,4)=="vpc_") || (substr($key,0,5) =="user_"))) {
+                    $md5HashData .= $key . "=" . $value . "&";
+                }
+            }
+        }
+        //xóa ký tự & ở thừa ở cuối chuỗi dữ liệu mã hóa
+        $md5HashData = rtrim($md5HashData, "&");
+        // Create the secure hash and append it to the Virtual Payment Client Data if
+        // the merchant secret has been provided.
+        if (strlen($SECURE_SECRET) > 0) {
+            //$vpcURL .= "&vpc_SecureHash=" . strtoupper(md5($md5HashData));
+            // Thay hàm mã hóa dữ liệu
+            $vpcURL .= "&vpc_SecureHash=" . strtoupper(hash_hmac('SHA256', $md5HashData, pack('H*',$SECURE_SECRET)));
+        }
+        return $vpcURL;
+    }
+    
+    public function onePayAction(){
+        $request = $this->getRequest();
+        $bookingCode = $request->getParam('code');
+        
+        //die($bookingCode);
+        $mapper = new Application_Model_BookVisaMapper();
+        $bookingVisa = $mapper->getByCode($bookingCode);
+        //Zend_Debug::dump( $bookingVisa);die();
+        if($bookingVisa->onepay_link == '' || $bookingVisa->onepay_link == null) {
+            $this->redirect('index');
+        }
+        $this->view->onepay_link = $bookingVisa->onepay_link;
+    }
+    
+    
+    // This method uses the QSI Response code retrieved from the Digital
+    // Receipt and returns an appropriate description for the QSI Response Code
+    //
+    // @param $responseCode String containing the QSI Response Code
+    //
+    // @return String containing the appropriate description
+    //
+    function _getResponseDescription($responseCode)
+    {
+        
+        switch ($responseCode) {
+            case "0" :
+                $result = "Transaction Successful";
+                break;
+            case "?" :
+                $result = "Transaction status is unknown";
+                break;
+            case "1" :
+                $result = "Bank system reject";
+                break;
+            case "2" :
+                $result = "Bank Declined Transaction";
+                break;
+            case "3" :
+                $result = "No Reply from Bank";
+                break;
+            case "4" :
+                $result = "Expired Card";
+                break;
+            case "5" :
+                $result = "Insufficient funds";
+                break;
+            case "6" :
+                $result = "Error Communicating with Bank";
+                break;
+            case "7" :
+                $result = "Payment Server System Error";
+                break;
+            case "8" :
+                $result = "Transaction Type Not Supported";
+                break;
+            case "9" :
+                $result = "Bank declined transaction (Do not contact Bank)";
+                break;
+            case "A" :
+                $result = "Transaction Aborted";
+                break;
+            case "C" :
+                $result = "Transaction Cancelled";
+                break;
+            case "D" :
+                $result = "Deferred transaction has been received and is awaiting processing";
+                break;
+            case "F" :
+                $result = "3D Secure Authentication failed";
+                break;
+            case "I" :
+                $result = "Card Security Code verification failed";
+                break;
+            case "L" :
+                $result = "Shopping Transaction Locked (Please try the transaction again later)";
+                break;
+            case "N" :
+                $result = "Cardholder is not enrolled in Authentication scheme";
+                break;
+            case "P" :
+                $result = "Transaction has been received by the Payment Adaptor and is being processed";
+                break;
+            case "R" :
+                $result = "Transaction was not processed - Reached limit of retry attempts allowed";
+                break;
+            case "S" :
+                $result = "Duplicate SessionID (OrderInfo)";
+                break;
+            case "T" :
+                $result = "Address Verification Failed";
+                break;
+            case "U" :
+                $result = "Card Security Code Failed";
+                break;
+            case "V" :
+                $result = "Address Verification and Card Security Code Failed";
+                break;
+            case "99" :
+                $result = "User Cancel";
+                break;
+            default  :
+                $result = "Unable to be determined";
+        }
+        return $result;
+    }
+    
+    // If input is null, returns string "No Value Returned", else returns input
+    private function _null2unknown($data)
+    {
+        if ($data == "") {
+            return "No Value Returned";
+        } else {
+            return $data;
         }
     }
     

@@ -29,6 +29,8 @@
 		        'CONTACT_EMAIL' => $obj->contact_email,
 		        'CONTACT_PHONE' => $obj->contact_phone,
 		        'STATUS' => $obj->status,
+		        'TRANS_CODE' => $obj->trans_code,
+		        'ONEPAY_LINK' => $obj->onepay_link,
 		        'UPDATE_DATE' => $obj->update_date,
 		    );
 
@@ -110,7 +112,7 @@
 		{
 		    try{
 		        $select = $this->_db_table->select()
-		        ->from(array('b' => self::TABLE), array('ID', 'CODE', 'PURPOSE_OF_VISIT', 'VISA_TYPE_ID', 'PROCESSING_TIME_TYPE_ID', 'VISA_LETTER', 'NUMBER_OF_VISA', 'TOTAL_PRICE', 'ARRIVAL_DATE', 'ARRIVAL_AIRPORT', 'CONTACT_NAME', 'CONTACT_EMAIL', 'CONTACT_PHONE', 'STATUS', 'UPDATE_DATE'))
+		        ->from(array('b' => self::TABLE), array('ID', 'CODE', 'PURPOSE_OF_VISIT', 'VISA_TYPE_ID', 'PROCESSING_TIME_TYPE_ID', 'VISA_LETTER', 'NUMBER_OF_VISA', 'TOTAL_PRICE', 'ARRIVAL_DATE', 'ARRIVAL_AIRPORT', 'CONTACT_NAME', 'CONTACT_EMAIL', 'CONTACT_PHONE', 'STATUS', 'TRANS_CODE', 'UPDATE_DATE'))
 		        ->join(array('v' => 'VISA_TYPE'),'v.ID = b.VISA_TYPE_ID', array('VISA_TYPE' => 'NAME'))		        
 		        ->join(array('p' => 'PROCESSING_TIME_TYPE'),'p.ID = b.PROCESSING_TIME_TYPE_ID', array('PROCESSING_TIME_TYPE' => 'NAME'))
 		        ->setIntegrityCheck(false) // ADD This Line

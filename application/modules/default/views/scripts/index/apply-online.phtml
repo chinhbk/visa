@@ -190,7 +190,7 @@
                                                 	<input type="radio" name="radioPay" id="radioPay1" value="Visa/Master/American Express/JCB Card">Visa/Master/American Express/JCB Card</label>
                                                 <?php }?>
                                          </div>
-                                         <div class="radio">
+                                         <div class="radio" style="display: none"> <!-- TODO uncomment when integrating with Paypal -->
                                              <label>
                                              	 <?php if($this->booking->payment == 'Paypal'){?>
                                              	 	<input type="radio" name="radioPay" id="radioPay2" value="Paypal" checked="">Paypal</label>

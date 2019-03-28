@@ -1,0 +1,105 @@
+<style>
+ /* exemption css */
+.tb-2 {
+    margin-bottom: 10px;
+}
+.tb-2 tr th:first-child, .tb-2 tr td:first-child {
+    white-space: nowrap;
+}
+.tb-2 tr td {
+    border-bottom-color: rgba(204,204,204,0.5);
+}
+.tb-2 tr th, .tb-2 tr td {
+    padding: 15px 27px;
+    border: 1px solid #fff;
+}
+.btn-1 {
+    background-color: #e2490b;
+    color: #fff;
+}
+.wg_1b {
+    padding: 0;
+    height: 50px;
+    line-height: 50px;
+    font-size: 1.8rem;
+    text-transform: uppercase;
+    font-family: "Product Sans",sans-serif;
+    margin-top: 3.5rem;
+}
+.btn-block {
+    max-width: 400px;
+}
+</style>
+<div class="home">
+	<div id="bienthuy-mainbody"
+		class="container bienthuy-mainbody one-sidebar-right">
+		<div class="row">
+			<!-- MAIN CONTENT -->
+			<div id="bienthuy-content"
+				class="bienthuy-content col-xs-12 col-sm-12 col-md-8">
+					<div class="page-header">
+    		<h2>
+    			<span class="contact-name" itemprop="name">Transaction Detail</span>
+    		</h2>
+		</div>
+    <table class = "tb-2">
+        <thead>
+        <tr>
+            <th colspan="2" style=" text-align: center;"><?php echo $this->transStatus;?></th>
+        </tr>
+        </thead>
+        <tfoot>
+        <tr>
+            <td align="center" colspan="4"></td>
+        </tr>
+        </tfoot>
+        <tbody>
+         <tr>
+            <td>Booking code</td>
+            <td><?php
+            echo $this->merchTxnRef;
+                ?></td>
+        </tr>
+        <tr>
+            <td>Purchase Amount</td>
+            <td><?php echo $this->transStatus == 'Transaction Successful' ? '$' : ''?><?php
+            echo $this->amount;
+            ?></td>
+        </tr>
+        <tr style="display: none">
+            <td>VPC Transaction Response Code </td>
+            <td><?php
+            echo $this->txnResponseCode;
+                ?></td>
+        </tr>
+        <tr>
+            <td>Transaction Response Code Description </td>
+            <td><?php echo $this->transactionDes;
+                ?></td>
+        </tr>
+        <tr style="display: none">
+            <td>Message</td>
+            <td><?php
+            echo $this->message;
+                ?></td>          
+        </tr>
+<?php
+// only display the following fields if not an error condition
+        if ($txnResponseCode != "7" && $txnResponseCode != "No Value Returned") {
+            ?>
+        <tr>
+            <td>Transaction Number</td>
+            <td><?php
+    echo $this->transactionNo;
+                ?></td>
+        </tr>
+
+                <?php
+
+        }
+        ?>
+        </tbody>
+    </table>
+			</div>
+		</div>
+	</div>
