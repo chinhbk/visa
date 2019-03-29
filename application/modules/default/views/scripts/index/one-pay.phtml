@@ -1,1 +1,42 @@
-<?php header("Location: ".$this->onepay_link);?>
+<?php 
+if($bookingVisa->trans_code == 0){ //already PAID
+    ?>
+    <div class="home">
+	<div id="bienthuy-mainbody"
+		class="container bienthuy-mainbody one-sidebar-right">
+		<div class="row">
+			<!-- MAIN CONTENT -->
+			<div id="bienthuy-content"
+				class="bienthuy-content col-xs-12 col-sm-12 col-md-8">
+				<!-- Content Top-->
+				<div id="system-message-container">
+					<div id="system-message">
+						<div class="alert alert-message">
+							<a class="close" data-dismiss="alert">×</a>
+
+							<h4 class="alert-heading">Message</h4>
+							<div>
+								<div class="alert-message">
+									<center>
+										<font color="#000000"><h1>Your transation has already successfully</h1>
+											<br>
+										<p>
+												<i class="fa fa-thumbs-up"></i> &nbsp;You already paid for this booking request. Thank you.<br>One of our travel
+												consultants will get back to you shortly.<br>Your <b>Booking
+													Code</b>: <font color="#0066ff"><?php echo $this->bookingVisa->code?> </font>
+											</p></font>									
+										<br>
+										<a href="/" class="booktour-button">Go back to the
+											Home page</a>
+									</center>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+<?php } else {
+    header("Location: ".$this->onepay_link);
+}?>

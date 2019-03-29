@@ -879,14 +879,15 @@ class IndexController extends Zend_Controller_Action
         }
         
         //update DB
-        $bookingCode = $merchTxnRef;
+        $bookingCode = $orderInfo;
         $mapper = new Application_Model_BookVisaMapper();
         //die($bookingCode);
         $bookingVisa = $mapper->getByCode($bookingCode);
         //Zend_Debug::dump( $bookingVisa);die();
         $bookingVisa->status = $transStatus;
-        if ($txnResponseCode != "7" && $txnResponseCode != "No Value Returned"){
-            $bookingVisa->trans_code = $transactionNo;
+        $bookingVisa->trans_code = $txnResponseCode;
+        if ($txnResponseCode != "7" && $txnResponseCode != "No Value Returned"){            
+            $bookingVisa->trans_number = $transactionNo;
         }
         $mapper->save($bookingVisa);
         
@@ -913,8 +914,8 @@ class IndexController extends Zend_Controller_Action
             'Title' => 'VPC 3-Party', //TODO update
             'vpc_Merchant' => self::$VPC_MERCHANT,
             'vpc_AccessCode' => self::$VPC_ACCESS_CODE,
-            'vpc_MerchTxnRef' => $bookingCode,
-            'vpc_OrderInfo' => 'JSECURETEST01',
+            'vpc_MerchTxnRef' => date('YmdHis') . rand(),
+            'vpc_OrderInfo' => $bookingCode,
             'vpc_Amount' => $amountUSD * 100,
             'vpc_ReturnURL' => self::$VPC_RETURN_URL,
             'vpc_Version' => 2,
@@ -973,6 +974,8 @@ class IndexController extends Zend_Controller_Action
         if($bookingVisa->onepay_link == '' || $bookingVisa->onepay_link == null) {
             $this->redirect('index');
         }
+
+        $this->view->bookingVisa = $bookingVisa;
         $this->view->onepay_link = $bookingVisa->onepay_link;
     }
     

@@ -22,6 +22,7 @@ class Application_Model_BookVisa
     private $update_date;
     private $status;
     private $trans_code;
+    private $trans_number;
     private $onepay_link;
     
     private $visa_type; //DTO
@@ -51,6 +52,7 @@ class Application_Model_BookVisa
          
          $this->status = $obj->STATUS;
          $this->trans_code = $obj->TRANS_CODE;
+         $this->trans_number = $obj->TRANS_NUMBER;
          $this->onepay_link = $obj->ONEPAY_LINK;
          $this->create_date = $obj->CREATE_DATE;
          $this->update_date = $obj->UPDATE_DATE;
@@ -74,6 +76,7 @@ class Application_Model_BookVisa
          
          $this->status = $obj['STATUS'];
          $this->trans_code = $obj['TRANS_CODE'];
+         $this->trans_number = $obj['TRANS_NUMBER'];
          if(isset($obj['ONEPAY_LINK'])) $this->onepay_link = $obj['ONEPAY_LINK'];
          if(isset($obj['VISA_TYPE'])) $this->visa_type = $obj['VISA_TYPE'];
          if(isset($obj['PROCESSING_TIME_TYPE'])) $this->processing_time_type = $obj['PROCESSING_TIME_TYPE'];

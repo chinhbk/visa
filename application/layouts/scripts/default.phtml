@@ -1138,14 +1138,14 @@ $.get("https://min-api.cryptocompare.com/data/price?fsym=ETH&tsyms=BTC,USD,EUR,G
             	xhr.onload = function() {
             	    if (xhr.status === 200) {
                 	    //console.log(xhr.responseText);
-            	        var code = xhr.responseText;
-            	        //rediret to payment gate
-            	        hideLoading();
+            	        var paymentLink = xhr.responseText;            	       
 		
 						//--->
 						//redirect to payment gate
-						alert('You have applied visa successfully. Please check your email');
-						window.location.href = "/";
+						//alert('You have applied visa successfully. Please check your email');
+						//console.log(paymentLink);
+						window.location.href = paymentLink;
+						hideLoading();
             	        //window.location.href = "/index/tour-book-success/code/"+code;
             	    }
             	};
