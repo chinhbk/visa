@@ -34,6 +34,17 @@
       li {
   line-height: 2em;       
 }
+.termsx {
+
+  overflow-y: scroll;
+
+  height: 300px;
+
+  width: 100%;
+
+  padding: 10px;
+
+}
   </style>
 <div class="home">
 		<div id="bienthuy-mainbody" class="container bienthuy-mainbody one-sidebar-right">
@@ -833,6 +844,12 @@
 
 
 			<div class="row" style="padding-left: 20px; padding-right: 20px;">
+							<div class="termsx">
+								<h1>
+					    			<span class="contact-name" itemprop="name">Visa Term And Conditions</span>
+					    		</h1>
+								<?php echo $this->setting->visaterm?>
+							</div>
                             <br>
                             <input value="termOfUse" id="termOfUse" type="checkbox" checked="checked">
                             <label for="termOfUse" style="padding: 4px 6px;">I have read and agree with the <a href="/visa-term-condition" target="_blank" style="text-decoration: underline;">Terms of Use</a></label>

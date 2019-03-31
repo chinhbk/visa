@@ -26,11 +26,11 @@ class Application_Model_NationalityVisaType
             
         }
         if(is_array($obj)){
-            $this->id = $obj['ID'];
+        	if(isset($obj['ID']))  $this->id = $obj['ID'];
             $this->nationality_id = $obj['NATIONALITY_ID'];
             $this->visa_type_id = $obj['VISA_TYPE_ID'];
-            $this->purpose_of_visit = $obj['PURPOSE_OF_VISIT'];
-            $this->price = $obj['PRICE'];           
+            if(isset($obj['PURPOSE_OF_VISIT'])) $this->purpose_of_visit = $obj['PURPOSE_OF_VISIT'];
+            if(isset($obj['PRICE']))  $this->price = $obj['PRICE'];
             if(isset($obj['NAME'])) $this->name = $obj['NAME'];
             if(isset($obj['VISA_TYPE'])) $this->visa_type = $obj['VISA_TYPE'];
             if(isset($obj['IS_DIFFICULT'])) $this->is_difficult = $obj['IS_DIFFICULT'];

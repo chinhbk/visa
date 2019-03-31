@@ -497,7 +497,7 @@ class IndexController extends Zend_Controller_Action
                 
         //edit visa apply online
         $booking_code = $request->getParam('code');
-        $booking = null;
+        $booking = new Application_Model_BookVisa();
         $applicants = null;
         if($booking_code != ''){ //update case
             $book_mapper = new Application_Model_BookVisaMapper();
@@ -515,7 +515,7 @@ class IndexController extends Zend_Controller_Action
             //die($applicants[0]->nationality_id);            
             //Zend_Debug::dump($booking);die;
         }
-        
+        $this->view->booking = $booking;
         $default_purpose = $booking != null && $booking->purpose_of_visit != null ? $booking->purpose_of_visit : 'TOURIST VISA';
         //die($booking->purpose_of_visit);
         $visa_type_mapper = new Application_Model_VisaTypeMapper();
