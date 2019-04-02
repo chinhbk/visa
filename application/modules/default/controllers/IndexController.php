@@ -432,7 +432,7 @@ class IndexController extends Zend_Controller_Action
             $book_tour->create_date = $this->_helper->CommonUtils->getVnDateTime();
             $book_tour->update_date = $this->_helper->CommonUtils->getVnDateTime();
 
-            $onepay_link = $this->_buildOnePayLink($total_price, $request_code, $phone, $email);
+            $onepay_link = $this->_buildOnePayLink($total_price, $request_code, $phone, $email, $url);
             $book_tour->onepay_link = $onepay_link;
             $book_id = $booktour_mapper->save($book_tour);
             
@@ -649,7 +649,7 @@ class IndexController extends Zend_Controller_Action
             $book_visa->status = 'NEW';
             $book_visa->create_date = $this->_helper->CommonUtils->getVnDateTime();
             $book_visa->update_date = $this->_helper->CommonUtils->getVnDateTime();
-            $onepay_link = $this->_buildOnePayLink($totalPrice, $booking_code, $contact_phone, $contact_email);
+            $onepay_link = $this->_buildOnePayLink($totalPrice, $booking_code, $contact_phone, $contact_email, self::$AGAIN_LINK.$booking_code);
             $book_visa->onepay_link = $onepay_link;
             //die($arrival_date);
             $book_visa_id = $bookvisa_mapper->save($book_visa);
@@ -822,7 +822,7 @@ class IndexController extends Zend_Controller_Action
         $this->view->message = $message;
         $version = $this->_null2unknown($_GET["vpc_Version"]);
         $cardType = $this->_null2unknown($_GET["vpc_Card"]);
-        $orderInfo = $this->_null2unknown($_GET["vpc_OrderInfo"]);
+        $orderInfo = $_GET["vpc_OrderInfo"];
         $this->view->orderInfo = $orderInfo;
         $receiptNo = $this->_null2unknown($_GET["vpc_ReceiptNo"]);
         $merchantID = $this->_null2unknown($_GET["vpc_Merchant"]);
@@ -886,6 +886,25 @@ class IndexController extends Zend_Controller_Action
         
         $this->view->transactionDes = $this->_getResponseDescription($txnResponseCode);
         $this->view->transStatus = $transStatus;
+        
+        //if user click cancel payment ==> redirect to page before payment page
+        if($txnResponseCode == 99){
+            if (strpos($bookingCode, 'V') !== false) {
+                $this->redirect('visa-apply-online?code='.$bookingCode);
+            } else if(strpos($bookingCode, 'T') !== false){
+                $mapper = new Application_Model_BookTourMapper();
+                //die($bookingCode);
+                $booking = $mapper->getByCode($bookingCode);
+                
+                $tourType_mapper = new Application_Model_TourTypeMapper();
+                $sub_tour_type = $tourType_mapper->getById($booking->tour_id);
+                $tour->name = $sub_tour_type->name;
+                
+                $parent = $tourType_mapper->getById($sub_tour_type->parent_id);
+                $url =  $this->_generateURL($booking->tour_id, $tour->name, 2, $parent->name);
+                $this->redirect($url); // tour detail page
+            }
+        }
     }
     
     //tour or visa
@@ -989,7 +1008,7 @@ class IndexController extends Zend_Controller_Action
         //$message = null2unknown ( $_GET ["vpc_Message"] );
         $version =  $this->_null2unknown($_GET ["vpc_Version"] );
         //$cardType = null2unknown ( $_GET ["vpc_Card"] );
-        $orderInfo =  $this->_null2unknown($_GET ["vpc_OrderInfo"] );
+        $orderInfo =  $_GET ["vpc_OrderInfo"];
         //$receiptNo = null2unknown ( $_GET ["vpc_ReceiptNo"] );
         $merchantID =  $this->_null2unknown($_GET ["vpc_Merchant"] );
         //$authorizeID = null2unknown ( $_GET ["vpc_AuthorizeId"] );
@@ -1010,10 +1029,10 @@ class IndexController extends Zend_Controller_Action
         // @return String containing the appropriate description
         //
         ////////////////////////
-        //if($hashValidated=="CORRECT"){
-        //    echo "responsecode=1&desc=confirm-success";
-        //}
-        //else echo "responsecode=0&desc=confirm-fail";
+        if($hashValidated=="CORRECT"){
+            echo "responsecode=1&desc=confirm-success";
+        }
+        else echo "responsecode=0&desc=confirm-fail";
         
         ////////////////////////
         //  ----------------------------------------------------------------------------
@@ -1030,6 +1049,7 @@ class IndexController extends Zend_Controller_Action
         //update DB
         $bookingCode = $orderInfo;                        
         $this->_updateBooking($bookingCode, $transStatus, $txnResponseCode, $transactionNo);
+        echo '<br/>'.$transStatus;
     }
     
     private static $VPC_URL = 'https://mtf.onepay.vn/vpcpay/vpcpay.op'; //TODO update 
@@ -1039,7 +1059,7 @@ class IndexController extends Zend_Controller_Action
     private static $VPC_RETURN_URL = 'https://vietnamvisatours.com/index/booking-result';
     private static $AGAIN_LINK = 'https://vietnamvisatours.com/visa-apply-online?code=';
     
-    private function _buildOnePayLink($amountUSD, $bookingCode, $phone, $email) {
+    private function _buildOnePayLink($amountUSD, $bookingCode, $phone, $email, $againLink) {
         $vpcURL = self::$VPC_URL . '?';
         // This is secret for encoding the MD5 hash
         $SECURE_SECRET = self::$SECURE_SECRET; 
@@ -1064,7 +1084,7 @@ class IndexController extends Zend_Controller_Action
             'vpc_SHIP_Country' => '',
             'vpc_Customer_Phone' => $phone,
             'vpc_Customer_Email' => $email,
-            'AgainLink' => self::$AGAIN_LINK.$bookingCode,
+            'AgainLink' => $againLink,
         );
         
         ksort($data);
