@@ -10,12 +10,11 @@
 			$this->_db_table = new Application_Model_DbTable_BookTour();
 		}
 		 
-		public function save(Application_Model_BookTour $obj, $is_update = false)
+		public function save(Application_Model_BookTour $obj)
 		{  
 			//Create an associative array
 			//of the data you want to update
 			$data = array(
-			    'ID' => $obj->id,
 			    'TOUR_ID' => $obj->tour_id,
 			    'TOUR_PRICE_GROUP_ID' => $obj->tour_price_group_id,
 			    'CODE' => $obj->code,
@@ -29,10 +28,13 @@
 			    'COMMENT' => $obj->comment,
 			    'ARRIVAL_DATE' => $obj->arrival_date,
 			    'UPDATE_DATE' => $obj->update_date,
+			    'TRANS_CODE' => $obj->trans_code,
+			    'TRANS_NUMBER' => $obj->trans_number,
+			    'ONEPAY_LINK' => $obj->onepay_link,
 			);
 
 			try {
-			    if($is_update == false) {
+			    if( is_null($obj->id) ) {
 			        //Zend_Debug::dump( $data);		die;
 			        $data['CREATE_DATE'] = $obj->create_date;
 			        return $this->_db_table->insert($data);
@@ -66,6 +68,26 @@
 			}
 			//return the user object
 			return $obj;
+		}
+		
+		public function getByCode($code)
+		{
+		    $select = $this->_db_table->select()
+		    ->from(array('t' => self::TABLE))
+		    ->order('ID DESC')
+		    ->limit(1, 0);
+		    
+		    if(!is_null($code) && strlen($code) > 0){
+		        $select = $select->where('LOWER(CODE) = ?', strtolower($code));
+		    }
+		    
+		    
+		    $row = $this->_db_table->getAdapter()->fetchRow($select);
+		    if(count($row) == 0){
+		        return null;
+		    }
+		    $obj = new Application_Model_BookTour($row);
+		    return $obj;
 		}
 		
 		public function getLatestId()

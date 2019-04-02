@@ -134,6 +134,11 @@
 						</div>
 						<div class="form-group col-md-12 col-sm-12">
 						<textarea name="comment" class="form-control" id="comment" rows="3" maxlength="200"></textarea>
+						</div>
+						<div class="form-group col-md-12 col-sm-12">
+							<div class="termsx">
+								<?php echo $this->setting->tourterm?>
+							</div>
 						</div>   
 						<div class="form-check col-md-12 col-sm-12" style="display: none">
 								<label class="form-check-label">
@@ -165,7 +170,7 @@
 						<div class="form-check col-md-9 col-sm-12 leftmobile">
 						<strong>Ms. Thom Hoang</strong> <br>
 						Travel Consultant of Vietnam &amp; Visa Tours<br>
-						Email: vietnamvisatours@gmail.com <br>
+						Email: <?php echo $this->setting->email;?> <br>
 						</div>
 						</div>
 						</div>			

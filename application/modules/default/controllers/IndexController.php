@@ -432,6 +432,8 @@ class IndexController extends Zend_Controller_Action
             $book_tour->create_date = $this->_helper->CommonUtils->getVnDateTime();
             $book_tour->update_date = $this->_helper->CommonUtils->getVnDateTime();
 
+            $onepay_link = $this->_buildOnePayLink($total_price, $request_code, $phone, $email);
+            $book_tour->onepay_link = $onepay_link;
             $book_id = $booktour_mapper->save($book_tour);
             
             //send mail
@@ -470,7 +472,7 @@ class IndexController extends Zend_Controller_Action
             //die($subject);
             $this->_sendMail($subject, $bodyHtml, $email);
             
-            echo json_encode($request_code);
+            echo $onepay_link;
         }
         
     }
@@ -880,21 +882,155 @@ class IndexController extends Zend_Controller_Action
         
         //update DB
         $bookingCode = $orderInfo;
-        $mapper = new Application_Model_BookVisaMapper();
-        //die($bookingCode);
-        $bookingVisa = $mapper->getByCode($bookingCode);
-        //Zend_Debug::dump( $bookingVisa);die();
-        $bookingVisa->status = $transStatus;
-        $bookingVisa->trans_code = $txnResponseCode;
-        if ($txnResponseCode != "7" && $txnResponseCode != "No Value Returned"){            
-            $bookingVisa->trans_number = $transactionNo;
-        }
-        $mapper->save($bookingVisa);
+        $this->_updateBooking($bookingCode, $transStatus, $txnResponseCode, $transactionNo);
         
         $this->view->transactionDes = $this->_getResponseDescription($txnResponseCode);
         $this->view->transStatus = $transStatus;
     }
     
+    //tour or visa
+    private function _updateBooking($bookingCode, $transStatus, $txnResponseCode, $transactionNo){
+        if (strpos($bookingCode, 'V') !== false) {
+            $mapper = new Application_Model_BookVisaMapper();
+            //die($bookingCode);
+            $booking = $mapper->getByCode($bookingCode);
+            //Zend_Debug::dump( $bookingVisa);die();
+            $booking->status = $transStatus;
+            $booking->trans_code = $txnResponseCode;
+            if ($txnResponseCode != "7" && $txnResponseCode != "No Value Returned"){
+                $booking->trans_number = $transactionNo;
+            }
+            $mapper->save($booking);
+        } else if(strpos($bookingCode, 'T') !== false){
+            $mapper = new Application_Model_BookTourMapper();
+            //die($bookingCode);
+            $booking = $mapper->getByCode($bookingCode);
+            //Zend_Debug::dump( $booking);die();
+            $booking->status = $transStatus;
+            $booking->trans_code = $txnResponseCode;
+            if ($txnResponseCode != "7" && $txnResponseCode != "No Value Returned"){
+                $booking->trans_number = $transactionNo;
+            }
+            $mapper->save($booking);
+        }
+    }
+    
+    public function ipnAction(){
+        $this->_helper->layout()->disableLayout(); //  shuts off of the layout
+        $this->_helper->viewRenderer->setNoRender();// stop automatic rendering
+        
+        // $SECURE_SECRET = "secure-hash-secret";        
+        $SECURE_SECRET = self::$SECURE_SECRET;
+        //$SECURE_SECRET = "93E963BC17BF022F2A03B685784D0CFA";
+        // If there has been a merchant secret set then sort and loop through all the
+        // data in the Virtual Payment Client response. While we have the data, we can
+        // append all the fields that contain values (except the secure hash) so that
+        // we can create a hash and validate it against the secure hash in the Virtual
+        // Payment Client response.
+        
+        
+        // NOTE: If the vpc_TxnResponseCode in not a single character then
+        // there was a Virtual Payment Client error and we cannot accurately validate
+        // the incoming data from the secure hash. */
+        
+        // get and remove the vpc_TxnResponseCode code from the response fields as we
+        // do not want to include this field in the hash calculation
+        $vpc_Txn_Secure_Hash = $_GET ["vpc_SecureHash"];
+        unset ( $_GET ["vpc_SecureHash"] );
+        
+        // set a flag to indicate if hash has been validated
+        $errorExists = false;
+        
+        if (strlen ( $SECURE_SECRET ) > 0 && $_GET ["vpc_TxnResponseCode"] != "7" && $_GET ["vpc_TxnResponseCode"] != "No Value Returned") {
+            ksort($_GET);
+            //$stringHashData = $SECURE_SECRET;
+            //*****************************khởi tạo chuỗi mã hóa rỗng*****************************
+            $stringHashData = "";
+            
+            // sort all the incoming vpc response fields and leave out any with no value
+            foreach ( $_GET as $key => $value ) {
+                //        if ($key != "vpc_SecureHash" or strlen($value) > 0) {
+                //            $stringHashData .= $value;
+                //        }
+                //      *****************************chỉ lấy các tham số bắt đầu bằng "vpc_" hoặc "user_" và khác trống và không phải chuỗi hash code trả về*****************************
+                if ($key != "vpc_SecureHash" && (strlen($value) > 0) && ((substr($key, 0,4)=="vpc_") || (substr($key,0,5) =="user_"))) {
+                    $stringHashData .= $key . "=" . $value . "&";
+                }
+            }
+            //  *****************************Xóa dấu & thừa cuối chuỗi dữ liệu*****************************
+            $stringHashData = rtrim($stringHashData, "&");
+            
+            
+            //    if (strtoupper ( $vpc_Txn_Secure_Hash ) == strtoupper ( md5 ( $stringHashData ) )) {
+            //    *****************************Thay hàm tạo chuỗi mã hóa*****************************
+            if (strtoupper ( $vpc_Txn_Secure_Hash ) == strtoupper(hash_hmac('SHA256', $stringHashData, pack('H*',$SECURE_SECRET)))) {
+                // Secure Hash validation succeeded, add a data field to be displayed
+                // later.
+                $hashValidated = "CORRECT";
+            } else {
+                // Secure Hash validation failed, add a data field to be displayed
+                // later.
+                $hashValidated = "INVALID HASH";
+            }
+        } else {
+            // Secure Hash was not validated, add a data field to be displayed later.
+            $hashValidated = "INVALID HASH";
+        }
+        
+        // Define Variables
+        // ----------------
+        // Extract the available receipt fields from the VPC Response
+        // If not present then let the value be equal to 'No Value Returned'
+        // Standard Receipt Data
+        $amount =  $this->_null2unknown($_GET ["vpc_Amount"] );
+        $locale =  $this->_null2unknown($_GET ["vpc_Locale"] );
+        //$batchNo = null2unknown ( $_GET ["vpc_BatchNo"] );
+        $command =  $this->_null2unknown($_GET ["vpc_Command"] );
+        //$message = null2unknown ( $_GET ["vpc_Message"] );
+        $version =  $this->_null2unknown($_GET ["vpc_Version"] );
+        //$cardType = null2unknown ( $_GET ["vpc_Card"] );
+        $orderInfo =  $this->_null2unknown($_GET ["vpc_OrderInfo"] );
+        //$receiptNo = null2unknown ( $_GET ["vpc_ReceiptNo"] );
+        $merchantID =  $this->_null2unknown($_GET ["vpc_Merchant"] );
+        //$authorizeID = null2unknown ( $_GET ["vpc_AuthorizeId"] );
+        $merchTxnRef =  $this->_null2unknown($_GET ["vpc_MerchTxnRef"] );
+        $transactionNo =  $this->_null2unknown($_GET ["vpc_TransactionNo"] );
+        //$acqResponseCode = null2unknown ( $_GET ["vpc_AcqResponseCode"] );
+        $txnResponseCode =  $this->_null2unknown($_GET ["vpc_TxnResponseCode"] );
+        
+        // This is the display title for 'Receipt' page
+        //$title = $_GET ["Title"];
+        
+        
+        // This method uses the QSI Response code retrieved from the Digital
+        // Receipt and returns an appropriate description for the QSI Response Code
+        //
+        // @param $responseCode String containing the QSI Response Code
+        //
+        // @return String containing the appropriate description
+        //
+        ////////////////////////
+        //if($hashValidated=="CORRECT"){
+        //    echo "responsecode=1&desc=confirm-success";
+        //}
+        //else echo "responsecode=0&desc=confirm-fail";
+        
+        ////////////////////////
+        //  ----------------------------------------------------------------------------
+        
+        $transStatus = "";
+        if($hashValidated=="CORRECT" && $txnResponseCode=="0"){
+            $transStatus = "Transaction Successful";
+        }elseif ($txnResponseCode!="0"){
+            $transStatus = "Transaction Failure";
+        }elseif ($hashValidated=="INVALID HASH"){
+            $transStatus = "Transaction Pendding";
+        }
+        
+        //update DB
+        $bookingCode = $orderInfo;                        
+        $this->_updateBooking($bookingCode, $transStatus, $txnResponseCode, $transactionNo);
+    }
     
     private static $VPC_URL = 'https://mtf.onepay.vn/vpcpay/vpcpay.op'; //TODO update 
     private static $SECURE_SECRET = '18D7EC3F36DF842B42E1AA729E4AB010'; //TODO update
@@ -968,15 +1104,18 @@ class IndexController extends Zend_Controller_Action
         $bookingCode = $request->getParam('code');
         
         //die($bookingCode);
-        $mapper = new Application_Model_BookVisaMapper();
-        $bookingVisa = $mapper->getByCode($bookingCode);
+        $mapper = null;
+        if (strpos($bookingCode, 'V') !== false) {
+            $mapper = new Application_Model_BookVisaMapper();
+        } else if(strpos($bookingCode, 'T') !== false){
+            $mapper = new Application_Model_BookTourMapper();
+        }
+        $booking = $mapper->getByCode($bookingCode);
         //Zend_Debug::dump( $bookingVisa);die();
-        if($bookingVisa->onepay_link == '' || $bookingVisa->onepay_link == null) {
+        if($booking->onepay_link == '' || $booking->onepay_link == null) {
             $this->redirect('index');
         }
-
-        $this->view->bookingVisa = $bookingVisa;
-        $this->view->onepay_link = $bookingVisa->onepay_link;
+        $this->view->booking = $booking;
     }
     
     

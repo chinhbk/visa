@@ -159,6 +159,18 @@
     .price_des_detail{
         color: #468847 !important;
     }
+    
+    .termsx {
+
+      overflow-y: scroll;
+    
+      height: 200px;
+    
+      width: 100%;
+    
+      padding: 10px;
+    
+    }
 </style>
 	
 	<script src="/css/js/js-cf70e-35222.js" type="text/javascript"></script>
@@ -501,12 +513,13 @@ $.get("https://min-api.cryptocompare.com/data/price?fsym=ETH&tsyms=BTC,USD,EUR,G
             	xhr.onload = function() {
             	    if (xhr.status === 200) {
                 	    //console.log(xhr.responseText);
-            	        var code = JSON.parse(xhr.responseText);
+            	        var paymentLink = xhr.responseText;
             	        //rediret to payment gate
             	        hideLoading();
-		
+
+            	        window.location.href = paymentLink;
 						//--->
-            	        window.location.href = "/index/tour-book-success/code/"+code;
+            	        //window.location.href = "/index/tour-book-success/code/"+code;
             	    }
             	};
             	xhr.send(param(data));
@@ -706,12 +719,12 @@ $.get("https://min-api.cryptocompare.com/data/price?fsym=ETH&tsyms=BTC,USD,EUR,G
             });
 
             //keep the previous selected nationality
-            var old_nationality1_id = g("#nationality1").value;
-            var old_nationality2_id = g("#nationality2").value;
-            var old_nationality3_id = g("#nationality3").value;
-            var old_nationality4_id = g("#nationality4").value;
-            var old_nationality5_id = g("#nationality5").value;
-            var old_nationality6_id = g("#nationality6").value;
+            var old_nationality1_id = g("#nationality1") != null ? g("#nationality1").value : '';
+            var old_nationality2_id = g("#nationality2") != null ? g("#nationality2").value : '';
+            var old_nationality3_id = g("#nationality3") != null ? g("#nationality3").value : '';
+            var old_nationality4_id = g("#nationality4") != null ? g("#nationality4").value : '';
+            var old_nationality5_id = g("#nationality5") != null ? g("#nationality5").value : '';
+            var old_nationality6_id = g("#nationality6") != null ? g("#nationality6").value : '';
             
             $("#nationality1").on('change', function() {
             	onChangeNationality(this, 1);
@@ -814,6 +827,7 @@ $.get("https://min-api.cryptocompare.com/data/price?fsym=ETH&tsyms=BTC,USD,EUR,G
             });
 
             function onChangeSelectionOnVisaApplyOnlinePage() {
+            	if (location.href.indexOf('visa-apply-online') > 0 ) {            	 
             	 var data = {
       			 		 dropPurposeOfVisit: g("#dropPurposeOfVisit").value,
       			 		 dropNumberApp: g("#dropNumberApp").value,
@@ -828,6 +842,7 @@ $.get("https://min-api.cryptocompare.com/data/price?fsym=ETH&tsyms=BTC,USD,EUR,G
                   };
                 //console.log(data);
 		  		var response = ajax('POST', '/index/purpose-of-visit-change', data); 
+               }
             }
 
             var handleSubmitMyForm1 = function(event){
