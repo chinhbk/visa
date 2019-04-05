@@ -63,7 +63,7 @@ class Admin_AuthController extends Zend_Controller_Action
         // Get our authentication adapter and check credentials
         $adapter = $this->_getAuthAdapter();
         $adapter->setIdentity($user_name);
-        $adapter->setCredential($password);
+        $adapter->setCredential(md5($password));
 
         $auth = Zend_Auth::getInstance();
         //echo $values['username'] . '===' . $values['password'];die;

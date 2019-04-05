@@ -25,20 +25,19 @@ class Admin_UserController extends Zend_Controller_Action
     		$input_old_pass = $request->getParam('old_pass');
     		$new_pass = $request->getParam('new_pass');
     		$confirm_new_pass = $request->getParam('confirm_new_pass');
-    		
     		$auth = Zend_Auth::getInstance();
     		$identity = $auth->getIdentity();
     		
-    		if($identity->PASSWORD != $input_old_pass){
+    		if($identity->PASSWORD != md5($input_old_pass)){
     			$this->view->errorMessage = 'Wrong current password';
     			return;
     		}elseif(strlen($new_pass) == 0 || $new_pass != $confirm_new_pass){
     			$this->view->errorMessage = 'New password and confirm new password must be identical';
     			return;
     		}
-    		
+    		$enpass = md5($new_pass);
     		$user_mapper = new Application_Model_UserMapper();
-    		$user_mapper->changePass($identity->ID, $new_pass);
+    		$user_mapper->changePass($identity->ID, $enpass);
     		$this->redirect('admin/auth/logout');
     	}
     }
