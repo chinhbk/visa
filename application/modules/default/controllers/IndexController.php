@@ -98,33 +98,6 @@ class IndexController extends Zend_Controller_Action
         $this->view->data_menu = $data_menu;
     }
     
-    public function sendMailAction(){
-        try{
-            //Prepare email
-            $config = array(
-                'ssl' => 'tls',
-                'port'     => 587,
-                'auth'     => 'login',
-                'username' => 'vietnamvisatours@gmail.com',
-                'password' => 'vietnamvisatours2018@'
-            );
-            
-            $transport = new Zend_Mail_Transport_Smtp('smtp.gmail.com', $config);
-            $mail = new Zend_Mail();
-            
-            $mail
-            ->setFrom('vietnamvisatours@gmail.com', 'VietnamVisaTours.Com')
-            ->setSubject('Subject')
-            ->setBodyText('This is the text of the mail.')
-            ->addTo('chinhbk88@gmail.com')
-            ->send($transport);
-            
-        } catch (Zend_Exception $e){
-            die($e);
-            //Do something with exception
-        }
-    }
-    
     protected function _sendMail($subject, $bodyHtml, $to){
         try{
             //Prepare email
@@ -132,15 +105,15 @@ class IndexController extends Zend_Controller_Action
                 'ssl' => 'tls',
                 'port'     => 587,
                 'auth'     => 'login',
-                'username' => 'vietnamvisatours@gmail.com',
-                'password' => 'vietnamvisatours2018@'
+                'username' =>  Zend_Registry::getInstance()->constants->email->username,
+                'password' =>  Zend_Registry::getInstance()->constants->email->password
             );
             
             $transport = new Zend_Mail_Transport_Smtp('smtp.gmail.com', $config);
             $mail = new Zend_Mail();
             
             $mail
-            ->setFrom('vietnamvisatours@gmail.com', 'VietnamVisaTours.Com')
+            ->setFrom(Zend_Registry::getInstance()->constants->email->username, 'VietnamVisaTours.Com')
             ->setSubject($subject)
             ->setBodyHtml($bodyHtml)
             ->addTo($to)
