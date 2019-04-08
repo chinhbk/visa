@@ -94,6 +94,13 @@ class Admin_VisaController extends Zend_Controller_Action
         $this->_helper->viewRenderer->setNoRender();// stop automatic rendering
         $data = json_decode($_POST["data"]);
         
+        $nationality_mapper = new Application_Model_NationalityMapper();
+        $nationality = $nationality_mapper->getById($data->nationality_id);
+       
+        $nationality->is_show = $data->is_show;
+        //Zend_Debug::dump( $nationality);		die;
+        $nationality_mapper->save($nationality);
+        
         $nationality_visa_type_mapper = new Application_Model_NationalityVisaTypeMapper();
         $this->_saveVisaTypeOrProcessingTimeTypePrices($data->purpose_of_visit, 'visa_type', $nationality_visa_type_mapper, $data->visa_type, $data->nationality_id);
         

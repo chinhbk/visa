@@ -396,7 +396,7 @@
 							  var $U1Day = $row.find(".U1Day");
 							  var $U2Day = $row.find(".U2Day");
 							  var $UHoliday = $row.find(".UHoliday");
-
+							  var $chk = $row.find(".nationality_chk");
 							  //warning input negative price
 							  if($1MSE.val() < 0 || $1MME.val() < 0 || $3MSE.val() < 0 || $6MME.val() < 0 || $1YME.val() < 0 
 									  || $U15min.val() < 0 || $U30min.val() < 0 || $U2hour.val() < 0 || $U4hour.val() < 0 || $U8hour.val()< 0 
@@ -408,6 +408,7 @@
                               var data = {};
                               data.nationality_id = $row.find(".nationality_id").val();
                               data.purpose_of_visit = $purpose_of_visit;
+                              data.is_show = $chk.is(':checked');
                               data.visa_type = [
                             	  {'id': $1MSE.attr('id'), 'price': $1MSE.val()},
                             	  {'id': $1MME.attr('id'), 'price': $1MME.val()},
@@ -698,36 +699,21 @@
 	            <h3 class="toggleLink">Visa</h3>
 	            <ul class="toggle">
 	            	<li class="icn_edit_article"><a href="/admin/visa/booking">Visa Booking</a></li>
-	            	<li class="icn_edit_article"><a href="/admin/visa/normal">Normal Nationality (Tourirst Visa)</a></li>
-	                <li class="icn_new_article"><a href="/admin/visa/difficult">Difficult Nationality (Tourirst Visa)</a></li>
-	                <li class="icn_edit_article"><a href="/admin/visa/business">Business Visa</a></li>
-	                <li class="icn_edit_article"><a href="/admin/visa/exemption">Vietnam Visa Exemption</a></li>	                
+	            	<?php if($identity->ROLE == 0){ ?>
+    	            	<li class="icn_edit_article"><a href="/admin/visa/normal">Normal Nationality(Tourirst)</a></li>
+    	                <li class="icn_new_article"><a href="/admin/visa/difficult">Difficult Nationality(Tourirst)</a></li>
+    	                <li class="icn_edit_article"><a href="/admin/visa/business">Business Visa</a></li>
+    	                <li class="icn_edit_article"><a href="/admin/visa/exemption">Vietnam Visa Exemption</a></li>
+	                <?php } ?>
 	            </ul>
             <?php } ?>
-            <div style="display: none">
-            <?php if($identity->ROLE == 0 || $identity->ROLE == 1){?>
-	            <h3>Sản phẩm <a href="javascript:void(0);" class="toggleLink">Hide</a></h3>
-	            <ul class="toggle">
-	                <li class="icn_new_article"><a href="/admin/product/add">Thêm mới</a></li>
-	                <li class="icn_edit_article"><a href="/admin/product/index">Quản lý</a></li>
-	                <li class="icn_categories" style="display:none"><a href="javascript:void(0);">Categories</a></li>
-	            </ul>
-            <?php } ?>
-            <?php if($identity->ROLE == 0 || $identity->ROLE == 3){?>
-	            <h3>Tin tức <a href="javascript:void(0);" class="toggleLink">Hide</a></h3>
-	            <ul class="toggle">
-	                <li class="icn_new_article"><a href="/admin/news/add">Thêm mới</a></li>
-	                <li class="icn_edit_article"><a href="/admin/news/index">Quản lý</a></li>
-	            </ul>
-            <?php }?>
-            </div>
              <?php if($identity->ROLE == 0){?>
 	            <h3>Slide images <a href="javascript:void(0);" class="toggleLink">Hide</a></h3>
 	            <ul class="toggle">
 	                <li class="icn_edit_article"><a href="/admin/image/index">Config</a></li>
 	            </ul>
             <?php }?>
-            <?php if($identity->ROLE == 0 || $identity->ROLE == 2){?>
+            <?php if($identity->ROLE == 0){?>
 	             <h3 class="toggleLink">Setting</h3>
 	            <ul class="toggle">
 	            	<li class="icn_edit_article"><a href="/admin/index/contact">Contact</a></li>
@@ -740,7 +726,7 @@
             <?php }?>
             <footer>
                 <hr>
-                <p><strong>Copyright©2018 Website Visa Tours Admin</strong></p>
+                <p><strong>Copyright©<?php echo date("Y"); ?> Brother Travel</strong></p>
             </footer>
         </aside>
         <section id="main" class="column" style="height: 1710px;">

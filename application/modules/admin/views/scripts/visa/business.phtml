@@ -62,6 +62,9 @@ input[type=number] {
 					<td><input class ="U2Day" type="number"  id ="<?php echo $this->map_name_id_processing_type[$this->PROCESSING_TIME_TYPE_U2_DAY]?>" value="<?php echo $na->processing_time_type_prices[$this->PROCESSING_TIME_TYPE_U2_DAY]?>"/></td>
 					<td><input class ="UHoliday" type="number" id ="<?php echo $this->map_name_id_processing_type[$this->PROCESSING_TIME_TYPE_UHoliday]?>" value="<?php echo $na->processing_time_type_prices[$this->PROCESSING_TIME_TYPE_UHoliday]?>"/></td>
 					<td>
+						<input class="nationality_chk" type="checkbox" name="is_show" <?php if($na->is_show == 1){ echo 'checked';};?>  >
+					</td>
+					<td>
 						<a class="update_normal_nationality" data-purpose_of_visit = "BUSINESS VISA"><image src="/images/edit.png" alt="Edit" style="padding-right:30px;"/></a>						
 					</td>
 					

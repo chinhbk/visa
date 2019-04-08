@@ -32,15 +32,12 @@ class Admin_AuthController extends Zend_Controller_Action
                 	$auth = Zend_Auth::getInstance();
                 	$identity = $auth->getIdentity();
                 	switch ($identity->ROLE) {
-                		case 1: //admin_product                		   
-                		     $this->_helper->redirector('index', 'product');;
+                		case 1: //sales                		   
+                		     $this->_helper->redirector('index', 'tour');;
                 			 break;
-                		case 2: //admin_order
-                			$this->_helper->redirector('index', 'order');;
+                		case 2: // not use
+                			$this->_helper->redirector('index', 'visa');;
                 			break;
-                		case 3: //admin_news
-                				$this->_helper->redirector('index', 'news');;
-                				break;
                 		default: //super admin
                 			$this->_helper->redirector('index', 'index');;;
                 			break;

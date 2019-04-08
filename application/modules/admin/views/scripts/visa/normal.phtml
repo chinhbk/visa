@@ -15,10 +15,9 @@ input[type=number] {
   -moz-appearance: textfield;
   appearance: textfield;
   margin: 0;
-  width:50px;
 }
 </style>
-<article class="module width_full">
+<article class="module">
 
 		<form name="form_add" method="GET" action="/admin/visa/normal" class="search">						
 			<input type="text" name="keyword" id="keyword" value="<?php echo $this->keyword;?>"/>
@@ -47,6 +46,7 @@ input[type=number] {
     				<th class="header">U8 Hours</th>
     				<th class="header">U1 Day</th>
     				<th class="header">UHoliday</th>
+    				<th class="header">Show</th>
     				<th class="header"></th> 
 				</tr> 
 			</thead> 
@@ -71,6 +71,9 @@ input[type=number] {
 					<td><input class ="U8hour" type="number" id ="<?php echo $this->map_name_id_processing_type[$this->PROCESSING_TIME_TYPE_U8_HOURS]?>" value="<?php echo $na->processing_time_type_prices[$this->PROCESSING_TIME_TYPE_U8_HOURS]?>"/></td>
 					<td><input class ="U1Day" type="number"  id ="<?php echo $this->map_name_id_processing_type[$this->PROCESSING_TIME_TYPE_U1_DAY]?>" value="<?php echo $na->processing_time_type_prices[$this->PROCESSING_TIME_TYPE_U1_DAY]?>"/></td>
 					<td><input class ="UHoliday" type="number" id ="<?php echo $this->map_name_id_processing_type[$this->PROCESSING_TIME_TYPE_UHoliday]?>" value="<?php echo $na->processing_time_type_prices[$this->PROCESSING_TIME_TYPE_UHoliday]?>"/></td>
+					<td>
+						<input class="nationality_chk" type="checkbox" name="is_show" <?php if($na->is_show == 1){ echo 'checked';};?>  >
+					</td>
 					<td>
 						<a class="update_normal_nationality" data-purpose_of_visit = "TOURIST VISA"><image src="/images/edit.png" alt="Edit" style="padding-right:30px;"/></a>						
 					</td>

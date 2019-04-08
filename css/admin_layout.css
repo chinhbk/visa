@@ -81,7 +81,6 @@ section#secondary_bar .user{
 	width:85%;
 	height:35px;
 	line-height:35px;
-	text-indent:25px;
 	text-shadow:0 1px 0 #fff;
 	background:url(../images/icn_user.png) no-repeat center left;
 	margin-left:6%;
@@ -149,7 +148,7 @@ article.breadcrumbs{
 	float:left;margin:0 5px;
 }
 aside#sidebar{
-	width: 23%;
+	width: 15%;
 	background:#E0E0E3 url(../images/sidebar.png) repeat;
 	float:left;
 	min-height:500px;
@@ -214,7 +213,7 @@ aside#sidebar{
 }
 #sidebar li{
 	list-style:none;
-	margin:0 0 0 12%;
+	/*margin:0 0 0 12%;*/
 	padding:0;
 }
 #sidebar li a{

@@ -16,10 +16,9 @@
 		    $data = array(
 		        'NAME' => $obj->name
 		    );
-		    if(isset($obj->is_show) && !empty($obj->is_show)){
+		    if(isset($obj->is_show)){
 		        $data['IS_SHOW'] = $obj->is_show;
 		    }
-		    
 		    //Check if the product object has an ID
 		    //if no, it means the product is a new product
 		    //if yes, then it means you're updating an old product
@@ -52,6 +51,7 @@
 		        //if found, get the result, and map it to the
 		        //corresponding Data Object
 		        $row = $result->current();
+		       
 		        $obj = new Application_Model_Nationality($row);
 		    } catch (Exception $e) {
 		        Zend_Debug::dump( $e);die();
@@ -187,6 +187,8 @@
 		        if($visa_type_id) {
 		            $select = $select->where('nv.VISA_TYPE_ID = ?', $visa_type_id);		           
 		        }
+		        
+		        $select = $select->where('n.IS_SHOW = 1');	
 		        
 		        $result = $this->_db_table->getAdapter()->fetchAll($select);
 		        $arr = array();
