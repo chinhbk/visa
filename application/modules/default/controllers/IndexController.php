@@ -227,6 +227,7 @@ class IndexController extends Zend_Controller_Action
         $this->view->tour = $tour;
 		//get parent
 		$parent = $tourType_mapper->getById($tour->parent_id);
+		$parent->url = $this->_generateURL($parent->id, $parent->name, 1);
         $this->view->parent = $parent;
 		//Zend_Debug::dump($parent);die();
 		        
