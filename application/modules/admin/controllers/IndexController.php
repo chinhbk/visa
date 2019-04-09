@@ -49,7 +49,7 @@ class Admin_IndexController extends Zend_Controller_Action
 		if ($request->isPost()) {
 								
 			$editor_contents =  $request->getParam('editor_contents');
-			if(strlen($editor_contents) == 0){
+			if(strlen($editor_contents) == 0 || strlen($request->getParam('img_uploaded')) == 0){
 			   $this->view->errorMessage = 'Please input data';
 			   return;
 			}
