@@ -55,6 +55,7 @@ class Admin_IndexController extends Zend_Controller_Action
 			}
 			
 			$setting = new Application_Model_Setting();
+			$setting->logo =  $request->getParam('img_uploaded');
 			$setting->hotline = $request->getParam('hotline');
 			$setting->email = $request->getParam('email');
 			$setting->address = $request->getParam('address');

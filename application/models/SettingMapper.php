@@ -14,6 +14,11 @@
 			//of the data you want to update
 		    $setting_object->id = 1;
 			$data = array();
+			
+			if (!is_null($setting_object->logo)) {
+			    $data['LOGO'] =	$setting_object->logo;
+			}
+			
 			if (!is_null($setting_object->hotline)) {
 			    $data['HOTLINE'] =	$setting_object->hotline;
 			}

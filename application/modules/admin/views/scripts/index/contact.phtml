@@ -8,7 +8,19 @@
 <article class="module width_full">
 			<header><h3>Contact Info</h3></header>
 				<div class="module_content">
+						<fieldset>
+							<label>Upload logo image</label>
+							  <form action="/admin/tour/upload" method="POST" id="uploadform">
+							   <input type="file" name="file"/>
+							   <input type="submit" name="btnUpload" value="Upload"/><br/><br/>
+							   
+							   <div id="onsuccessmsg" style="padding:15px;">
+							   		<image src="<?php echo $this->setting->logo;?>" />
+							   </div>
+							  </form>
+						</fieldset>
 						<form name="form_add" method="POST" onSubmit="document.form_add.editor_contents.value  = $('#editor #edit .froala-element').html()">
+							<input  type="hidden" name="img_uploaded" id="img_uploaded" value="<?php echo $this->setting->logo;?>" />
 							<fieldset>
 								<label>Hot line(*)</label>
 								<input type="text" name="hotline" value="<?php echo $this->setting->hotline; ?>">

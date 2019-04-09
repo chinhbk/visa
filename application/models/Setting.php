@@ -6,6 +6,8 @@ class Application_Model_Setting
     // declare the product's attributes
     private $id;
 
+    private $logo;
+    
     private $hotline;
 
     private $email;
@@ -30,6 +32,7 @@ class Application_Model_Setting
     {
         if (! is_null($setting_row) && $setting_row instanceof Zend_Db_Table_Row) {
             $this->id = $setting_row->ID;
+            $this->logo = $setting_row->LOGO;
             $this->hotline = $setting_row->HOTLINE;
             $this->email = $setting_row->EMAIL;
             $this->address = $setting_row->ADDRESS;
