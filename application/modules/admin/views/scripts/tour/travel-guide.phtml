@@ -1,0 +1,53 @@
+<style>
+.search {
+    margin: 15px;
+}
+input {
+    border-radius: 5px;
+    border: 1px solid #BBBBBB;
+    height: 20px;
+    color: #666666;
+}
+.btn-primary {
+
+}
+</style>
+<article class="module width_full">
+	<header><h3 class="tabs_involved">List travel guides</h3>
+		<ul class="tabs">
+   			<li class="active"><a href="/admin/tour/add-travel-guide">Add Travel Guide</a></li>
+		</ul>
+		</header>
+		<div class="tab_container">
+			<div class="tab_content" id="tab1" style="display: block;">
+			<table cellspacing="0" class="tablesorter"> 
+			<thead> 
+				<tr> 
+   					<th class="header">No</th> 
+    				<th class="header">Name</th>
+    				<th class="header"></th> 
+				</tr> 
+			</thead> 
+			<tbody> 
+			   <?php $i=0; foreach ($this->travel_guides as $guide) {
+				       // Zend_Debug::dump($product);die;
+									
+				?>
+				<tr> 
+   					<td><?php echo ++$i;?></td> 
+    				<td><?php echo $guide->name;?></td>
+    				    				<td>
+						<a href="/admin/tour/edit-travel-guide/id/<?php echo $guide->id;?>"><image src="/images/edit.png" alt="Edit" style="padding-right:30px;"/></a>
+						<a href="/admin/tour/delete-travel-guide/id/<?php echo $guide->id;?>"  onclick="return confirm('Are you sure you delete this tour?')"><image src="/images/delete.png" alt="Delete" /></a>
+					</td>
+				</tr> 
+				
+				<?php }	?>
+				  
+			</tbody> 
+			</table>
+			</div><!-- end of #tab1 -->
+			
+			
+		
+		</article>

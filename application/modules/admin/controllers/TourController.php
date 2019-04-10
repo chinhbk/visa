@@ -118,6 +118,101 @@ class Admin_TourController extends Zend_Controller_Action
         //Zend_Debug::dump($sub_tour_type);die();        
     }
     
+    public function addTravelGuideAction(){
+        $request = $this->getRequest();
+        //Zend_Debug::dump( $request->getParam('is_hot'));die();
+        if ($request->isPost()) {
+            //Zend_Debug::dump($request->getParam('img_uploaded_images'));die();
+            if(strlen($request->getParam('name')) == 0 || strlen($request->getParam('short_desc')) == 0){
+                $this->view->errorMessage = 'Please fill data into (*) fields';
+                return;
+            }
+            $travel_guide = new Application_Model_TravelGuide();
+            $travel_guide->name = $request->getParam('name');
+            $travel_guide->short_desc = $request->getParam('short_desc');
+            $travel_guide->image_small =  $request->getParam('img_uploaded');
+            $travel_guide->image = (strlen($request->getParam('img_uploaded_images')) == 0 ? null : $request->getParam('img_uploaded_images')) ;
+            $travel_guide->is_show = $request->getParam('is_show');
+            $travel_guide->details = $request->getParam('editor_contents');
+            $travel_guide->create_date = $this->_helper->CommonUtils->getVnDateTime();;
+            $travel_guide->update_date = $this->_helper->CommonUtils->getVnDateTime();;
+            $mapper = new Application_Model_TravelGuideMapper();
+            $mapper->save($travel_guide);
+            
+            //using htmlspecialchars() on the string to put into the DB, and then, when pulling it back out, use htmlspecialchars_decode().
+            //$tour->content = htmlspecialchars_decode($editor_contents);
+            
+            //Zend_Debug::dump($tour);die();
+            
+            $this->redirect('admin/tour/travel-guide');
+        }
+    }
+    
+    public function editTravelGuideAction(){
+        $request = $this->getRequest();
+        //Zend_Debug::dump( $request);die();
+        $id = $request->getParam('id');
+        //die($id);
+        $mapper = new Application_Model_TravelGuideMapper();
+        $travel_guide = $mapper->getById($id);
+        //Zend_Debug::dump( $tour);die();
+        //$tour->content = htmlspecialchars_decode($tour->content);
+        //Zend_Debug::dump( $tour);die();
+        if(strlen($travel_guide->image) > 0){
+            $str =  str_replace('[', '', $travel_guide->image);
+            $str =  str_replace(']', '', $str);
+            $str =  str_replace('"', '', $str);
+            //$str =  str_replace(',', '', $str);
+            //Zend_Debug::dump(explode(',', $str));die();
+            $travel_guide->image = explode(',', $str);
+        } else {
+            $travel_guide->image = array();
+        }
+        //Zend_Debug::dump($tour);die();
+        
+        $this->view->travel_guide = $travel_guide;
+                   
+        if ($request->isPost()) {            
+            //Zend_Debug::dump($request->getParam('img_uploaded_images'));die();
+            if(strlen($request->getParam('name')) == 0 || strlen($request->getParam('short_desc')) == 0){
+                $this->view->errorMessage = 'Please fill data into (*) fields';
+                return;
+            }
+            //Zend_Debug::dump($request->getParam('is_show'));die();
+            $travel_guide = new Application_Model_TravelGuide();
+            $travel_guide->id =  $request->getParam('id');
+            $travel_guide->name = $request->getParam('name');
+            $travel_guide->short_desc = $request->getParam('short_desc');
+            $travel_guide->image_small =  $request->getParam('img_uploaded');
+            $travel_guide->image = (strlen($request->getParam('img_uploaded_images')) == 0 ? null : $request->getParam('img_uploaded_images')) ;
+            $travel_guide->is_show = $request->getParam('is_show');
+            $travel_guide->details = $request->getParam('editor_contents');
+            $travel_guide->create_date = $this->_helper->CommonUtils->getVnDateTime();;
+            $travel_guide->update_date = $this->_helper->CommonUtils->getVnDateTime();;
+            $mapper = new Application_Model_TravelGuideMapper();
+            $mapper->save($travel_guide);
+            
+            //using htmlspecialchars() on the string to put into the DB, and then, when pulling it back out, use htmlspecialchars_decode().
+            //$tour->content = htmlspecialchars_decode($editor_contents);
+            
+            //Zend_Debug::dump($tour);die();
+            
+            $this->redirect('admin/tour/travel-guide');
+            
+        }
+    }
+    
+    public function travelGuideAction()
+    {
+        $request = $this->getRequest();
+        $mapper = new Application_Model_TravelGuideMapper();
+        $travel_guides = $mapper->getAll();
+        //Zend_Debug::dump( $travel_guides);die();
+
+        $this->view->travel_guides = $travel_guides;
+        //Zend_Debug::dump($sub_tour_type);die();
+    }
+    
     //level 1
     public function saveSubTourTypeAction(){
         $this->_helper->layout()->disableLayout();
@@ -506,6 +601,18 @@ class Admin_TourController extends Zend_Controller_Action
 		$this->redirect('admin/tour/index');
 	
 	}
+	
+	public function deleteTravelGuideAction(){
+	    $request = $this->getRequest();
+	    //Zend_Debug::dump( $request);die();
+	    $id = $request->getParam('id');
+	    //die($id);
+	    $mapper = new Application_Model_TravelGuideMapper();
+	    $mapper->delete($id);
+
+	    $this->redirect('admin/tour/travel-guide');
+	}
+	
 	protected function _getExtension($str){
 		$i=strrpos($str,".");
 		if(!$i){

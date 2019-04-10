@@ -127,36 +127,20 @@
 								<div class="nspArts bottom" style="width: 100%;">
 									<div class="nspArtScroll1">
 										<div class="nspArtScroll2 nspPages1">
+											<?php foreach($this->travel_guides as $t){  if($t->is_show == 1) { ?>
 											<div class="nspArtPage active nspCol1" style="margin-bottom: 10px;">
 												<div class="nspArt nspCol1" style="padding: 0 20px 20px 0;">
 													<h4 class="nspHeader tleft fnone has-image">
 														<a
-															href="#"
-															title="Ha Long Bay"
-															target="_self">Ha Long Bay</a>
+															href="<?php echo $t->url?>"
+															title="<?php echo $t->short_desc?>"
+															target="_self"><?php echo $t->name?></a>
 													</h4>
-													<img class="nspImage"
-														src="https://vietnamvisatours.com/uploads/1545016934.png"
-														alt="Ha Long Bay">
+													<a href="<?php echo $t->url?>"><img class="nspImage"
+														src="<?php echo $t->image_small?>"
+														alt="<?php echo $t->short_desc?>"></a>
 												</div>
-
-
-
-
-											</div>
-											<div class="nspArtPage active nspCol1">
-												<div class="nspArt nspCol1" style="padding: 0 20px 20px 0;">
-													<h4 class="nspHeader tleft fnone has-image">
-														<a
-															href="#"
-															title="Ha Noi"
-															target="_self">Ha Noi</a>
-													</h4>
-													<img class="nspImage"
-														src="https://vietnamvisatours.com/uploads/1543562766.png"
-														alt="Ha Noi">
-												</div>
-
+											<?php }}?>
 
 
 

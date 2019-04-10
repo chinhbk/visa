@@ -65,7 +65,7 @@ class Bootstrap extends Zend_Application_Bootstrap_Bootstrap
         // get instance of front controller
         $frontController = Zend_Controller_Front::getInstance();
 
-        // to retrive it $this->getRequest->getParam(‘id)
+        // to retrive it $this->getRequest->getParam(â€˜id)
 
         // in the index action of product controller
         // tour/10-hanoi.html
@@ -271,6 +271,23 @@ class Bootstrap extends Zend_Application_Bootstrap_Bootstrap
                 ));
             
             $frontController->getRouter()->addRoute('vietnam-visa-exemption', $route_visa_exemption);
+            
+            $route_travel_guide = new Zend_Controller_Router_Route_Regex(
+                // The pattern this route matches
+                'travel-guide/([a-z0-9-*()]+)/([\d]+)',
+                // Configure controller/action
+                array(
+                    'action' => 'travel-guide',
+                    'controller' => 'index'
+                ),
+                // Map the subpatterns to params
+                array(
+                    
+                    1 => 'name',
+                    2 => 'id',
+                ));
+            
+            $frontController->getRouter()->addRoute('travel-guide', $route_travel_guide);
                 
     }
 	

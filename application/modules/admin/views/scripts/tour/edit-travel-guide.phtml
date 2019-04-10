@@ -1,0 +1,98 @@
+
+<style>
+.star_hotel{
+    width: 70% !important;
+    float: right !important;
+}
+.number_pax {
+    /*width: 20% !important;
+    float: right !important;*/
+}
+th, td {
+  padding: 5px;
+}
+.price_type{
+    display:none;
+}
+</style>				
+			
+<?php 
+  if($this->errorMessage != null && $this->errorMessage != ''){
+	echo "<h4 class='alert_error'>".$this->errorMessage."</h4>";
+  }
+?>
+
+<article class="module width_full">
+			<header><h3>Edit tour</h3></header>
+				<div class="module_content">
+						<fieldset>
+							<label>Upload small image</label>
+							  <form action="/admin/tour/upload" method="POST" id="uploadform">
+							   <input type="file" name="file"/>
+							   <input type="submit" name="btnUpload" value="Upload"/><br/><br/>
+							   
+							   <div id="onsuccessmsg" style="padding:15px;">
+							   		<image src="<?php echo $this->travel_guide->image_small;?>" />
+							   </div>
+							  </form>
+						</fieldset>
+						<fieldset>
+							<label>Upload main images</label>
+							  <form action="/admin/tour/upload-images" method="POST" id="uploadImages">
+							   <input type="file" name="file[]" multiple/>
+							   <input type="submit" name="btnUpload" value="Upload"/><br/><br/>
+							   
+							    <div id="onsuccessmsgimgs" style="padding:15px;">
+							    <!-- check if image = null or empty  -->
+							    <?php if(sizeof($this->travel_guide->image) > 0){?>
+    							    <?php foreach($this->travel_guide->image as $img){?>
+    							    	<div id="msg" style="border:5px solid #CCC;padding:15px;"><img style="margin-left:10px;" src="<?php echo $img;?>"><button style="margin-left:10px;" class="delete_img" data-src="<?php echo $img;?>">Delete</button></div>'
+    							    <?php }?>
+							    <?php }?>
+							    </div>
+							   <div id="onerrorimgs" style="padding:15px;"></div>
+							  </form>
+						</fieldset>
+						<form id="form_tour_detail" name="form_add" method="POST" action="/admin/tour/edit-travel-guide" onSubmit="document.form_add.editor_contents.value  = $('#editor #edit .froala-element').html()">
+							<input  type="hidden" name="id" id="id" value="<?php echo $this->travel_guide->id;?>" />
+							<input  type="hidden" name="img_uploaded" id="img_uploaded" value="<?php echo $this->travel_guide->image_small;?>" />
+							<input  type="hidden" name="img_uploaded_images" id="img_uploaded_images" value="<?php echo implode(',', $this->travel_guide->image);?>" />								
+							
+							<fieldset>
+								<label>Name(*)</label>
+								<input type="text" name="name" value="<?php echo $this->travel_guide->name;?>">
+							</fieldset>
+							<fieldset>
+								<label>Short description(*)</label>
+								<textarea name="short_desc" id="short_desc" rows="4" cols="10"><?php echo $this->travel_guide->short_desc;?></textarea>
+							</fieldset>
+							<fieldset>
+								<p>
+									<label>Show on home page</label>
+									<input type="hidden" name="is_show" value="0" />
+									<input type="checkbox" name="is_show" value="1" <?php if($this->travel_guide->is_show == 1){ echo 'checked';};?>>
+								</p>
+							</fieldset>
+							<fieldset>
+								<label>Details</label>
+								<textarea id="editor_contents" name="editor_contents" style="display:none;"></textarea>
+								<!-- -->
+								<section id="editor">
+								  <div id='edit' style="margin-top: 30px;">
+									 <?php echo $this->travel_guide->details; ?>
+								  </div>
+							    </section>
+
+								<!-- -->
+							</fieldset>
+							<div class="clear"></div>
+							<footer>
+								<div class="submit_link">
+									<input type="submit" id="btnSumitTour" name="btnSubmit" class="alt_btn" value="Update">
+								</div>
+							</footer>
+						</form>
+						
+				</div>
+		
+		</article>

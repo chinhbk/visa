@@ -1,0 +1,81 @@
+<div class="home">
+		<div id="bienthuy-mainbody" class="container bienthuy-mainbody one-sidebar-right">
+	<div class="row">
+		<!-- MAIN CONTENT -->
+		<div id="bienthuy-content" class="bienthuy-content col-xs-12 col-sm-12 col-md-8">
+					<!-- Content Top-->
+			<div class="item-page clearfix">
+<!-- Article -->
+<article>
+	<header class="article-header clearfix">
+	<div class="row">
+		
+<div class="col-xs-12 col-md-12">
+	<h1 class="article-title"><a title="<?php echo $this->travel_guide->name?>"><?php echo $this->travel_guide->name?></a></h1>
+</div>
+</div>
+</header>
+
+
+</div>
+
+
+<div class="slider-wrapper theme-default article_images_block images-1-2-3-4-5-6-7-8-9" style="margin: 0px 0; 	">
+	<style>.fotorama1542105207235 .fotorama__nav--thumbs .fotorama__nav__frame{
+padding:4px;
+height:66.666666666667px}
+.fotorama1542105207235 .fotorama__thumb-border{
+height:62.666666666667px;
+border-width:2px;
+margin-top:4px}</style><div class="fotorama--hidden"></div>
+			<div class="slideshowck camera_wrap camera_amber_skin"
+				id="camera_wrap_90">
+				<?php foreach ($this->travel_guide->image as $img){?>
+        				<div data-src="<?php echo $img?>">
+        				</div>
+				<?php }?>
+			</div>
+			<div style="clear: both;"></div>	
+</div>
+	
+<section class="article-content clearfix">
+	
+	
+	
+	<div class="nomobile" style="margin-top: 20px;"><span style="line-height: 16.5px;"><?php echo $this->tour->short_desc?></span></div>
+ 
+<p></p>
+				<!-- START BIENTHUY.COM DIV -->
+				<div class="clearfix">&nbsp;</div>
+				<div class="panel-group">
+					<div class="panel panel-bienthuy">
+									<div id="panel-price" class="panel-collapse collapse in">
+										<div class="panel-body">										  
+
+    									<div>
+    										<?php echo $this->travel_guide->details?>
+    									</div>
+
+
+										</div><!-- end panel-body -->
+									</div>
+							</div>
+						<!-- end panel-default -->
+
+</div>	
+<!-- CLOSE PRICE -->
+<!-- CLOSE HIGHLIGHTS DIV -->
+<!-- CLOSE ITINERARY DIV -->
+<!-- CLOSE TRAVEL MAPS DIV -->
+<!-- CLOSE FAQS DIV -->
+
+
+	</section>
+	
+	
+	</article>
+<!-- //Article -->
+</div>							 
+</div>
+			</div>
+</div>

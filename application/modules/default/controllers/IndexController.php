@@ -70,6 +70,9 @@ class IndexController extends Zend_Controller_Action
             case 3: //book 1 tour
                 $type = '/booking/';
                 break;
+            case 4: //travel guide
+                $type = '/travel-guide/';
+                break;
         }
         $name = preg_replace("![^a-z0-9]+!i", "-", strtolower($name));
         $url = $type.$name.'/'.$id;  
@@ -183,6 +186,36 @@ class IndexController extends Zend_Controller_Action
 		$images = $image_mapper->getAll();
 		//Zend_Debug::dump( $images);die();
 		$this->view->images = $images;
+		
+		
+		//travel guides
+		
+		$request = $this->getRequest();
+		$mapper = new Application_Model_TravelGuideMapper();
+		$travel_guides = $mapper->getAll();
+		//Zend_Debug::dump( $travel_guides);die();
+		foreach($travel_guides as $g){
+		    $g->url = $this->_generateURL($g->id, $g->name, 4, null);
+		}
+		
+		$this->view->travel_guides = $travel_guides;
+    }
+    
+    public function travelGuideAction(){
+        $request = $this->getRequest();
+        //Zend_Debug::dump( $request);die();
+        $id = $request->getParam('id');
+        //die($id);
+        $mapper = new Application_Model_TravelGuideMapper();
+        $travel_guide = $mapper->getById($id);
+        //parse images
+        $str =  str_replace('[', '', $travel_guide->image);
+        $str =  str_replace(']', '', $str);
+        $str =  str_replace('"', '', $str);
+        //$str =  str_replace(',', '', $str);
+        //Zend_Debug::dump(explode(',', $str));die();
+        $travel_guide->image = explode(',', $str);
+        $this->view->travel_guide = $travel_guide;
     }
     
     public function tourMenuAction(){
