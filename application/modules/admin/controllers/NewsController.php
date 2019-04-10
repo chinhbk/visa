@@ -180,7 +180,7 @@ class Admin_NewsController extends Zend_Controller_Action
 		$this->_helper->layout()->disableLayout(); //  shuts off of the layout
 		$this->_helper->viewRenderer->setNoRender();// stop automatic rendering
 		 
-		$formats = array("jpg", "png", "gif", "bmp", "jpeg", "PNG", "JPG", "JPEG", "GIF", "BMP");
+		$formats = array("jpg", "png", "gif", "bmp", "jpeg", "PNG", "JPG", "JPEG", "GIF", "BMP", "webp", "WEBP");
 	    
 		if(isset($_POST) and $_SERVER['REQUEST_METHOD'] == "POST"){
 			$name = $_FILES['file']['name'];
