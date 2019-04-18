@@ -1,0 +1,160 @@
+<!-- HUYHOA.COM -->
+<div class="container bienthuy-spot bienthuy-spot-1">
+	<div class="ts-slidefull">
+		<div class="col-xs-12 slidehuyhoa">
+			<!-- Columns start at 100% wide on mobile and bump up to 33.3% wide on desktop -->
+			<!--[if lte IE 7]>
+			<link href="/modules/mod_slideshowck/themes/default/css/camera_ie.css" rel="stylesheet" type="text/css" />
+			<![endif]-->
+			<!--[if IE 8]>
+			<link href="/modules/mod_slideshowck/themes/default/css/camera_ie8.css" rel="stylesheet" type="text/css" />
+			<![endif]-->
+			<!-- debut Slideshow CK -->
+			<div class="slideshowck camera_wrap camera_amber_skin"
+				id="camera_wrap_90">
+				<?php foreach ($this->images as $img){?>
+					<?php if($img['STATUS'] == 1){?>
+        				<div data-src="<?php echo $img['IMAGE']?>">
+        					<div class="camera_caption fadeFromBottom">
+        						Vietnam Visa Tour. <em></em>
+        					</div>
+        				</div>
+    				<?php }?>
+				<?php }?>				
+			</div>
+			<div style="clear: both;"></div>
+		</div>
+	</div>
+</div>
+<!-- //HUYHOA.COM -->
+<div class="home">
+	<div id="bienthuy-mainbody"
+		class="container bienthuy-mainbody one-sidebar-right">
+		<div class="row">
+			<!-- MAIN CONTENT -->
+			<div id="bienthuy-content"
+				class="bienthuy-content col-xs-12 col-sm-12 col-md-8">				
+				<!-- //Content top end-->
+				<!-- Content mid -->
+				<?php foreach($this->hot_tour as $arr){?>
+				<div class="ts-content-mid">
+					<!-- SPOTLIGHT -->
+		
+					<div class="t3-spotlight t3-contentmid  row">
+										<?php foreach($arr as $hot){?>
+										<div class="col-md-6">
+							<div class="t3-module module " id="Mod129">
+								<div class="module-inner">
+									<h3 class="module-title  h3chunho">
+										<span> <a href="javascript:void(0)"><?php foreach ($this->tour_level_1 as $level_1){if($level_1->id == $hot->parent_id) echo $level_1->name; }?></a>
+										</span>
+									</h3>
+									<div class="module-ct">
+										<div class="nspMain  activated" id="nsp-nsp-129"
+											data-config="{
+				'animation_speed': 400,
+				'animation_interval': 5000,
+				'animation_function': 'Fx.Transitions.Expo.easeIn',
+				'news_column': 1,
+				'news_rows': 1,
+				'links_columns_amount': 1,
+				'links_amount': 3
+			}">
+											<div class="nspArts bottom" style="width: 100%;">
+												<div class="nspArtScroll1">
+													<div class="nspArtScroll2 nspPages1">
+														<div class="nspArtPage active nspCol1">
+															<div class="nspArt nspCol1"
+																style="padding: 0 20px 20px 0;">
+																<h4 class="nspHeader tleft fnone has-image">
+																	<a
+																		href="<?php echo $hot->url?>"																		
+																		title="<?php echo $hot->name; ?>" target="_self"><?php echo $hot->name; ?></a>
+																</h4>
+																<a
+																	href="<?php echo $hot->url?>"
+																	class="nspImageWrapper tleft fleft gkResponsive"
+																	style="margin: 6px 14px 0 0;" target="_self"> <img
+																	class="nspImage" src="<?php echo $hot->image_small; ?>"
+																	alt="<?php echo $hot->name; ?>">
+																</a>
+																<p class="nspText tleft fleft"><?php echo $hot->short_desc; ?></p>
+															</div>
+														</div>
+													</div>
+												</div>
+											</div>
+											<div class="nspLinksWrap bottom" style="width: 99.9%;">
+												<div class="nspLinks" style="margin: 0;">
+													<div class="nspLinkScroll1">
+														<div class="nspLinkScroll2 nspPages1">
+															<ul class="nspList active nspCol1">
+																				<?php foreach($this->tour as $another){ if($another->is_hot == 0 && $another->parent_id == $hot->parent_id){?>																					
+																					<li class="even">
+																	<h4>
+																		<a
+																			href="<?php echo $another->url?>"
+																			title="<?php echo $another->name;?>" target="_self"><?php echo $another->name;?></a>
+																	</h4>
+																</li>
+																				<?php }}?>
+																				</ul>
+														</div>
+													</div>
+												</div>
+											</div>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>																				
+						<?php }?>																
+				</div>			
+			</div>
+			<?php }?>
+			<!-- //MAIN CONTENT -->
+		</div>
+			<div
+				class="bienthuy-sidebar bienthuy-sidebar-right col-xs-12 col-sm-12 col-md-4" style="padding-top: 14px;">
+				<div class="t3-module module " id="Mod89">
+					<div class="module-inner">
+						<h3 class="module-title  h3chunho">
+							<span>Travel guide</span>
+						</h3>
+						<div class="module-ct">
+							<div class="nspMain  activated" id="nsp-nsp-89" data-config="">
+
+								<div class="nspArts bottom" style="width: 100%;">
+									<div class="nspArtScroll1">
+										<div class="nspArtScroll2 nspPages1">
+											<?php foreach($this->travel_guides as $t){  if($t->is_show == 1) { ?>
+											<div class="nspArtPage active nspCol1" style="margin-bottom: 10px;">
+												<div class="nspArt nspCol1" style="padding: 0 20px 20px 0;">
+													<h4 class="nspHeader tleft fnone has-image">
+														<a
+															href="<?php echo $t->url?>"
+															title="<?php echo $t->short_desc?>"
+															target="_self"><?php echo $t->name?></a>
+													</h4>
+													<a href="<?php echo $t->url?>"><img class="nspImage"
+														src="<?php echo $t->image_small?>"
+														alt="<?php echo $t->short_desc?>"></a>
+												</div>
+											<?php }}?>
+
+
+
+											</div>
+										</div>
+
+									</div>
+								</div>
+
+
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+</div>

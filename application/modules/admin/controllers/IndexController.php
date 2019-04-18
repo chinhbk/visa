@@ -60,7 +60,7 @@ class Admin_IndexController extends Zend_Controller_Action
 			$setting->email = $request->getParam('email');
 			$setting->address = $request->getParam('address');
 			$setting->contact = $editor_contents;
-		
+			$setting->homepage = $request->getParam('homepage');;
 		
 			$setting_mapper = new Application_Model_SettingMapper();
 				

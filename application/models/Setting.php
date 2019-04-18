@@ -25,6 +25,8 @@ class Application_Model_Setting
     private $visafaq;
     
     private $visaterm;
+    
+    private $homepage;
 
     // upon construction, map the values
     // from the $product_row if available
@@ -42,6 +44,7 @@ class Application_Model_Setting
             $this->visastep = $setting_row->VISASTEP;
             $this->visafaq = $setting_row->VISAFAQ;
             $this->visaterm = $setting_row->VISATERM;
+            $this->homepage = $setting_row->HOMEPAGE;
         }
     }
 

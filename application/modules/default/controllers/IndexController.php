@@ -150,55 +150,121 @@ class IndexController extends Zend_Controller_Action
 
     public function indexAction()
     {
-		$request = $this->getRequest();
-		
-		
-		$tour_mapper = new Application_Model_TourMapper();
-		$tour_type_mapper = new Application_Model_TourTypeMapper();
-		$hot_tour = $tour_mapper->getByIds(null, 1);		
-		$tour = $tour_mapper->getByIds();
-		//Zend_Debug::dump(array_chunk($hot_tour, 3));
-		//Zend_Debug::dump(array_slice($hot_tour, 3, 3));
-		//$arr_hot_tour = array();
-		//die();
-		
-		//get names of all root 
-		$arr_ids = array();
-		foreach($hot_tour as $row){
-		    array_push($arr_ids, $row->parent_id);
-		}		
-		
-		$tour_level_1 = $tour_type_mapper->getByIds($arr_ids);
-		$this->view->hot_tour = array_chunk($hot_tour, 2);
-		$this->view->tour = $tour;
-		$this->view->tour_level_1 = $tour_level_1;
-		//Zend_Debug::dump($tour_level_1);die();
+        //switch home page based on setting for ads 
+        $mapper = new Application_Model_SettingMapper();
+        $setting = $mapper->get();
+        //Zend_Debug::dump($setting->homepage);die();
+        if($setting->homepage == 'TOUR'){
+            //$this->_homePageTour();
+            $this->redirect('vietnam-tour');
+        } else {
+            $this->_homePageVisa();
+        }
+    }
+    
+    public function visaGuideAction(){
+        $request = $this->getRequest();
+        $id = $request->getParam('id');
+        $name = $request->getParam('name');
+        $this->view->name = str_replace("-"," ",$name);
+        
+        $visa_type_mapper = new Application_Model_VisaTypeMapper();
+        $visa_type = $visa_type_mapper->getAll(1, null);
+        
+        $visa_type_ids = array();
+        foreach($visa_type as $row){
+            array_push($visa_type_ids, $row->id);
+        }
+        
+        $na_visa_mapper = new Application_Model_NationalityVisaTypeMapper();
+        $tourist_price = $na_visa_mapper->getPrices('TOURIST VISA', $visa_type_ids, $id);
+        $business_price = $na_visa_mapper->getPrices('BUSINESS VISA', $visa_type_ids, $id);
+        //Zend_Debug::dump($tourist_price);die();
+        $visa_type_mapper = new Application_Model_VisaTypeMapper();
+        $data = $visa_type_mapper->getAll(0, $type);
+        $tourist_data = array();
+        $business_data = array();
+        foreach($data as $m){
+            foreach($tourist_price as $p){
+                if($m->id == $p->visa_type_id){
+                    $m->price = $p->price;
+                    array_push($tourist_data, $m);
+                }
+            }
+            foreach($business_price as $p){
+                if($m->id == $p->visa_type_id){
+                    $m->price = $p->price;
+                    array_push($business_data, $m);
+                }
+            }
+        }
+        
+        $this->view->tourist_data = $tourist_data;
+        $this->view->business_data = $business_data;
+        //Zend_Debug::dump($data);die();
+    }
+    
+    protected function _homePageVisa(){
+        $request = $this->getRequest();
+        $nationality_mapper = new Application_Model_NationalityMapper();
+        $nationality = $nationality_mapper->getAll(1);
+        $this->view->nationality = $nationality;
+    }
+    
+    protected function _homePageTour(){
+        $request = $this->getRequest();
+        
+        
+        $tour_mapper = new Application_Model_TourMapper();
+        $tour_type_mapper = new Application_Model_TourTypeMapper();
+        $hot_tour = $tour_mapper->getByIds(null, 1);
+        $tour = $tour_mapper->getByIds();
+        //Zend_Debug::dump(array_chunk($hot_tour, 3));
+        //Zend_Debug::dump(array_slice($hot_tour, 3, 3));
+        //$arr_hot_tour = array();
+        //die();
+        
+        //get names of all root
+        $arr_ids = array();
+        foreach($hot_tour as $row){
+            array_push($arr_ids, $row->parent_id);
+        }
+        
+        $tour_level_1 = $tour_type_mapper->getByIds($arr_ids);
+        $this->view->hot_tour = array_chunk($hot_tour, 2);
+        $this->view->tour = $tour;
+        $this->view->tour_level_1 = $tour_level_1;
+        //Zend_Debug::dump($tour_level_1);die();
         
         //generate URLs
         foreach($hot_tour as $row){
             $row->url = $this->_generateURL($row->tour_type_id, $row->name, 2, $this->_getName($tour_level_1, $row->parent_id));
         }
-		foreach($tour as $t){
-		    $t->url = $this->_generateURL($t->tour_type_id, $t->name, 2, $this->_getName($tour_level_1, $t->parent_id));
-		}
-				
-		$image_mapper = new Application_Model_ImageMapper();
-		$images = $image_mapper->getAll();
-		//Zend_Debug::dump( $images);die();
-		$this->view->images = $images;
-		
-		
-		//travel guides
-		
-		$request = $this->getRequest();
-		$mapper = new Application_Model_TravelGuideMapper();
-		$travel_guides = $mapper->getAll();
-		//Zend_Debug::dump( $travel_guides);die();
-		foreach($travel_guides as $g){
-		    $g->url = $this->_generateURL($g->id, $g->name, 4, null);
-		}
-		
-		$this->view->travel_guides = $travel_guides;
+        foreach($tour as $t){
+            $t->url = $this->_generateURL($t->tour_type_id, $t->name, 2, $this->_getName($tour_level_1, $t->parent_id));
+        }
+        
+        $image_mapper = new Application_Model_ImageMapper();
+        $images = $image_mapper->getAll();
+        //Zend_Debug::dump( $images);die();
+        $this->view->images = $images;
+        
+        
+        //travel guides
+        
+        $request = $this->getRequest();
+        $mapper = new Application_Model_TravelGuideMapper();
+        $travel_guides = $mapper->getAll();
+        //Zend_Debug::dump( $travel_guides);die();
+        foreach($travel_guides as $g){
+            $g->url = $this->_generateURL($g->id, $g->name, 4, null);
+        }
+        
+        $this->view->travel_guides = $travel_guides;
+    }
+    
+    public function vietnamTourAction(){
+        $this->_homePageTour();
     }
     
     public function travelGuideAction(){

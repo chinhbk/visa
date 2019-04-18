@@ -53,7 +53,11 @@
             
             if (!is_null($setting_object->visaterm)) {
                 $data['VISATERM'] =$setting_object->visaterm;
-            }   
+            }
+            
+            if (!is_null($setting_object->homepage)) {
+                $data['HOMEPAGE'] =$setting_object->homepage;
+            }
             
             //Zend_Debug::dump( $data);		die;	
 			//Check if the product object has an ID

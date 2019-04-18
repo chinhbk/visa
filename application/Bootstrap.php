@@ -272,6 +272,17 @@ class Bootstrap extends Zend_Application_Bootstrap_Bootstrap
             
             $frontController->getRouter()->addRoute('vietnam-visa-exemption', $route_visa_exemption);
             
+            $route_vn_tour = new Zend_Controller_Router_Route_Regex(
+                // The pattern this route matches
+                'vietnam-tour',
+                // Configure controller/action
+                array(
+                    'action' => 'vietnam-tour',
+                    'controller' => 'index'
+                ));
+            
+            $frontController->getRouter()->addRoute('vietnam-tour', $route_vn_tour);
+            
             $route_travel_guide = new Zend_Controller_Router_Route_Regex(
                 // The pattern this route matches
                 'travel-guide/([a-z0-9-*()]+)/([\d]+)',
@@ -288,6 +299,25 @@ class Bootstrap extends Zend_Application_Bootstrap_Bootstrap
                 ));
             
             $frontController->getRouter()->addRoute('travel-guide', $route_travel_guide);
+            
+            $route_visa_edit = new Zend_Controller_Router_Route_Regex(
+                // The pattern this route matches
+                'visa-guide/([a-zA-Z0-9-*()]+)/([\d]+)',
+                // Configure controller/action
+                array(
+                    'action' => 'visa-guide',
+                    'controller' => 'index'
+                ),
+                // Map the subpatterns to params
+                array(
+                    
+                    1 => 'name',
+                    2 => 'id'
+                ));
+            
+            $frontController->getRouter()->addRoute('visa-apply-online-edit', $route_visa_edit);
+            
+            
                 
     }
 	

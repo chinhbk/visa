@@ -22,6 +22,13 @@
 						<form name="form_add" method="POST" onSubmit="document.form_add.editor_contents.value  = $('#editor #edit .froala-element').html()">
 							<input  type="hidden" name="img_uploaded" id="img_uploaded" value="<?php echo $this->setting->logo;?>" />
 							<fieldset>
+								<label>HomePage Layout</label>
+								<select name="homepage" style="width: 200px;">
+									<option value="TOUR" <?php echo $this->setting->homepage == 'TOUR' ? 'selected': ''?>>TOUR</option>
+									<option value="VISA" <?php echo $this->setting->homepage == 'VISA' ? 'selected': ''?>>VISA</option>
+								</select>
+							</fieldset>
+							<fieldset>
 								<label>Hot line(*)</label>
 								<input type="text" name="hotline" value="<?php echo $this->setting->hotline; ?>">
 							</fieldset>

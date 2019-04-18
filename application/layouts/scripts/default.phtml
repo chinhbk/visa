@@ -12,6 +12,7 @@
 	<link href="https://fonts.googleapis.com/css?family=Roboto:400,300,500,700" rel="stylesheet" type="text/css">
 	<link href="/css/css-fa161-79492.css" rel="stylesheet" type="text/css" media="all" attribs="[]">
 	<link href="/css/css-affd5-35222.css" rel="stylesheet" type="text/css" media="all" attribs="[]">
+
 	<style type="text/css">
 
 		@media screen and (max-width: 480px){.bt-cs .bt-row{width:100%!important;}}
@@ -184,7 +185,7 @@ jQuery(window).on('load',  function() {
 Calendar._DN = ["Sunday","Monday","Tuesday","Wednesday","Thursday","Friday","Saturday","Sunday"]; Calendar._SDN = ["Sun","Mon","Tue","Wed","Thu","Fri","Sat","Sun"]; Calendar._FD = 0; Calendar._MN = ["January","February","March","April","May","June","July","August","September","October","November","December"]; Calendar._SMN = ["Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"]; Calendar._TT = {"INFO":"About the Calendar","ABOUT":"DHTML Date\/Time Selector\n(c) dynarch.com 20022005 \/ Author: Mihai Bazon\nFor latest version visit: http:\/\/www.dynarch.com\/projects\/calendar\/\nDistributed under GNU LGPL.  See http:\/\/gnu.org\/licenses\/lgpl.html for details.\n\nDate selection:\n- Use the \u00ab and \u00bb buttons to select year\n- Use the < and > buttons to select month\n- Hold mouse button on any of the buttons above for faster selection.","ABOUT_TIME":"\n\nTime selection:\n Click on any of the time parts to increase it\n or Shiftclick to decrease it\n or click and drag for faster selection.","PREV_YEAR":"Select to move to the previous year. Select and hold for a list of years.","PREV_MONTH":"Select to move to the previous month. Select and hold for a list of the months.","GO_TODAY":"Go to today","NEXT_MONTH":"Select to move to the next month. Select and hold for a list of the months.","SEL_DATE":"Select a date.","DRAG_TO_MOVE":"Drag to move.","PART_TODAY":" Today ","DAY_FIRST":"Display %s first","WEEKEND":"0,6","CLOSE":"Close","TODAY":"Today","TIME_PART":"(Shift-)Select or Drag to change the value.","DEF_DATE_FORMAT":"%Y%m%d","TT_DATE_FORMAT":"%a, %b %e","WK":"wk","TIME":"Time:"};
 		jQuery(document).ready(function(){
 			var heightImg = '60%'; //slide images on tour detail page
-			if(window.location.pathname == '/' || window.location.pathname.indexOf('index') >= 0){
+			if(window.location.pathname == '/' || window.location.pathname.indexOf('index') >= 0 || window.location.pathname.indexOf('vietnam-tour') >= 0){
 				heightImg = '40%'; //home page
 			}
 			new Slideshowck('#camera_wrap_90', {
@@ -303,6 +304,17 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
 <script src="//code.jquery.com/jquery-latest.min.js"></script>
 <script src="/js/jquery.datetimepicker.full.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/vue/1.0.26/vue.min.js"></script>
+<link rel="stylesheet" href="css/chosen.min.css">
+<script src="/js/chosen.jquery.min.js"></script>
+<script>
+	$(document).ready(function () {
+		$(".chosen-select").chosen({
+	        allow_single_deselect: true,
+	        height: '100%'
+	    });
+		});
+    
+</script>
 <script>
     var vm = new Vue({
         el: '#navbarCollapse',
@@ -2777,7 +2789,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 				</li>
                 <?php foreach ($this->menu_level_0 as $menu0){?>
                 <li itemprop="name" class="dropdown">
-					<a itemprop="url" href="javascript:void(0)" data-toggle="dropdown" data-target="#"><?php echo $menu0->name?><em class="caret"></em></a>
+					<a itemprop="url" href="/vietnam-tour" data-toggle="dropdown" data-target="#"><?php echo $menu0->name?><em class="caret"></em></a>
 					<ul class="level1 dropdown-menu">
 						<?php foreach ($menu0->menu1 as $menu1){?>
 							<?php if(sizeof($menu1->menu2) == 0){ ?>
@@ -2850,7 +2862,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 </li>
 <?php foreach ($this->menu_level_0 as $menu0){?>
 <li itemprop="name" class="dropdown mega" data-id="<?php echo $menu0->id?>" data-level="1">
-<a itemprop="url" class=" dropdown-toggle" href="javascript:void(0)" data-target="#" data-toggle="dropdown"><?php echo $menu0->name?><em class="caret"></em></a>
+<a itemprop="url" class=" dropdown-toggle" href="/vietnam-tour" data-target="#" data-toggle="dropdown"><?php echo $menu0->name?><em class="caret"></em></a>
 
 <div class="nav-child dropdown-menu mega-dropdown-menu" style="width: 185px;" data-width="185"><div class="mega-dropdown-inner">
 <div class="row">

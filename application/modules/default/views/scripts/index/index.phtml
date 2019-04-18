@@ -1,160 +1,466 @@
-<!-- HUYHOA.COM -->
-<div class="container bienthuy-spot bienthuy-spot-1">
-	<div class="ts-slidefull">
-		<div class="col-xs-12 slidehuyhoa">
-			<!-- Columns start at 100% wide on mobile and bump up to 33.3% wide on desktop -->
-			<!--[if lte IE 7]>
-			<link href="/modules/mod_slideshowck/themes/default/css/camera_ie.css" rel="stylesheet" type="text/css" />
-			<![endif]-->
-			<!--[if IE 8]>
-			<link href="/modules/mod_slideshowck/themes/default/css/camera_ie8.css" rel="stylesheet" type="text/css" />
-			<![endif]-->
-			<!-- debut Slideshow CK -->
-			<div class="slideshowck camera_wrap camera_amber_skin"
-				id="camera_wrap_90">
-				<?php foreach ($this->images as $img){?>
-					<?php if($img['STATUS'] == 1){?>
-        				<div data-src="<?php echo $img['IMAGE']?>">
-        					<div class="camera_caption fadeFromBottom">
-        						Vietnam Visa Tour. <em></em>
-        					</div>
-        				</div>
-    				<?php }?>
-				<?php }?>				
-			</div>
-			<div style="clear: both;"></div>
-		</div>
-	</div>
-</div>
-<!-- //HUYHOA.COM -->
+<style>
+    .banner-bg {
+    float: left;
+    width: 100%;
+    height: auto;
+    position: relative;
+}
+@media (max-width:440px){
+    .banner-bg img.web-banner{
+    	display:none;
+    }
+    .banner-bg img.tab-banner{
+    	display:none;
+    }
+    .banner-bg img.mobile-banner{
+    	display:block;
+    }	
+}
+ @media (max-width:768px) and (min-width:441px) {
+    .banner-bg img.web-banner{
+    	display:none;
+    }
+    .banner-bg img.tab-banner{
+    	display:block;
+    }
+    .banner-bg img.mobile-banner{
+    	display:none;
+    }	
+}
+ @media (min-width:770px){
+    .banner-bg img.web-banner {
+        display: block;
+    }
+    .banner-bg img.tab-banner {
+        display: none;
+    }
+    .banner-bg img.mobile-banner {
+        display: none;
+    }
+}
+
+
+.banner-bg img {
+    float: left;
+    width: 100%;
+    height: auto;
+    position: relative;
+}
+
+@media (max-width: 550px){
+    .checkstatus-bg {
+        top: 2%;
+        width: 70%;
+        height: 40px;
+    }
+}
+@media (max-width:680px) and (min-width:551px){
+    .checkstatus-bg {
+        top: 2%;
+        width: 80%;
+    }
+}
+@media (min-width: 700px){
+    .checkstatus-bg {
+        top: 6%;
+        left: 0;
+        right: 0;
+        margin: auto;
+        width: 575px;
+        height: 55px;
+    }
+}
+
+.checkstatus-bg {
+    position: absolute;
+    left: 0;
+    right: 0;
+    margin: auto;
+}
+
+.checkstatus-bg select {
+    float: left;
+    width: 66%;
+    height: 55px;
+     line-height:55px;
+    border: none;
+    outline: none;
+    padding-left: 15px;
+}
+.checkstatus-bg button {
+    font-family: 'Aller-Bold';
+    font-size: 12px;
+    color: #fff;
+    float: right;
+    width: 33%;
+    height: 55px;
+    border: none;
+    outline: none;
+    background: #dd1e25;
+    border-color: #d43f3a;
+}
+
+@media (min-width: 700px){
+    .checkstatus-bg button {
+        font-size: 20px;
+    }
+}
+
+.chosen-container-single .chosen-single {
+    height: 55px;
+    border-radius: 3px;
+    border: 1px solid #CCCCCC;
+}
+.chosen-container-single .chosen-single span,.chosen-select {
+    padding-top: 5px;
+    padding-bottom: 5px;
+    margin: 0;
+    text-align: left !important;
+    font-size: 18px;
+    line-height: 34px;
+}
+.chosen-container-single .chosen-single div b {
+    margin-top: 10px;
+    background: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADQAAAAlCAMAAAA6LDrnAAAABGdBTUEAALGPC/xhBQAAAEJQTFRFAAAAh4eHZmZmRkZGiIiIiIiIiIiITU1NiIiIdnZ2h4eHYGBgRkZGZmZmZ2dnZmZmRkZGiIiIiIiIZmZmiIiIRkZGATSTKgAAABN0Uk5TAHt4xVrElzUzEkNL/sOr4l/g9rmTgaAAAADwSURBVDiN5ZXbEoIwDERTsDcYL8D2/3/VRioCVsfl1X1gBjqHTbYliPyuaEO+BhsJRiwQJACWgToAJyjJUiwjoj4nkglPp+u06PpaPp8/MHNP/gX5ZfkyTZd3aJVe/2T6ZbXR2+YNWu9TMzPNlqlRa+1eXLGuadNCtcm5vFYf+LYco3VY9ThVbUpefErt1wp26lNKt6Qko+xCMyLqcyOZI07+SE+H0tvt0z8qRr55MwIDOVAcRuPIMdRBP/A8G5gS3TweDWXlUAwZqFg4dASUu+kkGowE85jgQw4djqKCGwZjWOohpQ4cDFBZFNnyQ7sDq60R1G2R1w8AAAAASUVORK5CYII=) no-repeat 0 7px !important;
+}
+
+.chosen-container-single .chosen-single-with-deselect,.chosen-container-single .chosen-default {
+    padding-top: 5px;
+    padding-bottom: 5px;
+}
+
+.chosen-container-single .chosen-single abbr {
+    display:none;
+}
+.content-section {
+    float: left;
+    width: 100%;
+    height: auto;
+}
+
+.center-width {
+    margin: 0 auto;
+    max-width: 970px;
+    width: 100%;
+}
+
+h1.center-title {
+    margin: 0px;
+    padding: 0px;
+    font-family: 'Aller-Bold';
+    font-size: 38px;
+    color: #110b0b;
+    position: relative;
+    text-align: center;
+    margin-top: 40px;
+    margin-bottom: 30px;
+    clear: both;
+}
+@media (max-width: 680px){
+    h1.center-title {
+        font-size: 30px;
+    }
+}
+.visaonline_form {
+    float: left;
+    width: 100%;
+    height: auto;
+    border-bottom: 5px solid #ebebeb;
+}
+@media (max-width: 440px){
+    .visaonline_form {
+        margin-top: 20px;
+    }
+}
+.onlineform_fillup {
+    float: left;
+    width: 40%;
+    height: auto;
+    margin-top: 5px;
+}
+@media (max-width: 860px){
+    .onlineform_fillup {
+        float: none;
+        margin: 0 auto;
+        max-width: 400px;
+        width: 100%;
+    }
+}
+.onlineform_img {
+    float: left;
+    width: 35%;
+    height: auto;
+    margin-top: 10px;
+}
+@media (max-width: 440px){
+    .onlineform_img {
+        float: none;
+        margin: 0 auto;
+        width: 120px;
+    }
+}
+.onlineform_img img {
+    float: left;
+    width: 90%;
+}
+.formfillup_order {
+    float: left;
+    width: 64%;
+    height: auto;
+}
+@media (max-width: 440px){
+    .formfillup_order {
+        width: 100%;
+    }
+}
+@media (max-width: 860px){
+    .formfillup_order {
+        margin-top: 10px;
+    }
+}
+p.number_txt {
+    float: left;
+    font-family: 'OpenSans-Bold';
+    font-size: 96px;
+    color: #ae0002;
+    padding-right: 10px;
+    line-height: normal;
+}
+@media (max-width: 440px){
+    p.number_txt {
+        font-size: 70px;
+        line-height: 60px;
+    }
+}
+@media (max-width: 860px){
+    p.number_txt {
+        margin-bottom: 0px;
+    }
+}
+@media (max-width: 960px){
+    p.number_txt {
+        font-size: 90px;
+    }
+}
+p.formfillup_txt {
+    font-family: 'Aller-Bold';
+    font-size: 23px;
+    color: #110b0b;
+    padding-left: 20px;
+    padding-top: 35px;
+}
+@media (max-width: 440px){
+    p.formfillup_txt {
+        padding-top: 15px;
+    }
+}
+.form_instruction {
+    float: right;
+    width: 58%;
+    height: auto;
+    margin-top: 20px;
+}
+@media (max-width: 860px){
+    .form_instruction {
+        float: left;
+        width: 100%;
+        height: auto;
+        margin-top: 0px;
+        padding-bottom: 10px;
+    }
+}
+p.instruction_txt {
+    padding-top: 15px;
+    font-family: 'OpenSans-Regular';
+    font-size: 14px;
+    color: #000000;
+    line-height: 22px;
+    text-align: justify;
+}
+.margin-top {
+    position: relative;
+}
+.f2_cl img {
+    margin-top: -10px;
+}
+@media (max-width: 991px){
+    .f2_cl {
+        margin-top: 3rem;
+    }
+}
+@media (max-width: 767px){
+    .hidden-xs {
+        display: none!important;
+    }
+}
+@media (max-width: 1199px) and (min-width: 992px){
+    .hidden-md {
+        display: none!important;
+    }
+}
+@media (max-width: 991px) and (min-width: 768px){
+    .hidden-sm {
+        display: none!important;
+    }
+}
+.f2_t {
+    font-size: 1.8rem;
+    color: #000;
+}
+p.apply-btn {
+    text-align: center;
+    clear: both;
+    padding-top: 20px;
+}
+p.apply-btn a {
+    background: #dd1e25;
+    padding: 12px 50px;
+    font-family: 'OpenSans-Bold';
+    font-size: 16px;
+    color: #fff;
+}
+.img_p {
+    max-width: 100%;
+}
+</style>
 <div class="home">
-	<div id="bienthuy-mainbody"
-		class="container bienthuy-mainbody one-sidebar-right">
-		<div class="row">
-			<!-- MAIN CONTENT -->
-			<div id="bienthuy-content"
-				class="bienthuy-content col-xs-12 col-sm-12 col-md-8">				
-				<!-- //Content top end-->
-				<!-- Content mid -->
-				<?php foreach($this->hot_tour as $arr){?>
-				<div class="ts-content-mid">
-					<!-- SPOTLIGHT -->
-		
-					<div class="t3-spotlight t3-contentmid  row">
-										<?php foreach($arr as $hot){?>
-										<div class="col-md-6">
-							<div class="t3-module module " id="Mod129">
-								<div class="module-inner">
-									<h3 class="module-title  h3chunho">
-										<span> <a href="javascript:void(0)"><?php foreach ($this->tour_level_1 as $level_1){if($level_1->id == $hot->parent_id) echo $level_1->name; }?></a>
-										</span>
-									</h3>
-									<div class="module-ct">
-										<div class="nspMain  activated" id="nsp-nsp-129"
-											data-config="{
-				'animation_speed': 400,
-				'animation_interval': 5000,
-				'animation_function': 'Fx.Transitions.Expo.easeIn',
-				'news_column': 1,
-				'news_rows': 1,
-				'links_columns_amount': 1,
-				'links_amount': 3
-			}">
-											<div class="nspArts bottom" style="width: 100%;">
-												<div class="nspArtScroll1">
-													<div class="nspArtScroll2 nspPages1">
-														<div class="nspArtPage active nspCol1">
-															<div class="nspArt nspCol1"
-																style="padding: 0 20px 20px 0;">
-																<h4 class="nspHeader tleft fnone has-image">
-																	<a
-																		href="<?php echo $hot->url?>"																		
-																		title="<?php echo $hot->name; ?>" target="_self"><?php echo $hot->name; ?></a>
-																</h4>
-																<a
-																	href="<?php echo $hot->url?>"
-																	class="nspImageWrapper tleft fleft gkResponsive"
-																	style="margin: 6px 14px 0 0;" target="_self"> <img
-																	class="nspImage" src="<?php echo $hot->image_small; ?>"
-																	alt="<?php echo $hot->name; ?>">
-																</a>
-																<p class="nspText tleft fleft"><?php echo $hot->short_desc; ?></p>
-															</div>
-														</div>
-													</div>
-												</div>
-											</div>
-											<div class="nspLinksWrap bottom" style="width: 99.9%;">
-												<div class="nspLinks" style="margin: 0;">
-													<div class="nspLinkScroll1">
-														<div class="nspLinkScroll2 nspPages1">
-															<ul class="nspList active nspCol1">
-																				<?php foreach($this->tour as $another){ if($another->is_hot == 0 && $another->parent_id == $hot->parent_id){?>																					
-																					<li class="even">
-																	<h4>
-																		<a
-																			href="<?php echo $another->url?>"
-																			title="<?php echo $another->name;?>" target="_self"><?php echo $another->name;?></a>
-																	</h4>
-																</li>
-																				<?php }}?>
-																				</ul>
-														</div>
-													</div>
-												</div>
-											</div>
-										</div>
-									</div>
-								</div>
-							</div>
-						</div>																				
-						<?php }?>																
-				</div>			
-			</div>
-			<?php }?>
-			<!-- //MAIN CONTENT -->
-		</div>
-			<div
-				class="bienthuy-sidebar bienthuy-sidebar-right col-xs-12 col-sm-12 col-md-4" style="padding-top: 14px;">
-				<div class="t3-module module " id="Mod89">
-					<div class="module-inner">
-						<h3 class="module-title  h3chunho">
-							<span>Travel guide</span>
-						</h3>
-						<div class="module-ct">
-							<div class="nspMain  activated" id="nsp-nsp-89" data-config="">
+		<div id="bienthuy-mainbody" class="container bienthuy-mainbody one-sidebar-right">
+	<div class="row">
+<div class="container-fluid full-width margin-top">
+    <div class="banner-bg">
+        <img class="web-banner" src="https://vietnamvisa.org/imagesNew/inner-banner.jpg" alt="">
+        <img class="tab-banner" src="https://vietnamvisa.org/imagesNew/inner-banner-tab.jpg" alt="">
+        <img class="mobile-banner" src="https://vietnamvisa.org/imagesNew/inner-banner-mobile.jpg" alt="">
+    </div>
+    <div class="checkstatus-bg inner-checkstatuse">
+        
+<!-- <input name="" id="txtCheckStatus" placeholder="Email or booking code" type="text"> -->
+ 	<select data-placeholder="Citizen of..." class="chosen-select" id="checkReq">
+ 		<option> </option>
+ 		<?php foreach($this->nationality as $type) {?>                                             	
+				<option value="<?php echo $type->id?>"><?php echo $type->name?></option>
+		<?php }?>
+    </select>
 
-								<div class="nspArts bottom" style="width: 100%;">
-									<div class="nspArtScroll1">
-										<div class="nspArtScroll2 nspPages1">
-											<?php foreach($this->travel_guides as $t){  if($t->is_show == 1) { ?>
-											<div class="nspArtPage active nspCol1" style="margin-bottom: 10px;">
-												<div class="nspArt nspCol1" style="padding: 0 20px 20px 0;">
-													<h4 class="nspHeader tleft fnone has-image">
-														<a
-															href="<?php echo $t->url?>"
-															title="<?php echo $t->short_desc?>"
-															target="_self"><?php echo $t->name?></a>
-													</h4>
-													<a href="<?php echo $t->url?>"><img class="nspImage"
-														src="<?php echo $t->image_small?>"
-														alt="<?php echo $t->short_desc?>"></a>
-												</div>
-											<?php }}?>
+                <button type="submit" id="myButton" name="myButton" form="" value="Submit">Check Requirement</button>
+            <script type="text/javascript">
+                var root = location.protocol + '//' + location.host;
+        document.getElementById("myButton").onclick = function () {
+            selected = document.getElementById('checkReq');
+            var optionsText = selected.options[selected.selectedIndex].text;
+            var text = optionsText.toLowerCase().split(' ').join('-');
+            if (selected.value.length==0) {
+                //alert("Please select nationality.");
+                selected.focus();
+            }else {
+                window.open(root +  "/visa-guide/" + text + "/" + selected.value);
+            }
+    };
+</script>
+    </div>
+    <div class="row center-width">
+    <div class="content-section">
+                <h1 class="center-title">4 Steps to get Vietnam Visa</h1>
 
+                <div class="visaonline_form">
+                    <div class="onlineform_fillup">
+                        <div class="onlineform_img">
+                            <img src="images/circle-img.png">
+                        </div>
+                        <div class="formfillup_order">
+                            <p class="number_txt">1</p>
+                            <p class="formfillup_txt">Fill in the visa online form</p>
+                        </div>
+                    </div>
+                    <div class="form_instruction">
+                        <p class="instruction_txt">
+                            Fill in the application form 
+with the correct details of your full name, date of birth, passport 
+number  and arrival date. After filling out all needed information, 
+please double check to make sure information is correct, if any wrong 
+information will cause Vietnam Visa denied.
+                        </p>
+                    </div>
+                </div>
+                <div class="visaonline_form">
+                    <div class="onlineform_fillup">
+                        <div class="onlineform_img">
+                            <img src="images/circle-img1.png">
+                        </div>
+                        <div class="formfillup_order">
+                            <p class="number_txt">2</p>
+                            <p class="formfillup_txt">Confirm &amp; Pay</p>
+                        </div>
+                    </div>
 
-
-											</div>
-										</div>
-
-									</div>
-								</div>
-
-
-							</div>
-						</div>
-					</div>
-				</div>
-			</div>
-		</div>
+                    <div class="form_instruction">
+                        <p class="instruction_txt">
+                            We offer secure online 
+payment through one of the following credit cards: VISA, MasterCard, 
+JCB and American Express.
+                        </p>
+                    </div>
+                </div>
+                <div class="visaonline_form">
+                    <div class="onlineform_fillup">
+                        <div class="onlineform_img">
+                            <img src="images/circle-img2.png">
+                        </div>
+                        <div class="formfillup_order">
+                            <p class="number_txt">3</p>
+                            <p class="formfillup_txt">Get your approval letter by email</p>
+                        </div>
+                    </div>
+                    <div class="form_instruction">
+                        <p class="instruction_txt">
+                            After you submit your 
+application and payment, we will start processing your visa. After 2 
+working days (or shorter with less in the case of an <a href="https://vietnamvisa.org/rushService">urgent visa)</a>,
+ we will send you an approval letter (pre-approved visa letter) by 
+email. Then you just need to print the images file (color preferred, but
+ not required) and prepare at least 2 passport sized photos (4cm x 6cm).
+                        </p>
+                    </div>
+                </div>
+                <div class="visaonline_form">
+                    <div class="onlineform_fillup">
+                        <div class="onlineform_img">
+                            <img src="images/circle-img3.png">
+                        </div>
+                        <div class="formfillup_order">
+                            <p class="number_txt">4</p>
+                            <p class="formfillup_txt">Get your visa Stamped</p>
+                        </div>
+                    </div>
+                    <div class="form_instruction">
+                        <p class="instruction_txt">Upon arrival at Vietnam's airport in Hanoi, Danang, or Ho Chi Minh Airport (View airport map), expect to fill in a <a href="form-on-arrival.pdf">simple form</a>, present the your approval letter, passport, photos, and pay for the stamping fee. without hassle or trouble.</p>
+                    </div>
+                </div>
+            </div>
+    </div>
+    <div style="clear:both"><br></div>
+    <p class="apply-btn">
+    	<a href="/visa-apply-online">Apply Now</a>
+    </p>
+    <div style="clear:both"><br></div>
+    <div class="center-width">
+    	<div class="row" style="">
+                    <div class="col-md-5 col-xs-12">
+                        <p class="f2_t">Payment Method</p>
+                        <img class="img_p" src="images/pay-card.png" alt="Payment Method">
+                    </div>
+                    <div class="col-md-6 col-xs-12">
+                        <div class="f2_cl">
+                            <p class="f2_t">As Seen On</p>
+                            <img src="images/clients.png" alt="As Seen On Vietnam visa" class="hidden-xs hidden-sm img_p">
+                            <img src="images/clients-sp.png" alt="As Seen On Vietnam visa" class="hidden-lg hidden-md img_p">
+                        </div>
+                    </div>
+                </div>
+    </div>
+    <div style="clear:both"><br></div>
 </div>
+</div>
+</div>
+</div>
+
