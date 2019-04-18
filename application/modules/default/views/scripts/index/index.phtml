@@ -352,8 +352,8 @@ p.apply-btn a {
             if (selected.value.length==0) {
                 //alert("Please select nationality.");
                 selected.focus();
-            }else {
-                window.open(root +  "/visa-guide/" + text + "/" + selected.value);
+            } else {
+            	window.location.href = "/visa-guide/" + text + "/" + selected.value;
             }
     };
 </script>
