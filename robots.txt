@@ -12,19 +12,16 @@
 # http://www.sxw.org.uk/computing/robots/check.html
 
 User-agent: *
-Disallow: /administrator/
+Disallow: /application/modules/admin
 Disallow: /cache/
 Disallow: /cli/
 Disallow: /components/
-Disallow: /images/
 Disallow: /includes/
-Disallow: /installation/
+Disallow: /library/
 Disallow: /language/
 Disallow: /libraries/
 Disallow: /logs/
-Disallow: /media/
 Disallow: /modules/
 Disallow: /plugins/
-Disallow: /templates/
 Disallow: /tmp/
 

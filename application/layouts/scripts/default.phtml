@@ -188,6 +188,9 @@ Calendar._DN = ["Sunday","Monday","Tuesday","Wednesday","Thursday","Friday","Sat
 			if(window.location.pathname == '/' || window.location.pathname.indexOf('index') >= 0 || window.location.pathname.indexOf('vietnam-tour') >= 0){
 				heightImg = '40%'; //home page
 			}
+			if(!document.getElementById("camera_wrap_90")){ //not exists --> no need call function active slideshow
+				return;
+			}
 			new Slideshowck('#camera_wrap_90', {
 				 height: heightImg,
 				 minHeight: '150',
