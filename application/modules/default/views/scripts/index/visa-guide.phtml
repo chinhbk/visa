@@ -139,6 +139,23 @@
         vertical-align: middle;
         text-align: center;
     }
+    ul.possport-list li {
+        float: left;
+        display: inline-block;
+        font-size: 14px;
+        color: #070707;
+        background: url(/images/red-arrow.png) left 10px no-repeat;
+        padding: 5px;
+        padding-left: 25px;
+        margin-right: 7px;
+        text-align: left;
+        width: 48%;
+    }
+    @media (max-width: 680px){
+        ul.possport-list li {
+            width: 100%;
+        }
+    }
 </style>
 <div class="home">
 		<div id="bienthuy-mainbody" class="container bienthuy-mainbody one-sidebar-right">
@@ -147,13 +164,13 @@
 		<div id="bienthuy-content" class="bienthuy-content col-xs-12 col-sm-12 col-md-8">
 		<div class="page-header">
     		<h2>
-    			<span class="contact-name" itemprop="name">VISA REQUIREMENT - <?php echo $this->name?></span>
+    			<span class="contact-name" itemprop="name">VISA REQUIREMENT - <?php echo $this->nationality_name?></span>
     		</h2>
 		</div>
 		<?php if(sizeof($this->tourist_data) > 0) {?>
     		<div class="requirement">
     			<div>
-    				<h3 class="text-center">Vietnam Tourist Visa fees for Citizens of <?php echo $this->name?></h3>
+    				<h3 class="text-center">Vietnam Tourist Visa fees for Citizens of <?php echo $this->nationality_name?></h3>
     				<div class="priceTable">
     					<table class="table table-bordered table-large ">
     						<thead>
@@ -168,9 +185,14 @@
     						<tbody>
     							<?php foreach($this->tourist_data as $t){?>
     								<tr>
-        								<td class="head-row"><?php echo $t->name?></td>								
-        								<td><?php echo $t->price == null || $t->price == 0 ? 'Not Applicable' : '$'.$t->price?></td>
-        								<td><a class="apply-btn" href="/visa-apply-online">Apply Now</a></td>    								
+        								<td class="head-row"><?php echo $t->name?></td>
+        								<?php if($t->price == null || $t->price == 0){?>
+        										<td>Not Applicable</td>
+        										<td></td>
+        								<?php } else {?>
+        									<td>$<?php echo $t->price ?></td>
+        									<td><a class="apply-btn" href="/visa-apply-online/tourist/<?php echo strtolower(str_replace(" ","-",$this->nationality_name))?>/<?php echo strtolower(str_replace(" ","-",$t->name))?>/<?php echo $this->nationality_id?>/<?php echo $t->id?>">Apply Now</a></td>
+        								<?php }?>        								    							
     								</tr>
     							<?php }?>
     						</tbody>
@@ -182,7 +204,7 @@
 		<?php if(sizeof($this->business_data) > 0) {?>
     		<div class="requirement">
     			<div>
-    				<h3 class="text-center">Vietnam Business Visa fees for Citizens of <?php echo $this->name?></h3>
+    				<h3 class="text-center">Vietnam Business Visa fees for Citizens of <?php echo $this->nationality_name?></h3>
     				<div class="priceTable">
     					<table class="table table-bordered table-large ">
     						<thead>
@@ -198,8 +220,13 @@
     							<?php foreach($this->business_data as $t){?>
     								<tr>
         								<td class="head-row"><?php echo $t->name?></td>								
-        								<td><?php echo $t->price == null || $t->price == 0 ? 'Not Applicable' : '$'.$t->price?></td>
-        								<td><a class="apply-btn" href="/visa-apply-online">Apply Now</a></td>  								
+        								<?php if($t->price == null || $t->price == 0){?>
+        										<td>Not Applicable</td>
+        										<td></td>
+        								<?php } else {?>
+        									<td>$<?php echo $t->price ?></td>
+        									<td><a class="apply-btn" href="/visa-apply-online/business/<?php echo strtolower(str_replace(" ","-",$this->nationality_name))?>/<?php echo strtolower(str_replace(" ","-",$t->name))?>/<?php echo $this->nationality_id?>/<?php echo $t->id?>">Apply Now</a></td>
+        								<?php }?>
     								</tr>
     							<?php }?>
     						</tbody>
@@ -208,6 +235,14 @@
     			</div>	
     		</div>
 		<?php }?>
+		<div class="form-list">
+                <ul class="possport-list">
+                    
+                    <li>Passport must be valid for at least 6 months from the arrival date.</li>
+                    <li>Applicants must enter Vietnam at one of three international airports: Hanoi, Ho Chi Minh city or Danang.</li>
+                    <li>An estimated entry date.</li>
+                </ul>
+            </div>
 		</div>
 		<div id="bienthuy-content" class="bienthuy-content col-xs-12 col-sm-12 col-md-4">
 				<div class="support-box">

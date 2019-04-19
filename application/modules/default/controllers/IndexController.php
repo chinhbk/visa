@@ -165,8 +165,9 @@ class IndexController extends Zend_Controller_Action
     public function visaGuideAction(){
         $request = $this->getRequest();
         $id = $request->getParam('id');
-        $name = $request->getParam('name');
-        $this->view->name = str_replace("-"," ",$name);
+        $nationality_name = $request->getParam('name');
+        $this->view->nationality_name = str_replace("-"," ",$nationality_name);
+        $this->view->nationality_id = $id;
         
         $visa_type_mapper = new Application_Model_VisaTypeMapper();
         $visa_type = $visa_type_mapper->getAll(1, null);
@@ -592,6 +593,11 @@ class IndexController extends Zend_Controller_Action
         }
         $this->view->booking = $booking;
         $default_purpose = $booking != null && $booking->purpose_of_visit != null ? $booking->purpose_of_visit : 'TOURIST VISA';
+        //redirect from visa guide
+        $request_visa_type = $request->getParam('purpose-of-visit');
+        if($request_visa_type == 'business'){
+            $default_purpose = 'BUSINESS VISA';
+        }
         //die($booking->purpose_of_visit);
         $visa_type_mapper = new Application_Model_VisaTypeMapper();
         $visa_type = $visa_type_mapper->getAll(1, $default_purpose);

@@ -839,7 +839,30 @@ $.get("https://min-api.cryptocompare.com/data/price?fsym=ETH&tsyms=BTC,USD,EUR,G
             });
 
             function onChangeSelectionOnVisaApplyOnlinePage() {
-            	if (location.href.indexOf('visa-apply-online') > 0 ) {            	 
+            	if (location.href.indexOf('visa-apply-online') > 0 ) {
+				//from visa-guide page
+				if(location.href.indexOf('entry') > 0){
+					//predefined nationality 
+					visa_selection = 'nationality';
+					var relativeURL = location.href.replace(/^(?:\/\/|[^\/]+)*\//, "");
+					//alert(location.href.indexOf('entry'));
+					var purpose_of_visit = relativeURL.split('/')[1];
+					var nationality_id = relativeURL.split('/')[4];
+					var visa_type_id = relativeURL.split('/')[5];
+					//alert(location.href);
+					if(purpose_of_visit == 'business'){
+						g("#dropPurposeOfVisit").value = 'BUSINESS VISA';
+					}
+					g("#type_of_visa").value = visa_type_id;
+
+					g("#nationality1").value = nationality_id;
+					g("#nationality2").value = nationality_id;
+					g("#nationality3").value = nationality_id;
+					g("#nationality4").value = nationality_id;
+					g("#nationality5").value = nationality_id;
+					g("#nationality6").value = nationality_id;
+				}
+                           	 
             	 var data = {
       			 		 dropPurposeOfVisit: g("#dropPurposeOfVisit").value,
       			 		 dropNumberApp: g("#dropNumberApp").value,

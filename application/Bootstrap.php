@@ -201,6 +201,25 @@ class Bootstrap extends Zend_Application_Bootstrap_Bootstrap
             
             $frontController->getRouter()->addRoute('visa-apply-online-edit', $route_visa_edit);
             
+            $route_visa_apply_type = new Zend_Controller_Router_Route_Regex(
+                // The pattern this route matches
+                'visa-apply-online/([a-zA-Z0-9-*()]+)/([a-zA-Z0-9-*()]+)/([a-zA-Z0-9-*()]+)/([\d]+)/([\d]+)',
+                // Configure controller/action
+                array(
+                    'action' => 'apply-online',
+                    'controller' => 'index'
+                ),
+                // Map the subpatterns to params
+                array(
+                    1 => 'purpose-of-visit',
+                    2 => 'nationality',
+                    3 => 'visa-type',
+                    4 => 'nationality-id',
+                    5 => 'visa-type-id',
+                ));
+            
+            $frontController->getRouter()->addRoute('visa-apply-online-type', $route_visa_apply_type);
+         
             $route_visa_onepay = new Zend_Controller_Router_Route_Regex(
             		// The pattern this route matches
             		'secure/onepay/([a-zA-Z0-9-*()]+)',
