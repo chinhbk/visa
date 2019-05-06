@@ -1131,10 +1131,10 @@ class IndexController extends Zend_Controller_Action
         echo '<br/>'.$transStatus;
     }
     
-    private static $VPC_URL = 'https://mtf.onepay.vn/vpcpay/vpcpay.op'; //TODO update 
-    private static $SECURE_SECRET = '18D7EC3F36DF842B42E1AA729E4AB010'; //TODO update
-    private static $VPC_MERCHANT = 'TESTONEPAYUSD'; //TODO update
-    private static $VPC_ACCESS_CODE = '614240F4'; //TODO update
+    private static $VPC_URL = 'https://onepay.vn/vpcpay/vpcpay.op'; //TODO update 
+    private static $SECURE_SECRET = 'C8B262DA1E4BD8E6C9EFFAE5A68D9175'; //TODO update
+    private static $VPC_MERCHANT = 'OP_BROTHERSU'; //TODO update
+    private static $VPC_ACCESS_CODE = '6352969D'; //TODO update
     private static $VPC_RETURN_URL = 'https://vietnamvisatours.com/index/booking-result';
     private static $AGAIN_LINK = 'https://vietnamvisatours.com/visa-apply-online?code=';
     
