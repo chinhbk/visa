@@ -992,6 +992,7 @@ class IndexController extends Zend_Controller_Action
             $mapper = new Application_Model_BookVisaMapper();
             //die($bookingCode);
             $booking = $mapper->getByCode($bookingCode);
+            $before = $booking->status;
             //Zend_Debug::dump( $bookingVisa);die();
             $booking->status = $transStatus;
             $booking->trans_code = $txnResponseCode;
@@ -999,18 +1000,49 @@ class IndexController extends Zend_Controller_Action
                 $booking->trans_number = $transactionNo;
             }
             $mapper->save($booking);
+            //send mail payment successfully
+            if($before != $transStatus && $transStatus == "Transaction Successful"){
+                $this->_sendMailBookingSuccess($bookingCode, $booking->contact_name, $booking->contact_email, 'visa-book-email-success.phtml');
+            }
         } else if(strpos($bookingCode, 'T') !== false){
             $mapper = new Application_Model_BookTourMapper();
             //die($bookingCode);
             $booking = $mapper->getByCode($bookingCode);
             //Zend_Debug::dump( $booking);die();
+            $before = $booking->status;
             $booking->status = $transStatus;
             $booking->trans_code = $txnResponseCode;
             if ($txnResponseCode != "7" && $txnResponseCode != "No Value Returned"){
                 $booking->trans_number = $transactionNo;
             }
             $mapper->save($booking);
+            //send mail payment successfully
+            if($before != $transStatus && $transStatus == "Transaction Successful"){
+                $this->_sendMailBookingSuccess($bookingCode, $booking->name, $booking->email, 'tour-book-email-success.phtml');
+            }
         }
+    }
+    
+    private function _sendMailBookingSuccess($booking_code, $contact_name, $contact_email, $view_html){
+        $html = new Zend_View();
+        $html->setScriptPath(APPLICATION_PATH . '/modules/default/views/scripts/index/');
+        // die(APPLICATION_PATH . '/modules/default/views/scripts/index/');
+        // assign valeues
+        $html->assign('contact_name', $contact_name);
+        $html->assign('booking_code', $booking_code);
+        
+        //get phone hotline from DB
+        $mapper = new Application_Model_SettingMapper();
+        $setting = $mapper->get();
+        
+        $html->assign('hotline', $setting->hotline);
+        $html->assign('address', $setting->address);        
+        // render view
+        
+        $bodyHtml = $html->render($view_html);
+        //die($bodyHtml);
+        $subject = $booking_code.' -  SUCCESSFUL PAYMENT ';
+        $this->_sendMail($subject, $bodyHtml, $contact_email);
     }
     
     public function ipnAction(){
@@ -1210,7 +1242,7 @@ class IndexController extends Zend_Controller_Action
             $mapper = new Application_Model_BookTourMapper();
         }
         $booking = $mapper->getByCode($bookingCode);
-        //Zend_Debug::dump( $bookingVisa);die();
+        //Zend_Debug::dump( $booking);die();
         if($booking->onepay_link == '' || $booking->onepay_link == null) {
             $this->redirect('index');
         }
