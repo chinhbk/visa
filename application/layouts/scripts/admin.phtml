@@ -396,11 +396,12 @@
 							  var $U1Day = $row.find(".U1Day");
 							  var $U2Day = $row.find(".U2Day");
 							  var $UHoliday = $row.find(".UHoliday");
+							  var $UAW = $row.find(".UAW");
 							  var $chk = $row.find(".nationality_chk");
 							  //warning input negative price
 							  if($1MSE.val() < 0 || $1MME.val() < 0 || $3MSE.val() < 0 || $6MME.val() < 0 || $1YME.val() < 0 
 									  || $U15min.val() < 0 || $U30min.val() < 0 || $U2hour.val() < 0 || $U4hour.val() < 0 || $U8hour.val()< 0 
-									  || $U1Day.val() < 0 || $U2Day.val() < 0 || $UHoliday.val() < 0){
+									  || $U1Day.val() < 0 || $U2Day.val() < 0 || $UHoliday.val() < 0 || $UAW.val() < 0){
 								alert('Wrong input data , number is negative');
 								return;
 							  }
@@ -426,6 +427,7 @@
                             	  {'id': $U1Day.attr('id'), 'price': $U1Day.val()},
                             	  {'id': $U2Day.attr('id'), 'price': $U2Day.val()},
                             	  {'id': $UHoliday.attr('id'), 'price': $UHoliday.val()},
+                            	  {'id': $UAW.attr('id'), 'price': $UAW.val()},
                               ];
 						        //delete image on server
 								$.ajax({

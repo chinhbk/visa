@@ -12,9 +12,10 @@ class Admin_VisaController extends Zend_Controller_Action
     private static $PROCESSING_TIME_TYPE_U2_DAY = 'Urgent - 2 working days (MON-FRI)';
     private static $PROCESSING_TIME_TYPE_U8_HOURS = 'Urgent - 8 working hours (MON-FRI)';
     private static $PROCESSING_TIME_TYPE_U4_HOURS = 'Urgent - 4 working hours (MON-FRI)';
-    private static $PROCESSING_TIME_TYPE_U2_HOURS = 'Urgent - 2 working hours (MON-FRI)';
+    private static $PROCESSING_TIME_TYPE_U2_HOURS = 'Urgent - 1 working hours (MON-FRI)';
     private static $PROCESSING_TIME_TYPE_U30_MIN = 'Urgent - 30 minutes (MON-FRI)';
     private static $PROCESSING_TIME_TYPE_U15_MIN = 'Urgent - 15 minutes (MON-FRI)';
+    private static $PROCESSING_TIME_TYPE_UAW = 'Urgent - After work';
     private static $PROCESSING_TIME_TYPE_UHoliday = 'Urgent - holiday';
     
     public function init()
@@ -48,6 +49,7 @@ class Admin_VisaController extends Zend_Controller_Action
         $this->view->PROCESSING_TIME_TYPE_U30_MIN = self::$PROCESSING_TIME_TYPE_U30_MIN;
         $this->view->PROCESSING_TIME_TYPE_U15_MIN = self::$PROCESSING_TIME_TYPE_U15_MIN;
         $this->view->PROCESSING_TIME_TYPE_UHoliday = self::$PROCESSING_TIME_TYPE_UHoliday;
+        $this->view->PROCESSING_TIME_TYPE_UAW= self::$PROCESSING_TIME_TYPE_UAW;
     }
 
     public function normalAction()
@@ -162,6 +164,7 @@ class Admin_VisaController extends Zend_Controller_Action
                         case self::$PROCESSING_TIME_TYPE_U30_MIN: $arr_processing_time_type_price[self::$PROCESSING_TIME_TYPE_U30_MIN] = $nationality_processing_time_type_price->price; break;
                         case self::$PROCESSING_TIME_TYPE_U15_MIN: $arr_processing_time_type_price[self::$PROCESSING_TIME_TYPE_U15_MIN] = $nationality_processing_time_type_price->price; break;
                         case self::$PROCESSING_TIME_TYPE_UHoliday: $arr_processing_time_type_price[self::$PROCESSING_TIME_TYPE_UHoliday] = $nationality_processing_time_type_price->price; break;
+                        case self::$PROCESSING_TIME_TYPE_UAW: $arr_processing_time_type_price[self::$PROCESSING_TIME_TYPE_UAW] = $nationality_processing_time_type_price->price; break;
                     }
                 }
             }
