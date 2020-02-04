@@ -63,8 +63,10 @@
         <tr>
             <td>Purchase Amount</td>
             <td>$<?php
+            echo $this->amount / 23500;
+            ?> (<?php
             echo $this->amount;
-            ?></td>
+            ?> VND)</td>
         </tr>
         <tr style="display: none">
             <td>VPC Transaction Response Code </td>

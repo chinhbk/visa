@@ -149,7 +149,7 @@ class IndexController extends Zend_Controller_Action
     }
 
     public function indexAction()
-    {
+    { 
         //switch home page based on setting for ads 
         $mapper = new Application_Model_SettingMapper();
         $setting = $mapper->get();
@@ -701,6 +701,7 @@ class IndexController extends Zend_Controller_Action
             $passportExpiryDate6 = $request->getParam("passportExpiryDate6");
             
             $totalPrice = $request->getParam("totalPrice");
+			$totalPriceVND = $request->getParam("totalPriceVND");
             $price_detail =  $request->getParam("price_detail");
                         
             //save/update data
@@ -819,6 +820,7 @@ class IndexController extends Zend_Controller_Action
             $html->assign('passportExpiryDate6', $passportExpiryDate6);
             
             $html->assign('totalPrice', $totalPrice); 
+			$html->assign('totalPriceVND', $totalPriceVND);
             
             //get phone hotline from DB
             $mapper = new Application_Model_SettingMapper();
@@ -1164,11 +1166,12 @@ class IndexController extends Zend_Controller_Action
     }
     
     private static $VPC_URL = 'https://onepay.vn/vpcpay/vpcpay.op'; //TODO update 
-    private static $SECURE_SECRET = 'C8B262DA1E4BD8E6C9EFFAE5A68D9175'; //TODO update
-    private static $VPC_MERCHANT = 'OP_BROTHERSU'; //TODO update
-    private static $VPC_ACCESS_CODE = '6352969D'; //TODO update
+    private static $SECURE_SECRET = '62C5FCB1BE24CD676A39EAF26CD9E81D'; //TODO update
+    private static $VPC_MERCHANT = 'OP_BROTHERSV'; //TODO update
+    private static $VPC_ACCESS_CODE = 'F40DFF3F'; //TODO update
     private static $VPC_RETURN_URL = 'https://vietnamvisatours.com/index/booking-result';
     private static $AGAIN_LINK = 'https://vietnamvisatours.com/visa-apply-online?code=';
+    private static $EXCHANGE_USD_VND = 23500;
     
     private function _buildOnePayLink($amountUSD, $bookingCode, $phone, $email, $againLink) {
         $vpcURL = self::$VPC_URL . '?';
@@ -1183,7 +1186,7 @@ class IndexController extends Zend_Controller_Action
             'vpc_AccessCode' => self::$VPC_ACCESS_CODE,
             'vpc_MerchTxnRef' => date('YmdHis') . rand(),
             'vpc_OrderInfo' => $bookingCode,
-            'vpc_Amount' => $amountUSD * 100,
+            'vpc_Amount' => $amountUSD * 100 * self::$EXCHANGE_USD_VND,
             'vpc_ReturnURL' => self::$VPC_RETURN_URL,
             'vpc_Version' => 2,
             'vpc_Command' => pay,
