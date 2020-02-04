@@ -149,6 +149,16 @@
         width: 100%;
     }
 	
+	#total_price_vn {
+        font-weight: 600;
+        color: #F58634 !important;
+        border: none;
+        background: none;
+        font-size: 15px !important;
+        margin-left: -20px;
+        width: 100%;
+    }
+	
 	#booking_type {
         border: none;
         background: none;
@@ -417,10 +427,14 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
 
             function showTotalTourPrice(no, price){ // no of travellers
             	 var total_price = document.getElementById("total_price");
-               	 if(no > 0)
+				 var total_price_vn = document.getElementById("total_price_vn");
+               	 if(no > 0) {
              	  	total_price.value = "$" + formatCurrency(price) +" * " + no + " = $" + formatCurrency(price*no);
-               	 else 
+					total_price_vn.value = formatCurrency(price*no*23500) + " VND";
+               	 } else {
                		total_price.value = '';
+					total_price_vn.value = '';
+				 }
             }
 
             function formatCurrency(x) {
@@ -546,7 +560,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
      	        for(var i=0; i< data.length; i++) {
          	        if(data[i].price == null && visa_selection == 'nationality'){ // prevent in step 2 , back to step 1 to change price to null
          	        	html += "<option disabled value='"+data[i].id+"'>"+ data[i].name + "</option>";
-             	    } else{
+             	    } else{					   
                  	   if (typeof booking_code !== 'undefined' && booking_code != null && ((type == 'visa_type' && g("#type_of_visa").value == data[i].id) || (type == 'processing_time' && g("#processing_time").value == data[i].id))) {
                  		  html += "<option selected value='"+data[i].id+"'>"+ data[i].name + "</option>";
                        } else {
@@ -559,14 +573,19 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
             }
 
             function getQueryVariable(variable) {
-            	  var query = window.location.search.substring(1);
-            	  var vars = query.split("&");
-            	  for (var i=0;i<vars.length;i++) {
-            	    var pair = vars[i].split("=");
-            	    if (pair[0] == variable) {
-            	      return pair[1];
-            	    }
-            	  }
+            	  var query = window.location.search.substring(1);				    
+				  if(query.length > 1) { // url query
+					  var vars = query.split("&");			
+					  //window.location.pathname.indexOf('vietnam-tour') >= 0
+					  for (var i=0;i<vars.length;i++) {
+						var pair = vars[i].split("=");
+						if (pair[0] == variable) {
+						  return pair[1];
+						}
+					  }
+				  } else {
+					  return window.location.pathname.replace('/visa-apply-online/','');
+				  }
             }
 
             function rebuildHTMLNationality(){

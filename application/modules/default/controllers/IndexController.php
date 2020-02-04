@@ -568,7 +568,7 @@ class IndexController extends Zend_Controller_Action
     }
     
     public function applyOnlineAction()
-    {       
+    {    
         $request = $this->getRequest();
                 
         //edit visa apply online
@@ -578,9 +578,13 @@ class IndexController extends Zend_Controller_Action
         if($booking_code != ''){ //update case
             $book_mapper = new Application_Model_BookVisaMapper();
             $booking = $book_mapper->getByCode($booking_code);
+
             if($booking == null){
                 //redirect to home page;
-            }
+            } else if($booking->status == "Transaction Successful"){
+				// redirect to payment successful page
+				$this->redirect('secure/onepay/'.$booking_code);
+			}
             //Zend_Debug::dump($booking);die;
             $applicant_mapper = new Application_Model_ApplicantVisaMapper();
             $applicants = $applicant_mapper->getApplicants($booking->id);
